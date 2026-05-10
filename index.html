@@ -941,6 +941,7 @@ function copiarPerfilPublico(){
 }
 function abrirMiPerfilPublico(){abrirPerfilPublico(S.perfil.usuario)}
 async function abrirPerfilPublico(username){
+  if(typeof username==="string" && username.includes("%")) username=decodeURIComponent(username);
   ir("publico");
   const root=document.getElementById("public-profile");
   root.innerHTML=`<div class="inline-empty">Cargando perfil público...</div>`;
@@ -1380,121 +1381,125 @@ function crlist(){
 /* ── AMIGOS ── */
 
 /* ── AMIGOS / FEED REAL ── */
-async function logActivity(type, k=null, extra={}){
+async function logActivity(type, k, extra){
+  extra = extra||{};
   if(!usuarioActual || !supabaseClient) return;
-  await new Promise(r => setTimeout(r, 80));
-  const t = k ? S.titulos[k] : null;
-  const data = {
+  await new Promise(function(r){setTimeout(r,80);});
+  var t = k ? S.titulos[k] : null;
+  var data = {
     username:    S.perfil.usuario,
     avatar:      S.perfil.avatar,
-    type,
-    title:       t?.titulo        || extra.title    || "",
-    rating:      t?.puntuacion    ?? extra.rating   ?? null,
-    estado:      t?.estado        || null,
-    favorite:    !!t?.favorito,
-    review:      t?.resena        || "",
-    poster_path: t?.poster_path   || null,
-    list_name:   extra.list_name  || null,
+    type:        type,
+    title:       (t&&t.titulo)   || extra.title    || "",
+    rating:      (t&&t.puntuacion!=null)?t.puntuacion:(extra.rating!=null?extra.rating:null),
+    estado:      (t&&t.estado)   || null,
+    favorite:    !!(t&&t.favorito),
+    review:      (t&&t.resena)   || "",
+    poster_path: (t&&t.poster_path)|| null,
+    list_name:   extra.list_name || null
   };
   try{
-    const { error } = await supabaseClient
-      .from("activity_feed")
-      .insert({ user_id: usuarioActual.id, type, item_key: k,
-                tmdb_id: t?.tmdb_id||null, media_type: t?.media_type||null, data });
-    if(error) console.warn("[logActivity] error:", error.message, error.code);
+    var res = await supabaseClient.from("activity_feed").insert({
+      user_id: usuarioActual.id, type: type, item_key: k||null,
+      tmdb_id: (t&&t.tmdb_id)||null, media_type: (t&&t.media_type)||null, data: data
+    });
+    if(res.error) console.warn("[logActivity]", res.error.message);
   }catch(e){ console.warn("[logActivity] excepcion:", e.message); }
 }
 
 function textoActividad(a){
-  const d = a.data || {};
-  if(a.type==="rated")        return `puntuo <span class="fdtarget">${d.title}</span><span class="rpill">&#11088; ${d.rating}/10</span>`;
-  if(a.type==="favorited")    return `aniadio a favoritos <span class="fdtarget">${d.title}</span>`;
-  if(a.type==="watched")      return `marco como visto <span class="fdtarget">${d.title}</span>`;
-  if(a.type==="status")       return `actualizo <span class="fdtarget">${d.title}</span> → ${d.estado}`;
-  if(a.type==="reviewed")     return `reseno <span class="fdtarget">${d.title}</span>`;
-  if(a.type==="list_created") return `creo la lista <span class="fdtarget">${d.list_name}</span>`;
-  if(a.type==="joint_added")  return `aniadio <span class="fdtarget">${d.title}</span> al perfil conjunto`;
-  return `actualizo <span class="fdtarget">${d.title||"algo"}</span>`;
+  var d = a.data || {};
+  var tit = '<span class="fdtarget">'+(d.title||"")+'</span>';
+  if(a.type==="rated")        return 'puntuó '+tit+'<span class="rpill">⭐ '+(d.rating)+'/10</span>';
+  if(a.type==="favorited")    return 'añadió a favoritos '+tit;
+  if(a.type==="watched")      return 'marcó como visto '+tit;
+  if(a.type==="status")       return 'actualizó '+tit+' → '+(d.estado||"");
+  if(a.type==="reviewed")     return 'reseñó '+tit;
+  if(a.type==="list_created") return 'creó la lista <span class="fdtarget">'+(d.list_name||"")+'</span>';
+  if(a.type==="joint_added")  return 'añadió '+tit+' al perfil conjunto';
+  return 'actualizó '+tit;
 }
 
 function haceTiempo(iso){
-  const s = Math.max(1, Math.floor((Date.now() - new Date(iso).getTime()) / 1000));
-  if(s < 60)    return "hace " + s + "s";
-  if(s < 3600)  return "hace " + Math.floor(s/60) + "min";
-  if(s < 86400) return "hace " + Math.floor(s/3600) + "h";
-  return "hace " + Math.floor(s/86400) + "d";
+  var s = Math.max(1, Math.floor((Date.now() - new Date(iso).getTime()) / 1000));
+  if(s < 60)    return "hace "+s+"s";
+  if(s < 3600)  return "hace "+Math.floor(s/60)+"min";
+  if(s < 86400) return "hace "+Math.floor(s/3600)+"h";
+  return "hace "+Math.floor(s/86400)+"d";
 }
 
 async function ramigos(){
-  const fr = document.getElementById("frl");
-  const fd = document.getElementById("fdl");
+  var fr = document.getElementById("frl");
+  var fd = document.getElementById("fdl");
   if(!fr || !fd) return;
   fr.innerHTML = '<div class="feed-empty">Cargando perfiles...</div>';
   fd.innerHTML = '<div class="feed-empty">Cargando actividad...</div>';
   if(!supabaseClient || !usuarioActual){
-    fr.innerHTML = '<div class="feed-empty">Inicia sesion para ver a tus amigos.</div>';
-    fd.innerHTML = '<div class="feed-empty">Inicia sesion para ver la actividad.</div>';
+    fr.innerHTML = '<div class="feed-empty">Inicia sesión para ver a tus amigos.</div>';
+    fd.innerHTML = '<div class="feed-empty">Inicia sesión para ver la actividad.</div>';
     return;
   }
   // Perfiles — independiente
-  (async()=>{
+  (async function(){
     try{
-      const { data: profiles, error } = await supabaseClient
-        .from("profiles")
+      var res1 = await supabaseClient.from("profiles")
         .select("id,username,avatar,bio,favorite_genres")
         .neq("id", usuarioActual.id)
         .limit(20);
-      if(error) throw error;
-      const myGenres = new Set(Object.values(S.titulos).flatMap(t => t.genre_ids||[]));
-      const comps = (profiles||[]).map(p => {
-        const fav = (p.favorite_genres||[]).map(Number);
-        let score = 50 + Math.floor(Math.random()*20);
+      if(res1.error) throw res1.error;
+      var profiles = res1.data || [];
+      var myGenres = new Set(Object.values(S.titulos).reduce(function(acc,t){return acc.concat(t.genre_ids||[]);},[]));
+      var comps = profiles.map(function(p){
+        var fav = (p.favorite_genres||[]).map(Number);
+        var score = 50 + Math.floor(Math.random()*20);
         if(myGenres.size && fav.length){
-          const union = new Set([...myGenres,...fav]).size;
-          const inter = fav.filter(g => myGenres.has(g)).length;
+          var union = new Set(Array.from(myGenres).concat(fav)).size;
+          var inter = fav.filter(function(g){return myGenres.has(g);}).length;
           score = Math.round((inter / Math.max(1,union)) * 100);
         }
-        return {...p, score};
+        return Object.assign({},p,{score:score});
       });
-      fr.innerHTML = comps.length
-        ? comps.sort((a,b)=>b.score-a.score).map(f=>{
-            const usr = String(f.username).replace(/'/g,"\'");
-            return '<div class="frc" onclick="abrirPerfilPublico(''+usr+'')">'
-              +'<div class="frtop">'
-              +'<div class="frav">'+(f.avatar||"🎬")+'</div>'
-              +'<div><div class="frnom">@'+f.username+'</div>'
-              +'<div class="frgen">'+(f.bio||"Perfil publico")+'</div></div>'
-              +'<div class="frpct">'+f.score+'%</div>'
-              +'</div>'
-              +'<div class="cbar"><div class="cfill" style="width:'+f.score+'%"></div></div>'
-              +'</div>';
-          }).join("")
-        : '<div class="feed-empty">Cuando tus amigos se registren apareceran aqui.</div>';
+      comps.sort(function(a,b){return b.score-a.score;});
+      if(!comps.length){
+        fr.innerHTML = '<div class="feed-empty">Cuando tus amigos se registren aparecerán aquí.</div>';
+        return;
+      }
+      fr.innerHTML = comps.map(function(f){
+        return '<div class="frc" onclick="abrirPerfilPublico(this.dataset.u)" data-u="'+encodeURIComponent(f.username||"")+'">'
+          +'<div class="frtop">'
+          +'<div class="frav">'+(f.avatar||"🎬")+'</div>'
+          +'<div><div class="frnom">@'+(f.username||"")+'</div>'
+          +'<div class="frgen">'+(f.bio||"Perfil público")+'</div></div>'
+          +'<div class="frpct">'+f.score+'%</div>'
+          +'</div>'
+          +'<div class="cbar"><div class="cfill" style="width:'+f.score+'%"></div></div>'
+          +'</div>';
+      }).join("");
     }catch(e){
       console.error("[ramigos] perfiles:", e);
-      fr.innerHTML = '<div class="feed-empty">Error cargando perfiles: '+e.message+'</div>';
+      fr.innerHTML = '<div class="feed-empty">Error cargando perfiles: '+(e.message||e)+'</div>';
     }
   })();
   // Actividad — independiente
-  (async()=>{
+  (async function(){
     try{
-      const { data: acts, error } = await supabaseClient
-        .from("activity_feed")
+      var res2 = await supabaseClient.from("activity_feed")
         .select("*")
         .order("created_at",{ascending:false})
         .limit(50);
-      if(error) throw error;
-      if(!(acts||[]).length){
-        fd.innerHTML = '<div class="feed-empty">Todavia no hay actividad.<br>'
-          +'<span style="font-size:11px;opacity:.6">Puntua o marca como visto cualquier titulo y aparecera aqui.</span></div>';
+      if(res2.error) throw res2.error;
+      var acts = res2.data || [];
+      if(!acts.length){
+        fd.innerHTML = '<div class="feed-empty">Todavía no hay actividad.<br>'
+          +'<span style="font-size:11px;opacity:.6">Puntúa o marca como visto cualquier título y aparecerá aquí.</span></div>';
         return;
       }
-      fd.innerHTML = acts.map(a => {
-        const d = a.data||{};
-        const poster = d.poster_path
-          ? '<img src="https://image.tmdb.org/t/p/w92'+d.poster_path+'" style="width:36px;height:54px;border-radius:5px;object-fit:cover;flex-shrink:0;margin-right:6px" onerror="this.style.display='none'">'
+      fd.innerHTML = acts.map(function(a){
+        var d = a.data||{};
+        var poster = d.poster_path
+          ? '<img src="https://image.tmdb.org/t/p/w92'+d.poster_path+'" style="width:36px;height:54px;border-radius:5px;object-fit:cover;flex-shrink:0;margin-right:6px" onerror="this.style.display=\'none\'">'
           : "";
-        const rev = d.review ? '<div class="fdrev">"'+String(d.review).replace(/</g,"&lt;").slice(0,160)+'"</div>' : "";
+        var rev = d.review ? '<div class="fdrev">&ldquo;'+(d.review+"").replace(/</g,"&lt;").slice(0,160)+'&rdquo;</div>' : "";
         return '<div class="fdc" style="align-items:flex-start">'
           +'<div class="fdav">'+(d.avatar||"🎬")+'</div>'
           +poster
@@ -1506,9 +1511,9 @@ async function ramigos(){
       }).join("");
     }catch(e){
       console.error("[ramigos] actividad:", e);
-      const msg = (e.message||"").includes("does not exist") || e.code==="42P01"
+      var msg = (e.message&&(e.message.includes("does not exist")||e.code==="42P01"))
         ? "La tabla activity_feed no existe. Ejecuta el SQL del fix en Supabase."
-        : "Error: "+e.message;
+        : "Error: "+(e.message||e);
       fd.innerHTML = '<div class="feed-empty">'+msg+'</div>';
     }
   })();
@@ -1850,7 +1855,7 @@ async function cerrarSesion(){
   try{
     // Guardamos una última vez, pero sin toast, para que cerrar sesión no parezca que hace cosas raras.
     clearTimeout(syncTimer);
-    if(supabaseClient && usuarioActual) guardarEstadoCloud(false); // sin await — logout inmediato
+    if(supabaseClient && usuarioActual) guardarEstadoCloud(false);
     if(supabaseClient){
       const { error } = await supabaseClient.auth.signOut();
       if(error) throw error;
