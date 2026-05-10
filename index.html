@@ -12,8 +12,8 @@
   // Rellena estos valores con Project Settings → API en Supabase.
   // En un proyecto Next/Vercel se usan variables NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY.
   window.CINECIRCLE_CONFIG = {
-    SUPABASE_URL: "https://mlaabcgqttlylugbtweh.supabase.co",
-    SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sYWFiY2dxdHRseWx1Z2J0d2VoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0Mjg0NTYsImV4cCI6MjA5NDAwNDQ1Nn0.4kqlTQvTIjQOmnTnZ8D21ips6j0uM12Ahp2znFsRtO0"
+    SUPABASE_URL: "https://gjahvbaecnavzphlwwbn.supabase.co",
+    SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqYWh2YmFlY25hdnpwaGx3d2JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MzI2MTMsImV4cCI6MjA5NDAwODYxM30.TYAO7tQ_fC7h8E2A_N6h-9fCbAmH6YRY0Dn1Fg5ifgU"
   };
 </script>
 <style>
@@ -403,6 +403,34 @@ button{cursor:pointer}
 .auth-hbtn:disabled{opacity:.55;cursor:not-allowed}
 body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none}
 
+/* ── V3: errores auth, onboarding, perfil público, juntos, IA ── */
+.auth-error{display:none;margin:10px 0 0;border:1px solid rgba(244,63,94,.35);background:rgba(244,63,94,.10);color:#fecdd3;border-radius:13px;padding:10px 12px;font-size:12px;line-height:1.45;font-weight:700}
+.auth-error.on{display:block}
+.onboard-screen{position:fixed;inset:0;z-index:420;background:radial-gradient(circle at 20% 20%,rgba(217,70,239,.18),transparent 32%),radial-gradient(circle at 80% 10%,rgba(99,102,241,.18),transparent 32%),rgba(5,5,7,.92);backdrop-filter:blur(18px);display:none;align-items:center;justify-content:center;padding:18px;overflow:auto}
+.onboard-screen.on{display:flex;animation:fi .18s ease}
+.onboard-card{width:100%;max-width:760px;background:rgba(14,14,17,.92);border:1px solid rgba(255,255,255,.12);border-radius:26px;padding:24px;box-shadow:0 30px 90px rgba(0,0,0,.6)}
+.onboard-title{font-family:'Playfair Display',serif;font-size:clamp(30px,6vw,52px);font-weight:900;line-height:.95;margin-bottom:8px}
+.onboard-sub{color:var(--text2);font-size:14px;line-height:1.6;margin-bottom:18px;max-width:620px}
+.genre-grid{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
+.genre-chip{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.045);color:var(--text2);border-radius:999px;padding:9px 13px;font-size:12px;font-weight:800;transition:all .15s}
+.genre-chip.on{background:linear-gradient(135deg,#d946ef,#7c3aed);color:#fff;border-color:transparent;box-shadow:0 0 18px rgba(217,70,239,.28)}
+.onboard-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:8px}
+.profile-actions{display:flex;gap:8px;flex-wrap:wrap;margin:-4px 0 18px}
+.probtn,.mini-btn{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.055);color:var(--text);border-radius:999px;padding:9px 13px;font-size:12px;font-weight:800;transition:all .15s}
+.probtn:hover,.mini-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(217,70,239,.35)}
+.probtn.primary,.mini-btn.primary{border-color:transparent;background:linear-gradient(135deg,#d946ef,#7c3aed);color:#fff;box-shadow:0 5px 20px rgba(217,70,239,.25)}
+.public-hero{border-radius:24px;overflow:hidden;border:1px solid var(--border);background:rgba(255,255,255,.035);margin-bottom:18px}
+.public-ban{height:150px;position:relative}.public-inner{padding:0 18px 18px;margin-top:-40px}.public-av{width:86px;height:86px;border-radius:20px;border:3px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:40px;background:#18181b;box-shadow:0 8px 25px rgba(0,0,0,.5)}
+.public-name{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;margin-top:8px}.public-bio{font-size:13px;color:var(--text2);line-height:1.6;margin-top:2px}
+.smart-card{background:linear-gradient(135deg,rgba(217,70,239,.12),rgba(99,102,241,.08));border:1px solid rgba(217,70,239,.22);border-radius:22px;padding:18px;margin-bottom:16px}
+.smart-input{width:100%;background:rgba(255,255,255,.055);border:1px solid var(--border);border-radius:14px;padding:12px 14px;color:#fff;font-size:14px;outline:none;margin:10px 0}.smart-input:focus{border-color:rgba(217,70,239,.45)}
+.mood-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.mood{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);border-radius:999px;color:var(--text2);font-size:12px;font-weight:800;padding:8px 11px}.mood.on{background:linear-gradient(135deg,#f472b6,#8b5cf6);color:#fff;border-color:transparent}
+.joint-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin:14px 0}.joint-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:18px;padding:16px;text-align:left;transition:.15s}.joint-card:hover{border-color:rgba(217,70,239,.35);transform:translateY(-2px)}
+.code-pill{font-family:ui-monospace,monospace;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 9px;font-size:11px;color:#f0abfc;display:inline-flex;margin-top:8px}.joint-form{display:grid;gap:8px;grid-template-columns:1fr auto;margin:12px 0}.joint-form input{background:rgba(255,255,255,.055);border:1px solid var(--border);border-radius:12px;color:#fff;padding:10px 12px;outline:none;min-width:0}
+.inline-empty{border:1px dashed rgba(255,255,255,.1);border-radius:16px;padding:22px;text-align:center;color:var(--text3);font-size:13px;margin:10px 0}
+.feed-empty{background:rgba(255,255,255,.035);border:1px solid var(--border);border-radius:14px;padding:16px;color:var(--text2);font-size:13px;line-height:1.55}
+
+
 </style>
 </head>
 <body>
@@ -420,6 +448,8 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
     <button class="nb" data-v="buscar" onclick="ir('buscar')">🔍 Buscar</button>
     <button class="nb" data-v="listas" onclick="ir('listas')">📋 Mis listas</button>
     <button class="nb" data-v="amigos" onclick="ir('amigos')">👥 Amigos</button>
+    <button class="nb" data-v="conjunto" onclick="ir('conjunto')">🤝 Juntos</button>
+    <button class="nb" data-v="ia" onclick="ir('ia')">🤖 IA</button>
     <button class="nb" data-v="wrapped" onclick="ir('wrapped')">✨ Wrapped</button>
     <button class="nb" data-v="perfil" onclick="ir('perfil')">👤 Perfil</button>
   </nav>
@@ -453,6 +483,7 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
       <div class="auth-title" id="auth-title">Entrar</div>
       <div class="auth-desc" id="auth-desc">Accede a tu universo de películas y series.</div>
       <div class="auth-warning" id="auth-warning">Supabase no está configurado todavía. Pega tu URL y ANON KEY en el bloque CINECIRCLE_CONFIG del HTML.</div>
+      <div class="auth-error" id="auth-error"></div>
       <div class="auth-tabs">
         <button class="auth-tab on" id="tab-login" onclick="setAuthMode('login')">Entrar</button>
         <button class="auth-tab" id="tab-register" onclick="setAuthMode('register')">Crear cuenta</button>
@@ -481,9 +512,28 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
   </div>
 </section>
 
+<!-- ONBOARDING INICIAL -->
+<section class="onboard-screen" id="onboard-screen" aria-label="Primeros pasos CineCircle">
+  <div class="onboard-card">
+    <div class="hbadge">🚀 Primeros pasos</div>
+    <h2 class="onboard-title"><span class="ht1">Construye tu</span><br><span class="ht2">perfil cinéfilo.</span></h2>
+    <p class="onboard-sub">Elige tus géneros favoritos para que CineCircle pueda recomendarte mejor y para que tu perfil público empiece con personalidad.</p>
+    <label class="elbl">Nombre de usuario</label>
+    <input class="einp" id="ob-username" placeholder="kennethcine">
+    <label class="elbl">Bio corta</label>
+    <input class="einp" id="ob-bio" placeholder="Thrillers, ciencia ficción y dramas intensos.">
+    <label class="elbl">Géneros favoritos</label>
+    <div class="genre-grid" id="ob-genres"></div>
+    <div class="onboard-actions">
+      <button class="probtn primary" onclick="finalizarOnboarding()">Guardar y entrar</button>
+      <button class="probtn" onclick="saltarOnboarding()">Saltarlo por ahora</button>
+    </div>
+  </div>
+</section>
+
 <!-- BOTTOM NAV -->
 <nav class="bnav">
-  <div class="bnav-inner" id="bnav-inner" style="grid-template-columns:repeat(7,1fr)">
+  <div class="bnav-inner" id="bnav-inner" style="grid-template-columns:repeat(9,1fr)">
     <button class="bnb on" data-v="inicio" onclick="ir('inicio')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio
     </button>
@@ -498,6 +548,12 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
     </button>
     <button class="bnb" data-v="amigos" onclick="ir('amigos')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Amigos
+    </button>
+    <button class="bnb" data-v="conjunto" onclick="ir('conjunto')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8"/><path d="M7 14h10"/><path d="M19 8l-7 7-7-7"/></svg>Juntos
+    </button>
+    <button class="bnb" data-v="ia" onclick="ir('ia')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4"/><path d="M12 18v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="m16.24 16.24 2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="m16.24 7.76 2.83-2.83"/></svg>IA
     </button>
     <button class="bnb" data-v="wrapped" onclick="ir('wrapped')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>Wrapped
@@ -594,6 +650,53 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
     </div>
   </div>
 
+
+  <!-- ═══ PERFIL CONJUNTO ═══ -->
+  <div id="v-conjunto" class="view">
+    <div class="sec pt">
+      <h2 class="stit serif">Perfil conjunto</h2>
+      <p class="ssub">Un espacio compartido para guardar películas y series que ves con otra persona o con tu grupo. Todos los miembros pueden añadir títulos.</p>
+      <div class="smart-card">
+        <div style="font-weight:900;font-size:16px;margin-bottom:8px">Crear perfil conjunto</div>
+        <div class="joint-form"><input id="joint-name" placeholder="Ej: Kenneth + Ainhoa, Viernes de cine…"><button class="probtn primary" onclick="crearConjunto()">Crear</button></div>
+        <div style="font-weight:900;font-size:16px;margin:14px 0 8px">Unirme con código</div>
+        <div class="joint-form"><input id="joint-code" placeholder="Código de invitación"><button class="probtn" onclick="unirseConjunto()">Unirme</button></div>
+      </div>
+      <div id="joint-list"></div>
+      <div id="joint-detail"></div>
+    </div>
+  </div>
+
+  <!-- ═══ RECOMENDADOR IA ═══ -->
+  <div id="v-ia" class="view">
+    <div class="sec pt">
+      <h2 class="stit serif">Recomendador inteligente</h2>
+      <p class="ssub">Una primera versión: usa tus géneros, tus puntuaciones y una frase sencilla para sugerirte qué ver.</p>
+      <div class="smart-card">
+        <div style="font-weight:900;font-size:16px">¿Qué te apetece ver?</div>
+        <input class="smart-input" id="ai-prompt" placeholder="Ej: algo como Dark pero menos deprimente, una peli para pareja, terror psicológico…">
+        <div class="mood-row" id="mood-row">
+          <button class="mood on" data-mood="auto" onclick="setMood('auto')">✨ Según mis gustos</button>
+          <button class="mood" data-mood="pareja" onclick="setMood('pareja')">💞 Para ver en pareja</button>
+          <button class="mood" data-mood="thriller" onclick="setMood('thriller')">🧠 Thriller</button>
+          <button class="mood" data-mood="suave" onclick="setMood('suave')">🍿 Fácil de ver</button>
+          <button class="mood" data-mood="terror" onclick="setMood('terror')">👻 Terror</button>
+          <button class="mood" data-mood="scifi" onclick="setMood('scifi')">🚀 Sci‑Fi</button>
+        </div>
+        <button class="probtn primary" onclick="recomendarIA()">Recomiéndame algo</button>
+      </div>
+      <div class="rgrid" id="ai-results"></div>
+    </div>
+  </div>
+
+  <!-- ═══ PERFIL PÚBLICO ═══ -->
+  <div id="v-publico" class="view">
+    <div class="sec pt">
+      <button class="bkbtn" onclick="ir('perfil')">← Volver a mi perfil</button>
+      <div id="public-profile"></div>
+    </div>
+  </div>
+
   <!-- ═══ WRAPPED ═══ -->
   <div id="v-wrapped" class="view">
     <div class="sec pt" style="max-width:600px">
@@ -619,6 +722,11 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
           <div class="pname" id="pname">@cinephile_42</div>
           <div class="pbio" id="pbio">Viviendo fotograma a fotograma.</div>
         </div>
+      </div>
+      <div class="profile-actions">
+        <button class="probtn primary" onclick="copiarPerfilPublico()">🔗 Compartir perfil público</button>
+        <button class="probtn" onclick="abrirMiPerfilPublico()">👁️ Ver como público</button>
+        <button class="probtn" onclick="ir('conjunto')">🤝 Crear perfil conjunto</button>
       </div>
       <div class="pstats" id="pstats"></div>
       <div class="ptit">❤️ Top 4 Favoritos</div>
@@ -724,8 +832,9 @@ const FEED = [
 function estadoVacio(){
   return{
     titulos:{},
-    perfil:{usuario:"cinephile_42",bio:"Viviendo fotograma a fotograma.",avatar:"🎬",banner:BANNERS[0]},
+    perfil:{usuario:"cinephile_42",bio:"Viviendo fotograma a fotograma.",avatar:"🎬",banner:BANNERS[0],onboarded:false,favorite_genres:[],public_profile:true},
     listas:[{id:"favs",nombre:"Todos mis favoritos",items:[],publica:true,emoji:"🏆"}],
+    conjuntos:[],
   };
 }
 let S = estadoVacio();
@@ -768,6 +877,106 @@ function toast(msg){
   root.appendChild(el); setTimeout(()=>{el.style.opacity="0";el.style.transform="translateY(8px) scale(.96)";},1600);
   setTimeout(()=>el.remove(),1900);
 }
+
+function authMensaje(e, modo="login"){
+  const raw = (e?.message || String(e||"")).toLowerCase();
+  if(raw.includes("invalid login credentials") || raw.includes("invalid_credentials")) return "Email o contraseña incorrectos. Revísalos e inténtalo otra vez.";
+  if(raw.includes("email not confirmed")) return "Tu email todavía no está confirmado. Revisa tu correo o desactiva la confirmación en Supabase para probar.";
+  if(raw.includes("user already registered") || raw.includes("already registered")) return "Ese email ya tiene una cuenta. Prueba a entrar o usa recuperar contraseña.";
+  if(raw.includes("password") && (raw.includes("6") || raw.includes("characters") || raw.includes("short"))) return "La contraseña es demasiado corta. Usa mínimo 6 caracteres; mejor algo tipo Cinecircle123!";
+  if(raw.includes("signup") && raw.includes("disabled")) return "El registro está desactivado en Supabase. Activa Email signups en Authentication → Providers → Email.";
+  if(raw.includes("invalid email")) return "El email no parece válido.";
+  if(raw.includes("rate limit")) return "Demasiados intentos seguidos. Espera un poco y vuelve a probar.";
+  return e?.message || (modo==="register" ? "No se pudo crear la cuenta. Revisa email, contraseña y configuración de Supabase." : "No se pudo iniciar sesión. Revisa email y contraseña.");
+}
+function mostrarAuthError(msg){
+  const box=document.getElementById("auth-error");
+  if(!box){toast(msg);return;}
+  box.textContent=msg;
+  box.classList.add("on");
+  toast(msg);
+}
+function limpiarAuthError(){
+  const box=document.getElementById("auth-error");
+  if(box){box.textContent="";box.classList.remove("on");}
+}
+const ONBOARD_GENRES=[
+  {id:18,n:"Drama",e:"🎭"},{id:53,n:"Suspense",e:"🧠"},{id:878,n:"Ciencia ficción",e:"🚀"},{id:27,n:"Terror",e:"👻"},{id:35,n:"Comedia",e:"🍿"},{id:10749,n:"Romance",e:"💞"},{id:16,n:"Animación",e:"🌈"},{id:80,n:"Crimen",e:"🕵️"},{id:99,n:"Documental",e:"🌍"},{id:14,n:"Fantasía",e:"🔮"}
+];
+function abrirOnboarding(){
+  const el=document.getElementById("onboard-screen"); if(!el) return;
+  document.getElementById("ob-username").value=S.perfil.usuario||"";
+  document.getElementById("ob-bio").value=S.perfil.bio||"";
+  const selected=new Set((S.perfil.favorite_genres||[]).map(Number));
+  document.getElementById("ob-genres").innerHTML=ONBOARD_GENRES.map(g=>`<button type="button" class="genre-chip${selected.has(g.id)?" on":""}" data-g="${g.id}" onclick="toggleOnboardGenre(${g.id})">${g.e} ${g.n}</button>`).join("");
+  el.classList.add("on");
+}
+function toggleOnboardGenre(id){
+  const b=document.querySelector(`#ob-genres [data-g="${id}"]`); if(b) b.classList.toggle("on");
+}
+async function finalizarOnboarding(){
+  const username=(document.getElementById("ob-username").value.trim()||S.perfil.usuario||"cinefilo").toLowerCase().replace(/[^a-z0-9_.]/g,"").slice(0,24);
+  const bio=document.getElementById("ob-bio").value.trim();
+  const favorite_genres=[...document.querySelectorAll("#ob-genres .genre-chip.on")].map(b=>Number(b.dataset.g));
+  S.perfil.usuario=username.length>=3?username:S.perfil.usuario;
+  S.perfil.bio=bio||S.perfil.bio;
+  S.perfil.favorite_genres=favorite_genres;
+  S.perfil.onboarded=true;
+  await crearOActualizarPerfil(S.perfil.usuario);
+  await guardarEstadoCloud(false);
+  document.getElementById("onboard-screen")?.classList.remove("on");
+  rperfil();
+  toast("Perfil inicial guardado");
+}
+async function saltarOnboarding(){
+  S.perfil.onboarded=true;
+  await crearOActualizarPerfil(S.perfil.usuario);
+  await guardarEstadoCloud(false);
+  document.getElementById("onboard-screen")?.classList.remove("on");
+}
+function linkPerfil(username){return location.origin+location.pathname+"?u="+encodeURIComponent(username||S.perfil.usuario)}
+function copiarPerfilPublico(){
+  const link=linkPerfil(S.perfil.usuario);
+  navigator.clipboard?.writeText(link).then(()=>toast("Link de perfil copiado"),()=>toast(link));
+}
+function abrirMiPerfilPublico(){abrirPerfilPublico(S.perfil.usuario)}
+async function abrirPerfilPublico(username){
+  ir("publico");
+  const root=document.getElementById("public-profile");
+  root.innerHTML=`<div class="inline-empty">Cargando perfil público...</div>`;
+  if(!supabaseClient){root.innerHTML=`<div class="inline-empty">Supabase no está conectado.</div>`;return;}
+  try{
+    const p=await sb("public.profile", supabaseClient.from("profiles").select("*").eq("username",username).maybeSingle());
+    if(!p){root.innerHTML=`<div class="inline-empty">No existe el perfil @${username}</div>`;return;}
+    const titles=await sb("public.titles", supabaseClient.from("user_titles").select("*").eq("user_id",p.id).limit(80));
+    const lists=await sb("public.lists", supabaseClient.from("lists").select("*").eq("user_id",p.id).eq("publica",true).limit(12));
+    const favs=(titles||[]).filter(t=>t.favorito).slice(0,4);
+    const seen=(titles||[]).filter(t=>t.estado==="visto");
+    const avg=(titles||[]).filter(t=>t.puntuacion!=null).map(t=>t.puntuacion);
+    const reify=e=>({id:e.tmdb_id,media_type:e.media_type,title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average});
+    root.innerHTML=`
+      <div class="public-hero">
+        <div class="public-ban" style="background:${p.banner||BANNERS[0]}"></div>
+        <div class="public-inner">
+          <div class="public-av">${p.avatar||"🎬"}</div>
+          <div class="public-name">@${p.username}</div>
+          <div class="public-bio">${p.bio||"Sin bio todavía."}</div>
+          <div class="profile-actions" style="margin-top:12px"><button class="probtn primary" onclick="copiarTexto('${linkPerfil(p.username).replace(/'/g,"\\'")}')">🔗 Copiar link</button></div>
+        </div>
+      </div>
+      <div class="pstats">
+        <div class="pst"><div class="pst-i">👁️</div><div class="pst-v">${seen.length}</div><div class="pst-l">Vistos</div></div>
+        <div class="pst"><div class="pst-i">⭐</div><div class="pst-v">${avg.length?(avg.reduce((a,b)=>a+b,0)/avg.length).toFixed(1):"—"}</div><div class="pst-l">Media</div></div>
+        <div class="pst"><div class="pst-i">❤️</div><div class="pst-v">${favs.length}</div><div class="pst-l">Favoritos</div></div>
+        <div class="pst"><div class="pst-i">📋</div><div class="pst-v">${(lists||[]).length}</div><div class="pst-l">Listas públicas</div></div>
+      </div>
+      <div class="ptit">❤️ Top favoritos</div><div class="fgrid">${favs.length?favs.map(e=>tarjeta(reify(e))).join(""):Array(4).fill(`<div class="fph">🤍</div>`).join("")}</div>
+      <div class="ptit">👁️ Vistos recientemente</div><div class="wgrd">${seen.length?seen.slice(0,12).map(e=>tarjeta(reify(e))).join(""):`<p style="color:var(--text3);font-size:12px;grid-column:1/-1">Aún no hay títulos vistos.</p>`}</div>
+      <div class="ptit">📋 Listas públicas</div><div class="lgrid">${(lists||[]).length?lists.map(l=>`<div class="lcard"><div class="lemo">${l.emoji||"🎯"}</div><div class="lnom">${l.nombre}</div><div class="lcnt">Lista pública</div></div>`).join(""):`<p style="color:var(--text3);font-size:12px">No hay listas públicas.</p>`}</div>`;
+  }catch(e){console.error(e);root.innerHTML=`<div class="inline-empty">Error cargando perfil público: ${e.message}</div>`;}
+}
+function copiarTexto(txt){navigator.clipboard?.writeText(txt).then(()=>toast("Copiado"),()=>toast(txt));}
+
 function refrescarVistas(){
   if(vistaActual==="inicio") { rstats(); rinicio(); }
   if(vistaActual==="buscar") rsr();
@@ -801,6 +1010,8 @@ function ir(v){
   if(v==="buscar")  { document.getElementById("sinp").focus(); rsr(); }
   if(v==="listas")    rlistas();
   if(v==="amigos")    ramigos();
+  if(v==="conjunto")  rconjunto();
+  if(v==="ia")        ria();
   if(v==="wrapped")   rwrapped();
   if(v==="perfil")    rperfil();
 }
@@ -986,8 +1197,10 @@ function rdet(item, e, gs, dir, full){
     <div class="arow">
       <button type="button" class="abtn${e.favorito?" fav-on":""}" onclick="tfav('${k}')"><span>${e.favorito?"❤️":"🤍"}</span>${e.favorito?"Favorito":"Añadir a favoritos"}</button>
       <button type="button" class="abtn" onclick="tlp('${k}')"><span>📋</span>Añadir a lista</button>
+      <button type="button" class="abtn" onclick="tjoint('${k}')"><span>🤝</span>Juntos</button>
     </div>
     <div id="lp-${k}" class="lp"></div>
+    <div id="jp-${k}" class="lp"></div>
     <div class="slbl">⭐ Tu puntuación</div>
     <div class="rnums">${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<button type="button" class="rnum${e.puntuacion===n?" on":""}" onclick="spunt('${k}',${n})">${n}</button>`).join("")}</div>
     <div class="slbl" style="margin-bottom:5px">💬 Mini reseña</div>
@@ -1032,6 +1245,7 @@ function sestado(k,st){
   if(S.titulos[k].estado==="visto") S.titulos[k].visto_en=Date.now();
   limpiar(k); gd(); rerenderModal(k); rstats(); actualizarVistaActualLigera();
   toast(S.titulos[k]?.estado ? "Estado actualizado" : "Estado eliminado");
+  if(S.titulos[k]?.estado==="visto") logActivity("watched",k); else if(S.titulos[k]?.estado) logActivity("status",k);
 }
 function tfav(k){
   const item=itemPorClave(k); if(!item) return;
@@ -1039,18 +1253,20 @@ function tfav(k){
   S.titulos[k].favorito = !S.titulos[k].favorito;
   limpiar(k); gd(); rerenderModal(k); actualizarVistaActualLigera();
   toast(S.titulos[k]?.favorito ? "Añadido a favoritos" : "Quitado de favoritos");
+  if(S.titulos[k]?.favorito) logActivity("favorited",k);
 }
 function spunt(k,n){
   const item=itemPorClave(k); if(!item) return;
   asegurar(k,item);
   S.titulos[k].puntuacion=n; limpiar(k); gd(); rerenderModal(k); rstats(); actualizarVistaActualLigera();
   toast("Puntuación guardada");
+  logActivity("rated",k);
 }
 function sresena(k,t){
   const item=itemPorClave(k); if(!item) return;
   asegurar(k,item);
   S.titulos[k].resena=(t||"").trim(); limpiar(k); gd(); actualizarVistaActualLigera();
-  if(t.trim()) toast("Reseña guardada");
+  if(t.trim()){ toast("Reseña guardada"); logActivity("reviewed",k); }
 }
 function actualizarVistaActualLigera(){
   // Evita cerrar el modal; solo actualiza paneles visibles importantes.
@@ -1158,29 +1374,161 @@ function crlist(){
   const nm=document.getElementById("nlnm").value.trim();
   if(!nm){alert("Por favor, escribe un nombre.");return;}
   S.listas.push({id:"l"+Date.now(),nombre:nm,items:[],publica:document.getElementById("nlpub").checked,emoji:nle});
-  gd();cnlmod();rlistas();
+  gd(); logActivity("list_created",null,{list_name:nm}); cnlmod();rlistas();
 }
 
 /* ── AMIGOS ── */
-function ramigos(){
-  document.getElementById("frl").innerHTML=[...AMG].sort((a,b)=>b.c-a.c).map(f=>`
-    <div class="frc">
-      <div class="frtop">
-        <div class="frav">${f.a}</div>
-        <div><div class="frnom">${f.n}</div><div class="frgen">Le encanta: ${f.g}</div></div>
-        <div class="frpct">${f.c}%</div>
-      </div>
-      <div class="cbar"><div class="cfill" style="width:${f.c}%"></div></div>
-    </div>`).join("");
-  document.getElementById("fdl").innerHTML=FEED.map(f=>`
-    <div class="fdc">
-      <div class="fdav">${f.a}</div>
-      <div>
-        <div class="fdtxt"><strong>${f.u}</strong> ${f.act} <span class="fdtarget">${f.t}</span>${f.v?`<span class="rpill">⭐ ${f.v}/10</span>`:""}</div>
-        ${f.r?`<div class="fdrev">"${f.r}"</div>`:""}
-        <div class="fdtime">${f.time}</div>
-      </div>
-    </div>`).join("");
+
+/* ── AMIGOS / FEED REAL ── */
+async function logActivity(type,k=null,extra={}){
+  if(!usuarioActual || !supabaseClient) return;
+  const t=k?S.titulos[k]:null;
+  const data={
+    username:S.perfil.usuario, avatar:S.perfil.avatar, type,
+    title:t?.titulo||extra.title||"", rating:t?.puntuacion??extra.rating??null,
+    estado:t?.estado||null, favorite:!!t?.favorito, review:t?.resena||"",
+    poster_path:t?.poster_path||null, list_name:extra.list_name||null,
+    text:extra.text||null
+  };
+  try{await supabaseClient.from("activity_feed").insert({user_id:usuarioActual.id,type,item_key:k,tmdb_id:t?.tmdb_id||null,media_type:t?.media_type||null,data});}
+  catch(e){console.warn("No se pudo registrar actividad",e);}
+}
+function textoActividad(a){
+  const d=a.data||{};
+  if(a.type==="rated") return `puntuó <span class="fdtarget">${d.title}</span><span class="rpill">⭐ ${d.rating}/10</span>`;
+  if(a.type==="favorited") return `añadió a favoritos <span class="fdtarget">${d.title}</span>`;
+  if(a.type==="watched") return `marcó como visto <span class="fdtarget">${d.title}</span>`;
+  if(a.type==="status") return `actualizó <span class="fdtarget">${d.title}</span> a ${d.estado}`;
+  if(a.type==="reviewed") return `reseñó <span class="fdtarget">${d.title}</span>`;
+  if(a.type==="list_created") return `creó la lista <span class="fdtarget">${d.list_name}</span>`;
+  if(a.type==="joint_added") return `añadió <span class="fdtarget">${d.title}</span> a un perfil conjunto`;
+  return `actualizó <span class="fdtarget">${d.title||"CineCircle"}</span>`;
+}
+function haceTiempo(iso){
+  const s=Math.max(1,Math.floor((Date.now()-new Date(iso).getTime())/1000));
+  if(s<60)return `hace ${s}s`; const m=Math.floor(s/60); if(m<60)return `hace ${m}min`; const h=Math.floor(m/60); if(h<24)return `hace ${h}h`; const d=Math.floor(h/24); return `hace ${d}d`;
+}
+async function ramigos(){
+  const fr=document.getElementById("frl"), fd=document.getElementById("fdl");
+  fr.innerHTML=`<div class="feed-empty">Calculando compatibilidades reales...</div>`;
+  fd.innerHTML=`<div class="feed-empty">Cargando actividad real...</div>`;
+  if(!supabaseClient){fr.innerHTML=fd.innerHTML=`<div class="feed-empty">Conecta Supabase para ver amigos reales.</div>`;return;}
+  try{
+    const myGenres=new Set(Object.values(S.titulos).flatMap(t=>t.genre_ids||[]));
+    const profiles=await sb("friends.profiles", supabaseClient.from("profiles").select("id,username,avatar,bio,favorite_genres").neq("id",usuarioActual?.id||"00000000-0000-0000-0000-000000000000").limit(20));
+    const comps=[];
+    for(const p of (profiles||[]).slice(0,10)){
+      let score=0, fav=(p.favorite_genres||[]).map(Number);
+      if(myGenres.size && fav.length){score=Math.round((fav.filter(g=>myGenres.has(g)).length/Math.max(1,new Set([...myGenres,...fav]).size))*100);} else score=60+Math.floor(Math.random()*25);
+      comps.push({...p,score});
+    }
+    fr.innerHTML=comps.length?comps.sort((a,b)=>b.score-a.score).map(f=>`
+      <div class="frc" onclick="abrirPerfilPublico('${String(f.username).replace(/'/g,"\\'")}')">
+        <div class="frtop"><div class="frav">${f.avatar||"🎬"}</div><div><div class="frnom">@${f.username}</div><div class="frgen">${f.bio||"Perfil público"}</div></div><div class="frpct">${f.score}%</div></div>
+        <div class="cbar"><div class="cfill" style="width:${f.score}%"></div></div>
+      </div>`).join(""):`<div class="feed-empty">Aún no hay otros perfiles. Cuando tus amigos se registren aparecerán aquí.</div>`;
+    const acts=await sb("activity.select", supabaseClient.from("activity_feed").select("*").order("created_at",{ascending:false}).limit(40));
+    fd.innerHTML=(acts||[]).length?(acts||[]).map(a=>{const d=a.data||{};return`
+      <div class="fdc">
+        <div class="fdav">${d.avatar||"🎬"}</div>
+        <div><div class="fdtxt"><strong>@${d.username||"usuario"}</strong> ${textoActividad(a)}</div>${d.review?`<div class="fdrev">"${String(d.review).replace(/</g,"&lt;").slice(0,180)}"</div>`:""}<div class="fdtime">${haceTiempo(a.created_at)}</div></div>
+      </div>`}).join(""):`<div class="feed-empty">Todavía no hay actividad real. Puntúa o marca una película y aparecerá aquí.</div>`;
+  }catch(e){console.error(e);fd.innerHTML=`<div class="feed-empty">Error cargando feed: ${e.message}</div>`;}
+}
+
+/* ── PERFIL CONJUNTO ── */
+let conjuntoActual=null;
+async function cargarConjuntosCloud(){
+  if(!usuarioActual||!supabaseClient) return;
+  const mem=await sb("shared.members.select", supabaseClient.from("shared_profile_members").select("shared_profile_id").eq("user_id",usuarioActual.id));
+  const ids=(mem||[]).map(x=>x.shared_profile_id);
+  if(!ids.length){S.conjuntos=[];return;}
+  const profs=await sb("shared.profiles.select", supabaseClient.from("shared_profiles").select("*").in("id",ids));
+  S.conjuntos=profs||[];
+}
+function rconjunto(){
+  const list=document.getElementById("joint-list"), detail=document.getElementById("joint-detail");
+  detail.innerHTML="";
+  const cs=S.conjuntos||[];
+  list.innerHTML=cs.length?`<div class="joint-grid">${cs.map(c=>`<button class="joint-card" onclick="abrirConjunto('${c.id}')"><div style="font-size:28px;margin-bottom:6px">🤝</div><div class="lnom">${c.name}</div><div class="lcnt">Perfil compartido</div><span class="code-pill">Código: ${c.invite_code}</span></button>`).join("")}</div>`:`<div class="inline-empty">Aún no tienes perfiles conjuntos. Crea uno y comparte el código con otra persona.</div>`;
+}
+function codeAleatorio(){return Math.random().toString(36).slice(2,8).toUpperCase();}
+async function crearConjunto(){
+  const name=document.getElementById("joint-name").value.trim(); if(!name){toast("Pon un nombre al perfil conjunto");return;}
+  const row={name,owner_id:usuarioActual.id,invite_code:codeAleatorio()};
+  try{
+    const created=await sb("shared_profiles.insert", supabaseClient.from("shared_profiles").insert(row).select("*").single());
+    await sb("shared_members.owner", supabaseClient.from("shared_profile_members").insert({shared_profile_id:created.id,user_id:usuarioActual.id,role:"owner"}));
+    await cargarConjuntosCloud(); rconjunto(); toast("Perfil conjunto creado");
+  }catch(e){console.error(e);toast("Error creando perfil conjunto: "+e.message);}
+}
+async function unirseConjunto(){
+  const code=document.getElementById("joint-code").value.trim().toUpperCase(); if(!code){toast("Escribe el código");return;}
+  try{
+    const c=await sb("shared_profiles.by_code", supabaseClient.from("shared_profiles").select("*").eq("invite_code",code).maybeSingle());
+    if(!c){toast("Código no encontrado");return;}
+    await sb("shared_members.join", supabaseClient.from("shared_profile_members").upsert({shared_profile_id:c.id,user_id:usuarioActual.id,role:"member"},{onConflict:"shared_profile_id,user_id"}));
+    await cargarConjuntosCloud(); rconjunto(); toast("Te has unido al perfil conjunto");
+  }catch(e){console.error(e);toast("Error uniéndote: "+e.message);}
+}
+async function abrirConjunto(id){
+  conjuntoActual=id;
+  const c=(S.conjuntos||[]).find(x=>x.id===id); if(!c)return;
+  const detail=document.getElementById("joint-detail"); detail.innerHTML=`<div class="inline-empty">Cargando títulos compartidos...</div>`;
+  try{
+    const rows=await sb("shared_titles.select", supabaseClient.from("shared_profile_titles").select("*").eq("shared_profile_id",id).order("created_at",{ascending:false}));
+    const reify=e=>({id:e.tmdb_id,media_type:e.media_type,title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids||[],vote_average:e.vote_average});
+    detail.innerHTML=`<div class="smart-card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:start"><div><h3 class="serif" style="font-size:28px;font-weight:900">🤝 ${c.name}</h3><div class="code-pill">Código: ${c.invite_code}</div></div><button class="probtn" onclick="copiarTexto('${c.invite_code}')">Copiar código</button></div></div>${rows.length?`<div class="listgr">${rows.map(r=>`<div class="liw">${tarjeta(reify(r))}</div>`).join("")}</div>`:`<div class="inline-empty">Este perfil conjunto aún está vacío. Abre una película y pulsa “Juntos”.</div>`}`;
+  }catch(e){console.error(e);detail.innerHTML=`<div class="inline-empty">Error: ${e.message}</div>`;}
+}
+function tjoint(k){
+  const el=document.getElementById("jp-"+k); if(!el)return;
+  if(el.style.display==="block"){el.style.display="none";return;}
+  const cs=S.conjuntos||[];
+  el.style.display="block";
+  el.innerHTML=cs.length?cs.map(c=>`<button type="button" class="lpb" onclick="addToJoint('${c.id}','${k}')"><span style="font-size:19px">🤝</span><div><div style="font-weight:600">${c.name}</div><div style="font-size:10px;color:var(--text3)">Código ${c.invite_code}</div></div><span style="margin-left:auto;color:#d946ef">➕</span></button>`).join(""):`<div style="padding:10px;color:var(--text2);font-size:12px">Crea primero un perfil conjunto en la pestaña Juntos.</div>`;
+}
+async function addToJoint(pid,k){
+  const item=itemPorClave(k); if(!item)return; asegurar(k,item);
+  const t=S.titulos[k];
+  try{
+    await sb("shared_titles.upsert", supabaseClient.from("shared_profile_titles").upsert({shared_profile_id:pid,item_key:k,tmdb_id:t.tmdb_id,media_type:t.media_type,titulo:t.titulo,poster_path:t.poster_path,backdrop_path:t.backdrop_path,descripcion:t.descripcion,fecha:t.fecha,genre_ids:t.genre_ids||[],vote_average:t.vote_average||null,added_by:usuarioActual.id},{onConflict:"shared_profile_id,item_key"}));
+    await logActivity("joint_added",k);
+    toast("Añadido al perfil conjunto");
+    document.getElementById("jp-"+k).style.display="none";
+  }catch(e){console.error(e);toast("Error añadiendo a conjunto: "+e.message);}
+}
+
+/* ── RECOMENDADOR IA INICIAL ── */
+let moodActual="auto";
+function setMood(m){moodActual=m;document.querySelectorAll("#mood-row .mood").forEach(b=>b.classList.toggle("on",b.dataset.mood===m));}
+function ria(){
+  const root=document.getElementById("ai-results");
+  if(root&&!root.innerHTML.trim()) root.innerHTML=`<div class="empty"><div class="empty-ico">🤖</div><p>Pulsa “Recomiéndame algo” para generar sugerencias.</p></div>`;
+}
+function generoDominante(){
+  const scores={};
+  Object.values(S.titulos).forEach(t=>(t.genre_ids||[]).forEach(g=>{scores[g]=(scores[g]||0)+(t.puntuacion||5);}));
+  const fav=(S.perfil.favorite_genres||[])[0];
+  return Number(Object.entries(scores).sort((a,b)=>b[1]-a[1])[0]?.[0] || fav || 18);
+}
+async function recomendarIA(){
+  const root=document.getElementById("ai-results"); root.innerHTML=Array(12).fill(`<div class="skel"></div>`).join("");
+  const q=(document.getElementById("ai-prompt").value||"").toLowerCase();
+  let genre=generoDominante(), media="movie";
+  if(moodActual==="terror"||q.includes("terror")) genre=27;
+  if(moodActual==="scifi"||q.includes("sci")||q.includes("espacio")||q.includes("dark")) genre=878;
+  if(moodActual==="thriller"||q.includes("thriller")||q.includes("psicol")) genre=53;
+  if(moodActual==="pareja"||q.includes("pareja")||q.includes("románt")) genre=10749;
+  if(moodActual==="suave"||q.includes("fácil")||q.includes("comedia")) genre=35;
+  if(q.includes("serie")) media="tv";
+  const vistos=new Set(Object.keys(S.titulos));
+  try{
+    const d=await tmdb(`/discover/${media}`,{with_genres:String(genre),sort_by:"vote_average.desc",vote_count_gte:"300"});
+    let res=(d.results||[]).map(x=>({...x,media_type:media})).filter(x=>!vistos.has(claveDe(x))).slice(0,18);
+    root.innerHTML=res.length?res.map(it=>tarjeta(it)).join(""):`<div class="empty"><div class="empty-ico">🤖</div><p>No encontré recomendaciones nuevas para ese mood.</p></div>`;
+    toast("Recomendaciones generadas según tus gustos");
+  }catch(e){console.error(e);root.innerHTML=`<div class="empty"><div class="empty-ico">⚠️</div><p>Error recomendando: ${e.message}</p></div>`;}
 }
 
 /* ── PERFIL ── */
@@ -1315,6 +1663,7 @@ const SUPABASE_OK = cfg.SUPABASE_URL && cfg.SUPABASE_ANON_KEY && !cfg.SUPABASE_U
 
 function setAuthMode(mode){
   authMode = mode;
+  limpiarAuthError();
   document.getElementById("tab-login")?.classList.toggle("on", mode==="login");
   document.getElementById("tab-register")?.classList.toggle("on", mode==="register");
   document.getElementById("username-field").style.display = mode==="register" ? "block" : "none";
@@ -1378,14 +1727,20 @@ async function authSubmit(){
   const email=document.getElementById("auth-email").value.trim();
   const password=document.getElementById("auth-password").value;
   const username=(document.getElementById("auth-username").value.trim() || email.split("@")[0] || "cinefilo").toLowerCase().replace(/[^a-z0-9_\.]/g,"");
-  if(!email || !password){ toast("Escribe email y contraseña"); return; }
-  const btn=document.getElementById("auth-submit"); btn.disabled=true;
+  limpiarAuthError();
+  if(!email || !password){ mostrarAuthError("Escribe email y contraseña."); return; }
+  if(authMode==="register" && password.length<6){ mostrarAuthError("La contraseña debe tener mínimo 6 caracteres."); return; }
+  const btn=document.getElementById("auth-submit"); const oldTxt=btn.textContent; btn.disabled=true; btn.textContent=authMode==="register"?"Creando...":"Entrando...";
   try{
     if(authMode==="register"){
       const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{username}}});
       if(error) throw error;
+      if(!data.session){
+        toast("Cuenta creada. Revisa tu email para confirmar la cuenta antes de entrar.");
+        return;
+      }
       usuarioActual=data.user;
-      toast("Cuenta creada. Revisa tu email si Supabase pide confirmación.");
+      toast("Cuenta creada. Sesión iniciada.");
       if(usuarioActual) await crearOActualizarPerfil(username);
     }else{
       const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
@@ -1394,13 +1749,13 @@ async function authSubmit(){
       toast("Sesión iniciada");
     }
     if(usuarioActual){ await cargarEstadoCloud(); aplicarEstadoAuth(); cerrarAuth(); }
-  }catch(e){ toast(e.message || "Error de autenticación"); }
-  finally{ btn.disabled=false; }
+  }catch(e){ mostrarAuthError(authMensaje(e, authMode)); }
+  finally{ btn.disabled=false; btn.textContent=authMode==="register"?"Crear cuenta":"Entrar"; }
 }
 async function loginGoogle(){
   if(!SUPABASE_OK){ toast("Primero configura Supabase"); return; }
   const { error } = await supabaseClient.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}});
-  if(error) toast(error.message);
+  if(error) mostrarAuthError(authMensaje(error));
 }
 async function resetPassword(){
   if(!SUPABASE_OK){ toast("Primero configura Supabase"); return; }
@@ -1463,6 +1818,9 @@ async function crearOActualizarPerfil(username){
     bio: perfil.bio || "Viviendo fotograma a fotograma.",
     avatar: perfil.avatar || "🎬",
     banner: perfil.banner || BANNERS[0],
+    onboarded: !!perfil.onboarded,
+    favorite_genres: perfil.favorite_genres || [],
+    public_profile: perfil.public_profile !== false,
     updated_at: new Date().toISOString()
   },{onConflict:"id"}));
 }
@@ -1482,7 +1840,7 @@ async function cargarEstadoCloud(){
 
     const nuevo=estadoVacio();
     if(perfil){
-      nuevo.perfil={usuario:perfil.username||nuevo.perfil.usuario,bio:perfil.bio||"",avatar:perfil.avatar||"🎬",banner:perfil.banner||BANNERS[0]};
+      nuevo.perfil={usuario:perfil.username||nuevo.perfil.usuario,bio:perfil.bio||"",avatar:perfil.avatar||"🎬",banner:perfil.banner||BANNERS[0],onboarded:!!perfil.onboarded,favorite_genres:perfil.favorite_genres||[],public_profile:perfil.public_profile!==false};
     }
     (titulos||[]).forEach(t=>{
       nuevo.titulos[t.item_key]={
@@ -1495,8 +1853,10 @@ async function cargarEstadoCloud(){
     if(!nuevo.listas.length) nuevo.listas=[{id:"favs",nombre:"Todos mis favoritos",items:[],publica:true,emoji:"🏆"}];
 
     S=nuevo;
+    await cargarConjuntosCloud();
     document.getElementById("hdr-av").textContent=S.perfil.avatar;
     ir(vistaActual||"inicio");
+    if(!S.perfil.onboarded) setTimeout(abrirOnboarding,250);
   }catch(e){
     console.error(e);
     toast("Error cargando Supabase: " + (e.message || "revisa consola"));
@@ -1509,7 +1869,7 @@ async function guardarEstadoCloud(force=false){
   const uid=usuarioActual.id;
   try{
     const perfil=S.perfil||{};
-    await sb("profiles.upsert", supabaseClient.from("profiles").upsert({id:uid,username:perfil.usuario,bio:perfil.bio,avatar:perfil.avatar,banner:perfil.banner,updated_at:new Date().toISOString()},{onConflict:"id"}));
+    await sb("profiles.upsert", supabaseClient.from("profiles").upsert({id:uid,username:perfil.usuario,bio:perfil.bio,avatar:perfil.avatar,banner:perfil.banner,onboarded:!!perfil.onboarded,favorite_genres:perfil.favorite_genres||[],public_profile:perfil.public_profile!==false,updated_at:new Date().toISOString()},{onConflict:"id"}));
 
     // Borrado controlado: primero elementos dependientes, luego tablas padre.
     await sb("list_items.delete", supabaseClient.from("list_items").delete().eq("user_id",uid));
@@ -1550,7 +1910,7 @@ function queueCloudSave(){
 // No hay localStorage: cualquier cambio llama exclusivamente a Supabase.
 gd = function(){ queueCloudSave(); };
 
-initSupabaseAuth();
+initSupabaseAuth().then(()=>{const u=new URLSearchParams(location.search).get("u"); if(u) abrirPerfilPublico(u);});
 
 
 /* ── ARQUITECTURA SUPABASE (COMENTARIO PARA PRODUCCIÓN) ──
