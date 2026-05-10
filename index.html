@@ -400,6 +400,7 @@ button{cursor:pointer}
 .auth-warning.on{display:block}
 .auth-hbtn{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.055);color:var(--text);font-size:12px;font-weight:800;border-radius:999px;padding:7px 12px;transition:all .16s;white-space:nowrap}
 .auth-hbtn:hover{background:rgba(255,255,255,.1);border-color:rgba(217,70,239,.32)}
+.auth-hbtn:disabled{opacity:.55;cursor:not-allowed}
 body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none}
 
 </style>
@@ -1308,6 +1309,7 @@ let supabaseClient = null;
 let usuarioActual = null;
 let cargandoCloud = false;
 let syncTimer = null;
+let cerrandoSesion = false;
 const cfg = window.CINECIRCLE_CONFIG || {};
 const SUPABASE_OK = cfg.SUPABASE_URL && cfg.SUPABASE_ANON_KEY && !cfg.SUPABASE_URL.includes("PEGA_AQUI") && !cfg.SUPABASE_ANON_KEY.includes("PEGA_AQUI") && window.supabase;
 
@@ -1340,13 +1342,20 @@ async function initSupabaseAuth(){
   const { data } = await supabaseClient.auth.getSession();
   usuarioActual = data?.session?.user || null;
   supabaseClient.auth.onAuthStateChange(async (_event, session)=>{
+    // Durante el logout manual evitamos que Supabase dispare una segunda apertura/recarga
+    // del modal de acceso. cerrarSesion() se encarga de limpiar la UI una sola vez.
+    if(cerrandoSesion) return;
     usuarioActual = session?.user || null;
     if(usuarioActual){
       await cargarEstadoCloud();
       aplicarEstadoAuth();
       cerrarAuth();
     }else{
+      S = estadoVacio();
+      Object.keys(CACHE_ITEMS).forEach(k=>delete CACHE_ITEMS[k]);
       aplicarEstadoAuth();
+      rstats();
+      rperfil();
       abrirAuth();
     }
   });
@@ -1401,9 +1410,40 @@ async function resetPassword(){
   toast(error ? error.message : "Email de recuperación enviado");
 }
 async function cerrarSesion(){
-  if(supabaseClient) await guardarEstadoCloud(true);
-  if(supabaseClient) await supabaseClient.auth.signOut();
-  usuarioActual=null; S=estadoVacio(); aplicarEstadoAuth(); abrirAuth(); toast("Sesión cerrada");
+  if(cerrandoSesion) return;
+  cerrandoSesion = true;
+  const btn = document.getElementById("auth-btn");
+  const prev = btn ? btn.textContent : "";
+  if(btn){ btn.disabled = true; btn.textContent = "Saliendo..."; }
+  try{
+    // Guardamos una última vez, pero sin toast, para que cerrar sesión no parezca que hace cosas raras.
+    clearTimeout(syncTimer);
+    if(supabaseClient && usuarioActual) await guardarEstadoCloud(false);
+    if(supabaseClient){
+      const { error } = await supabaseClient.auth.signOut();
+      if(error) throw error;
+    }
+    usuarioActual = null;
+    S = estadoVacio();
+    Object.keys(CACHE_ITEMS).forEach(k=>delete CACHE_ITEMS[k]);
+    document.getElementById("hdr-av").textContent = S.perfil.avatar;
+    setAuthMode("login");
+    aplicarEstadoAuth();
+    rstats();
+    rperfil();
+    rinicio();
+    cerrarAuth();
+    abrirAuth();
+    toast("Sesión cerrada");
+  }catch(e){
+    console.error("Error cerrando sesión", e);
+    toast("Error cerrando sesión: " + (e.message || "revisa consola"));
+    if(btn) btn.textContent = prev || "Salir";
+  }finally{
+    cerrandoSesion = false;
+    if(btn) btn.disabled = false;
+    aplicarEstadoAuth();
+  }
 }
 async function sb(paso, promise){
   const res = await promise;
