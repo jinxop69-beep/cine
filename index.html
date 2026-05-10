@@ -475,8 +475,7 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
       <button class="auth-main-btn" id="auth-submit" onclick="authSubmit()">Entrar</button>
       <div class="auth-divider">o</div>
       <button class="auth-google" onclick="loginGoogle()">🌐 Continuar con Google</button>
-      <button class="auth-demo" onclick="entrarDemo()">🧪 Probar en modo demo local</button>
-      <p class="auth-note">Para producción, activa RLS en Supabase y pega el SQL incluido. La clave ANON puede ir en frontend si las políticas están bien configuradas.</p>
+      <p class="auth-note">Modo estricto Supabase: no usa localStorage. Si una tabla, columna o política RLS falla, verás el error real en consola y en un aviso.</p>
     </div>
   </div>
 </section>
@@ -718,16 +717,18 @@ const FEED = [
 ];
 
 /* ── ESTADO ── */
-const SK = "cc:es:v1";
-let S = (()=>{
-  try{const r=localStorage.getItem(SK);if(r)return JSON.parse(r);}catch{}
+/* MODO ESTRICTO SUPABASE:
+   No se usa localStorage. Todo se carga y se guarda únicamente en Supabase.
+   Así cualquier tabla, columna o política RLS que falte dará error real en consola. */
+function estadoVacio(){
   return{
     titulos:{},
     perfil:{usuario:"cinephile_42",bio:"Viviendo fotograma a fotograma.",avatar:"🎬",banner:BANNERS[0]},
     listas:[{id:"favs",nombre:"Todos mis favoritos",items:[],publica:true,emoji:"🏆"}],
   };
-})();
-function gd(){try{localStorage.setItem(SK,JSON.stringify(S));}catch{}}
+}
+let S = estadoVacio();
+function gd(){ queueCloudSave(); }
 
 const nomDe = m => m.title||m.name||"Sin título";
 const fechaDe= m => m.release_date||m.first_air_date||"";
@@ -1329,10 +1330,6 @@ function cerrarAuth(){
   document.body.classList.remove("auth-locked");
   document.getElementById("auth-screen")?.classList.remove("on");
 }
-function entrarDemo(){
-  toast("Modo demo local activado");
-  cerrarAuth();
-}
 async function initSupabaseAuth(){
   if(!SUPABASE_OK){
     document.getElementById("auth-warning")?.classList.add("on");
@@ -1371,8 +1368,7 @@ async function authSubmit(){
   if(!SUPABASE_OK){ toast("Primero configura Supabase"); return; }
   const email=document.getElementById("auth-email").value.trim();
   const password=document.getElementById("auth-password").value;
-  let username=(document.getElementById("auth-username").value.trim() || email.split("@")[0] || "cinefilo").toLowerCase().replace(/[^a-z0-9_\.]/g,"");
-  if(username.length < 3) username = "cinefilo_" + Math.floor(Math.random()*9999);
+  const username=(document.getElementById("auth-username").value.trim() || email.split("@")[0] || "cinefilo").toLowerCase().replace(/[^a-z0-9_\.]/g,"");
   if(!email || !password){ toast("Escribe email y contraseña"); return; }
   const btn=document.getElementById("auth-submit"); btn.disabled=true;
   try{
@@ -1407,37 +1403,46 @@ async function resetPassword(){
 async function cerrarSesion(){
   if(supabaseClient) await guardarEstadoCloud(true);
   if(supabaseClient) await supabaseClient.auth.signOut();
-  usuarioActual=null; aplicarEstadoAuth(); abrirAuth(); toast("Sesión cerrada");
+  usuarioActual=null; S=estadoVacio(); aplicarEstadoAuth(); abrirAuth(); toast("Sesión cerrada");
+}
+async function sb(paso, promise){
+  const res = await promise;
+  if(res?.error){
+    console.error("[CineCircle Supabase]", paso, res.error);
+    toast("Supabase: " + paso + " → " + res.error.message);
+    throw res.error;
+  }
+  return res?.data;
 }
 async function crearOActualizarPerfil(username){
   if(!usuarioActual || !supabaseClient) return;
   const perfil = S.perfil || {};
-  await supabaseClient.from("profiles").upsert({
+  await sb("profiles.upsert", supabaseClient.from("profiles").upsert({
     id: usuarioActual.id,
-    username: ((username || perfil.usuario || usuarioActual.email?.split("@")[0] || "cinefilo").length < 3 ? "cinefilo_" + Math.floor(Math.random()*9999) : (username || perfil.usuario || usuarioActual.email?.split("@")[0] || "cinefilo")),
+    username: username || perfil.usuario || usuarioActual.email?.split("@")[0],
     bio: perfil.bio || "Viviendo fotograma a fotograma.",
     avatar: perfil.avatar || "🎬",
     banner: perfil.banner || BANNERS[0],
     updated_at: new Date().toISOString()
-  },{onConflict:"id"});
+  },{onConflict:"id"}));
 }
 async function cargarEstadoCloud(){
   if(!usuarioActual || !supabaseClient) return;
   cargandoCloud = true;
   try{
     const uid=usuarioActual.id;
-    let {data:perfil}=await supabaseClient.from("profiles").select("*").eq("id",uid).maybeSingle();
+    let perfil = await sb("profiles.select", supabaseClient.from("profiles").select("*").eq("id",uid).maybeSingle());
     if(!perfil){
       await crearOActualizarPerfil(usuarioActual.user_metadata?.username || usuarioActual.email?.split("@")[0]);
-      const res=await supabaseClient.from("profiles").select("*").eq("id",uid).maybeSingle();
-      perfil=res.data;
+      perfil = await sb("profiles.select.afterCreate", supabaseClient.from("profiles").select("*").eq("id",uid).maybeSingle());
     }
-    const {data:titulos}=await supabaseClient.from("user_titles").select("*").eq("user_id",uid);
-    const {data:listas}=await supabaseClient.from("lists").select("*").eq("user_id",uid).order("created_at",{ascending:true});
-    const {data:items}=await supabaseClient.from("list_items").select("*").eq("user_id",uid).order("position",{ascending:true});
-    const nuevo={titulos:{},perfil:S.perfil,listas:[]};
+    const titulos = await sb("user_titles.select", supabaseClient.from("user_titles").select("*").eq("user_id",uid));
+    const listas  = await sb("lists.select", supabaseClient.from("lists").select("*").eq("user_id",uid).order("created_at",{ascending:true}));
+    const items   = await sb("list_items.select", supabaseClient.from("list_items").select("*").eq("user_id",uid).order("position",{ascending:true}));
+
+    const nuevo=estadoVacio();
     if(perfil){
-      nuevo.perfil={usuario:perfil.username||S.perfil.usuario,bio:perfil.bio||"",avatar:perfil.avatar||"🎬",banner:perfil.banner||BANNERS[0]};
+      nuevo.perfil={usuario:perfil.username||nuevo.perfil.usuario,bio:perfil.bio||"",avatar:perfil.avatar||"🎬",banner:perfil.banner||BANNERS[0]};
     }
     (titulos||[]).forEach(t=>{
       nuevo.titulos[t.item_key]={
@@ -1448,46 +1453,62 @@ async function cargarEstadoCloud(){
     });
     nuevo.listas=(listas||[]).map(l=>({id:l.id,nombre:l.nombre,emoji:l.emoji||"🎯",publica:l.publica!==false,items:(items||[]).filter(i=>i.list_id===l.id).map(i=>i.item_key)}));
     if(!nuevo.listas.length) nuevo.listas=[{id:"favs",nombre:"Todos mis favoritos",items:[],publica:true,emoji:"🏆"}];
-    // Si la nube está vacía pero ya tenías demo local, subimos tu demo para no perderla.
-    if(!(titulos||[]).length && Object.keys(S.titulos||{}).length){
-      await guardarEstadoCloud(true);
-    }else{
-      S=nuevo; gdLocal();
-      document.getElementById("hdr-av").textContent=S.perfil.avatar;
-      ir(vistaActual||"inicio");
-    }
-  }catch(e){ console.error(e); toast("No se pudo cargar Supabase"); }
-  finally{ cargandoCloud=false; }
+
+    S=nuevo;
+    document.getElementById("hdr-av").textContent=S.perfil.avatar;
+    ir(vistaActual||"inicio");
+  }catch(e){
+    console.error(e);
+    toast("Error cargando Supabase: " + (e.message || "revisa consola"));
+  }finally{
+    cargandoCloud=false;
+  }
 }
 async function guardarEstadoCloud(force=false){
   if(!usuarioActual || !supabaseClient || cargandoCloud) return;
   const uid=usuarioActual.id;
   try{
     const perfil=S.perfil||{};
-    await supabaseClient.from("profiles").upsert({id:uid,username:perfil.usuario,bio:perfil.bio,avatar:perfil.avatar,banner:perfil.banner,updated_at:new Date().toISOString()},{onConflict:"id"});
-    await supabaseClient.from("user_titles").delete().eq("user_id",uid);
+    await sb("profiles.upsert", supabaseClient.from("profiles").upsert({id:uid,username:perfil.usuario,bio:perfil.bio,avatar:perfil.avatar,banner:perfil.banner,updated_at:new Date().toISOString()},{onConflict:"id"}));
+
+    // Borrado controlado: primero elementos dependientes, luego tablas padre.
+    await sb("list_items.delete", supabaseClient.from("list_items").delete().eq("user_id",uid));
+    await sb("lists.delete", supabaseClient.from("lists").delete().eq("user_id",uid));
+    await sb("reviews.delete", supabaseClient.from("reviews").delete().eq("user_id",uid));
+    await sb("user_titles.delete", supabaseClient.from("user_titles").delete().eq("user_id",uid));
+
     const rows=Object.entries(S.titulos||{}).map(([k,t])=>({
       user_id:uid,item_key:k,tmdb_id:t.tmdb_id,media_type:t.media_type,titulo:t.titulo,poster_path:t.poster_path,backdrop_path:t.backdrop_path,
       descripcion:t.descripcion,fecha:t.fecha,estado:t.estado,puntuacion:t.puntuacion,resena:t.resena,favorito:!!t.favorito,visto_en:t.visto_en||null,genre_ids:t.genre_ids||[],vote_average:t.vote_average||null
     }));
-    if(rows.length) await supabaseClient.from("user_titles").insert(rows);
-    await supabaseClient.from("list_items").delete().eq("user_id",uid);
-    await supabaseClient.from("lists").delete().eq("user_id",uid);
+    if(rows.length) await sb("user_titles.insert", supabaseClient.from("user_titles").insert(rows));
+
     const lrows=(S.listas||[]).map(l=>({user_id:uid,id:l.id,nombre:l.nombre,emoji:l.emoji,publica:l.publica!==false}));
-    if(lrows.length) await supabaseClient.from("lists").insert(lrows);
+    if(lrows.length) await sb("lists.insert", supabaseClient.from("lists").insert(lrows));
+
     const irows=[];
     (S.listas||[]).forEach(l=>(l.items||[]).forEach((k,idx)=>irows.push({user_id:uid,list_id:l.id,item_key:k,position:idx})));
-    if(irows.length) await supabaseClient.from("list_items").insert(irows);
+    if(irows.length) await sb("list_items.insert", supabaseClient.from("list_items").insert(irows));
+
+    const reviewRows=Object.entries(S.titulos||{}).filter(([_,t])=>(t.resena||"").trim()).map(([k,t])=>({
+      user_id:uid,item_key:k,tmdb_id:t.tmdb_id,media_type:t.media_type,rating:t.puntuacion ?? null,body:t.resena.trim()
+    }));
+    if(reviewRows.length) await sb("reviews.insert", supabaseClient.from("reviews").insert(reviewRows));
+
     if(force) toast("Datos guardados online");
-  }catch(e){ console.error(e); if(force) toast("Error guardando en Supabase"); }
+  }catch(e){
+    console.error(e);
+    toast("Error guardando: " + (e.message || "revisa consola"));
+  }
 }
+
 function queueCloudSave(){
   if(!usuarioActual || !supabaseClient || cargandoCloud) return;
   clearTimeout(syncTimer);
   syncTimer=setTimeout(()=>guardarEstadoCloud(false),700);
 }
-const gdLocal = gd;
-gd = function(){ gdLocal(); queueCloudSave(); };
+// No hay localStorage: cualquier cambio llama exclusivamente a Supabase.
+gd = function(){ queueCloudSave(); };
 
 initSupabaseAuth();
 
