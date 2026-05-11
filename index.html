@@ -1256,6 +1256,25 @@ function limpiarAuthError(){
   const box=document.getElementById("auth-error");
   if(box){box.textContent="";box.classList.remove("on");}
 }
+
+function conTimeout(promise, ms, mensaje){
+  var timer;
+  return Promise.race([
+    promise,
+    new Promise(function(_, reject){
+      timer = setTimeout(function(){ reject(new Error(mensaje || "La operación tardó demasiado.")); }, ms || 15000);
+    })
+  ]).finally(function(){ clearTimeout(timer); });
+}
+
+async function cargarEstadoCloudSeguro(){
+  try{
+    await conTimeout(cargarEstadoCloud(), 18000, "Supabase tarda demasiado en cargar tus datos. Revisa conexión/RLS o recarga la página.");
+  }catch(e){
+    console.error("Carga cloud no completada", e);
+    toast(e.message || "No se pudieron cargar tus datos");
+  }
+}
 const ONBOARD_GENRES=[
   {id:18,n:"Drama",e:"🎭"},{id:53,n:"Suspense",e:"🧠"},{id:878,n:"Ciencia ficción",e:"🚀"},{id:27,n:"Terror",e:"👻"},{id:35,n:"Comedia",e:"🍿"},{id:10749,n:"Romance",e:"💞"},{id:16,n:"Animación",e:"🌈"},{id:80,n:"Crimen",e:"🕵️"},{id:99,n:"Documental",e:"🌍"},{id:14,n:"Fantasía",e:"🔮"}
 ];
@@ -2670,9 +2689,9 @@ async function initSupabaseAuth(){
     if(cerrandoSesion) return;
     usuarioActual = session?.user || null;
     if(usuarioActual){
-      await cargarEstadoCloud();
       aplicarEstadoAuth();
       cerrarAuth();
+      cargarEstadoCloudSeguro();
     }else{
       S = estadoVacio();
       Object.keys(CACHE_ITEMS).forEach(k=>delete CACHE_ITEMS[k]);
@@ -2683,9 +2702,9 @@ async function initSupabaseAuth(){
     }
   });
   if(usuarioActual){
-    await cargarEstadoCloud();
     aplicarEstadoAuth();
     cerrarAuth();
+    cargarEstadoCloudSeguro();
   }else{
     aplicarEstadoAuth();
     abrirAuth();
@@ -2707,7 +2726,7 @@ async function authSubmit(){
   const btn=document.getElementById("auth-submit"); const oldTxt=btn.textContent; btn.disabled=true; btn.textContent=authMode==="register"?"Creando...":"Entrando...";
   try{
     if(authMode==="register"){
-      const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{username}}});
+      const {data,error}=await conTimeout(supabaseClient.auth.signUp({email,password,options:{data:{username}}}), 15000, "Supabase no respondió al crear la cuenta. Revisa conexión o configuración Auth.");
       if(error) throw error;
       if(!data.session){
         toast("Cuenta creada. Revisa tu email para confirmar la cuenta antes de entrar.");
@@ -2715,16 +2734,21 @@ async function authSubmit(){
       }
       usuarioActual=data.user;
       toast("Cuenta creada. Sesión iniciada.");
-      if(usuarioActual) await crearOActualizarPerfil(username);
+      if(usuarioActual) await conTimeout(crearOActualizarPerfil(username), 15000, "Cuenta creada, pero el perfil tardó demasiado en guardarse. Recarga e intenta entrar.");
     }else{
-      const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+      const {data,error}=await conTimeout(supabaseClient.auth.signInWithPassword({email,password}), 15000, "Supabase no respondió al iniciar sesión. Revisa conexión, navegador o configuración Auth.");
       if(error) throw error;
       usuarioActual=data.user;
       toast("Sesión iniciada");
     }
-    if(usuarioActual){ await cargarEstadoCloud(); aplicarEstadoAuth(); cerrarAuth(); }
+    if(usuarioActual){ aplicarEstadoAuth(); cerrarAuth(); cargarEstadoCloudSeguro(); }
   }catch(e){ mostrarAuthError(authMensaje(e, authMode)); }
-  finally{ btn.disabled=false; btn.textContent=authMode==="register"?"Crear cuenta":"Entrar"; }
+  finally{
+    if(btn){
+      btn.disabled=false;
+      btn.textContent=authMode==="register"?"Crear cuenta":"Entrar";
+    }
+  }
 }
 async function loginGoogle(){
   if(!SUPABASE_OK){ toast("Primero configura Supabase"); return; }
@@ -2913,10 +2937,9 @@ function mostrarPremium(){
     var manifest={name:"CineCircle",short_name:"CineCircle",start_url:"./",display:"standalone",background_color:"#08080a",theme_color:"#08080a",description:"Red social de películas y series",icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='28' fill='%2308080a'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-size='72' font-family='Arial' font-weight='900' fill='%23d946ef'%3EC%3C/text%3E%3C/svg%3E",sizes:"128x128",type:"image/svg+xml"}]};
     var blob=new Blob([JSON.stringify(manifest)],{type:"application/manifest+json"});
     var link=document.createElement("link");link.rel="manifest";link.href=URL.createObjectURL(blob);document.head.appendChild(link);
-    if("serviceWorker" in navigator && location.protocol === "https:"){
-      var sw="self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());self.addEventListener('fetch',e=>{});";
-      var swUrl=URL.createObjectURL(new Blob([sw],{type:"text/javascript"}));
-      navigator.serviceWorker.register(swUrl).catch(function(){});
+    // Evitamos registrar Service Worker en esta versión para no cachear HTML roto en Vercel.
+    if("serviceWorker" in navigator){
+      navigator.serviceWorker.getRegistrations?.().then(function(regs){ regs.forEach(function(r){ r.unregister(); }); }).catch(function(){});
     }
   }catch(e){console.warn("PWA no inicializada",e);}
 })();
