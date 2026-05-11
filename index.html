@@ -698,6 +698,24 @@ html.app-mode .hero{padding-top:46px;padding-bottom:34px}
   .wgrd{grid-template-columns:repeat(auto-fill,minmax(102px,1fr));gap:10px}.lgrid{grid-template-columns:1fr}.lcard{border-radius:19px;padding:18px}.joint-form{grid-template-columns:1fr}.smart-grid{grid-template-columns:1fr 1fr}.share-card{max-width:280px}
 }
 
+
+
+/* ── FIX WEB DESKTOP: la web normal no debe verse encajonada como móvil ── */
+@media (min-width: 881px){
+  html.web-mode .hdr,
+  html.web-mode .main{
+    max-width:none!important;
+    width:100%!important;
+    margin-left:0!important;
+    margin-right:0!important;
+    border-left:0!important;
+    border-right:0!important;
+  }
+  html.web-mode .bnav{display:none!important;}
+  html.web-mode .nav{display:flex!important;}
+  html.web-mode body{background:var(--bg)!important;}
+}
+
 </style>
 </head>
 <body>
@@ -3028,7 +3046,11 @@ function aplicarModoCineCircle(){
   try{
     var qs=new URLSearchParams(location.search);
     var standalone=(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone;
-    var app=qs.get('modo')==='app' || standalone;
+    var explicitApp = qs.get('modo')==='app' || /\/app\.html$/i.test(location.pathname);
+    var desktop = window.innerWidth >= 881;
+    // En escritorio la URL principal SIEMPRE debe abrir formato web.
+    // Solo se usa formato app si se entra explícitamente con ?modo=app o desde app.html.
+    var app = explicitApp || (standalone && !desktop);
     document.documentElement.classList.toggle('app-mode', app);
     document.documentElement.classList.toggle('web-mode', !app);
     var btn=document.getElementById('mode-toggle');
