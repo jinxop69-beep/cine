@@ -432,122 +432,154 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
 
 
 
-/* ═══ FASE 1 — Mobile profile redesign ═══ */
+/* ══ FASE 1: Perfil mobile redesign ══ */
+.pban{height:110px;position:relative;overflow:hidden}
+@media(min-width:720px){.pban{height:190px}}
+.pinr{padding:0 0 20px;max-width:1000px;margin:0 auto}
+
 .ptop-mobile{
-  display:flex;flex-direction:column;align-items:center;text-align:center;
-  margin-top:-60px;margin-bottom:18px;position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;margin-top:-50px;padding:0 16px 14px;
+  position:relative;z-index:2;
 }
 .pav-mobile{
-  width:96px;height:96px;border-radius:24px;
-  background:linear-gradient(135deg,#1a1a1f,#0a0a0c);
+  width:94px;height:94px;border-radius:22px;
+  background:linear-gradient(135deg,#1a1a1f,#09090b);
   border:3px solid var(--bg);
   display:flex;align-items:center;justify-content:center;
-  font-size:46px;flex-shrink:0;
-  box-shadow:0 10px 32px rgba(0,0,0,.55);
-  margin-bottom:12px;
-}
-.ptop-text{padding:0 12px}
-.ptop-text .pname{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(22px,5vw,30px);font-weight:900;
-  margin-bottom:4px;line-height:1.1;
-}
-.ptop-text .pbio{
-  color:var(--text2);font-size:13px;line-height:1.45;
-  max-width:320px;margin:0 auto;
+  font-size:44px;flex-shrink:0;
+  box-shadow:0 8px 28px rgba(0,0,0,.6);
+  margin-bottom:10px;
 }
 @media(min-width:720px){
-  .ptop-mobile{flex-direction:row;text-align:left;align-items:flex-end;gap:18px;margin-top:-44px}
-  .ptop-text{padding:0;flex:1;padding-bottom:10px}
-  .ptop-text .pbio{margin:0;max-width:none}
+  .ptop-mobile{flex-direction:row;text-align:left;align-items:flex-end;gap:16px;padding:0 24px 16px;margin-top:-44px}
+  .pav-mobile{margin-bottom:0}
 }
+.ptop-text .pname{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(20px,5vw,30px);font-weight:900;
+  margin-bottom:3px;line-height:1.1;color:#fff;
+}
+.ptop-text .pbio{color:var(--text2);font-size:12px;line-height:1.45}
 
-/* Pill row de acciones del perfil */
-.profile-actions-row{
-  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
-  margin-bottom:14px;padding:0 4px;
+/* Pills de acción */
+.profile-pills{
+  display:flex;gap:7px;justify-content:center;
+  flex-wrap:wrap;padding:0 16px 14px;
 }
-.pill-btn{
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:99px;color:var(--text);
-  padding:9px 14px;font-size:12px;font-weight:600;
+.ppill{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:99px;color:var(--text);padding:8px 14px;
+  font-size:12px;font-weight:600;
   display:inline-flex;align-items:center;gap:5px;
   cursor:pointer;transition:all .15s;white-space:nowrap;
 }
-.pill-btn:hover{background:rgba(255,255,255,.09);border-color:var(--border2)}
-.pill-btn span:first-child{font-size:13px}
-.pill-primary{
+.ppill:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18)}
+.ppill-primary{
   background:linear-gradient(135deg,#d946ef,#7c3aed);
   border-color:transparent;color:#fff;
   box-shadow:0 4px 16px rgba(217,70,239,.3);
 }
-.pill-primary:hover{opacity:.92;background:linear-gradient(135deg,#d946ef,#7c3aed)}
+.ppill-primary:hover{opacity:.9}
 
-/* Grid "Más" en el perfil — accesos a vistas secundarias */
+/* Grid "Más" */
 .more-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
-  margin:0 4px 22px;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:8px;padding:0 16px 18px;
 }
 .more-tile{
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--border);
-  border-radius:14px;padding:14px 6px;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  color:var(--text);cursor:pointer;font-size:10px;font-weight:600;
-  transition:all .15s;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:14px;padding:13px 6px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  color:var(--text);font-size:10px;font-weight:600;
+  cursor:pointer;transition:all .15s;
 }
 .more-tile:hover{
-  background:rgba(217,70,239,.08);
-  border-color:rgba(217,70,239,.3);
+  background:rgba(217,70,239,.08);border-color:rgba(217,70,239,.3);
   transform:translateY(-2px);
 }
-.more-tile span:first-child{font-size:20px}
+.more-tile>span:first-child{font-size:20px}
 
-/* Stats compactas estilo Instagram en móvil */
-@media(max-width:520px){
-  .pstats{grid-template-columns:repeat(2,1fr);gap:8px}
-  .pst{padding:12px 10px}
-  .pst-i{font-size:18px;margin-bottom:4px}
+/* Tabs de estado en el perfil */
+.profile-tabs{
+  display:flex;gap:6px;overflow-x:auto;
+  padding:0 16px 14px;
+  -webkit-overflow-scrolling:touch;
 }
+.profile-tabs::-webkit-scrollbar{display:none}
+.ptab{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:99px;color:var(--text2);
+  padding:7px 12px;font-size:11px;font-weight:600;
+  white-space:nowrap;flex-shrink:0;
+  display:inline-flex;align-items:center;gap:5px;
+  cursor:pointer;transition:all .15s;
+}
+.ptab:hover{background:rgba(255,255,255,.07)}
+.ptab.on{
+  background:linear-gradient(135deg,#d946ef,#7c3aed);
+  border-color:transparent;color:#fff;
+}
+.ptab-c{
+  background:rgba(255,255,255,.2);border-radius:99px;
+  padding:1px 6px;font-size:9px;font-weight:700;
+}
+.ptab.on .ptab-c{background:rgba(0,0,0,.2)}
 
-/* ═══ FASE 1 — Apple TV detail modal ═══ */
-.trailer-section{
-  margin:18px 0;border-radius:14px;overflow:hidden;
-  background:#000;position:relative;
-  aspect-ratio:16/9;
-  box-shadow:0 12px 40px rgba(0,0,0,.5);
+/* Stats del perfil compactas */
+.pstats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:7px;padding:0 16px 16px;
 }
-.trailer-section iframe{width:100%;height:100%;border:0;display:block}
-.trailer-placeholder{
-  display:flex;align-items:center;justify-content:center;height:100%;
-  flex-direction:column;gap:8px;color:var(--text3);font-size:13px;
-}
+@media(min-width:560px){.pstats{grid-template-columns:repeat(4,1fr)}}
+.pst{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:10px 6px;text-align:center}
+.pst-i{font-size:17px;margin-bottom:4px}
+.pst-v{font-size:clamp(16px,3vw,22px);font-weight:800;color:#fff}
+.pst-l{font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em}
 
-/* Providers de streaming */
-.providers-section{margin-top:16px;margin-bottom:8px}
-.providers-label{
-  font-size:11px;font-weight:700;text-transform:uppercase;
-  letter-spacing:.06em;color:var(--text3);margin-bottom:8px;
-  display:flex;align-items:center;gap:5px;
-}
-.providers-grid{
-  display:flex;flex-wrap:wrap;gap:6px;align-items:center;
-}
-.provider-pill{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(255,255,255,.06);
-  border:1px solid var(--border);border-radius:10px;
-  padding:5px 9px 5px 5px;
-}
-.provider-pill img{
-  width:24px;height:24px;border-radius:6px;display:block;
-}
-.provider-pill span{font-size:11px;font-weight:600;color:var(--text)}
-.provider-empty{
-  font-size:11px;color:var(--text3);font-style:italic;
-}
+/* Grid recientes */
+.wgrd{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px}
 
+/* Logros */
+.bgrd{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:8px;padding:0 16px 20px}
+.ptit{font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;margin-bottom:11px;color:var(--text);padding:0 16px}
+
+/* ══ FASE 1: Smart lists ══ */
+.smart-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:9px;margin-bottom:18px;
+}
+.smart-card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:14px;padding:14px;
+  cursor:pointer;transition:all .15s;
+  text-align:left;position:relative;
+}
+.smart-card:hover{border-color:rgba(217,70,239,.35);transform:translateY(-2px)}
+.smart-card.featured{
+  background:linear-gradient(135deg,rgba(244,63,94,.12),rgba(217,70,239,.08));
+  border-color:rgba(244,63,94,.25);
+}
+.smart-ico{font-size:24px;margin-bottom:7px;display:block}
+.smart-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:1px}
+.smart-cnt{font-size:10px;color:var(--text3)}
+.smart-auto{
+  position:absolute;top:8px;right:8px;
+  background:rgba(255,255,255,.08);
+  color:rgba(255,255,255,.5);
+  font-size:8px;font-weight:700;letter-spacing:.05em;
+  padding:2px 6px;border-radius:99px;
+}
+/* Divisor entre smart y curadas */
+.lists-divider{
+  display:flex;align-items:center;gap:10px;margin-bottom:16px;
+}
+.lists-div-line{flex:1;height:1px;background:rgba(255,255,255,.07)}
+.lists-div-txt{
+  font-size:10px;font-weight:700;color:var(--text3);
+  text-transform:uppercase;letter-spacing:.07em;white-space:nowrap;
+}
 </style>
 </head>
 <body>
@@ -650,7 +682,7 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
 
 <!-- BOTTOM NAV -->
 <nav class="bnav">
-  <div class="bnav-inner" style="grid-template-columns:repeat(5,1fr)">
+  <div class="bnav-inner" id="bnav-inner" style="grid-template-columns:repeat(5,1fr)">
     <button class="bnb on" data-v="inicio" onclick="ir('inicio')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio
     </button>
@@ -731,8 +763,15 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
 
   <!-- ═══ LISTAS ═══ -->
   <div id="v-listas" class="view">
-    <div class="sec pt">
-      <div class="sh"><div><h2 class="stit serif">Mis listas</h2><p class="ssub">Curar, compartir, obsesionarse.</p></div><button class="nlbtn" onclick="onl()">➕ Nueva lista</button></div>
+    <div class="sec pt" id="listas-main">
+      <div class="sh"><div><h2 class="stit serif">Mis listas</h2><p class="ssub">Tu biblioteca y tus colecciones.</p></div></div>
+      <div class="smart-grid" id="smart-grid"></div>
+      <div class="lists-divider">
+        <div class="lists-div-line"></div>
+        <div class="lists-div-txt">Tus colecciones</div>
+        <div class="lists-div-line"></div>
+      </div>
+      <button class="nlbtn" onclick="onl()" style="margin-bottom:16px">➕ Crear nueva lista</button>
       <div class="lgrid" id="lgrid"></div>
     </div>
     <div id="ldet" style="display:none">
@@ -818,7 +857,7 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
   <div id="v-perfil" class="view">
     <div id="pban" class="pban" style="background:linear-gradient(135deg,#d946ef,#7c3aed,#6366f1)">
       <div class="pban-pat"></div>
-      <button class="edbtn" onclick="oedit()">✏️ Editar perfil</button>
+      <button class="edbtn" onclick="oedit()">✏️ Editar</button>
     </div>
     <div class="pinr">
       <div class="ptop-mobile">
@@ -828,10 +867,10 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
           <div class="pbio" id="pbio">Viviendo fotograma a fotograma.</div>
         </div>
       </div>
-      <div class="profile-actions-row">
-        <button class="pill-btn pill-primary" onclick="copiarPerfilPublico()" title="Compartir"><span>🔗</span><span>Compartir</span></button>
-        <button class="pill-btn" onclick="abrirMiPerfilPublico()" title="Vista pública"><span>👁️</span><span>Vista</span></button>
-        <button class="pill-btn" onclick="cerrarSesion()" title="Cerrar sesión"><span>🚪</span><span>Salir</span></button>
+      <div class="profile-pills">
+        <button class="ppill ppill-primary" onclick="copiarPerfilPublico()">🔗 Compartir</button>
+        <button class="ppill" onclick="abrirMiPerfilPublico()">👁️ Vista pública</button>
+        <button class="ppill" onclick="cerrarSesion()">🚪 Salir</button>
       </div>
       <div class="more-grid">
         <button class="more-tile" onclick="ir('descubrir')"><span>🧭</span><span>Descubrir</span></button>
@@ -840,10 +879,14 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
         <button class="more-tile" onclick="ir('wrapped')"><span>🏆</span><span>Wrapped</span></button>
       </div>
       <div class="pstats" id="pstats"></div>
-      <div class="ptit">❤️ Top 4 Favoritos</div>
-      <div class="fgrid" id="fgrid"></div>
-      <div class="ptit">👁️ Vistos recientemente</div>
-      <div class="wgrd" id="wgrd"></div>
+      <div class="profile-tabs">
+        <button class="ptab on" data-tab="todo" onclick="setTabPerfil('todo')">Todo <span class="ptab-c" id="tc-todo">0</span></button>
+        <button class="ptab" data-tab="viendo" onclick="setTabPerfil('viendo')">▶️ Viendo <span class="ptab-c" id="tc-viendo">0</span></button>
+        <button class="ptab" data-tab="visto" onclick="setTabPerfil('visto')">✅ Vistos <span class="ptab-c" id="tc-visto">0</span></button>
+        <button class="ptab" data-tab="pendiente" onclick="setTabPerfil('pendiente')">📌 Pendientes <span class="ptab-c" id="tc-pendiente">0</span></button>
+        <button class="ptab" data-tab="abandonado" onclick="setTabPerfil('abandonado')">❌ Abandon. <span class="ptab-c" id="tc-abandonado">0</span></button>
+      </div>
+      <div class="wgrd" id="wgrd" style="padding:0 16px 16px"></div>
       <div class="ptit">🏅 Logros</div>
       <div class="bgrd" id="bgrd"></div>
     </div>
@@ -1052,7 +1095,6 @@ function copiarPerfilPublico(){
 }
 function abrirMiPerfilPublico(){abrirPerfilPublico(S.perfil.usuario)}
 async function abrirPerfilPublico(username){
-  if(typeof username==="string" && username.includes("%")) username=decodeURIComponent(username);
   ir("publico");
   const root=document.getElementById("public-profile");
   root.innerHTML=`<div class="inline-empty">Cargando perfil público...</div>`;
@@ -1250,13 +1292,8 @@ function abrir(js){
   document.getElementById("mod").classList.add("on");
   document.body.style.overflow = "hidden";
   rmodbase(item);
-  // Cargar detalles + trailers + providers en paralelo
-  Promise.all([
-    tmdb(`/${item.media_type}/${item.id}`,{append_to_response:"credits,similar,videos"}).catch(()=>null),
-    tmdb(`/${item.media_type}/${item.id}/watch/providers`).catch(()=>null)
-  ]).then(([d, prov])=>{
-    if(d) rmodfull({...d, media_type:item.media_type, _providers:prov});
-  });
+  tmdb(`/${item.media_type}/${item.id}`,{append_to_response:"credits,similar"})
+    .then(d=>rmodfull({...d,media_type:item.media_type})).catch(()=>{});
 }
 
 function rmodbase(item){
@@ -1282,68 +1319,15 @@ function rmodfull(d){
   const cast= (d.credits?.cast||[]).slice(0,8);
   const sim = ((d.similar?.results||[]).slice(0,6)).map(s=>({...s,media_type:d.media_type}));
   rdet(d, S.titulos[claveDe(d)]||{}, gs, dir, d);
-
-  // Construir bloques adicionales
-  let ext = "";
-
-  // ── Trailer ──
-  const videos = (d.videos?.results||[]);
-  const trailer = videos.find(v => v.site==="YouTube" && v.type==="Trailer" && v.official)
-               || videos.find(v => v.site==="YouTube" && v.type==="Trailer")
-               || videos.find(v => v.site==="YouTube" && v.type==="Teaser")
-               || videos.find(v => v.site==="YouTube");
-  if(trailer){
-    ext += `<div style="padding:18px 16px 0">
-      <div style="font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px">▶️ Tráiler</div>
-      <div class="trailer-section">
-        <iframe src="https://www.youtube-nocookie.com/embed/${trailer.key}?rel=0&modestbranding=1" allow="encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-      </div>
-    </div>`;
-  }
-
-  // ── Providers (streaming) ──
-  // TMDb devuelve providers por país. Probamos ES, luego US, luego cualquier disponible.
-  const provRoot = d._providers?.results || {};
-  const provCountry = provRoot.ES || provRoot.US || Object.values(provRoot)[0] || null;
-  const flatrate = provCountry?.flatrate || [];
-  const rent = provCountry?.rent || [];
-  const buy = provCountry?.buy || [];
-  const allProvs = [...flatrate];
-  // Evitar duplicados, añadir rent/buy si no hay flatrate
-  if(!flatrate.length){
-    [...rent, ...buy].forEach(p => {
-      if(!allProvs.find(x => x.provider_id === p.provider_id)) allProvs.push(p);
-    });
-  }
-  if(allProvs.length){
-    const country = provCountry === provRoot.ES ? "España" : (provCountry === provRoot.US ? "USA" : "");
-    ext += `<div style="padding:16px 16px 0">
-      <div class="providers-label">
-        <span>📺</span><span>Disponible en${country?" · "+country:""}</span>
-      </div>
-      <div class="providers-grid">
-        ${allProvs.slice(0,8).map(p => `
-          <div class="provider-pill" title="${p.provider_name}">
-            ${p.logo_path ? `<img src="https://image.tmdb.org/t/p/w92${p.logo_path}" alt="${p.provider_name}" loading="lazy">` : ""}
-            <span>${p.provider_name}</span>
-          </div>
-        `).join("")}
-      </div>
-    </div>`;
-  }
-
-  // ── Cast ──
+  let ext="";
   if(cast.length){
     ext+=`<div class="csect"><div style="font-size:13px;font-weight:700;margin-bottom:8px">👥 Reparto</div><div class="cgrid">${
       cast.map(p=>{const ph=IMG(p.profile_path,"w185");return`<div class="citem"><div class="cphoto">${ph?`<img src="${ph}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">`:`<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--bg3)">👤</div>`}</div><div class="cname">${p.name}</div><div class="cchar">${p.character||""}</div></div>`;}).join("")
     }</div></div>`;
   }
-
-  // ── Similar ──
   if(sim.length){
     ext+=`<div class="simsect"><div style="font-size:13px;font-weight:700;margin-bottom:8px">🎯 Títulos similares</div><div class="simgrid">${sim.map(s=>tarjeta(s,true)).join("")}</div></div>`;
   }
-
   document.getElementById("mext").innerHTML = ext;
 }
 
@@ -1478,12 +1462,6 @@ function atl(lid,k){
 function cmod(e){
   if(e&&e.target!==document.getElementById("mod")) return;
   document.getElementById("mod").classList.remove("on");
-  // Detener trailer (vacía el iframe src para parar reproducción)
-  const mext = document.getElementById("mext");
-  if(mext){
-    const iframes = mext.querySelectorAll("iframe");
-    iframes.forEach(f => f.src = "");
-  }
   document.body.style.overflow="";
   itemActual=null;
   if(vistaActual==="perfil") rperfil();
@@ -1495,28 +1473,52 @@ function cmod(e){
 
 /* ── LISTAS ── */
 function rlistas(){
-  document.getElementById("ldet").style.display="none";
-  document.querySelector(".sh").style.display="";
-  document.getElementById("lgrid").style.display="";
-  document.getElementById("lgrid").innerHTML = S.listas.map(l=>{
-    const pv=l.items.slice(0,4).map(k=>S.titulos[k]).filter(Boolean);
+  document.getElementById("ldet").style.display = "none";
+  document.getElementById("listas-main").style.display = "";
+
+  // Smart lists automáticas
+  const lst = Object.values(S.titulos);
+  const smartCards = [
+    {ico:"❤️", name:"Mis favoritos",   cnt:lst.filter(e=>e.favorito).length,        tab:"todo",      cls:"featured", fn:"abrirSmartList('favoritos')"},
+    {ico:"📌", name:"Mi watchlist",     cnt:lst.filter(e=>e.estado==="pendiente").length, tab:"pendiente", cls:"",     fn:"setTabPerfil('pendiente');ir('perfil')"},
+    {ico:"▶️", name:"Viendo ahora",     cnt:lst.filter(e=>e.estado==="viendo").length,    tab:"viendo",    cls:"",     fn:"setTabPerfil('viendo');ir('perfil')"},
+    {ico:"✅", name:"Ya vistas",        cnt:lst.filter(e=>e.estado==="visto").length,     tab:"visto",     cls:"",     fn:"setTabPerfil('visto');ir('perfil')"},
+  ];
+  document.getElementById("smart-grid").innerHTML = smartCards.map(s => `
+    <div class="smart-card ${s.cls}" onclick="${s.fn}">
+      <span class="smart-auto">AUTO</span>
+      <span class="smart-ico">${s.ico}</span>
+      <div class="smart-name">${s.name}</div>
+      <div class="smart-cnt">${s.cnt} título${s.cnt!==1?"s":""}</div>
+    </div>`).join("");
+
+  // Listas curadas del usuario
+  document.getElementById("lgrid").innerHTML = S.listas.map(l => {
+    const pv = l.items.slice(0,4).map(k => S.titulos[k]).filter(Boolean);
     return `<button class="lcard" onclick="old('${l.id}')">
       <div class="lemo">${l.emoji}</div>
       <div class="lnom">${l.nombre}</div>
       <div class="lcnt">${l.items.length} títulos · ${l.publica?"Pública":"Privada"}</div>
-      <div class="lprvs">${Array(4).fill(0).map((_,i)=>{
-        const e=pv[i],src=e&&IMG(e.poster_path,"w185");
-        return`<div class="lprv">${src?`<img src="${src}" alt="" loading="lazy" onerror="this.style.display='none'">`:""}</div>`;
+      <div class="lprvs">${Array(4).fill(0).map((_,i) => {
+        const e=pv[i], src=e&&IMG(e.poster_path,"w185");
+        return `<div class="lprv">${src?`<img src="${src}" alt="" loading="lazy" onerror="this.style.display='none'">`:""}</div>`;
       }).join("")}</div>
     </button>`;
-  }).join("");
+  }).join("") || `<p style="color:var(--text3);font-size:12px;grid-column:1/-1">Aún no has creado ninguna lista. ¡Empieza por el botón de arriba!</p>`;
+}
+
+function abrirSmartList(tipo){
+  // Abre perfil con la tab correspondiente
+  const tabMap = {favoritos:"todo"};
+  const tab = tabMap[tipo] || "todo";
+  setTabPerfil(tab);
+  ir("perfil");
 }
 
 function old(id){
   const l=S.listas.find(x=>x.id===id);if(!l)return;
   document.getElementById("ldet").style.display="block";
-  document.querySelector(".sh").style.display="none";
-  document.getElementById("lgrid").style.display="none";
+  document.getElementById("listas-main").style.display="none";
   const reify=e=>({id:e.tmdb_id,media_type:e.media_type,title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average});
   document.getElementById("ldcont").innerHTML=`
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:18px">
@@ -1532,7 +1534,7 @@ function old(id){
       :`<div class="listgr">${l.items.map(k=>{const e=S.titulos[k];if(!e)return"";const item=reify(e);return`<div class="liw">${tarjeta(item)}<button class="remov" onclick="event.stopPropagation();rfl('${id}','${k}')">✕</button></div>`;}).join("")}</div>`
     }`;
 }
-function clld(){document.getElementById("ldet").style.display="none";document.querySelector(".sh").style.display="";document.getElementById("lgrid").style.display="";rlistas();}
+function clld(){document.getElementById("ldet").style.display="none";document.getElementById("listas-main").style.display="";rlistas();}
 function dell(id){if(!confirm("¿Eliminar esta lista?"))return;S.listas=S.listas.filter(l=>l.id!==id);gd();clld();}
 function rfl(lid,k){const l=S.listas.find(x=>x.id===lid);if(l){l.items=l.items.filter(i=>i!==k);gd();old(lid);}}
 
@@ -1556,143 +1558,62 @@ function crlist(){
 /* ── AMIGOS ── */
 
 /* ── AMIGOS / FEED REAL ── */
-async function logActivity(type, k, extra){
-  extra = extra||{};
+async function logActivity(type,k=null,extra={}){
   if(!usuarioActual || !supabaseClient) return;
-  await new Promise(function(r){setTimeout(r,80);});
-  var t = k ? S.titulos[k] : null;
-  var data = {
-    username:    S.perfil.usuario,
-    avatar:      S.perfil.avatar,
-    type:        type,
-    title:       (t&&t.titulo)   || extra.title    || "",
-    rating:      (t&&t.puntuacion!=null)?t.puntuacion:(extra.rating!=null?extra.rating:null),
-    estado:      (t&&t.estado)   || null,
-    favorite:    !!(t&&t.favorito),
-    review:      (t&&t.resena)   || "",
-    poster_path: (t&&t.poster_path)|| null,
-    list_name:   extra.list_name || null
+  const t=k?S.titulos[k]:null;
+  const data={
+    username:S.perfil.usuario, avatar:S.perfil.avatar, type,
+    title:t?.titulo||extra.title||"", rating:t?.puntuacion??extra.rating??null,
+    estado:t?.estado||null, favorite:!!t?.favorito, review:t?.resena||"",
+    poster_path:t?.poster_path||null, list_name:extra.list_name||null,
+    text:extra.text||null
   };
-  try{
-    var res = await supabaseClient.from("activity_feed").insert({
-      user_id: usuarioActual.id, type: type, item_key: k||null,
-      tmdb_id: (t&&t.tmdb_id)||null, media_type: (t&&t.media_type)||null, data: data
-    });
-    if(res.error) console.warn("[logActivity]", res.error.message);
-  }catch(e){ console.warn("[logActivity] excepcion:", e.message); }
+  try{await supabaseClient.from("activity_feed").insert({user_id:usuarioActual.id,type,item_key:k,tmdb_id:t?.tmdb_id||null,media_type:t?.media_type||null,data});}
+  catch(e){console.warn("No se pudo registrar actividad",e);}
 }
-
 function textoActividad(a){
-  var d = a.data || {};
-  var tit = '<span class="fdtarget">'+(d.title||"")+'</span>';
-  if(a.type==="rated")        return 'puntuó '+tit+'<span class="rpill">⭐ '+(d.rating)+'/10</span>';
-  if(a.type==="favorited")    return 'añadió a favoritos '+tit;
-  if(a.type==="watched")      return 'marcó como visto '+tit;
-  if(a.type==="status")       return 'actualizó '+tit+' → '+(d.estado||"");
-  if(a.type==="reviewed")     return 'reseñó '+tit;
-  if(a.type==="list_created") return 'creó la lista <span class="fdtarget">'+(d.list_name||"")+'</span>';
-  if(a.type==="joint_added")  return 'añadió '+tit+' al perfil conjunto';
-  return 'actualizó '+tit;
+  const d=a.data||{};
+  if(a.type==="rated") return `puntuó <span class="fdtarget">${d.title}</span><span class="rpill">⭐ ${d.rating}/10</span>`;
+  if(a.type==="favorited") return `añadió a favoritos <span class="fdtarget">${d.title}</span>`;
+  if(a.type==="watched") return `marcó como visto <span class="fdtarget">${d.title}</span>`;
+  if(a.type==="status") return `actualizó <span class="fdtarget">${d.title}</span> a ${d.estado}`;
+  if(a.type==="reviewed") return `reseñó <span class="fdtarget">${d.title}</span>`;
+  if(a.type==="list_created") return `creó la lista <span class="fdtarget">${d.list_name}</span>`;
+  if(a.type==="joint_added") return `añadió <span class="fdtarget">${d.title}</span> a un perfil conjunto`;
+  return `actualizó <span class="fdtarget">${d.title||"CineCircle"}</span>`;
 }
-
 function haceTiempo(iso){
-  var s = Math.max(1, Math.floor((Date.now() - new Date(iso).getTime()) / 1000));
-  if(s < 60)    return "hace "+s+"s";
-  if(s < 3600)  return "hace "+Math.floor(s/60)+"min";
-  if(s < 86400) return "hace "+Math.floor(s/3600)+"h";
-  return "hace "+Math.floor(s/86400)+"d";
+  const s=Math.max(1,Math.floor((Date.now()-new Date(iso).getTime())/1000));
+  if(s<60)return `hace ${s}s`; const m=Math.floor(s/60); if(m<60)return `hace ${m}min`; const h=Math.floor(m/60); if(h<24)return `hace ${h}h`; const d=Math.floor(h/24); return `hace ${d}d`;
+}
+async function ramigos(){
+  const fr=document.getElementById("frl"), fd=document.getElementById("fdl");
+  fr.innerHTML=`<div class="feed-empty">Calculando compatibilidades reales...</div>`;
+  fd.innerHTML=`<div class="feed-empty">Cargando actividad real...</div>`;
+  if(!supabaseClient){fr.innerHTML=fd.innerHTML=`<div class="feed-empty">Conecta Supabase para ver amigos reales.</div>`;return;}
+  try{
+    const myGenres=new Set(Object.values(S.titulos).flatMap(t=>t.genre_ids||[]));
+    const profiles=await sb("friends.profiles", supabaseClient.from("profiles").select("id,username,avatar,bio,favorite_genres").neq("id",usuarioActual?.id||"00000000-0000-0000-0000-000000000000").limit(20));
+    const comps=[];
+    for(const p of (profiles||[]).slice(0,10)){
+      let score=0, fav=(p.favorite_genres||[]).map(Number);
+      if(myGenres.size && fav.length){score=Math.round((fav.filter(g=>myGenres.has(g)).length/Math.max(1,new Set([...myGenres,...fav]).size))*100);} else score=60+Math.floor(Math.random()*25);
+      comps.push({...p,score});
+    }
+    fr.innerHTML=comps.length?comps.sort((a,b)=>b.score-a.score).map(f=>`
+      <div class="frc" onclick="abrirPerfilPublico('${String(f.username).replace(/'/g,"\\'")}')">
+        <div class="frtop"><div class="frav">${f.avatar||"🎬"}</div><div><div class="frnom">@${f.username}</div><div class="frgen">${f.bio||"Perfil público"}</div></div><div class="frpct">${f.score}%</div></div>
+        <div class="cbar"><div class="cfill" style="width:${f.score}%"></div></div>
+      </div>`).join(""):`<div class="feed-empty">Aún no hay otros perfiles. Cuando tus amigos se registren aparecerán aquí.</div>`;
+    const acts=await sb("activity.select", supabaseClient.from("activity_feed").select("*").order("created_at",{ascending:false}).limit(40));
+    fd.innerHTML=(acts||[]).length?(acts||[]).map(a=>{const d=a.data||{};return`
+      <div class="fdc">
+        <div class="fdav">${d.avatar||"🎬"}</div>
+        <div><div class="fdtxt"><strong>@${d.username||"usuario"}</strong> ${textoActividad(a)}</div>${d.review?`<div class="fdrev">"${String(d.review).replace(/</g,"&lt;").slice(0,180)}"</div>`:""}<div class="fdtime">${haceTiempo(a.created_at)}</div></div>
+      </div>`}).join(""):`<div class="feed-empty">Todavía no hay actividad real. Puntúa o marca una película y aparecerá aquí.</div>`;
+  }catch(e){console.error(e);fd.innerHTML=`<div class="feed-empty">Error cargando feed: ${e.message}</div>`;}
 }
 
-async function ramigos(){
-  var fr = document.getElementById("frl");
-  var fd = document.getElementById("fdl");
-  if(!fr || !fd) return;
-  fr.innerHTML = '<div class="feed-empty">Cargando perfiles...</div>';
-  fd.innerHTML = '<div class="feed-empty">Cargando actividad...</div>';
-  if(!supabaseClient || !usuarioActual){
-    fr.innerHTML = '<div class="feed-empty">Inicia sesión para ver a tus amigos.</div>';
-    fd.innerHTML = '<div class="feed-empty">Inicia sesión para ver la actividad.</div>';
-    return;
-  }
-  // Perfiles — independiente
-  (async function(){
-    try{
-      var res1 = await supabaseClient.from("profiles")
-        .select("id,username,avatar,bio,favorite_genres")
-        .neq("id", usuarioActual.id)
-        .limit(20);
-      if(res1.error) throw res1.error;
-      var profiles = res1.data || [];
-      var myGenres = new Set(Object.values(S.titulos).reduce(function(acc,t){return acc.concat(t.genre_ids||[]);},[]));
-      var comps = profiles.map(function(p){
-        var fav = (p.favorite_genres||[]).map(Number);
-        var score = 50 + Math.floor(Math.random()*20);
-        if(myGenres.size && fav.length){
-          var union = new Set(Array.from(myGenres).concat(fav)).size;
-          var inter = fav.filter(function(g){return myGenres.has(g);}).length;
-          score = Math.round((inter / Math.max(1,union)) * 100);
-        }
-        return Object.assign({},p,{score:score});
-      });
-      comps.sort(function(a,b){return b.score-a.score;});
-      if(!comps.length){
-        fr.innerHTML = '<div class="feed-empty">Cuando tus amigos se registren aparecerán aquí.</div>';
-        return;
-      }
-      fr.innerHTML = comps.map(function(f){
-        return '<div class="frc" onclick="abrirPerfilPublico(this.dataset.u)" data-u="'+encodeURIComponent(f.username||"")+'">'
-          +'<div class="frtop">'
-          +'<div class="frav">'+(f.avatar||"🎬")+'</div>'
-          +'<div><div class="frnom">@'+(f.username||"")+'</div>'
-          +'<div class="frgen">'+(f.bio||"Perfil público")+'</div></div>'
-          +'<div class="frpct">'+f.score+'%</div>'
-          +'</div>'
-          +'<div class="cbar"><div class="cfill" style="width:'+f.score+'%"></div></div>'
-          +'</div>';
-      }).join("");
-    }catch(e){
-      console.error("[ramigos] perfiles:", e);
-      fr.innerHTML = '<div class="feed-empty">Error cargando perfiles: '+(e.message||e)+'</div>';
-    }
-  })();
-  // Actividad — independiente
-  (async function(){
-    try{
-      var res2 = await supabaseClient.from("activity_feed")
-        .select("*")
-        .order("created_at",{ascending:false})
-        .limit(50);
-      if(res2.error) throw res2.error;
-      var acts = res2.data || [];
-      if(!acts.length){
-        fd.innerHTML = '<div class="feed-empty">Todavía no hay actividad.<br>'
-          +'<span style="font-size:11px;opacity:.6">Puntúa o marca como visto cualquier título y aparecerá aquí.</span></div>';
-        return;
-      }
-      fd.innerHTML = acts.map(function(a){
-        var d = a.data||{};
-        var poster = d.poster_path
-          ? '<img src="https://image.tmdb.org/t/p/w92'+d.poster_path+'" style="width:36px;height:54px;border-radius:5px;object-fit:cover;flex-shrink:0;margin-right:6px" onerror="this.style.display=\'none\'">'
-          : "";
-        var rev = d.review ? '<div class="fdrev">&ldquo;'+(d.review+"").replace(/</g,"&lt;").slice(0,160)+'&rdquo;</div>' : "";
-        return '<div class="fdc" style="align-items:flex-start">'
-          +'<div class="fdav">'+(d.avatar||"🎬")+'</div>'
-          +poster
-          +'<div style="flex:1;min-width:0">'
-          +'<div class="fdtxt"><strong>@'+(d.username||"usuario")+'</strong> '+textoActividad(a)+'</div>'
-          +rev
-          +'<div class="fdtime">'+haceTiempo(a.created_at)+'</div>'
-          +'</div></div>';
-      }).join("");
-    }catch(e){
-      console.error("[ramigos] actividad:", e);
-      var msg = (e.message&&(e.message.includes("does not exist")||e.code==="42P01"))
-        ? "La tabla activity_feed no existe. Ejecuta el SQL del fix en Supabase."
-        : "Error: "+(e.message||e);
-      fd.innerHTML = '<div class="feed-empty">'+msg+'</div>';
-    }
-  })();
-}
 /* ── PERFIL CONJUNTO ── */
 let conjuntoActual=null;
 async function cargarConjuntosCloud(){
@@ -1789,60 +1710,106 @@ async function recomendarIA(){
 }
 
 /* ── PERFIL ── */
+let tabPerfilActual = "todo";
+
+function setTabPerfil(tab){
+  tabPerfilActual = tab;
+  document.querySelectorAll(".ptab").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+  renderTabPerfil();
+}
+
+function renderTabPerfil(){
+  const lst = Object.values(S.titulos);
+  const reify = e => ({
+    id:e.tmdb_id, media_type:e.media_type, title:e.titulo, name:e.titulo,
+    poster_path:e.poster_path, backdrop_path:e.backdrop_path, overview:e.descripcion,
+    release_date:e.fecha, first_air_date:e.fecha, genre_ids:e.genre_ids, vote_average:e.vote_average
+  });
+  let items;
+  if(tabPerfilActual === "todo")        items = lst;
+  else if(tabPerfilActual === "viendo") items = lst.filter(e => e.estado === "viendo");
+  else if(tabPerfilActual === "visto")  items = lst.filter(e => e.estado === "visto");
+  else if(tabPerfilActual === "pendiente") items = lst.filter(e => e.estado === "pendiente");
+  else if(tabPerfilActual === "abandonado") items = lst.filter(e => e.estado === "abandonado");
+  else items = lst;
+
+  const grid = document.getElementById("wgrd");
+  if(!items.length){
+    const msgs = {
+      todo:"Aún no has añadido nada. ¡Busca una película!",
+      viendo:"No estás viendo nada ahora mismo.",
+      visto:"Todavía no has marcado nada como visto.",
+      pendiente:"Tu watchlist está vacía. ¡Añade algo!",
+      abandonado:"No has abandonado ningún título. Bien hecho 😄"
+    };
+    grid.innerHTML = `<p style="color:var(--text3);font-size:12px;grid-column:1/-1;padding:12px 0">${msgs[tabPerfilActual]||""}</p>`;
+    return;
+  }
+  grid.innerHTML = items.slice(0,24).map(e => tarjeta(reify(e))).join("");
+}
+
 function rperfil(){
-  const p=S.perfil;
-  document.getElementById("pban").style.background=p.banner;
-  document.getElementById("pav").textContent=p.avatar;
-  document.getElementById("pname").textContent="@"+p.usuario;
-  document.getElementById("pbio").textContent=p.bio;
-  document.getElementById("hdr-av").textContent=p.avatar;
+  const p = S.perfil;
+  document.getElementById("pban").style.background = p.banner;
+  document.getElementById("pav").textContent = p.avatar;
+  document.getElementById("pname").textContent = "@" + p.usuario;
+  document.getElementById("pbio").textContent = p.bio;
+  document.getElementById("hdr-av").textContent = p.avatar;
 
-  const lst=Object.values(S.titulos);
-  const vst=lst.filter(e=>e.estado==="visto");
-  const m=vst.filter(e=>e.media_type==="movie").length;
-  const s=vst.filter(e=>e.media_type==="tv").length;
-  const h=Math.round(m*2+s*8);
-  const pns=lst.filter(e=>e.puntuacion>0).map(e=>e.puntuacion);
-  const med=pns.length?(pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1):"—";
-  const gc={};lst.forEach(e=>(e.genre_ids||[]).forEach(g=>{const n=GENEROS[g];if(n)gc[n]=(gc[n]||0)+1;}));
-  const tg=Object.entries(gc).sort((a,b)=>b[1]-a[1])[0]?.[0]||"—";
+  const lst = Object.values(S.titulos);
+  const vst = lst.filter(e => e.estado === "visto");
+  const m   = vst.filter(e => e.media_type === "movie").length;
+  const s   = vst.filter(e => e.media_type === "tv").length;
+  const h   = Math.round(m*2 + s*8);
+  const pns = lst.filter(e => e.puntuacion > 0).map(e => e.puntuacion);
+  const med = pns.length ? (pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1) : "—";
+  const gc  = {};
+  lst.forEach(e => (e.genre_ids||[]).forEach(g => {
+    const n = GENEROS[g]; if(n) gc[n] = (gc[n]||0)+1;
+  }));
+  const tg = Object.entries(gc).sort((a,b)=>b[1]-a[1])[0]?.[0] || "—";
 
-  document.getElementById("pstats").innerHTML=[
-    {i:"🎬",v:m,l:"Películas"},
-    {i:"📺",v:s,l:"Series"},
-    {i:"⏱️",v:h+"h",l:"Horas vistas"},
-    {i:"⭐",v:med,l:"Puntuación media"},
-    {i:"🏆",v:tg,l:"Género favorito"},
-  ].map(x=>`<div class="pst"><div class="pst-i">${x.i}</div><div class="pst-v">${x.v}</div><div class="pst-l">${x.l}</div></div>`).join("");
+  // Stats 4 columnas compactas
+  document.getElementById("pstats").innerHTML = [
+    {i:"🎬", v:m,       l:"Películas"},
+    {i:"📺", v:s,       l:"Series"},
+    {i:"⭐", v:med,     l:"Media"},
+    {i:"⏱️", v:h+"h",  l:"Horas"},
+  ].map(x => `<div class="pst"><div class="pst-i">${x.i}</div><div class="pst-v">${x.v}</div><div class="pst-l">${x.l}</div></div>`).join("");
 
-  const favs=lst.filter(e=>e.favorito).slice(0,4);
-  const reify=e=>({id:e.tmdb_id,media_type:e.media_type,title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average});
+  // Contadores de tabs
+  const counts = {
+    todo:       lst.length,
+    viendo:     lst.filter(e=>e.estado==="viendo").length,
+    visto:      lst.filter(e=>e.estado==="visto").length,
+    pendiente:  lst.filter(e=>e.estado==="pendiente").length,
+    abandonado: lst.filter(e=>e.estado==="abandonado").length,
+  };
+  Object.entries(counts).forEach(([tab, n]) => {
+    const el = document.getElementById("tc-"+tab);
+    if(el) el.textContent = n;
+  });
 
-  document.getElementById("fgrid").innerHTML=favs.length
-    ?favs.map(e=>tarjeta(reify(e))).join("")+Array(Math.max(0,4-favs.length)).fill(`<div class="fph">🤍</div>`).join("")
-    :Array(4).fill(`<div class="fph">🤍</div>`).join("");
-
-  const rec=lst.filter(e=>e.estado==="visto").slice(0,12);
-  document.getElementById("wgrd").innerHTML=rec.length
-    ?rec.map(e=>tarjeta(reify(e))).join("")
-    :`<p style="color:var(--text3);font-size:12px;grid-column:1/-1">Nada visto aún. ¡Ve a buscar algo!</p>`;
-
-  const logros=[
-    {i:"🎬",n:"Primera vez",e:lst.length>=1},
-    {i:"🔟",n:"Diez títulos",e:lst.length>=10},
-    {i:"✍️",n:"Crítico/a",e:lst.filter(e=>e.resena).length>=3},
-    {i:"📺",n:"Maratonista",e:s>=5},
-    {i:"🎞️",n:"Cinéfilo/a",e:m>=10},
-    {i:"🗂️",n:"Curador/a",e:lst.filter(e=>e.favorito).length>=4},
-    {i:"💯",n:"Perfeccionista",e:lst.filter(e=>e.puntuacion===10).length>=3},
-    {i:"🌍",n:"Explorador/a",e:lst.length>=25},
+  // Logros
+  const logros = [
+    {i:"🎬",n:"Primera vez",    e:lst.length>=1},
+    {i:"🔟",n:"Diez títulos",   e:lst.length>=10},
+    {i:"✍️",n:"Crítico/a",      e:lst.filter(e=>e.resena).length>=3},
+    {i:"📺",n:"Maratonista",    e:s>=5},
+    {i:"🎞️",n:"Cinéfilo/a",    e:m>=10},
+    {i:"🗂️",n:"Curador/a",     e:lst.filter(e=>e.favorito).length>=4},
+    {i:"💯",n:"Perfeccionista", e:lst.filter(e=>e.puntuacion===10).length>=3},
+    {i:"🌍",n:"Explorador/a",   e:lst.length>=25},
   ];
-  document.getElementById("bgrd").innerHTML=logros.map(b=>`
-    <div class="bc${b.e?"":" lck"}">
+  document.getElementById("bgrd").innerHTML = logros.map(b => `
+    <div class="bc${b.e ? "" : " lck"}">
       <div class="be">${b.i}</div>
       <div class="bn">${b.n}</div>
-      <div class="bs">${b.e?"Obtenido ✓":"Bloqueado"}</div>
+      <div class="bs">${b.e ? "Obtenido ✓" : "Bloqueado"}</div>
     </div>`).join("");
+
+  // Renderizar grid con tab activa
+  renderTabPerfil();
 }
 
 /* ── EDITAR PERFIL ── */
