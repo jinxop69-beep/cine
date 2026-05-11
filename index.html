@@ -561,6 +561,93 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
 .provider-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:9px;padding:4px 9px 4px 5px}
 .provider-chip img{width:22px;height:22px;border-radius:5px;display:block}
 .provider-chip span{font-size:11px;font-weight:600;color:var(--text)}
+
+/* ══ FASE 3 CSS ══ */
+
+/* User search */
+.user-search-wrap{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:18px}
+.user-search-row{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:99px;padding:8px 16px;margin-bottom:8px}
+.user-search-row input{flex:1;background:none;border:none;color:#fff;font-size:14px;outline:none}
+.user-search-row input::placeholder{color:var(--text3)}
+#user-search-res:empty{display:none}
+.user-result{display:flex;align-items:center;gap:10px;padding:10px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;margin-bottom:7px;cursor:pointer;transition:all .15s}
+.user-result:hover{border-color:rgba(217,70,239,.3);background:rgba(217,70,239,.05)}
+.user-result-av{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;overflow:hidden}
+.user-result-av img{width:100%;height:100%;object-fit:cover}
+.user-result-name{font-size:13px;font-weight:700;color:#fff}
+.user-result-bio{font-size:11px;color:var(--text3)}
+.user-result-compat{font-size:12px;font-weight:800;color:#d946ef;margin-left:auto}
+
+/* Heatmap */
+.heatmap-grid{display:grid;grid-template-columns:repeat(52,1fr);gap:2px;overflow-x:auto}
+.hm-cell{width:100%;aspect-ratio:1;border-radius:2px;background:rgba(255,255,255,.06);transition:background .2s;cursor:default;min-width:8px}
+.hm-cell.l1{background:rgba(217,70,239,.25)}
+.hm-cell.l2{background:rgba(217,70,239,.5)}
+.hm-cell.l3{background:rgba(217,70,239,.75)}
+.hm-cell.l4{background:#d946ef;box-shadow:0 0 4px rgba(217,70,239,.5)}
+.hm-legend{display:flex;align-items:center;gap:5px;margin-top:7px;font-size:10px;color:var(--text3)}
+.hm-legend-cell{width:10px;height:10px;border-radius:2px}
+.racha-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(251,191,36,.05));border:1px solid rgba(251,191,36,.3);border-radius:99px;padding:5px 12px;font-size:12px;color:#fcd34d;margin-top:8px}
+
+/* Stats avanzadas */
+.stats-av-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.sav-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:14px}
+.sav-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:8px}
+.sav-item{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;color:var(--text)}
+.sav-item:last-child{margin-bottom:0}
+.sav-bar-wrap{flex:1;height:4px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden}
+.sav-bar{height:100%;background:linear-gradient(90deg,#d946ef,#7c3aed);border-radius:99px}
+.sav-count{font-size:11px;color:var(--text3);font-weight:700;min-width:18px;text-align:right}
+.sav-full{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px}
+.sav-big{font-size:clamp(28px,6vw,42px);font-weight:800;color:#fff;margin-bottom:2px}
+.sav-sublbl{font-size:11px;color:var(--text3)}
+.decade-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px}
+.decade-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center}
+.decade-yr{font-size:14px;font-weight:800;color:#fff;margin-bottom:3px}
+.decade-cnt{font-size:10px;color:var(--text3)}
+
+/* Retos */
+.reto-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;transition:all .2s}
+.reto-card.completado{background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(16,185,129,.05));border-color:rgba(16,185,129,.35)}
+.reto-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.reto-ico{font-size:28px;flex-shrink:0}
+.reto-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:1px}
+.reto-desc{font-size:11px;color:var(--text2)}
+.reto-badge{margin-left:auto;font-size:10px;font-weight:700;padding:4px 10px;border-radius:99px;white-space:nowrap}
+.reto-badge.pendiente{background:rgba(99,102,241,.15);color:#a5b4fc;border:1px solid rgba(99,102,241,.3)}
+.reto-badge.completado{background:rgba(16,185,129,.15);color:#6ee7b7;border:1px solid rgba(16,185,129,.3)}
+.reto-progress{height:5px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;margin-top:6px}
+.reto-progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#d946ef,#7c3aed);transition:width .5s}
+
+/* Notificaciones */
+.notif-item{display:flex;align-items:flex-start;gap:10px;padding:12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all .15s}
+.notif-item:hover{background:rgba(255,255,255,.06)}
+.notif-item.unread{border-color:rgba(217,70,239,.3);background:rgba(217,70,239,.05)}
+.notif-ico{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.notif-txt{font-size:12px;color:var(--text);line-height:1.5;flex:1}
+.notif-txt strong{color:#fff}
+.notif-time{font-size:10px;color:var(--text3);margin-top:2px}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:#d946ef;flex-shrink:0;margin-top:4px}
+#notif-count:not(:empty)::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#d946ef;margin-right:3px;vertical-align:middle}
+
+/* Tarjeta compartible */
+.share-card{background:linear-gradient(135deg,#1a0a2e,#0a0a14);border-radius:20px;padding:24px;position:relative;overflow:hidden;aspect-ratio:9/16;display:flex;flex-direction:column;max-width:280px;margin:0 auto}
+.share-card-blob{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none}
+.share-card-content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column}
+.share-card-brand{font-size:11px;font-weight:800;letter-spacing:.15em;color:rgba(217,70,239,.8);margin-bottom:16px}
+.share-card-av{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#27272a,#18181b);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:10px;overflow:hidden}
+.share-card-user{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:4px}
+.share-card-bio{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:16px}
+.share-card-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+.share-card-stat{background:rgba(255,255,255,.06);border-radius:10px;padding:10px;text-align:center}
+.share-card-stat-v{font-size:20px;font-weight:800;color:#fff}
+.share-card-stat-l{font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em}
+.share-card-posters{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.share-card-poster{aspect-ratio:2/3;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden}
+.share-card-poster img{width:100%;height:100%;object-fit:cover}
+.share-card-footer{margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center}
+.share-card-footer-brand{font-size:10px;font-weight:800;color:#d946ef;letter-spacing:.1em}
+.share-card-footer-date{font-size:9px;color:rgba(255,255,255,.3)}
 </style>
 </head>
 <body>
@@ -764,9 +851,24 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
     <div class="sec pt">
       <h2 class="stit serif">Amigos</h2>
       <p class="ssub">Descubre qué está viendo tu círculo.</p>
+      <div class="user-search-wrap">
+        <div class="user-search-row">
+          <span>🔍</span>
+          <input id="user-search-inp" placeholder="Buscar usuario por nombre…" oninput="buscarUsuarios(this.value)">
+          <button class="clr" onclick="document.getElementById('user-search-inp').value='';document.getElementById('user-search-res').innerHTML=''">✕</button>
+        </div>
+        <div id="user-search-res"></div>
+      </div>
       <div class="socgr">
-        <div><div style="font-size:13px;font-weight:700;margin-bottom:10px">📊 Compatibilidad</div><div id="frl"></div></div>
-        <div><div style="font-size:13px;font-weight:700;margin-bottom:10px">📈 Actividad reciente</div><div id="fdl"></div></div>
+        <div>
+          <div style="font-size:13px;font-weight:700;margin-bottom:10px">📊 Compatibilidad</div>
+          <div id="frl"></div>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:700;margin-bottom:10px">📈 Actividad reciente</div>
+          <div id="fdl"></div>
+          <div id="retos-feed" style="margin-top:14px"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -854,6 +956,23 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
         <button class="more-tile" onclick="ir('conjunto')"><span>🤝</span><span>Juntos</span></button>
         <button class="more-tile" onclick="ir('ia')"><span>✨</span><span>Recomendar</span></button>
         <button class="more-tile" onclick="ir('wrapped')"><span>🏆</span><span>Wrapped</span></button>
+        <button class="more-tile" onclick="mostrarStatsAvanzadas()"><span>📊</span><span>Stats</span></button>
+        <button class="more-tile" onclick="mostrarRetos()"><span>🎯</span><span>Retos</span></button>
+        <button class="more-tile" onclick="abrirNotificaciones()"><span>🔔</span><span id="notif-count"></span><span>Notifs</span></button>
+        <button class="more-tile" onclick="compartirPerfil()"><span>📸</span><span>Compartir</span></button>
+      </div>
+      <div id="heatmap-section" style="padding:0 16px 18px;display:none">
+        <div class="ptit" style="padding:0 0 10px">🗓️ Tu actividad</div>
+        <div id="heatmap-grid"></div>
+        <div id="racha-info" style="margin-top:8px;font-size:12px;color:var(--text2)"></div>
+      </div>
+      <div id="stats-av-section" style="padding:0 16px 18px;display:none">
+        <div class="ptit" style="padding:0 0 10px">📊 Estadísticas avanzadas</div>
+        <div id="stats-av-content"></div>
+      </div>
+      <div id="retos-section" style="padding:0 16px 18px;display:none">
+        <div class="ptit" style="padding:0 0 10px">🎯 Retos semanales</div>
+        <div id="retos-content"></div>
       </div>
       <div class="pstats" id="pstats"></div>
       <div class="ptabs-wrap">
@@ -915,6 +1034,41 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
     <input class="einp" id="ebio">
     <button class="savbtn" id="save-prof-btn" onclick="spro()">Guardar cambios</button>
     <button class="canbtn" onclick="cemod()">Cancelar</button>
+  </div>
+</div>
+
+<!-- MODAL NOTIFICACIONES -->
+<div class="emod" id="notif-modal" onclick="if(event.target===this)cerrarNotificaciones()">
+  <div class="ebox" style="max-width:420px" onclick="event.stopPropagation()">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div class="etit" style="margin:0">🔔 Notificaciones</div>
+      <button style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:50%;width:32px;height:32px;color:#fff;cursor:pointer;font-size:14px" onclick="cerrarNotificaciones()">✕</button>
+    </div>
+    <div id="notif-list" style="max-height:420px;overflow-y:auto"></div>
+  </div>
+</div>
+
+<!-- MODAL STATS AVANZADAS -->
+<div class="emod" id="stats-modal" onclick="if(event.target===this)document.getElementById('stats-modal').classList.remove('on')">
+  <div class="ebox" style="max-width:480px;max-height:88vh;overflow-y:auto" onclick="event.stopPropagation()">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div class="etit" style="margin:0">📊 Estadísticas avanzadas</div>
+      <button style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:50%;width:32px;height:32px;color:#fff;cursor:pointer;font-size:14px" onclick="document.getElementById('stats-modal').classList.remove('on')">✕</button>
+    </div>
+    <div id="stats-modal-content"></div>
+  </div>
+</div>
+
+<!-- MODAL TARJETA COMPARTIBLE -->
+<div class="emod" id="share-modal" onclick="if(event.target===this)document.getElementById('share-modal').classList.remove('on')">
+  <div class="ebox" style="max-width:380px" onclick="event.stopPropagation()">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div class="etit" style="margin:0">📸 Compartir perfil</div>
+      <button style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:50%;width:32px;height:32px;color:#fff;cursor:pointer;font-size:14px" onclick="document.getElementById('share-modal').classList.remove('on')">✕</button>
+    </div>
+    <div id="share-card-wrap"></div>
+    <button class="savbtn" style="margin-top:12px" onclick="descargarTarjeta()">⬇️ Descargar imagen</button>
+    <button class="canbtn" onclick="document.getElementById('share-modal').classList.remove('on')">Cerrar</button>
   </div>
 </div>
 
@@ -2078,6 +2232,303 @@ function rwrapped(){
       </div>
     </div>`;
 }
+
+/* ══ FASE 3: Buscador de usuarios ══ */
+var _usrTimer;
+async function buscarUsuarios(q){
+  var res = document.getElementById("user-search-res");
+  clearTimeout(_usrTimer);
+  if(!q || q.length < 2){ res.innerHTML=""; return; }
+  _usrTimer = setTimeout(async function(){
+    if(!supabaseClient){ res.innerHTML='<p style="color:var(--text3);font-size:12px;padding:6px">Supabase no conectado.</p>'; return; }
+    try{
+      var r = await supabaseClient.from("profiles").select("id,username,avatar,avatar_url,bio,favorite_genres")
+        .ilike("username","%"+q+"%").limit(8);
+      if(r.error) throw r.error;
+      var data = r.data||[];
+      if(!data.length){ res.innerHTML='<p style="color:var(--text3);font-size:12px;padding:6px">Sin resultados para "'+q+'"</p>'; return; }
+      var myGs = new Set(Object.values(S.titulos).reduce(function(a,t){return a.concat(t.genre_ids||[]);},[]));
+      res.innerHTML = data.map(function(p){
+        var fav=(p.favorite_genres||[]).map(Number);
+        var score=50;
+        if(myGs.size&&fav.length){var u=new Set(Array.from(myGs).concat(fav)).size;score=Math.round((fav.filter(function(g){return myGs.has(g);}).length/Math.max(1,u))*100);}
+        var avHtml=p.avatar_url?'<img src="'+p.avatar_url+'" style="width:100%;height:100%;object-fit:cover">':'<span>'+(p.avatar||"🎬")+'</span>';
+        return '<div class="user-result" onclick="abrirPerfilPublico(this.dataset.u)" data-u="'+encodeURIComponent(p.username||"")+'">'
+          +'<div class="user-result-av">'+avHtml+'</div>'
+          +'<div><div class="user-result-name">@'+p.username+'</div><div class="user-result-bio">'+(p.bio||"Sin bio")+'</div></div>'
+          +'<div class="user-result-compat">'+score+'%</div>'
+        +'</div>';
+      }).join("");
+    }catch(e){ res.innerHTML='<p style="color:var(--text3);font-size:12px;padding:6px">Error: '+e.message+'</p>'; }
+  }, 300);
+}
+
+/* ══ FASE 3: Heatmap de actividad ══ */
+function renderHeatmap(){
+  var section = document.getElementById("heatmap-section");
+  var grid = document.getElementById("heatmap-grid");
+  var rachaEl = document.getElementById("racha-info");
+  if(!grid) return;
+  section.style.display = "block";
+
+  // Construir mapa de fechas con actividad
+  var now = new Date();
+  var yearAgo = new Date(now); yearAgo.setFullYear(yearAgo.getFullYear()-1);
+  var dayMap = {};
+  Object.values(S.titulos).forEach(function(t){
+    if(t.visto_en){
+      var d = new Date(t.visto_en);
+      var key = d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+      dayMap[key] = (dayMap[key]||0)+1;
+    }
+  });
+
+  // Generar 52 semanas
+  var cells = [];
+  var cur = new Date(yearAgo);
+  // Ajustar al lunes anterior
+  cur.setDate(cur.getDate() - cur.getDay());
+  var racha = 0, maxRacha = 0, tmpRacha = 0;
+  var prevHad = false;
+  for(var i=0; i<364; i++){
+    var key = cur.getFullYear()+"-"+String(cur.getMonth()+1).padStart(2,"0")+"-"+String(cur.getDate()).padStart(2,"0");
+    var cnt = dayMap[key]||0;
+    var lvl = cnt===0?"":cnt===1?"l1":cnt===2?"l2":cnt<=4?"l3":"l4";
+    var title = key+(cnt?": "+cnt+" título"+(cnt>1?"s":""):"");
+    cells.push('<div class="hm-cell '+lvl+'" title="'+title+'"></div>');
+    // Calcular racha
+    if(cnt>0){ tmpRacha++; if(tmpRacha>maxRacha) maxRacha=tmpRacha; }
+    else tmpRacha=0;
+    // Si es hoy o ayer contamos racha actual
+    var diff = Math.floor((now-cur)/86400000);
+    if(diff<=1&&cnt>0) racha++;
+    cur.setDate(cur.getDate()+1);
+  }
+
+  grid.className = "heatmap-grid";
+  grid.innerHTML = cells.join("")
+    +'<div class="hm-legend" style="grid-column:1/-1;margin-top:8px">'
+    +'<span>Menos</span>'
+    +'<div class="hm-legend-cell" style="background:rgba(255,255,255,.06)"></div>'
+    +'<div class="hm-legend-cell hm-cell l1"></div>'
+    +'<div class="hm-legend-cell hm-cell l2"></div>'
+    +'<div class="hm-legend-cell hm-cell l3"></div>'
+    +'<div class="hm-legend-cell hm-cell l4"></div>'
+    +'<span>Más</span></div>';
+
+  var totalDias = Object.keys(dayMap).length;
+  rachaEl.innerHTML = '<div class="racha-badge">🔥 Racha máxima: '+maxRacha+' días · '+totalDias+' días activos este año</div>';
+}
+
+/* ══ FASE 3: Stats avanzadas ══ */
+function mostrarStatsAvanzadas(){
+  var modal = document.getElementById("stats-modal");
+  var cont = document.getElementById("stats-modal-content");
+  modal.classList.add("on");
+  var lst = Object.values(S.titulos);
+  if(!lst.length){ cont.innerHTML='<p style="color:var(--text3);font-size:13px">Aún no has registrado títulos.</p>'; return; }
+
+  // Géneros
+  var gc={};lst.forEach(function(e){(e.genre_ids||[]).forEach(function(g){var n=GENEROS[g];if(n)gc[n]=(gc[n]||0)+1;});});
+  var topGs=Object.entries(gc).sort(function(a,b){return b[1]-a[1];}).slice(0,6);
+  var maxGc = topGs[0]?topGs[0][1]:1;
+
+  // Décadas
+  var dc={};lst.forEach(function(e){var y=parseInt((e.fecha||"").slice(0,4));if(y){var d=Math.floor(y/10)*10;dc[d]=(dc[d]||0)+1;}});
+  var topDs=Object.entries(dc).sort(function(a,b){return b[0]-a[0];}).slice(0,6);
+
+  // Stats globales
+  var m=lst.filter(function(e){return e.media_type==="movie";}).length;
+  var s=lst.filter(function(e){return e.media_type==="tv";}).length;
+  var h=Math.round(m*2+s*8);
+  var pns=lst.filter(function(e){return e.puntuacion>0;}).map(function(e){return e.puntuacion;});
+  var med=pns.length?(pns.reduce(function(a,b){return a+b;},0)/pns.length).toFixed(1):"—";
+  var p10=pns.filter(function(n){return n>=9;}).length;
+  var p5=pns.filter(function(n){return n<=4&&n>0;}).length;
+  var resenas=lst.filter(function(e){return e.resena&&e.resena.trim();}).length;
+  var favs=lst.filter(function(e){return e.favorito;}).length;
+
+  cont.innerHTML =
+    '<div class="stats-av-grid">'
+      +'<div class="sav-full" style="grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:10px">'
+        +'<div><div class="sav-big">'+h+'h</div><div class="sav-sublbl">Horas totales</div></div>'
+        +'<div><div class="sav-big">'+med+'</div><div class="sav-sublbl">Puntuación media</div></div>'
+        +'<div><div class="sav-big">'+resenas+'</div><div class="sav-sublbl">Reseñas escritas</div></div>'
+        +'<div><div class="sav-big">'+favs+'</div><div class="sav-sublbl">Favoritos</div></div>'
+      +'</div>'
+      +'<div class="sav-card">'
+        +'<div class="sav-label">Top géneros</div>'
+        +topGs.map(function(e){return '<div class="sav-item"><span style="flex:0 0 auto;min-width:90px;font-size:11px">'+e[0]+'</span><div class="sav-bar-wrap"><div class="sav-bar" style="width:'+Math.round(e[1]/maxGc*100)+'%"></div></div><span class="sav-count">'+e[1]+'</span></div>';}).join("")
+      +'</div>'
+      +'<div class="sav-card">'
+        +'<div class="sav-label">Mejores y peores</div>'
+        +'<div style="font-size:12px;color:var(--text2);margin-bottom:6px">⭐ Puntuación 9-10: <strong style="color:#fff">'+p10+'</strong></div>'
+        +'<div style="font-size:12px;color:var(--text2);margin-bottom:6px">💔 Puntuación 1-4: <strong style="color:#fff">'+p5+'</strong></div>'
+        +'<div style="font-size:12px;color:var(--text2)">🎬 Películas vs 📺 Series: <strong style="color:#fff">'+m+' / '+s+'</strong></div>'
+      +'</div>'
+    +'</div>'
+    +'<div class="sav-label" style="margin-bottom:8px">Por décadas</div>'
+    +'<div class="decade-grid">'
+    +topDs.map(function(e){return '<div class="decade-card"><div class="decade-yr">'+e[0]+'s</div><div class="decade-cnt">'+e[1]+' título'+(e[1]>1?"s":"")+'</div></div>';}).join("")
+    +'</div>';
+}
+
+/* ══ FASE 3: Retos semanales ══ */
+var RETOS = [
+  {id:"r1",ico:"🎞️",title:"Clásico del cine",desc:"Mira una película de antes de 1980",badge:"Cinéfilo clásico",check:function(lst){return lst.some(function(e){return e.media_type==="movie"&&parseInt((e.fecha||"").slice(0,4))<1980&&e.estado==="visto";});}},
+  {id:"r2",ico:"🌍",title:"Cine internacional",desc:"Mira una película no anglófona esta semana",badge:"Viajero cinéfilo",check:function(lst){return lst.filter(function(e){return e.estado==="visto";}).length>=1;}},
+  {id:"r3",ico:"⚡",title:"Maratón exprés",desc:"Marca 3 títulos como vistos",badge:"Maratonista",check:function(lst){return lst.filter(function(e){return e.estado==="visto";}).length>=3;}},
+  {id:"r4",ico:"✍️",title:"El crítico",desc:"Escribe 2 reseñas",badge:"Crítico en ciernes",check:function(lst){return lst.filter(function(e){return e.resena&&e.resena.trim();}).length>=2;}},
+  {id:"r5",ico:"❤️",title:"Coleccionista",desc:"Añade 5 favoritos",badge:"Coleccionista",check:function(lst){return lst.filter(function(e){return e.favorito;}).length>=5;}},
+  {id:"r6",ico:"📋",title:"Curador",desc:"Crea una lista nueva",badge:"Curador",check:function(){return S.listas.length>=2;}},
+];
+
+function mostrarRetos(){
+  var modal = document.getElementById("stats-modal");
+  var cont = document.getElementById("stats-modal-content");
+  modal.classList.add("on");
+  var lst = Object.values(S.titulos);
+  cont.innerHTML = '<div class="ptit" style="padding:0 0 12px">🎯 Retos semanales</div>'
+    + RETOS.map(function(r){
+      var done = r.check(lst);
+      var prog = done ? 100 : 30;
+      return '<div class="reto-card'+(done?" completado":"")+'">'
+        +'<div class="reto-head">'
+          +'<span class="reto-ico">'+r.ico+'</span>'
+          +'<div><div class="reto-title">'+r.title+'</div><div class="reto-desc">'+r.desc+'</div></div>'
+          +'<span class="reto-badge '+(done?"completado":"pendiente")+'">'+(done?"✅ Hecho":"⏳ Pendiente")+'</span>'
+        +'</div>'
+        +(done?'<div style="font-size:11px;color:#6ee7b7;margin-top:4px">🏅 Badge desbloqueado: '+r.badge+'</div>':'')
+        +'<div class="reto-progress"><div class="reto-progress-fill" style="width:'+prog+'%"></div></div>'
+      +'</div>';
+    }).join("");
+}
+
+/* ══ FASE 3: Notificaciones ══ */
+var _notifs = [];
+async function cargarNotificaciones(){
+  if(!supabaseClient||!usuarioActual) return;
+  try{
+    var r = await supabaseClient.from("notificaciones")
+      .select("*").eq("user_id",usuarioActual.id)
+      .order("created_at",{ascending:false}).limit(20);
+    _notifs = r.data||[];
+    // Actualizar badge
+    var unread = _notifs.filter(function(n){return !n.leida;}).length;
+    var el = document.getElementById("notif-count");
+    if(el) el.textContent = unread||"";
+  }catch(e){ _notifs=[]; }
+}
+
+function abrirNotificaciones(){
+  var modal = document.getElementById("notif-modal");
+  var list = document.getElementById("notif-list");
+  modal.classList.add("on");
+  if(!_notifs.length){
+    list.innerHTML='<div class="inline-empty" style="padding:20px 0">Sin notificaciones todavía.<br><span style="font-size:11px;opacity:.6">Cuando alguien reaccione a tus reseñas o te siga aparecerán aquí.</span></div>';
+    return;
+  }
+  list.innerHTML = _notifs.map(function(n){
+    var icons = {like:"❤️",comment:"💬",follow:"👤",match:"🎯"};
+    return '<div class="notif-item'+(n.leida?"":" unread")+'" onclick="marcarLeida(''+n.id+'')">'
+      +'<div class="notif-ico">'+(icons[n.tipo]||"🔔")+'</div>'
+      +'<div>'
+        +'<div class="notif-txt">'+n.mensaje+'</div>'
+        +'<div class="notif-time">'+haceTiempo(n.created_at)+'</div>'
+      +'</div>'
+      +(n.leida?'':'<div class="notif-dot"></div>')
+    +'</div>';
+  }).join("");
+  // Marcar todas como leídas
+  if(supabaseClient&&usuarioActual){
+    supabaseClient.from("notificaciones").update({leida:true}).eq("user_id",usuarioActual.id).eq("leida",false).then(function(){ cargarNotificaciones(); });
+  }
+}
+function cerrarNotificaciones(){ document.getElementById("notif-modal").classList.remove("on"); }
+async function marcarLeida(id){
+  if(!supabaseClient) return;
+  await supabaseClient.from("notificaciones").update({leida:true}).eq("id",id);
+  cargarNotificaciones(); abrirNotificaciones();
+}
+
+/* ══ FASE 3: Tarjeta compartible ══ */
+function compartirPerfil(){
+  var modal = document.getElementById("share-modal");
+  var wrap = document.getElementById("share-card-wrap");
+  modal.classList.add("on");
+  var p = S.perfil;
+  var lst = Object.values(S.titulos);
+  var m = lst.filter(function(e){return e.media_type==="movie"&&e.estado==="visto";}).length;
+  var s = lst.filter(function(e){return e.media_type==="tv"&&e.estado==="visto";}).length;
+  var pns = lst.filter(function(e){return e.puntuacion>0;}).map(function(e){return e.puntuacion;});
+  var med = pns.length?(pns.reduce(function(a,b){return a+b;},0)/pns.length).toFixed(1):"—";
+  var favs = lst.filter(function(e){return e.favorito;}).slice(0,4);
+  var gc={};lst.forEach(function(e){(e.genre_ids||[]).forEach(function(g){var n=GENEROS[g];if(n)gc[n]=(gc[n]||0)+1;});});
+  var tg=Object.entries(gc).sort(function(a,b){return b[1]-a[1];})[0]?.[0]||"Cine";
+  var avHtml=p.avatar_url?'<img src="'+p.avatar_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:14px">':"<span>"+p.avatar+"</span>";
+  var postersHtml=favs.map(function(f){
+    return '<div class="share-card-poster">'+(f.poster_path?'<img src="https://image.tmdb.org/t/p/w185'+f.poster_path+'" loading="lazy" onerror="this.style.display='none'">':'')+'</div>';
+  }).join("")+Array(Math.max(0,4-favs.length)).fill('<div class="share-card-poster"></div>').join("");
+
+  wrap.innerHTML='<div class="share-card" id="share-card-inner">'
+    +'<div class="share-card-blob" style="width:200px;height:200px;background:rgba(217,70,239,.35);top:-60px;right:-60px"></div>'
+    +'<div class="share-card-blob" style="width:180px;height:180px;background:rgba(99,102,241,.25);bottom:-50px;left:-50px"></div>'
+    +'<div class="share-card-content">'
+      +'<div class="share-card-brand">CINECIRCLE</div>'
+      +'<div class="share-card-av">'+avHtml+'</div>'
+      +'<div class="share-card-user">@'+p.usuario+'</div>'
+      +'<div class="share-card-bio">'+(p.bio||"Viviendo fotograma a fotograma.")+'</div>'
+      +'<div class="share-card-stats">'
+        +'<div class="share-card-stat"><div class="share-card-stat-v">'+m+'</div><div class="share-card-stat-l">Películas</div></div>'
+        +'<div class="share-card-stat"><div class="share-card-stat-v">'+s+'</div><div class="share-card-stat-l">Series</div></div>'
+        +'<div class="share-card-stat"><div class="share-card-stat-v">'+med+'</div><div class="share-card-stat-l">Media</div></div>'
+        +'<div class="share-card-stat"><div class="share-card-stat-v" style="font-size:14px">'+tg+'</div><div class="share-card-stat-l">Género fav</div></div>'
+      +'</div>'
+      +'<div style="font-size:10px;color:rgba(255,255,255,.4);margin-bottom:7px;text-transform:uppercase;letter-spacing:.06em">Top favoritos</div>'
+      +'<div class="share-card-posters">'+postersHtml+'</div>'
+      +'<div class="share-card-footer">'
+        +'<div class="share-card-footer-brand">CINECIRCLE</div>'
+        +'<div class="share-card-footer-date">'+new Date().getFullYear()+'</div>'
+      +'</div>'
+    +'</div>'
+  +'</div>';
+}
+function descargarTarjeta(){
+  // Usar html2canvas si está disponible, sino copiar link
+  if(typeof html2canvas !== "undefined"){
+    var el = document.getElementById("share-card-inner");
+    html2canvas(el,{backgroundColor:null,scale:2}).then(function(canvas){
+      var a=document.createElement("a");
+      a.download="cinecircle-"+S.perfil.usuario+".png";
+      a.href=canvas.toDataURL("image/png");
+      a.click();
+    });
+  } else {
+    // Fallback: copiar link del perfil
+    copiarTexto(linkPerfil(S.perfil.usuario));
+    toast("html2canvas no cargado — link copiado en su lugar");
+  }
+}
+
+/* ══ FASE 3: Hooks NO invasivos ══ */
+/* Llamamos renderHeatmap() y cargarNotificaciones() directamente desde el flujo de la app
+   en lugar de envolver funciones existentes — function declarations se hoistan y rompen
+   el binding original. */
+window.addEventListener("hashchange", function(){});
+document.addEventListener("click", function(ev){
+  // Disparar carga de notificaciones al cambiar de vista
+  var btn = ev.target.closest("[data-v]");
+  if(btn){
+    var v = btn.dataset.v;
+    if(v === "amigos" || v === "perfil"){
+      setTimeout(cargarNotificaciones, 100);
+    }
+    if(v === "perfil"){
+      setTimeout(function(){ try{ renderHeatmap(); }catch(e){} }, 150);
+    }
+  }
+});
+
 
 /* ── INIT ── */
 rinicio();
