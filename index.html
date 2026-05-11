@@ -2546,9 +2546,12 @@ function compartirPerfil(){
   var favs = lst.filter(function(e){return e.favorito;}).slice(0,4);
   var gc={};lst.forEach(function(e){(e.genre_ids||[]).forEach(function(g){var n=GENEROS[g];if(n)gc[n]=(gc[n]||0)+1;});});
   var tg=Object.entries(gc).sort(function(a,b){return b[1]-a[1];})[0]?.[0]||"Cine";
-  var avHtml=p.avatar_url?'<img src="'+p.avatar_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:14px">':"<span>"+p.avatar+"</span>";
+  var avUrl = p.avatar_url ? safeShareImageUrl(p.avatar_url) : "";
+  var avHtml=p.avatar_url?'<img crossorigin="anonymous" referrerpolicy="no-referrer" src="'+avUrl+'" style="width:100%;height:100%;object-fit:cover;border-radius:14px" onerror="this.outerHTML=\'<span>'+escapeHtml(p.avatar||"🎬")+'</span>\'">':"<span>"+escapeHtml(p.avatar||"🎬")+"</span>";
   var postersHtml=favs.map(function(f){
-    return '<div class="share-card-poster">'+(f.poster_path?'<img src="https://image.tmdb.org/t/p/w185'+f.poster_path+'" loading="lazy" onerror="this.style.display=\'none\'">':'')+'</div>';
+    var rawPoster = f.poster_path || f.poster || "";
+    var src = rawPoster ? safeShareImageUrl(rawPoster.indexOf("http")===0 ? rawPoster : "https://image.tmdb.org/t/p/w185"+rawPoster) : "";
+    return '<div class="share-card-poster">'+(src?'<img crossorigin="anonymous" referrerpolicy="no-referrer" src="'+src+'" loading="eager" onerror="this.style.display=\'none\'">':'')+'</div>';
   }).join("")+Array(Math.max(0,4-favs.length)).fill('<div class="share-card-poster"></div>').join("");
 
   wrap.innerHTML='<div class="share-card" id="share-card-inner">'
@@ -2574,6 +2577,34 @@ function compartirPerfil(){
     +'</div>'
   +'</div>';
 }
+
+function safeShareImageUrl(url){
+  if(!url) return "";
+  if(url.indexOf("data:")===0 || url.indexOf("blob:")===0) return url;
+  // html2canvas suele perder imágenes externas por CORS. Para tarjetas compartibles
+  // pasamos los pósters de TMDb por un proxy de imagen con CORS.
+  if(url.indexOf("image.tmdb.org/t/p/") !== -1){
+    var clean = url.replace(/^https?:\/\//, "");
+    return "https://images.weserv.nl/?url=" + encodeURIComponent(clean) + "&output=jpg";
+  }
+  return url;
+}
+function waitForShareImages(root){
+  var imgs = Array.prototype.slice.call(root.querySelectorAll("img"));
+  if(!imgs.length) return Promise.resolve();
+  return Promise.all(imgs.map(function(img){
+    return new Promise(function(resolve){
+      try{ img.crossOrigin="anonymous"; img.referrerPolicy="no-referrer"; }catch(e){}
+      if(img.complete && img.naturalWidth > 0) return resolve();
+      var done=false;
+      function finish(){ if(done) return; done=true; resolve(); }
+      img.onload=finish;
+      img.onerror=function(){ img.style.display="none"; finish(); };
+      setTimeout(finish, 3500);
+    });
+  }));
+}
+
 function cargarHtml2Canvas(){
   if(typeof html2canvas !== "undefined") return Promise.resolve(window.html2canvas);
   return new Promise(function(resolve,reject){
@@ -2599,7 +2630,8 @@ async function descargarTarjeta(){
     toast("Generando imagen...");
     await cargarHtml2Canvas();
     if(typeof html2canvas === "undefined") throw new Error("html2canvas no disponible");
-    var canvas = await html2canvas(el,{backgroundColor:null,scale:2,useCORS:true,allowTaint:true});
+    await waitForShareImages(el);
+    var canvas = await html2canvas(el,{backgroundColor:null,scale:2,useCORS:true,allowTaint:false,imageTimeout:8000,logging:false});
     canvas.toBlob(async function(blob){
       var file = new File([blob], "cinecircle-"+S.perfil.usuario+".png", {type:"image/png"});
       if(navigator.canShare && navigator.canShare({files:[file]})){
