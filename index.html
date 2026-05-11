@@ -1966,7 +1966,7 @@ async function guardarEstadoCloud(force=false){
     if(rows.length) await sb("user_titles.insert", supabaseClient.from("user_titles").insert(rows));
 
     const lrows=(S.listas||[]).map(l=>({user_id:uid,id:l.id,nombre:l.nombre,emoji:l.emoji,publica:l.publica!==false}));
-    if(lrows.length) await sb("lists.insert", supabaseClient.from("lists").insert(lrows));
+    if(lrows.length) await sb("lists.upsert", supabaseClient.from("lists").upsert(lrows,{onConflict:"id"}));
 
     const irows=[];
     (S.listas||[]).forEach(l=>(l.items||[]).forEach((k,idx)=>irows.push({user_id:uid,list_id:l.id,item_key:k,position:idx})));
