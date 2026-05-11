@@ -663,6 +663,41 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
 .quick-actions{display:flex;gap:7px;overflow-x:auto;padding:0 16px 14px}.quick-actions::-webkit-scrollbar{display:none}.quick-chip{flex-shrink:0;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);border-radius:999px;color:var(--text);padding:8px 12px;font-size:11px;font-weight:800}.quick-chip.primary{border-color:transparent;background:linear-gradient(135deg,#d946ef,#7c3aed)}
 @media(max-width:520px){.auth-card{padding:22px;border-radius:24px}.auth-title{font-size:30px}.mtit{font-size:28px}.mbody{padding-left:14px;padding-right:14px}.sgrid{grid-template-columns:repeat(2,1fr)}.arow{flex-direction:column}.pstats{grid-template-columns:repeat(2,1fr)}.more-grid{grid-template-columns:repeat(4,1fr);gap:7px}.more-tile{padding:11px 4px}.share-card{max-width:250px}.install-banner{bottom:70px}}
 
+
+
+/* ── ESTABILIDAD + FORMATO WEB / APP ── */
+html{scroll-behavior:smooth}
+body{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button,input,textarea{font-size:16px}
+@media(min-width:721px){button,input,textarea{font-size:14px}}
+.auth-hbtn.mode-toggle{display:inline-flex;align-items:center;gap:5px}
+.mode-badge{position:fixed;top:66px;right:12px;z-index:90;background:rgba(14,14,17,.86);border:1px solid rgba(255,255,255,.12);border-radius:999px;color:var(--text2);font-size:11px;font-weight:800;padding:6px 10px;backdrop-filter:blur(14px);pointer-events:none}
+html.app-mode .nav{display:none!important}
+html.app-mode .bnav{display:block!important}
+html.app-mode .hdr{height:56px;padding:0 14px}
+html.app-mode .main{padding-bottom:calc(78px + env(safe-area-inset-bottom))}
+html.app-mode .live-badge{display:none}
+html.app-mode .mode-toggle{background:rgba(217,70,239,.12);border-color:rgba(217,70,239,.35);color:#f0abfc}
+html.app-mode .hero{padding-top:46px;padding-bottom:34px}
+@media(min-width:881px){
+  html.app-mode body{background:radial-gradient(circle at 50% 0%,rgba(217,70,239,.08),transparent 35%),#050507}
+  html.app-mode .hdr,html.app-mode .main,html.app-mode .bnav{max-width:520px;margin-left:auto;margin-right:auto}
+  html.app-mode .hdr{border-left:1px solid rgba(255,255,255,.08);border-right:1px solid rgba(255,255,255,.08)}
+  html.app-mode .main{min-height:calc(100vh - 56px);border-left:1px solid rgba(255,255,255,.08);border-right:1px solid rgba(255,255,255,.08);background:#08080a}
+  html.app-mode .bnav{left:50%;right:auto;width:520px;transform:translateX(-50%);border-left:1px solid rgba(255,255,255,.08);border-right:1px solid rgba(255,255,255,.08)}
+}
+@media(max-width:720px){
+  .hdr{height:54px;padding:0 12px}.logo-txt{font-size:14px}.hdr-av{width:32px;height:32px}.auth-hbtn{padding:7px 10px;font-size:11px}.mode-toggle{display:none!important}
+  .main{padding-bottom:calc(78px + env(safe-area-inset-bottom))}.bnav{height:calc(60px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom)}
+  .bnb{font-size:10px}.bnb svg{width:21px;height:21px}.hero{padding:42px 16px 32px}.hsub{font-size:14px}.sb{padding-left:14px}.sb-btn{padding:10px 15px}
+  .card{border-radius:12px}.rgrid{grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:10px;padding:14px}
+  .mback{background:rgba(0,0,0,.92)}.min{padding:0 0 calc(86px + env(safe-area-inset-bottom));max-width:none}.mbox{min-height:100vh;border-left:0;border-right:0}.mbdrop{height:240px}.mbody{margin-top:-82px}.mpost{width:138px;border-radius:15px}.mtit{font-size:30px}.movw{font-size:14px}.gtag,.badge{font-size:11px}
+  .sgrid{grid-template-columns:repeat(2,1fr);gap:8px}.stbtn{min-height:58px;font-size:12px;border-radius:14px}.stbtn span{font-size:20px}
+  .arow{display:grid;grid-template-columns:1fr 1fr;gap:8px}.abtn{min-height:46px;font-size:12px;border-radius:14px}.rnum{width:38px;height:38px;border-radius:11px}.rva{font-size:14px;min-height:88px}
+  .pban{height:124px}.ptop-new{margin-top:-58px}.pav-new{width:104px;height:104px;border-radius:24px;font-size:48px}.ppill{min-height:42px;padding:10px 15px}.more-grid{grid-template-columns:repeat(3,1fr);gap:8px}.more-tile{min-height:68px;font-size:11px}.pstats{grid-template-columns:repeat(2,1fr);gap:9px}.pst{padding:13px 8px}.ptab{padding:9px 14px;font-size:12px}
+  .wgrd{grid-template-columns:repeat(auto-fill,minmax(102px,1fr));gap:10px}.lgrid{grid-template-columns:1fr}.lcard{border-radius:19px;padding:18px}.joint-form{grid-template-columns:1fr}.smart-grid{grid-template-columns:1fr 1fr}.share-card{max-width:280px}
+}
+
 </style>
 </head>
 <body>
@@ -688,6 +723,7 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
   </nav>
   <div class="hdr-right">
     <div class="live-badge"><div class="live-dot"></div>TMDb en directo</div>
+    <button class="auth-hbtn mode-toggle" id="mode-toggle" onclick="alternarModoApp()">📱 App</button>
     <button class="auth-hbtn" id="auth-btn" onclick="abrirAuth()">Entrar</button>
     <div class="hdr-av" id="hdr-av" onclick="ir('perfil')">🎬</div>
   </div>
@@ -2941,6 +2977,17 @@ function queueCloudSave(){
 gd = function(){ queueCloudSave(); };
 
 
+/* ── HELPERS DE RESEÑAS / SPOILERS ── */
+function setSpoiler(k, val){
+  var item = itemPorClave(k);
+  if(!item) return;
+  asegurar(k, item);
+  S.titulos[k].spoiler = !!val;
+  limpiar(k);
+  gd();
+  queueCloudSave();
+  toast(val ? "Reseña marcada como spoiler" : "Spoiler desactivado");
+}
 
 /* ── PWA + Premium helpers ── */
 let deferredInstallPrompt = null;
@@ -2966,7 +3013,7 @@ function mostrarPremium(){
 }
 (function configurarPWA(){
   try{
-    var manifest={name:"CineCircle",short_name:"CineCircle",start_url:"./",display:"standalone",background_color:"#08080a",theme_color:"#08080a",description:"Red social de películas y series",icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='28' fill='%2308080a'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-size='72' font-family='Arial' font-weight='900' fill='%23d946ef'%3EC%3C/text%3E%3C/svg%3E",sizes:"128x128",type:"image/svg+xml"}]};
+    var manifest={name:"CineCircle",short_name:"CineCircle",start_url:"./?modo=app",display:"standalone",background_color:"#08080a",theme_color:"#08080a",description:"Red social de películas y series",icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='28' fill='%2308080a'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-size='72' font-family='Arial' font-weight='900' fill='%23d946ef'%3EC%3C/text%3E%3C/svg%3E",sizes:"128x128",type:"image/svg+xml"}]};
     var blob=new Blob([JSON.stringify(manifest)],{type:"application/manifest+json"});
     var link=document.createElement("link");link.rel="manifest";link.href=URL.createObjectURL(blob);document.head.appendChild(link);
     // Evitamos registrar Service Worker en esta versión para no cachear HTML roto en Vercel.
@@ -2976,6 +3023,30 @@ function mostrarPremium(){
   }catch(e){console.warn("PWA no inicializada",e);}
 })();
 
+/* ── MODO WEB / APP ── */
+function aplicarModoCineCircle(){
+  try{
+    var qs=new URLSearchParams(location.search);
+    var standalone=(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone;
+    var app=qs.get('modo')==='app' || standalone;
+    document.documentElement.classList.toggle('app-mode', app);
+    document.documentElement.classList.toggle('web-mode', !app);
+    var btn=document.getElementById('mode-toggle');
+    if(btn) btn.textContent=app?'🌐 Web':'📱 App';
+    document.querySelectorAll('[data-v]').forEach(function(b){ if(vistaActual) b.classList.toggle('on', b.dataset.v===vistaActual); });
+  }catch(e){console.warn('No se pudo aplicar modo', e);}
+}
+function alternarModoApp(){
+  var qs=new URLSearchParams(location.search);
+  var app=!document.documentElement.classList.contains('app-mode');
+  if(app) qs.set('modo','app'); else qs.delete('modo');
+  var url=location.pathname+(qs.toString()?('?'+qs.toString()):'');
+  history.replaceState(null,'',url);
+  aplicarModoCineCircle();
+  toast(app?'Modo app activado':'Modo web activado');
+}
+
+aplicarModoCineCircle();
 initSupabaseAuth().then(()=>{const u=new URLSearchParams(location.search).get("u"); if(u) abrirPerfilPublico(u);});
 
 </script>
