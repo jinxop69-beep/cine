@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CineCircle — Tu universo cinematográfico</title>
+<meta name="description" content="Red social de películas y series. Registra, puntúa, comparte y descubre qué ver con tus amigos.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CineCircle — Tu universo cinematográfico">
+<meta property="og:description" content="Red social de películas y series. Registra, puntúa, comparte y descubre.">
+<meta property="og:image" content="https://image.tmdb.org/t/p/original/placeholder.jpg">
+<meta property="og:url" id="og-url" content="">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CineCircle">
+<meta name="twitter:description" content="Tu universo cinematográfico en un solo lugar.">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <!-- Supabase client: necesario para login real y guardado online -->
@@ -432,154 +441,123 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
 
 
 
-/* ══ FASE 1: Perfil mobile redesign ══ */
-.pban{height:110px;position:relative;overflow:hidden}
-@media(min-width:720px){.pban{height:190px}}
-.pinr{padding:0 0 20px;max-width:1000px;margin:0 auto}
-
-.ptop-mobile{
-  display:flex;flex-direction:column;align-items:center;
-  text-align:center;margin-top:-50px;padding:0 16px 14px;
-  position:relative;z-index:2;
+/* ══ FASE 2: Perfil público rediseñado ══ */
+.pub-hero{position:relative;margin-bottom:0}
+.pub-ban{height:120px;position:relative}
+@media(min-width:720px){.pub-ban{height:180px}}
+.pub-inner{
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  padding:0 16px 12px;margin-top:-48px;position:relative;z-index:2;
 }
-.pav-mobile{
-  width:94px;height:94px;border-radius:22px;
+@media(min-width:720px){
+  .pub-inner{flex-direction:row;text-align:left;align-items:flex-end;gap:16px;margin-top:-44px}
+}
+.pub-av{
+  width:90px;height:90px;border-radius:20px;
   background:linear-gradient(135deg,#1a1a1f,#09090b);
   border:3px solid var(--bg);
   display:flex;align-items:center;justify-content:center;
-  font-size:44px;flex-shrink:0;
-  box-shadow:0 8px 28px rgba(0,0,0,.6);
-  margin-bottom:10px;
+  overflow:hidden;flex-shrink:0;
+  box-shadow:0 8px 28px rgba(0,0,0,.6);margin-bottom:10px;
 }
-@media(min-width:720px){
-  .ptop-mobile{flex-direction:row;text-align:left;align-items:flex-end;gap:16px;padding:0 24px 16px;margin-top:-44px}
-  .pav-mobile{margin-bottom:0}
+@media(min-width:720px){.pub-av{margin-bottom:0}}
+.pub-name{font-family:'Playfair Display',serif;font-size:clamp(20px,5vw,28px);font-weight:900;margin-bottom:2px}
+.pub-bio{color:var(--text2);font-size:12px;line-height:1.45}
+.pub-actions{padding:10px 16px 12px;display:flex;flex-wrap:wrap;gap:7px}
+.pub-compat{
+  display:flex;align-items:center;gap:10px;
+  margin:0 16px 14px;padding:10px 14px;
+  background:rgba(217,70,239,.08);border:1px solid rgba(217,70,239,.2);
+  border-radius:12px;font-size:12px;color:var(--text);flex-wrap:wrap;
 }
-.ptop-text .pname{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(20px,5vw,30px);font-weight:900;
-  margin-bottom:3px;line-height:1.1;color:#fff;
-}
-.ptop-text .pbio{color:var(--text2);font-size:12px;line-height:1.45}
+.pub-compat-bar{flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;min-width:60px}
+.pub-compat-fill{height:100%;background:linear-gradient(90deg,#d946ef,#7c3aed);border-radius:99px;transition:width .5s}
+.pub-compat strong{font-size:14px;font-weight:800;color:#fff;min-width:34px;text-align:right}
 
-/* Pills de acción */
-.profile-pills{
-  display:flex;gap:7px;justify-content:center;
-  flex-wrap:wrap;padding:0 16px 14px;
-}
-.ppill{
-  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
-  border-radius:99px;color:var(--text);padding:8px 14px;
-  font-size:12px;font-weight:600;
-  display:inline-flex;align-items:center;gap:5px;
-  cursor:pointer;transition:all .15s;white-space:nowrap;
-}
-.ppill:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18)}
-.ppill-primary{
-  background:linear-gradient(135deg,#d946ef,#7c3aed);
-  border-color:transparent;color:#fff;
-  box-shadow:0 4px 16px rgba(217,70,239,.3);
-}
-.ppill-primary:hover{opacity:.9}
-
-/* Grid "Más" */
-.more-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:8px;padding:0 16px 18px;
-}
-.more-tile{
+/* ══ Reseñas ══ */
+.rev-card{
+  display:flex;gap:10px;padding:13px;
   background:rgba(255,255,255,.04);border:1px solid var(--border);
-  border-radius:14px;padding:13px 6px;
-  display:flex;flex-direction:column;align-items:center;gap:5px;
-  color:var(--text);font-size:10px;font-weight:600;
-  cursor:pointer;transition:all .15s;
+  border-radius:14px;margin-bottom:10px;
 }
-.more-tile:hover{
-  background:rgba(217,70,239,.08);border-color:rgba(217,70,239,.3);
-  transform:translateY(-2px);
+.rev-poster{width:44px;height:66px;border-radius:6px;object-fit:cover;flex-shrink:0}
+.rev-body{flex:1;min-width:0}
+.rev-head{display:flex;align-items:center;gap:7px;margin-bottom:5px;flex-wrap:wrap}
+.rev-title{font-size:13px;font-weight:700;color:#fff;flex:1}
+.rev-rating{background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.25);color:#fcd34d;font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px}
+.rev-text{position:relative;font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:8px}
+.rev-text p{margin:0}
+.rev-spoiler p{filter:blur(5px);user-select:none}
+.rev-spoiler-overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:6px;
+  background:rgba(0,0,0,.5);border-radius:8px;
+  font-size:12px;color:var(--text2);cursor:pointer;
 }
-.more-tile>span:first-child{font-size:20px}
+.rev-spoiler-overlay button{
+  background:rgba(255,255,255,.1);border:1px solid var(--border);
+  border-radius:99px;color:#fff;padding:4px 12px;font-size:11px;cursor:pointer;
+}
+.rev-actions{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.rev-like-btn{
+  background:rgba(255,255,255,.05);border:1px solid var(--border);
+  border-radius:99px;color:var(--text2);padding:5px 11px;font-size:11px;
+  font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px;
+  transition:all .15s;
+}
+.rev-like-btn:hover{background:rgba(244,63,94,.1);border-color:rgba(244,63,94,.3)}
+.rev-liked{background:rgba(244,63,94,.15)!important;border-color:rgba(244,63,94,.3)!important;color:#fb7185!important}
+.rev-action-btn{
+  background:none;border:none;color:var(--text3);font-size:11px;cursor:pointer;padding:5px 7px;
+  border-radius:8px;transition:all .15s;
+}
+.rev-action-btn:hover{background:rgba(255,255,255,.06);color:var(--text)}
 
-/* Tabs de estado en el perfil */
-.profile-tabs{
-  display:flex;gap:6px;overflow-x:auto;
-  padding:0 16px 14px;
-  -webkit-overflow-scrolling:touch;
+/* ══ Comentarios ══ */
+.comment-item{display:flex;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.comment-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.comment-av{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.comment-body{flex:1;min-width:0}
+.comment-meta{display:flex;align-items:center;gap:6px;margin-bottom:3px;font-size:11px;color:var(--text2);flex-wrap:wrap}
+.comment-meta strong{color:#fff;font-size:12px}
+.comment-meta button{background:none;border:none;color:var(--text3);cursor:pointer;font-size:11px;margin-left:auto;padding:0}
+.comment-text{font-size:12px;color:var(--text);line-height:1.55}
+
+/* ══ Upload de foto ══ */
+.upload-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.upload-preview{
+  width:52px;height:52px;border-radius:14px;
+  background:rgba(255,255,255,.06);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:24px;
+  overflow:hidden;flex-shrink:0;
 }
-.profile-tabs::-webkit-scrollbar{display:none}
-.ptab{
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-  border-radius:99px;color:var(--text2);
-  padding:7px 12px;font-size:11px;font-weight:600;
-  white-space:nowrap;flex-shrink:0;
-  display:inline-flex;align-items:center;gap:5px;
-  cursor:pointer;transition:all .15s;
-}
-.ptab:hover{background:rgba(255,255,255,.07)}
-.ptab.on{
+.upload-preview-banner{
+  width:80px;height:44px;border-radius:10px;
   background:linear-gradient(135deg,#d946ef,#7c3aed);
-  border-color:transparent;color:#fff;
+  background-size:cover;background-position:center;
+  border:1px solid var(--border);flex-shrink:0;
 }
-.ptab-c{
-  background:rgba(255,255,255,.2);border-radius:99px;
-  padding:1px 6px;font-size:9px;font-weight:700;
+.upload-btns{display:flex;flex-direction:column;gap:4px}
+.upload-btn{
+  background:rgba(255,255,255,.06);border:1px solid var(--border);
+  border-radius:99px;color:var(--text);padding:6px 12px;font-size:11px;
+  font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;
+  transition:all .15s;
 }
-.ptab.on .ptab-c{background:rgba(0,0,0,.2)}
+.upload-btn:hover{background:rgba(255,255,255,.1)}
+.upload-btn input{display:none}
+.upload-or{font-size:10px;color:var(--text3);padding-left:4px}
 
-/* Stats del perfil compactas */
-.pstats{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:7px;padding:0 16px 16px;
+/* ══ IA móvil mejorada ══ */
+#v-ia .sec{padding-bottom:24px}
+#mood-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+#mood-row .mood{
+  background:rgba(255,255,255,.05);border:1px solid var(--border);
+  border-radius:99px;color:var(--text2);padding:8px 14px;font-size:12px;
+  font-weight:600;cursor:pointer;transition:all .15s;
 }
-@media(min-width:560px){.pstats{grid-template-columns:repeat(4,1fr)}}
-.pst{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:10px 6px;text-align:center}
-.pst-i{font-size:17px;margin-bottom:4px}
-.pst-v{font-size:clamp(16px,3vw,22px);font-weight:800;color:#fff}
-.pst-l{font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em}
-
-/* Grid recientes */
-.wgrd{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px}
-
-/* Logros */
-.bgrd{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:8px;padding:0 16px 20px}
-.ptit{font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;margin-bottom:11px;color:var(--text);padding:0 16px}
-
-/* ══ FASE 1: Smart lists ══ */
-.smart-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);
-  gap:9px;margin-bottom:18px;
-}
-.smart-card{
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.09);
-  border-radius:14px;padding:14px;
-  cursor:pointer;transition:all .15s;
-  text-align:left;position:relative;
-}
-.smart-card:hover{border-color:rgba(217,70,239,.35);transform:translateY(-2px)}
-.smart-card.featured{
-  background:linear-gradient(135deg,rgba(244,63,94,.12),rgba(217,70,239,.08));
-  border-color:rgba(244,63,94,.25);
-}
-.smart-ico{font-size:24px;margin-bottom:7px;display:block}
-.smart-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:1px}
-.smart-cnt{font-size:10px;color:var(--text3)}
-.smart-auto{
-  position:absolute;top:8px;right:8px;
-  background:rgba(255,255,255,.08);
-  color:rgba(255,255,255,.5);
-  font-size:8px;font-weight:700;letter-spacing:.05em;
-  padding:2px 6px;border-radius:99px;
-}
-/* Divisor entre smart y curadas */
-.lists-divider{
-  display:flex;align-items:center;gap:10px;margin-bottom:16px;
-}
-.lists-div-line{flex:1;height:1px;background:rgba(255,255,255,.07)}
-.lists-div-txt{
-  font-size:10px;font-weight:700;color:var(--text3);
-  text-transform:uppercase;letter-spacing:.07em;white-space:nowrap;
-}
+#mood-row .mood:hover{background:rgba(255,255,255,.09)}
+#mood-row .mood.on{background:linear-gradient(135deg,#d946ef,#7c3aed);border-color:transparent;color:#fff;box-shadow:0 3px 12px rgba(217,70,239,.35)}
 </style>
 </head>
 <body>
@@ -682,9 +660,12 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
 
 <!-- BOTTOM NAV -->
 <nav class="bnav">
-  <div class="bnav-inner" id="bnav-inner" style="grid-template-columns:repeat(5,1fr)">
+  <div class="bnav-inner" id="bnav-inner" style="grid-template-columns:repeat(9,1fr)">
     <button class="bnb on" data-v="inicio" onclick="ir('inicio')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio
+    </button>
+    <button class="bnb" data-v="descubrir" onclick="ir('descubrir')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>Descubrir
     </button>
     <button class="bnb" data-v="buscar" onclick="ir('buscar')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Buscar
@@ -694,6 +675,15 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
     </button>
     <button class="bnb" data-v="amigos" onclick="ir('amigos')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Amigos
+    </button>
+    <button class="bnb" data-v="conjunto" onclick="ir('conjunto')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8"/><path d="M7 14h10"/><path d="M19 8l-7 7-7-7"/></svg>Juntos
+    </button>
+    <button class="bnb" data-v="ia" onclick="ir('ia')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4"/><path d="M12 18v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="m16.24 16.24 2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="m16.24 7.76 2.83-2.83"/></svg>IA
+    </button>
+    <button class="bnb" data-v="wrapped" onclick="ir('wrapped')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>Wrapped
     </button>
     <button class="bnb" data-v="perfil" onclick="ir('perfil')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Perfil
@@ -763,15 +753,8 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
 
   <!-- ═══ LISTAS ═══ -->
   <div id="v-listas" class="view">
-    <div class="sec pt" id="listas-main">
-      <div class="sh"><div><h2 class="stit serif">Mis listas</h2><p class="ssub">Tu biblioteca y tus colecciones.</p></div></div>
-      <div class="smart-grid" id="smart-grid"></div>
-      <div class="lists-divider">
-        <div class="lists-div-line"></div>
-        <div class="lists-div-txt">Tus colecciones</div>
-        <div class="lists-div-line"></div>
-      </div>
-      <button class="nlbtn" onclick="onl()" style="margin-bottom:16px">➕ Crear nueva lista</button>
+    <div class="sec pt">
+      <div class="sh"><div><h2 class="stit serif">Mis listas</h2><p class="ssub">Curar, compartir, obsesionarse.</p></div><button class="nlbtn" onclick="onl()">➕ Nueva lista</button></div>
       <div class="lgrid" id="lgrid"></div>
     </div>
     <div id="ldet" style="display:none">
@@ -857,36 +840,26 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
   <div id="v-perfil" class="view">
     <div id="pban" class="pban" style="background:linear-gradient(135deg,#d946ef,#7c3aed,#6366f1)">
       <div class="pban-pat"></div>
-      <button class="edbtn" onclick="oedit()">✏️ Editar</button>
+      <button class="edbtn" onclick="oedit()">✏️ Editar perfil</button>
     </div>
     <div class="pinr">
-      <div class="ptop-mobile">
-        <div class="pav-mobile" id="pav">🎬</div>
-        <div class="ptop-text">
+      <div class="ptop">
+        <div class="pav" id="pav">🎬</div>
+        <div style="padding-bottom:6px">
           <div class="pname" id="pname">@cinephile_42</div>
           <div class="pbio" id="pbio">Viviendo fotograma a fotograma.</div>
         </div>
       </div>
-      <div class="profile-pills">
-        <button class="ppill ppill-primary" onclick="copiarPerfilPublico()">🔗 Compartir</button>
-        <button class="ppill" onclick="abrirMiPerfilPublico()">👁️ Vista pública</button>
-        <button class="ppill" onclick="cerrarSesion()">🚪 Salir</button>
-      </div>
-      <div class="more-grid">
-        <button class="more-tile" onclick="ir('descubrir')"><span>🧭</span><span>Descubrir</span></button>
-        <button class="more-tile" onclick="ir('conjunto')"><span>🤝</span><span>Juntos</span></button>
-        <button class="more-tile" onclick="ir('ia')"><span>✨</span><span>Recomendar</span></button>
-        <button class="more-tile" onclick="ir('wrapped')"><span>🏆</span><span>Wrapped</span></button>
+      <div class="profile-actions">
+        <button class="probtn primary" onclick="copiarPerfilPublico()">🔗 Compartir perfil público</button>
+        <button class="probtn" onclick="abrirMiPerfilPublico()">👁️ Ver como público</button>
+        <button class="probtn" onclick="ir('conjunto')">🤝 Crear perfil conjunto</button>
       </div>
       <div class="pstats" id="pstats"></div>
-      <div class="profile-tabs">
-        <button class="ptab on" data-tab="todo" onclick="setTabPerfil('todo')">Todo <span class="ptab-c" id="tc-todo">0</span></button>
-        <button class="ptab" data-tab="viendo" onclick="setTabPerfil('viendo')">▶️ Viendo <span class="ptab-c" id="tc-viendo">0</span></button>
-        <button class="ptab" data-tab="visto" onclick="setTabPerfil('visto')">✅ Vistos <span class="ptab-c" id="tc-visto">0</span></button>
-        <button class="ptab" data-tab="pendiente" onclick="setTabPerfil('pendiente')">📌 Pendientes <span class="ptab-c" id="tc-pendiente">0</span></button>
-        <button class="ptab" data-tab="abandonado" onclick="setTabPerfil('abandonado')">❌ Abandon. <span class="ptab-c" id="tc-abandonado">0</span></button>
-      </div>
-      <div class="wgrd" id="wgrd" style="padding:0 16px 16px"></div>
+      <div class="ptit">❤️ Top 4 Favoritos</div>
+      <div class="fgrid" id="fgrid"></div>
+      <div class="ptit">👁️ Vistos recientemente</div>
+      <div class="wgrd" id="wgrd"></div>
       <div class="ptit">🏅 Logros</div>
       <div class="bgrd" id="bgrd"></div>
     </div>
@@ -914,15 +887,29 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
 <div class="emod" id="emod">
   <div class="ebox" onclick="event.stopPropagation()">
     <div class="etit">Editar perfil</div>
-    <label class="elbl">Avatar</label>
+    <label class="elbl">Foto de avatar</label>
+    <div class="upload-row">
+      <div class="upload-preview" id="av-preview">🎬</div>
+      <div class="upload-btns">
+        <label class="upload-btn"><input type="file" id="av-file" accept="image/*" onchange="previewAvatar(this)">📷 Subir foto</label>
+        <span class="upload-or">o elige emoji</span>
+      </div>
+    </div>
     <div class="avgr" id="avgr"></div>
-    <label class="elbl">Nombre de usuario</label>
+    <label class="elbl" style="margin-top:10px">Foto de banner</label>
+    <div class="upload-row" style="margin-bottom:8px">
+      <div class="upload-preview-banner" id="ban-preview"></div>
+      <div class="upload-btns">
+        <label class="upload-btn"><input type="file" id="ban-file" accept="image/*" onchange="previewBanner(this)">🖼️ Subir foto</label>
+        <span class="upload-or">o elige color</span>
+      </div>
+    </div>
+    <div class="bngr" id="bngr"></div>
+    <label class="elbl" style="margin-top:10px">Nombre de usuario</label>
     <input class="einp" id="eusr">
     <label class="elbl">Bio</label>
     <input class="einp" id="ebio">
-    <label class="elbl">Banner</label>
-    <div class="bngr" id="bngr"></div>
-    <button class="savbtn" onclick="spro()">Guardar cambios</button>
+    <button class="savbtn" id="save-profile-btn" onclick="spro()">Guardar cambios</button>
     <button class="canbtn" onclick="cemod()">Cancelar</button>
   </div>
 </div>
@@ -940,6 +927,21 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
     </label>
     <button class="savbtn" onclick="crlist()">Crear lista</button>
     <button class="canbtn" onclick="cnlmod()">Cancelar</button>
+  </div>
+</div>
+
+<!-- MODAL COMENTARIOS -->
+<div class="emod" id="comments-modal" onclick="if(event.target===this)cerrarComentarios()">
+  <div class="ebox" style="max-width:460px" onclick="event.stopPropagation()">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div class="etit" style="margin:0">Comentarios</div>
+      <button class="mcls" style="position:static" onclick="cerrarComentarios()">✕</button>
+    </div>
+    <div id="comments-list" style="max-height:320px;overflow-y:auto;margin-bottom:12px"></div>
+    <div style="display:flex;gap:7px">
+      <input class="einp" id="comment-input" placeholder="Escribe un comentario…" style="flex:1;margin:0" onkeydown="if(event.key==='Enter')enviarComentario()">
+      <button class="savbtn" style="width:auto;padding:10px 16px" onclick="enviarComentario()">Enviar</button>
+    </div>
   </div>
 </div>
 
@@ -1095,39 +1097,129 @@ function copiarPerfilPublico(){
 }
 function abrirMiPerfilPublico(){abrirPerfilPublico(S.perfil.usuario)}
 async function abrirPerfilPublico(username){
+  if(typeof username === "string" && username.includes("%")) username = decodeURIComponent(username);
+  pubTabActual = "todo"; pubTitulosCache = []; pubPerfilCache = null;
   ir("publico");
-  const root=document.getElementById("public-profile");
-  root.innerHTML=`<div class="inline-empty">Cargando perfil público...</div>`;
-  if(!supabaseClient){root.innerHTML=`<div class="inline-empty">Supabase no está conectado.</div>`;return;}
+  const root = document.getElementById("public-profile");
+  root.innerHTML = '<div class="inline-empty">Cargando perfil de @'+username+'...</div>';
+  if(!supabaseClient){ root.innerHTML = '<div class="inline-empty">Supabase no conectado.</div>'; return; }
   try{
-    const p=await sb("public.profile", supabaseClient.from("profiles").select("*").eq("username",username).maybeSingle());
-    if(!p){root.innerHTML=`<div class="inline-empty">No existe el perfil @${username}</div>`;return;}
-    const titles=await sb("public.titles", supabaseClient.from("user_titles").select("*").eq("user_id",p.id).limit(80));
-    const lists=await sb("public.lists", supabaseClient.from("lists").select("*").eq("user_id",p.id).eq("publica",true).limit(12));
-    const favs=(titles||[]).filter(t=>t.favorito).slice(0,4);
-    const seen=(titles||[]).filter(t=>t.estado==="visto");
-    const avg=(titles||[]).filter(t=>t.puntuacion!=null).map(t=>t.puntuacion);
-    const reify=e=>({id:e.tmdb_id,media_type:e.media_type,title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average});
-    root.innerHTML=`
-      <div class="public-hero">
-        <div class="public-ban" style="background:${p.banner||BANNERS[0]}"></div>
-        <div class="public-inner">
-          <div class="public-av">${p.avatar||"🎬"}</div>
-          <div class="public-name">@${p.username}</div>
-          <div class="public-bio">${p.bio||"Sin bio todavía."}</div>
-          <div class="profile-actions" style="margin-top:12px"><button class="probtn primary" onclick="copiarTexto('${linkPerfil(p.username).replace(/'/g,"\\'")}')">🔗 Copiar link</button></div>
-        </div>
-      </div>
-      <div class="pstats">
-        <div class="pst"><div class="pst-i">👁️</div><div class="pst-v">${seen.length}</div><div class="pst-l">Vistos</div></div>
-        <div class="pst"><div class="pst-i">⭐</div><div class="pst-v">${avg.length?(avg.reduce((a,b)=>a+b,0)/avg.length).toFixed(1):"—"}</div><div class="pst-l">Media</div></div>
-        <div class="pst"><div class="pst-i">❤️</div><div class="pst-v">${favs.length}</div><div class="pst-l">Favoritos</div></div>
-        <div class="pst"><div class="pst-i">📋</div><div class="pst-v">${(lists||[]).length}</div><div class="pst-l">Listas públicas</div></div>
-      </div>
-      <div class="ptit">❤️ Top favoritos</div><div class="fgrid">${favs.length?favs.map(e=>tarjeta(reify(e))).join(""):Array(4).fill(`<div class="fph">🤍</div>`).join("")}</div>
-      <div class="ptit">👁️ Vistos recientemente</div><div class="wgrd">${seen.length?seen.slice(0,12).map(e=>tarjeta(reify(e))).join(""):`<p style="color:var(--text3);font-size:12px;grid-column:1/-1">Aún no hay títulos vistos.</p>`}</div>
-      <div class="ptit">📋 Listas públicas</div><div class="lgrid">${(lists||[]).length?lists.map(l=>`<div class="lcard"><div class="lemo">${l.emoji||"🎯"}</div><div class="lnom">${l.nombre}</div><div class="lcnt">Lista pública</div></div>`).join(""):`<p style="color:var(--text3);font-size:12px">No hay listas públicas.</p>`}</div>`;
-  }catch(e){console.error(e);root.innerHTML=`<div class="inline-empty">Error cargando perfil público: ${e.message}</div>`;}
+    const {data:p, error:pe} = await supabaseClient.from("profiles").select("*").eq("username",username).maybeSingle();
+    if(pe) throw pe;
+    if(!p){ root.innerHTML = '<div class="inline-empty">No existe el perfil @'+username+'</div>'; return; }
+    pubPerfilCache = p;
+    const [{data:titles,error:te},{data:lists}] = await Promise.all([
+      supabaseClient.from("user_titles").select("*").eq("user_id",p.id).limit(100),
+      supabaseClient.from("lists").select("*").eq("user_id",p.id).eq("publica",true).limit(12)
+    ]);
+    if(te) throw te;
+    pubTitulosCache = titles||[];
+    const reify = e => ({id:e.tmdb_id,media_type:e.media_type,title:e.titulo,name:e.titulo,
+      poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,
+      release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average});
+    const favs = pubTitulosCache.filter(t=>t.favorito).slice(0,4);
+    const pns  = pubTitulosCache.filter(t=>t.puntuacion>0).map(t=>t.puntuacion);
+    const med  = pns.length ? (pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1) : "—";
+    const cnts = {
+      todo:      pubTitulosCache.length,
+      visto:     pubTitulosCache.filter(t=>t.estado==="visto").length,
+      viendo:    pubTitulosCache.filter(t=>t.estado==="viendo").length,
+      pendiente: pubTitulosCache.filter(t=>t.estado==="pendiente").length,
+      abandonado:pubTitulosCache.filter(t=>t.estado==="abandonado").length,
+    };
+    const avHtml = p.avatar_url
+      ? '<img src="'+p.avatar_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:19px" onerror="this.outerHTML='<span style=font-size:42px>'+(p.avatar||"🎬")+'</span>'">'
+      : '<span style="font-size:42px">'+(p.avatar||"🎬")+'</span>';
+    const banStyle = p.banner_url ? 'background:url(''+p.banner_url+'') center/cover no-repeat' : 'background:'+(p.banner||BANNERS[0]);
+    let compatHtml = "";
+    if(usuarioActual){
+      const myGs = new Set(Object.values(S.titulos).flatMap(t=>t.genre_ids||[]));
+      const thGs = (p.favorite_genres||[]).map(Number);
+      let score = 50;
+      if(myGs.size && thGs.length){
+        const union = new Set([...myGs,...thGs]).size;
+        score = Math.round((thGs.filter(g=>myGs.has(g)).length/Math.max(1,union))*100);
+      }
+      compatHtml = '<div class="pub-compat"><span>🎯 Compatibilidad contigo</span>'
+        +'<div class="pub-compat-bar"><div class="pub-compat-fill" style="width:'+score+'%"></div></div>'
+        +'<strong>'+score+'%</strong></div>';
+    }
+    const favsHtml = favs.length
+      ? favs.map(e=>tarjeta(reify(e))).join("") + Array(Math.max(0,4-favs.length)).fill('<div class="fph">&#x1F90D;</div>').join("")
+      : Array(4).fill('<div class="fph">&#x1F90D;</div>').join("");
+    const listsHtml = (lists||[]).length
+      ? lists.map(l=>'<div class="lcard" style="cursor:default"><div class="lemo">'+(l.emoji||"🎯")+'</div><div class="lnom">'+l.nombre+'</div><div class="lcnt">'+(l.items?.length||0)+' títulos</div></div>').join("")
+      : '<p style="color:var(--text3);font-size:12px">No hay listas públicas.</p>';
+    root.innerHTML =
+      '<div class="pub-hero">'
+        +'<div class="pub-ban" style="'+banStyle+'"></div>'
+        +'<div class="pub-inner">'
+          +'<div class="pub-av">'+avHtml+'</div>'
+          +'<div><div class="pub-name">@'+p.username+'</div>'
+          +'<div class="pub-bio">'+(p.bio||"Sin bio todavía.")+'</div></div>'
+        +'</div>'
+        +'<div class="pub-actions">'
+          +'<button class="ppill ppill-primary" onclick="copiarTexto(linkPerfil(''+p.username+''))">&#x1F517; Compartir perfil</button>'
+        +'</div>'
+        +compatHtml
+      +'</div>'
+      +'<div class="pstats" style="padding:0 16px 14px">'
+        +'<div class="pst"><div class="pst-i">🎬</div><div class="pst-v">'+cnts.visto+'</div><div class="pst-l">Vistos</div></div>'
+        +'<div class="pst"><div class="pst-i">⭐</div><div class="pst-v">'+med+'</div><div class="pst-l">Media</div></div>'
+        +'<div class="pst"><div class="pst-i">❤️</div><div class="pst-v">'+favs.length+'</div><div class="pst-l">Favs</div></div>'
+        +'<div class="pst"><div class="pst-i">📋</div><div class="pst-v">'+((lists||[]).length)+'</div><div class="pst-l">Listas</div></div>'
+      +'</div>'
+      +'<div class="ptit" style="padding:0 16px">❤️ Top favoritos</div>'
+      +'<div class="fgrid" style="padding:0 16px 16px">'+favsHtml+'</div>'
+      +'<div class="profile-tabs" id="pub-tabs">'
+        +'<button class="ptab on" data-tab="todo"       onclick="setPubTab('todo')">Todo <span class="ptab-c">'+cnts.todo+'</span></button>'
+        +'<button class="ptab"    data-tab="viendo"      onclick="setPubTab('viendo')">▶️ Viendo <span class="ptab-c">'+cnts.viendo+'</span></button>'
+        +'<button class="ptab"    data-tab="visto"       onclick="setPubTab('visto')">✅ Vistos <span class="ptab-c">'+cnts.visto+'</span></button>'
+        +'<button class="ptab"    data-tab="pendiente"   onclick="setPubTab('pendiente')">📌 Pendientes <span class="ptab-c">'+cnts.pendiente+'</span></button>'
+        +'<button class="ptab"    data-tab="abandonado"  onclick="setPubTab('abandonado')">❌ Abandon. <span class="ptab-c">'+cnts.abandonado+'</span></button>'
+      +'</div>'
+      +'<div class="wgrd" id="pub-grid" style="padding:0 16px 16px"></div>'
+      +'<div class="ptit" style="padding:0 16px">📋 Listas públicas</div>'
+      +'<div class="lgrid" style="padding:0 16px 16px">'+listsHtml+'</div>'
+      +'<div class="ptit" style="padding:0 16px">💬 Reseñas recientes</div>'
+      +'<div id="pub-reviews" style="padding:0 16px 30px"></div>';
+    renderPubTab();
+    cargarReseñasPublicas(p.id);
+  }catch(e){
+    console.error("[abrirPerfilPublico]",e);
+    root.innerHTML = '<div class="inline-empty">Error cargando perfil: '+e.message+'</div>';
+  }
+}
+
+let pubTabActual = "todo", pubTitulosCache = [], pubPerfilCache = null;
+
+function setPubTab(tab){
+  pubTabActual = tab;
+  document.querySelectorAll("#pub-tabs .ptab").forEach(b=>b.classList.toggle("on",b.dataset.tab===tab));
+  renderPubTab();
+}
+function renderPubTab(){
+  const reify = e => ({id:e.tmdb_id,media_type:e.media_type,title:e.titulo,name:e.titulo,
+    poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,
+    release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average});
+  const items = pubTabActual==="todo" ? pubTitulosCache : pubTitulosCache.filter(t=>t.estado===pubTabActual);
+  const grid = document.getElementById("pub-grid");
+  if(!grid) return;
+  grid.innerHTML = items.length
+    ? items.slice(0,24).map(e=>tarjeta(reify(e))).join("")
+    : '<p style="color:var(--text3);font-size:12px;padding:12px 0">Sin títulos en esta categoría.</p>';
+}
+async function cargarReseñasPublicas(userId){
+  const cont = document.getElementById("pub-reviews");
+  if(!cont||!supabaseClient) return;
+  try{
+    const {data,error} = await supabaseClient.from("user_titles")
+      .select("titulo,resena,puntuacion,poster_path,item_key,media_type,spoiler")
+      .eq("user_id",userId).not("resena","is",null).neq("resena","").limit(10);
+    if(error) throw error;
+    if(!(data||[]).length){ cont.innerHTML='<p style="color:var(--text3);font-size:12px">Sin reseñas todavía.</p>'; return; }
+    cont.innerHTML = (data||[]).map(r=>renderReseñaCard(r,userId,false)).join("");
+  }catch(e){ cont.innerHTML='<p style="color:var(--text3);font-size:12px">Error cargando reseñas.</p>'; }
 }
 function copiarTexto(txt){navigator.clipboard?.writeText(txt).then(()=>toast("Copiado"),()=>toast(txt));}
 
@@ -1357,9 +1449,17 @@ function rdet(item, e, gs, dir, full){
     <div id="jp-${k}" class="lp"></div>
     <div class="slbl">⭐ Tu puntuación</div>
     <div class="rnums">${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<button type="button" class="rnum${e.puntuacion===n?" on":""}" onclick="spunt('${k}',${n})">${n}</button>`).join("")}</div>
-    <div class="slbl" style="margin-bottom:5px">💬 Mini reseña</div>
-    <textarea class="rva" placeholder="¿Qué te pareció?" rows="3" onblur="sresena('${k}',this.value)">${safeReview}</textarea>
+    <div class="slbl" style="margin-bottom:5px">💬 Tu reseña</div>
+    <textarea class="rva" id="rva-${k}" placeholder="¿Qué te pareció? (máx. 500 caracteres)" rows="3" maxlength="500" onblur="sresena('${k}',this.value)">${safeReview}</textarea>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+      <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2);cursor:pointer">
+        <input type="checkbox" id="spoiler-${k}" ${e.spoiler?"checked":""} onchange="setSpoiler('${k}',this.checked)" style="accent-color:#d946ef;width:14px;height:14px"> Contiene spoilers
+      </label>
+      ${e.resena?`<button type="button" class="rev-action-btn" onclick="borrarResena('${k}')">🗑️ Borrar reseña</button>`:""}
+    </div>
+    ${e.resena?`<div id="rev-likes-${k}" style="margin-bottom:4px"></div>`:""}
   `;
+  ${e.resena?`cargarLikesResena('${k}');`:""}
 }
 
 /* ── ACCIONES ── */
@@ -1416,11 +1516,29 @@ function spunt(k,n){
   toast("Puntuación guardada");
   logActivity("rated",k);
 }
-function sresena(k,t){
-  const item=itemPorClave(k); if(!item) return;
-  asegurar(k,item);
-  S.titulos[k].resena=(t||"").trim(); limpiar(k); gd(); actualizarVistaActualLigera();
-  if(t.trim()){ toast("Reseña guardada"); logActivity("reviewed",k); }
+function sresena(k, t){
+  const item = itemPorClave(k); if(!item) return;
+  asegurar(k, item);
+  S.titulos[k].resena = t;
+  limpiar(k); gd();
+  queueCloudSave();
+  if(t && t.trim()) logActivity("reviewed", k);
+}
+function setSpoiler(k, val){
+  const item = itemPorClave(k); if(!item) return;
+  asegurar(k, item);
+  S.titulos[k].spoiler = val;
+  gd(); queueCloudSave();
+}
+function borrarResena(k){
+  if(!confirm("¿Borrar esta reseña?")) return;
+  const item = itemPorClave(k); if(!item) return;
+  asegurar(k, item);
+  S.titulos[k].resena = "";
+  S.titulos[k].spoiler = false;
+  limpiar(k); gd(); queueCloudSave();
+  rerenderModal(k);
+  toast("Reseña eliminada");
 }
 function actualizarVistaActualLigera(){
   // Evita cerrar el modal; solo actualiza paneles visibles importantes.
@@ -1473,52 +1591,28 @@ function cmod(e){
 
 /* ── LISTAS ── */
 function rlistas(){
-  document.getElementById("ldet").style.display = "none";
-  document.getElementById("listas-main").style.display = "";
-
-  // Smart lists automáticas
-  const lst = Object.values(S.titulos);
-  const smartCards = [
-    {ico:"❤️", name:"Mis favoritos",   cnt:lst.filter(e=>e.favorito).length,        tab:"todo",      cls:"featured", fn:"abrirSmartList('favoritos')"},
-    {ico:"📌", name:"Mi watchlist",     cnt:lst.filter(e=>e.estado==="pendiente").length, tab:"pendiente", cls:"",     fn:"setTabPerfil('pendiente');ir('perfil')"},
-    {ico:"▶️", name:"Viendo ahora",     cnt:lst.filter(e=>e.estado==="viendo").length,    tab:"viendo",    cls:"",     fn:"setTabPerfil('viendo');ir('perfil')"},
-    {ico:"✅", name:"Ya vistas",        cnt:lst.filter(e=>e.estado==="visto").length,     tab:"visto",     cls:"",     fn:"setTabPerfil('visto');ir('perfil')"},
-  ];
-  document.getElementById("smart-grid").innerHTML = smartCards.map(s => `
-    <div class="smart-card ${s.cls}" onclick="${s.fn}">
-      <span class="smart-auto">AUTO</span>
-      <span class="smart-ico">${s.ico}</span>
-      <div class="smart-name">${s.name}</div>
-      <div class="smart-cnt">${s.cnt} título${s.cnt!==1?"s":""}</div>
-    </div>`).join("");
-
-  // Listas curadas del usuario
-  document.getElementById("lgrid").innerHTML = S.listas.map(l => {
-    const pv = l.items.slice(0,4).map(k => S.titulos[k]).filter(Boolean);
+  document.getElementById("ldet").style.display="none";
+  document.querySelector(".sh").style.display="";
+  document.getElementById("lgrid").style.display="";
+  document.getElementById("lgrid").innerHTML = S.listas.map(l=>{
+    const pv=l.items.slice(0,4).map(k=>S.titulos[k]).filter(Boolean);
     return `<button class="lcard" onclick="old('${l.id}')">
       <div class="lemo">${l.emoji}</div>
       <div class="lnom">${l.nombre}</div>
       <div class="lcnt">${l.items.length} títulos · ${l.publica?"Pública":"Privada"}</div>
-      <div class="lprvs">${Array(4).fill(0).map((_,i) => {
-        const e=pv[i], src=e&&IMG(e.poster_path,"w185");
-        return `<div class="lprv">${src?`<img src="${src}" alt="" loading="lazy" onerror="this.style.display='none'">`:""}</div>`;
+      <div class="lprvs">${Array(4).fill(0).map((_,i)=>{
+        const e=pv[i],src=e&&IMG(e.poster_path,"w185");
+        return`<div class="lprv">${src?`<img src="${src}" alt="" loading="lazy" onerror="this.style.display='none'">`:""}</div>`;
       }).join("")}</div>
     </button>`;
-  }).join("") || `<p style="color:var(--text3);font-size:12px;grid-column:1/-1">Aún no has creado ninguna lista. ¡Empieza por el botón de arriba!</p>`;
-}
-
-function abrirSmartList(tipo){
-  // Abre perfil con la tab correspondiente
-  const tabMap = {favoritos:"todo"};
-  const tab = tabMap[tipo] || "todo";
-  setTabPerfil(tab);
-  ir("perfil");
+  }).join("");
 }
 
 function old(id){
   const l=S.listas.find(x=>x.id===id);if(!l)return;
   document.getElementById("ldet").style.display="block";
-  document.getElementById("listas-main").style.display="none";
+  document.querySelector(".sh").style.display="none";
+  document.getElementById("lgrid").style.display="none";
   const reify=e=>({id:e.tmdb_id,media_type:e.media_type,title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average});
   document.getElementById("ldcont").innerHTML=`
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:18px">
@@ -1534,7 +1628,7 @@ function old(id){
       :`<div class="listgr">${l.items.map(k=>{const e=S.titulos[k];if(!e)return"";const item=reify(e);return`<div class="liw">${tarjeta(item)}<button class="remov" onclick="event.stopPropagation();rfl('${id}','${k}')">✕</button></div>`;}).join("")}</div>`
     }`;
 }
-function clld(){document.getElementById("ldet").style.display="none";document.getElementById("listas-main").style.display="";rlistas();}
+function clld(){document.getElementById("ldet").style.display="none";document.querySelector(".sh").style.display="";document.getElementById("lgrid").style.display="";rlistas();}
 function dell(id){if(!confirm("¿Eliminar esta lista?"))return;S.listas=S.listas.filter(l=>l.id!==id);gd();clld();}
 function rfl(lid,k){const l=S.listas.find(x=>x.id===lid);if(l){l.items=l.items.filter(i=>i!==k);gd();old(lid);}}
 
@@ -1613,6 +1707,151 @@ async function ramigos(){
       </div>`}).join(""):`<div class="feed-empty">Todavía no hay actividad real. Puntúa o marca una película y aparecerá aquí.</div>`;
   }catch(e){console.error(e);fd.innerHTML=`<div class="feed-empty">Error cargando feed: ${e.message}</div>`;}
 }
+
+/* ── SISTEMA DE RESEÑAS: likes, comentarios, spoiler ── */
+
+function renderReseñaCard(r, userId, isOwn){
+  const spoilerClass = r.spoiler ? "rev-spoiler" : "";
+  const spoilerOverlay = r.spoiler
+    ? '<div class="rev-spoiler-overlay" onclick="this.style.display='none'"><span>⚠️ Contiene spoilers</span><button>Mostrar de todos modos</button></div>'
+    : "";
+  const poster = r.poster_path ? '<img src="https://image.tmdb.org/t/p/w92'+r.poster_path+'" class="rev-poster" onerror="this.style.display='none'">' : "";
+  const stars = r.puntuacion > 0 ? '<span class="rev-rating">⭐ '+r.puntuacion+'/10</span>' : "";
+  const delBtn = isOwn ? '<button class="rev-action-btn" onclick="borrarResena(''+r.item_key+'')">🗑️</button>' : "";
+  return '<div class="rev-card" id="revcard-'+r.item_key+'">'
+    + poster
+    + '<div class="rev-body">'
+      + '<div class="rev-head"><span class="rev-title">'+r.titulo+'</span>'+stars+delBtn+'</div>'
+      + '<div class="rev-text '+spoilerClass+'">'+spoilerOverlay+'<p>'+String(r.resena||"").replace(/</g,"&lt;")+'</p></div>'
+      + '<div class="rev-actions" id="rev-actions-'+r.item_key+'"></div>'
+    + '</div>'
+  + '</div>';
+}
+
+async function cargarLikesResena(itemKey){
+  const el = document.getElementById("rev-likes-"+itemKey);
+  const actEl = document.getElementById("rev-actions-"+itemKey);
+  if(!supabaseClient || !usuarioActual) return;
+  try{
+    const {data:likes} = await supabaseClient.from("review_likes")
+      .select("user_id").eq("item_key", itemKey).eq("target_user_id", usuarioActual.id);
+    const myLike = (likes||[]).find(l => l.user_id === usuarioActual.id);
+    const count = (likes||[]).length;
+    const html = '<button class="rev-like-btn '+(myLike?"rev-liked":"'')+'" onclick="toggleLike(''+itemKey+'')">'
+      +'<span>'+(myLike?"❤️":"🤍")+'</span> '+count
+      +'</button>'
+      +'<button class="rev-action-btn" onclick="abrirComentarios(''+itemKey+'')">💬 Comentar</button>';
+    if(el) el.innerHTML = html;
+    if(actEl) actEl.innerHTML = html;
+  }catch(e){ console.warn("cargarLikes:", e.message); }
+}
+
+async function toggleLike(itemKey){
+  if(!supabaseClient || !usuarioActual){ toast("Inicia sesión para dar like"); return; }
+  // Target: buscar quién es el owner del item
+  const targetUserId = pubPerfilCache?.id || usuarioActual.id;
+  try{
+    const {data:existing} = await supabaseClient.from("review_likes")
+      .select("id").eq("user_id", usuarioActual.id).eq("item_key", itemKey).eq("target_user_id", targetUserId).maybeSingle();
+    if(existing){
+      await supabaseClient.from("review_likes").delete().eq("id", existing.id);
+      toast("Like eliminado");
+    } else {
+      await supabaseClient.from("review_likes").insert({user_id:usuarioActual.id, item_key:itemKey, target_user_id:targetUserId});
+      toast("❤️ Like añadido");
+    }
+    cargarLikesResena(itemKey);
+  }catch(e){ toast("Error: "+e.message); }
+}
+
+let comentariosItemKey = null;
+function abrirComentarios(itemKey){
+  comentariosItemKey = itemKey;
+  document.getElementById("comments-modal").classList.add("on");
+  document.getElementById("comments-list").innerHTML = '<div class="inline-empty">Cargando...</div>';
+  cargarComentarios(itemKey);
+}
+function cerrarComentarios(){
+  document.getElementById("comments-modal").classList.remove("on");
+  comentariosItemKey = null;
+}
+async function cargarComentarios(itemKey){
+  const list = document.getElementById("comments-list");
+  if(!supabaseClient){ list.innerHTML = '<div class="inline-empty">Supabase no conectado.</div>'; return; }
+  try{
+    const targetUserId = pubPerfilCache?.id || usuarioActual?.id;
+    const {data,error} = await supabaseClient.from("review_comments")
+      .select("*").eq("item_key", itemKey).eq("target_user_id", targetUserId)
+      .order("created_at",{ascending:true}).limit(50);
+    if(error) throw error;
+    list.innerHTML = (data||[]).length
+      ? (data||[]).map(cm => {
+          const isOwn = cm.user_id === usuarioActual?.id;
+          return '<div class="comment-item">'
+            +'<div class="comment-av">💬</div>'
+            +'<div class="comment-body">'
+              +'<div class="comment-meta"><strong>'+cm.username+'</strong><span>'+haceTiempo(cm.created_at)+'</span>'
+              +(isOwn?'<button onclick="borrarComentario(''+cm.id+'',''+itemKey+'')">✕</button>':"")+'</div>'
+              +'<div class="comment-text">'+String(cm.body).replace(/</g,"&lt;")+'</div>'
+            +'</div>'
+          +'</div>';
+        }).join("")
+      : '<div class="inline-empty" style="padding:16px 0">Sé el primero en comentar.</div>';
+  }catch(e){ list.innerHTML='<div class="inline-empty">Error: '+e.message+'</div>'; }
+}
+async function enviarComentario(){
+  const inp = document.getElementById("comment-input");
+  const body = (inp?.value||"").trim();
+  if(!body){ toast("Escribe algo"); return; }
+  if(!supabaseClient||!usuarioActual){ toast("Inicia sesión"); return; }
+  const targetUserId = pubPerfilCache?.id || usuarioActual.id;
+  try{
+    await supabaseClient.from("review_comments").insert({
+      user_id: usuarioActual.id, item_key: comentariosItemKey,
+      target_user_id: targetUserId, body,
+      username: S.perfil.usuario
+    });
+    inp.value = "";
+    cargarComentarios(comentariosItemKey);
+    toast("Comentario enviado");
+  }catch(e){ toast("Error: "+e.message); }
+}
+async function borrarComentario(id, itemKey){
+  if(!confirm("¿Borrar comentario?")) return;
+  try{
+    await supabaseClient.from("review_comments").delete().eq("id",id);
+    cargarComentarios(itemKey);
+    toast("Comentario eliminado");
+  }catch(e){ toast("Error: "+e.message); }
+}
+
+/* ── SUBIDA DE FOTOS DE PERFIL ── */
+let avFileData = null, banFileData = null;
+
+function previewAvatar(input){
+  const file = input.files[0]; if(!file) return;
+  avFileData = file;
+  const url = URL.createObjectURL(file);
+  const prev = document.getElementById("av-preview");
+  if(prev) prev.innerHTML = '<img src="'+url+'" style="width:100%;height:100%;object-fit:cover;border-radius:14px">';
+}
+function previewBanner(input){
+  const file = input.files[0]; if(!file) return;
+  banFileData = file;
+  const url = URL.createObjectURL(file);
+  const prev = document.getElementById("ban-preview");
+  if(prev) prev.style.backgroundImage = "url('"+url+"')";
+}
+async function subirFoto(file, tipo){
+  if(!supabaseClient||!usuarioActual) return null;
+  const ext = file.name.split(".").pop().toLowerCase();
+  const path = usuarioActual.id+"/"+tipo+"."+ext;
+  const {error} = await supabaseClient.storage.from("avatars").upload(path, file, {upsert:true, contentType:file.type});
+  if(error) throw error;
+  const {data} = supabaseClient.storage.from("avatars").getPublicUrl(path);
+  return data.publicUrl;
+}
+
 
 /* ── PERFIL CONJUNTO ── */
 let conjuntoActual=null;
@@ -1710,125 +1949,113 @@ async function recomendarIA(){
 }
 
 /* ── PERFIL ── */
-let tabPerfilActual = "todo";
-
-function setTabPerfil(tab){
-  tabPerfilActual = tab;
-  document.querySelectorAll(".ptab").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  renderTabPerfil();
-}
-
-function renderTabPerfil(){
-  const lst = Object.values(S.titulos);
-  const reify = e => ({
-    id:e.tmdb_id, media_type:e.media_type, title:e.titulo, name:e.titulo,
-    poster_path:e.poster_path, backdrop_path:e.backdrop_path, overview:e.descripcion,
-    release_date:e.fecha, first_air_date:e.fecha, genre_ids:e.genre_ids, vote_average:e.vote_average
-  });
-  let items;
-  if(tabPerfilActual === "todo")        items = lst;
-  else if(tabPerfilActual === "viendo") items = lst.filter(e => e.estado === "viendo");
-  else if(tabPerfilActual === "visto")  items = lst.filter(e => e.estado === "visto");
-  else if(tabPerfilActual === "pendiente") items = lst.filter(e => e.estado === "pendiente");
-  else if(tabPerfilActual === "abandonado") items = lst.filter(e => e.estado === "abandonado");
-  else items = lst;
-
-  const grid = document.getElementById("wgrd");
-  if(!items.length){
-    const msgs = {
-      todo:"Aún no has añadido nada. ¡Busca una película!",
-      viendo:"No estás viendo nada ahora mismo.",
-      visto:"Todavía no has marcado nada como visto.",
-      pendiente:"Tu watchlist está vacía. ¡Añade algo!",
-      abandonado:"No has abandonado ningún título. Bien hecho 😄"
-    };
-    grid.innerHTML = `<p style="color:var(--text3);font-size:12px;grid-column:1/-1;padding:12px 0">${msgs[tabPerfilActual]||""}</p>`;
-    return;
-  }
-  grid.innerHTML = items.slice(0,24).map(e => tarjeta(reify(e))).join("");
-}
-
 function rperfil(){
-  const p = S.perfil;
-  document.getElementById("pban").style.background = p.banner;
-  document.getElementById("pav").textContent = p.avatar;
-  document.getElementById("pname").textContent = "@" + p.usuario;
-  document.getElementById("pbio").textContent = p.bio;
-  document.getElementById("hdr-av").textContent = p.avatar;
+  const p=S.perfil;
+  document.getElementById("pban").style.background=p.banner;
+  const pavEl = document.getElementById("pav");
+  if(p.avatar_url) pavEl.innerHTML = '<img src="'+p.avatar_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:19px" onerror="this.textContent=''+p.avatar+''">';
+  else pavEl.textContent = p.avatar;
+  if(p.banner_url){ document.getElementById("pban").style.backgroundImage="url('"+p.banner_url+"')"; }
+  else { document.getElementById("pban").style.backgroundImage=""; document.getElementById("pban").style.background=p.banner; }
+  document.getElementById("pname").textContent="@"+p.usuario;
+  document.getElementById("pbio").textContent=p.bio;
+  document.getElementById("hdr-av").textContent=p.avatar;
 
-  const lst = Object.values(S.titulos);
-  const vst = lst.filter(e => e.estado === "visto");
-  const m   = vst.filter(e => e.media_type === "movie").length;
-  const s   = vst.filter(e => e.media_type === "tv").length;
-  const h   = Math.round(m*2 + s*8);
-  const pns = lst.filter(e => e.puntuacion > 0).map(e => e.puntuacion);
-  const med = pns.length ? (pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1) : "—";
-  const gc  = {};
-  lst.forEach(e => (e.genre_ids||[]).forEach(g => {
-    const n = GENEROS[g]; if(n) gc[n] = (gc[n]||0)+1;
-  }));
-  const tg = Object.entries(gc).sort((a,b)=>b[1]-a[1])[0]?.[0] || "—";
+  const lst=Object.values(S.titulos);
+  const vst=lst.filter(e=>e.estado==="visto");
+  const m=vst.filter(e=>e.media_type==="movie").length;
+  const s=vst.filter(e=>e.media_type==="tv").length;
+  const h=Math.round(m*2+s*8);
+  const pns=lst.filter(e=>e.puntuacion>0).map(e=>e.puntuacion);
+  const med=pns.length?(pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1):"—";
+  const gc={};lst.forEach(e=>(e.genre_ids||[]).forEach(g=>{const n=GENEROS[g];if(n)gc[n]=(gc[n]||0)+1;}));
+  const tg=Object.entries(gc).sort((a,b)=>b[1]-a[1])[0]?.[0]||"—";
 
-  // Stats 4 columnas compactas
-  document.getElementById("pstats").innerHTML = [
-    {i:"🎬", v:m,       l:"Películas"},
-    {i:"📺", v:s,       l:"Series"},
-    {i:"⭐", v:med,     l:"Media"},
-    {i:"⏱️", v:h+"h",  l:"Horas"},
-  ].map(x => `<div class="pst"><div class="pst-i">${x.i}</div><div class="pst-v">${x.v}</div><div class="pst-l">${x.l}</div></div>`).join("");
+  document.getElementById("pstats").innerHTML=[
+    {i:"🎬",v:m,l:"Películas"},
+    {i:"📺",v:s,l:"Series"},
+    {i:"⏱️",v:h+"h",l:"Horas vistas"},
+    {i:"⭐",v:med,l:"Puntuación media"},
+    {i:"🏆",v:tg,l:"Género favorito"},
+  ].map(x=>`<div class="pst"><div class="pst-i">${x.i}</div><div class="pst-v">${x.v}</div><div class="pst-l">${x.l}</div></div>`).join("");
 
-  // Contadores de tabs
-  const counts = {
-    todo:       lst.length,
-    viendo:     lst.filter(e=>e.estado==="viendo").length,
-    visto:      lst.filter(e=>e.estado==="visto").length,
-    pendiente:  lst.filter(e=>e.estado==="pendiente").length,
-    abandonado: lst.filter(e=>e.estado==="abandonado").length,
-  };
-  Object.entries(counts).forEach(([tab, n]) => {
-    const el = document.getElementById("tc-"+tab);
-    if(el) el.textContent = n;
-  });
+  const favs=lst.filter(e=>e.favorito).slice(0,4);
+  const reify=e=>({id:e.tmdb_id,media_type:e.media_type,title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average});
 
-  // Logros
-  const logros = [
-    {i:"🎬",n:"Primera vez",    e:lst.length>=1},
-    {i:"🔟",n:"Diez títulos",   e:lst.length>=10},
-    {i:"✍️",n:"Crítico/a",      e:lst.filter(e=>e.resena).length>=3},
-    {i:"📺",n:"Maratonista",    e:s>=5},
-    {i:"🎞️",n:"Cinéfilo/a",    e:m>=10},
-    {i:"🗂️",n:"Curador/a",     e:lst.filter(e=>e.favorito).length>=4},
-    {i:"💯",n:"Perfeccionista", e:lst.filter(e=>e.puntuacion===10).length>=3},
-    {i:"🌍",n:"Explorador/a",   e:lst.length>=25},
+  document.getElementById("fgrid").innerHTML=favs.length
+    ?favs.map(e=>tarjeta(reify(e))).join("")+Array(Math.max(0,4-favs.length)).fill(`<div class="fph">🤍</div>`).join("")
+    :Array(4).fill(`<div class="fph">🤍</div>`).join("");
+
+  const rec=lst.filter(e=>e.estado==="visto").slice(0,12);
+  document.getElementById("wgrd").innerHTML=rec.length
+    ?rec.map(e=>tarjeta(reify(e))).join("")
+    :`<p style="color:var(--text3);font-size:12px;grid-column:1/-1">Nada visto aún. ¡Ve a buscar algo!</p>`;
+
+  const logros=[
+    {i:"🎬",n:"Primera vez",e:lst.length>=1},
+    {i:"🔟",n:"Diez títulos",e:lst.length>=10},
+    {i:"✍️",n:"Crítico/a",e:lst.filter(e=>e.resena).length>=3},
+    {i:"📺",n:"Maratonista",e:s>=5},
+    {i:"🎞️",n:"Cinéfilo/a",e:m>=10},
+    {i:"🗂️",n:"Curador/a",e:lst.filter(e=>e.favorito).length>=4},
+    {i:"💯",n:"Perfeccionista",e:lst.filter(e=>e.puntuacion===10).length>=3},
+    {i:"🌍",n:"Explorador/a",e:lst.length>=25},
   ];
-  document.getElementById("bgrd").innerHTML = logros.map(b => `
-    <div class="bc${b.e ? "" : " lck"}">
+  document.getElementById("bgrd").innerHTML=logros.map(b=>`
+    <div class="bc${b.e?"":" lck"}">
       <div class="be">${b.i}</div>
       <div class="bn">${b.n}</div>
-      <div class="bs">${b.e ? "Obtenido ✓" : "Bloqueado"}</div>
+      <div class="bs">${b.e?"Obtenido ✓":"Bloqueado"}</div>
     </div>`).join("");
-
-  // Renderizar grid con tab activa
-  renderTabPerfil();
 }
 
 /* ── EDITAR PERFIL ── */
 let ebanner=S.perfil.banner;
 function oedit(){
-  ebanner=S.perfil.banner;
-  document.getElementById("eusr").value=S.perfil.usuario;
-  document.getElementById("ebio").value=S.perfil.bio;
-  document.getElementById("avgr").innerHTML=AVS.map(a=>`<button class="avb${a===S.perfil.avatar?" sel":""}" onclick="sav('${a}')">${a}</button>`).join("");
-  document.getElementById("bngr").innerHTML=BANNERS.map(b=>`<button class="bnb2${b===ebanner?" sel":""}" style="background:${b}" onclick="sbn(this,'${b.replace(/'/g,"\\'")}')"></button>`).join("");
+  ebanner = S.perfil.banner;
+  avFileData = null; banFileData = null;
+  document.getElementById("eusr").value = S.perfil.usuario;
+  document.getElementById("ebio").value = S.perfil.bio;
+  const avPrev = document.getElementById("av-preview");
+  if(avPrev){
+    if(S.perfil.avatar_url) avPrev.innerHTML = '<img src="'+S.perfil.avatar_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:14px">';
+    else avPrev.textContent = S.perfil.avatar;
+  }
+  const banPrev = document.getElementById("ban-preview");
+  if(banPrev){
+    if(S.perfil.banner_url) banPrev.style.cssText += ";background:url('"+S.perfil.banner_url+"') center/cover";
+    else { banPrev.style.background = S.perfil.banner; }
+  }
+  document.getElementById("avgr").innerHTML = AVS.map(a=>
+    '<button class="avb'+(a===S.perfil.avatar?" sel":"")+'" onclick="sav(''+a+'')">'+a+'</button>').join("");
+  document.getElementById("bngr").innerHTML = BANNERS.map(b=>
+    '<button class="bnb2'+(b===ebanner?" sel":"")+'" style="background:'+b+'" onclick="sbn(this,''+b.replace(/'/g,"\'")+'')" ></button>').join("");
   document.getElementById("emod").classList.add("on");
 }
 function sav(a){S.perfil.avatar=a;document.querySelectorAll("#avgr .avb").forEach(b=>b.classList.toggle("sel",b.textContent===a));}
 function sbn(btn,b){ebanner=b;document.querySelectorAll("#bngr .bnb2").forEach(e=>e.classList.remove("sel"));btn.classList.add("sel");}
-function spro(){
-  S.perfil.usuario=document.getElementById("eusr").value.trim()||S.perfil.usuario;
-  S.perfil.bio=document.getElementById("ebio").value.trim();
-  S.perfil.banner=ebanner;
-  gd();cemod();rperfil();
+async function spro(){
+  const btn = document.getElementById("save-profile-btn");
+  if(btn){ btn.textContent="Guardando..."; btn.disabled=true; }
+  try{
+    S.perfil.usuario = document.getElementById("eusr").value.trim()||S.perfil.usuario;
+    S.perfil.bio     = document.getElementById("ebio").value.trim();
+    S.perfil.banner  = ebanner;
+    if(avFileData){
+      try{ const url=await subirFoto(avFileData,"avatar"); if(url) S.perfil.avatar_url=url; }
+      catch(e){ toast("Error avatar: "+e.message); }
+    }
+    if(banFileData){
+      try{ const url=await subirFoto(banFileData,"banner"); if(url) S.perfil.banner_url=url; }
+      catch(e){ toast("Error banner: "+e.message); }
+    }
+    avFileData=null; banFileData=null;
+    gd(); cemod(); rperfil();
+    if(supabaseClient&&usuarioActual) await crearOActualizarPerfil(S.perfil.usuario);
+    toast("Perfil actualizado ✓");
+  }finally{
+    if(btn){ btn.textContent="Guardar cambios"; btn.disabled=false; }
+  }
 }
 function cemod(){document.getElementById("emod").classList.remove("on");}
 
@@ -1873,6 +2100,7 @@ function rwrapped(){
 
 /* ── INIT ── */
 rinicio();
+ramigos();
 
 /* ── SUPABASE AUTH + SINCRONIZACIÓN ONLINE ── */
 let authMode = "login";
@@ -1996,7 +2224,7 @@ async function cerrarSesion(){
   try{
     // Guardamos una última vez, pero sin toast, para que cerrar sesión no parezca que hace cosas raras.
     clearTimeout(syncTimer);
-    if(supabaseClient && usuarioActual) guardarEstadoCloud(false);
+    if(supabaseClient && usuarioActual) await guardarEstadoCloud(false);
     if(supabaseClient){
       const { error } = await supabaseClient.auth.signOut();
       if(error) throw error;
@@ -2107,7 +2335,7 @@ async function guardarEstadoCloud(force=false){
     if(rows.length) await sb("user_titles.insert", supabaseClient.from("user_titles").insert(rows));
 
     const lrows=(S.listas||[]).map(l=>({user_id:uid,id:l.id,nombre:l.nombre,emoji:l.emoji,publica:l.publica!==false}));
-    if(lrows.length) await sb("lists.upsert", supabaseClient.from("lists").upsert(lrows,{onConflict:"id"}));
+    if(lrows.length) await sb("lists.insert", supabaseClient.from("lists").insert(lrows));
 
     const irows=[];
     (S.listas||[]).forEach(l=>(l.items||[]).forEach((k,idx)=>irows.push({user_id:uid,list_id:l.id,item_key:k,position:idx})));
