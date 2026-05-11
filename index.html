@@ -9,6 +9,11 @@
 <meta property="og:description" content="Red social de películas y series.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#08080a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CineCircle">
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <!-- Supabase client: necesario para login real y guardado online -->
@@ -649,10 +654,20 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
 .share-card-footer{margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center}
 .share-card-footer-brand{font-size:10px;font-weight:800;color:#d946ef;letter-spacing:.1em}
 .share-card-footer-date{font-size:9px;color:rgba(255,255,255,.3)}
+
+
+/* ── PULIDO FINAL: Premium / PWA / producto ── */
+.install-banner{position:fixed;left:14px;right:14px;bottom:74px;z-index:450;display:none;align-items:center;gap:10px;background:rgba(14,14,17,.94);border:1px solid rgba(217,70,239,.25);border-radius:18px;padding:12px 14px;box-shadow:0 14px 45px rgba(0,0,0,.55);backdrop-filter:blur(18px)}
+.install-banner.on{display:flex;animation:fi .18s ease}.install-ico{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}.install-txt{flex:1;min-width:0}.install-t{font-size:13px;font-weight:900;color:#fff}.install-s{font-size:11px;color:var(--text2);line-height:1.35}.install-actions{display:flex;gap:6px}.install-actions button{border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:8px 11px;font-size:11px;font-weight:800;color:#fff;background:rgba(255,255,255,.06)}.install-actions button.primary{border-color:transparent;background:linear-gradient(135deg,#d946ef,#7c3aed)}
+.premium-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-top:14px}.premium-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:16px;padding:14px}.premium-card b{display:block;color:#fff;font-size:13px;margin-bottom:4px}.premium-card span{font-size:11px;color:var(--text2);line-height:1.5}.premium-price{font-size:42px;font-weight:900;letter-spacing:-.04em;line-height:1;background:linear-gradient(90deg,#fff,#f9a8d4,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.premium-price small{font-size:14px;letter-spacing:0;color:var(--text2);-webkit-text-fill-color:var(--text2)}
+.quick-actions{display:flex;gap:7px;overflow-x:auto;padding:0 16px 14px}.quick-actions::-webkit-scrollbar{display:none}.quick-chip{flex-shrink:0;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);border-radius:999px;color:var(--text);padding:8px 12px;font-size:11px;font-weight:800}.quick-chip.primary{border-color:transparent;background:linear-gradient(135deg,#d946ef,#7c3aed)}
+@media(max-width:520px){.auth-card{padding:22px;border-radius:24px}.auth-title{font-size:30px}.mtit{font-size:28px}.mbody{padding-left:14px;padding-right:14px}.sgrid{grid-template-columns:repeat(2,1fr)}.arow{flex-direction:column}.pstats{grid-template-columns:repeat(2,1fr)}.more-grid{grid-template-columns:repeat(4,1fr);gap:7px}.more-tile{padding:11px 4px}.share-card{max-width:250px}.install-banner{bottom:70px}}
+
 </style>
 </head>
 <body>
 <div id="toast-root"></div>
+<div class="install-banner" id="install-banner"><div class="install-ico">📱</div><div class="install-txt"><div class="install-t">Instala CineCircle</div><div class="install-s">Añádela a tu pantalla de inicio como una app real.</div></div><div class="install-actions"><button onclick="cerrarInstallBanner()">Luego</button><button class="primary" onclick="instalarPWA()">Instalar</button></div></div>
 
 <!-- HEADER -->
 <header class="hdr">
@@ -961,6 +976,7 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
         <button class="more-tile" onclick="mostrarRetos()"><span>🎯</span><span>Retos</span></button>
         <button class="more-tile" onclick="abrirNotificaciones()"><span>🔔</span><span id="notif-count"></span><span>Notifs</span></button>
         <button class="more-tile" onclick="compartirPerfil()"><span>📸</span><span>Compartir</span></button>
+        <button class="more-tile" onclick="mostrarPremium()"><span>💎</span><span>Premium</span></button>
       </div>
       <div id="heatmap-section" style="padding:0 16px 18px;display:none">
         <div class="ptit" style="padding:0 0 10px">🗓️ Tu actividad</div>
@@ -1074,6 +1090,31 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
 </div>
 
 <!-- MODAL COMENTARIOS -->
+
+<!-- MODAL PREMIUM / PRODUCTO -->
+<div class="emod" id="premium-modal" onclick="if(event.target===this)document.getElementById('premium-modal').classList.remove('on')">
+  <div class="ebox" style="max-width:620px" onclick="event.stopPropagation()">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px">
+      <div>
+        <div class="hbadge" style="margin-bottom:8px">💎 Preparado para monetizar</div>
+        <div class="etit" style="font-family:'Playfair Display',serif;font-size:34px;line-height:1;margin:0">CineCircle Premium</div>
+      </div>
+      <button class="canbtn" style="width:auto;margin:0;border-radius:999px;padding:8px 12px" onclick="document.getElementById('premium-modal').classList.remove('on')">✕</button>
+    </div>
+    <p class="ssub" style="margin-bottom:14px">Todavía no cobra nada: queda como pantalla preparada para producto real.</p>
+    <div class="premium-price">3,99€<small>/mes</small></div>
+    <div class="premium-grid">
+      <div class="premium-card"><b>Wrapped avanzado</b><span>Más stats, tarjetas y resumen anual premium.</span></div>
+      <div class="premium-card"><b>Temas custom</b><span>Perfiles con colores, fondos y estilos únicos.</span></div>
+      <div class="premium-card"><b>IA ilimitada</b><span>Recomendaciones por mood, pareja y géneros.</span></div>
+      <div class="premium-card"><b>Importar CSV</b><span>Letterboxd/IMDb con previsualización.</span></div>
+      <div class="premium-card"><b>Más perfiles conjuntos</b><span>Para pareja, amigos y grupos.</span></div>
+      <div class="premium-card"><b>Tarjetas premium</b><span>Historias visuales para Instagram y WhatsApp.</span></div>
+    </div>
+    <button class="savbtn" style="margin-top:16px" onclick="toast('Premium preparado para una futura integración de pagos');document.getElementById('premium-modal').classList.remove('on')">Entendido</button>
+  </div>
+</div>
+
 <div class="emod" id="cmt-modal" onclick="if(event.target===this)cerrarComentarios()">
   <div class="ebox" style="max-width:460px" onclick="event.stopPropagation()">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
@@ -2532,28 +2573,33 @@ function cargarHtml2Canvas(){
     document.head.appendChild(sc);
   });
 }
-
-function descargarTarjeta(){
+async function descargarTarjeta(){
   var el = document.getElementById("share-card-inner");
-  if(!el){
-    toast("No se encontró la tarjeta para descargar");
-    return;
-  }
-  toast("Preparando imagen…");
-  cargarHtml2Canvas().then(function(){
+  if(!el){ toast("Primero genera la tarjeta"); return; }
+  try{
+    toast("Generando imagen...");
+    await cargarHtml2Canvas();
     if(typeof html2canvas === "undefined") throw new Error("html2canvas no disponible");
-    return html2canvas(el,{backgroundColor:null,scale:2,useCORS:true,allowTaint:true});
-  }).then(function(canvas){
-    var a=document.createElement("a");
-    a.download="cinecircle-"+(S.perfil.usuario||"perfil")+".png";
-    a.href=canvas.toDataURL("image/png");
-    a.click();
-    toast("Imagen descargada");
-  }).catch(function(err){
+    var canvas = await html2canvas(el,{backgroundColor:null,scale:2,useCORS:true,allowTaint:true});
+    canvas.toBlob(async function(blob){
+      var file = new File([blob], "cinecircle-"+S.perfil.usuario+".png", {type:"image/png"});
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],title:"Mi perfil en CineCircle"});
+        toast("Imagen compartida");
+      }else{
+        var a=document.createElement("a");
+        a.download="cinecircle-"+S.perfil.usuario+".png";
+        a.href=URL.createObjectURL(blob);
+        a.click();
+        setTimeout(function(){URL.revokeObjectURL(a.href);},3000);
+        toast("Imagen descargada");
+      }
+    }, "image/png");
+  }catch(err){
     console.warn("html2canvas no pudo generar la imagen", err);
     copiarTexto(linkPerfil(S.perfil.usuario));
-    toast("No se pudo generar la imagen — link copiado");
-  });
+    toast("No se pudo crear imagen — link copiado");
+  }
 }
 
 /* ══ FASE 3: Hooks NO invasivos ══ */
@@ -2838,108 +2884,45 @@ function queueCloudSave(){
 // No hay localStorage: cualquier cambio llama exclusivamente a Supabase.
 gd = function(){ queueCloudSave(); };
 
+
+
+/* ── PWA + Premium helpers ── */
+let deferredInstallPrompt = null;
+window.addEventListener("beforeinstallprompt", function(e){
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  var b=document.getElementById("install-banner");
+  if(b && !sessionStorage.getItem("cc_install_closed")) b.classList.add("on");
+});
+function cerrarInstallBanner(){
+  sessionStorage.setItem("cc_install_closed","1");
+  document.getElementById("install-banner")?.classList.remove("on");
+}
+async function instalarPWA(){
+  if(!deferredInstallPrompt){ toast("En este navegador usa “Añadir a pantalla de inicio”"); return; }
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  cerrarInstallBanner();
+}
+function mostrarPremium(){
+  document.getElementById("premium-modal")?.classList.add("on");
+}
+(function configurarPWA(){
+  try{
+    var manifest={name:"CineCircle",short_name:"CineCircle",start_url:"./",display:"standalone",background_color:"#08080a",theme_color:"#08080a",description:"Red social de películas y series",icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='28' fill='%2308080a'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-size='72' font-family='Arial' font-weight='900' fill='%23d946ef'%3EC%3C/text%3E%3C/svg%3E",sizes:"128x128",type:"image/svg+xml"}]};
+    var blob=new Blob([JSON.stringify(manifest)],{type:"application/manifest+json"});
+    var link=document.createElement("link");link.rel="manifest";link.href=URL.createObjectURL(blob);document.head.appendChild(link);
+    if("serviceWorker" in navigator && location.protocol === "https:"){
+      var sw="self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());self.addEventListener('fetch',e=>{});";
+      var swUrl=URL.createObjectURL(new Blob([sw],{type:"text/javascript"}));
+      navigator.serviceWorker.register(swUrl).catch(function(){});
+    }
+  }catch(e){console.warn("PWA no inicializada",e);}
+})();
+
 initSupabaseAuth().then(()=>{const u=new URLSearchParams(location.search).get("u"); if(u) abrirPerfilPublico(u);});
 
-
-/* ── ARQUITECTURA SUPABASE (COMENTARIO PARA PRODUCCIÓN) ──
-Para convertir esta app en producción con Next.js + Supabase:
-
-npx create-next-app@latest cinecircle --typescript --tailwind --app
-npm install @supabase/supabase-js @supabase/auth-helpers-nextjs framer-motion zustand
-
-Estructura de carpetas:
-src/
-  app/
-    (auth)/login/page.tsx
-    (auth)/registro/page.tsx
-    (app)/layout.tsx
-    (app)/inicio/page.tsx
-    (app)/descubrir/page.tsx
-    (app)/buscar/page.tsx
-    (app)/pelicula/[id]/page.tsx
-    (app)/serie/[id]/page.tsx
-    (app)/perfil/[usuario]/page.tsx
-    (app)/listas/page.tsx
-    (app)/amigos/page.tsx
-    (app)/wrapped/page.tsx
-    api/tmdb/[...path]/route.ts   ← proxy seguro para TMDb
-  components/
-    ui/ (Button, Card, Modal, Input, Badge)
-    layout/ (Header, BottomNav, Sidebar)
-    cards/ (MovieCard, SeriesCard, UserCard)
-    modals/ (DetailModal, ListModal, ProfileEdit)
-    sections/ (Hero, TrendingRow, WrappedCard)
-  lib/
-    supabase.ts
-    tmdb.ts
-    auth.ts
-  hooks/
-    useAuth.ts
-    useTitles.ts
-    useProfile.ts
-    useLists.ts
-  store/
-    userStore.ts
-    titlesStore.ts
-  types/
-    index.ts
-
-SQL para Supabase (ejecutar en el Editor SQL):
--- Profiles
-create table profiles (
-  id uuid references auth.users primary key,
-  username text unique not null,
-  bio text, avatar text, banner text,
-  created_at timestamptz default now()
-);
--- Follows
-create table follows (
-  follower_id uuid references profiles(id),
-  following_id uuid references profiles(id),
-  primary key (follower_id, following_id)
-);
--- User titles (tracking)
-create table user_titles (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid references profiles(id),
-  tmdb_id int, media_type text,
-  titulo text, poster_path text, backdrop_path text,
-  estado text check (estado in ('visto','viendo','pendiente','abandonado')),
-  puntuacion smallint check (puntuacion between 0 and 10),
-  resena text, favorito bool default false,
-  visto_en timestamptz, genre_ids int[],
-  unique(user_id, tmdb_id, media_type)
-);
--- Lists
-create table listas (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid references profiles(id),
-  nombre text, emoji text, publica bool default true,
-  created_at timestamptz default now()
-);
--- List items
-create table lista_items (
-  lista_id uuid references listas(id) on delete cascade,
-  tmdb_id int, media_type text, posicion int,
-  primary key (lista_id, tmdb_id, media_type)
-);
--- Activity feed
-create table actividad (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid references profiles(id),
-  tipo text, tmdb_id int, media_type text,
-  datos jsonb, created_at timestamptz default now()
-);
--- Row Level Security:
-alter table user_titles enable row level security;
-create policy "Users manage own titles" on user_titles
-  using (auth.uid() = user_id);
-
-Variables de entorno (.env.local):
-NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
-TMDB_API_KEY=29910c929cac671627bda115be551a96   ← SOLO en servidor
-──────────────────────────────────────────────── */
 </script>
 </body>
 </html>
