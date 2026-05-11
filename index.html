@@ -1147,7 +1147,7 @@ async function abrirPerfilPublico(username){
           +'<div class="pub-bio">'+(p.bio||"Sin bio todavía.")+'</div></div>'
         +'</div>'
         +'<div class="pub-actions">'
-          +'<button class="ppill ppill-primary" onclick="copiarTexto(linkPerfil(''+p.username+''))">&#x1F517; Compartir perfil</button>'
+          +'<button class="ppill ppill-primary" onclick="copiarTexto(linkPerfil(this.dataset.u))" data-u="'+p.username+'">&#x1F517; Compartir perfil</button>'
         +'</div>'
         +compatHtml
       +'</div>'
@@ -1447,7 +1447,7 @@ function rdet(item, e, gs, dir, full){
     </div>
     ${e.resena?`<div id="rev-likes-${k}" style="margin-bottom:4px"></div>`:""}
   `;
-  ${e.resena?`cargarLikesResena('${k}');`:""}
+  if(e.resena) setTimeout(()=>cargarLikesResena(k),50);
 }
 
 /* ── ACCIONES ── */
@@ -1705,7 +1705,7 @@ function renderReseñaCard(r, userId, isOwn){
     : "";
   const poster = r.poster_path ? '<img src="https://image.tmdb.org/t/p/w92'+r.poster_path+'" class="rev-poster" onerror="this.style.display='none'">' : "";
   const stars = r.puntuacion > 0 ? '<span class="rev-rating">⭐ '+r.puntuacion+'/10</span>' : "";
-  const delBtn = isOwn ? '<button class="rev-action-btn" onclick="borrarResena(''+r.item_key+'')">🗑️</button>' : "";
+  const delBtn = isOwn ? '<button class="rev-action-btn" onclick="borrarResena(this.dataset.k)" data-k="'+r.item_key+'">🗑️</button>' : "";
   return '<div class="rev-card" id="revcard-'+r.item_key+'">'
     + poster
     + '<div class="rev-body">'
@@ -1725,10 +1725,11 @@ async function cargarLikesResena(itemKey){
       .select("user_id").eq("item_key", itemKey).eq("target_user_id", usuarioActual.id);
     const myLike = (likes||[]).find(l => l.user_id === usuarioActual.id);
     const count = (likes||[]).length;
-    const html = '<button class="rev-like-btn '+(myLike?"rev-liked":"'')+'" onclick="toggleLike(''+itemKey+'')">'
+    const safeKey = encodeURIComponent(itemKey);
+    const html = '<button class="rev-like-btn '+(myLike?"rev-liked":"")+'" onclick="toggleLike(decodeURIComponent(this.dataset.k))" data-k="'+safeKey+'">'
       +'<span>'+(myLike?"❤️":"🤍")+'</span> '+count
       +'</button>'
-      +'<button class="rev-action-btn" onclick="abrirComentarios(''+itemKey+'')">💬 Comentar</button>';
+      +'<button class="rev-action-btn" onclick="abrirComentarios(decodeURIComponent(this.dataset.k))" data-k="'+safeKey+'">💬 Comentar</button>';
     if(el) el.innerHTML = html;
     if(actEl) actEl.innerHTML = html;
   }catch(e){ console.warn("cargarLikes:", e.message); }
@@ -1779,7 +1780,7 @@ async function cargarComentarios(itemKey){
             +'<div class="comment-av">💬</div>'
             +'<div class="comment-body">'
               +'<div class="comment-meta"><strong>'+cm.username+'</strong><span>'+haceTiempo(cm.created_at)+'</span>'
-              +(isOwn?'<button onclick="borrarComentario(''+cm.id+'',''+itemKey+'')">✕</button>':"")+'</div>'
+              +(isOwn?'<button onclick="borrarComentario(this.dataset.i,this.dataset.k)" data-i="'+cm.id+'" data-k="'+encodeURIComponent(itemKey)+'">✕</button>':"")+'</div>'
               +'<div class="comment-text">'+String(cm.body).replace(/</g,"&lt;")+'</div>'
             +'</div>'
           +'</div>';
@@ -1805,6 +1806,7 @@ async function enviarComentario(){
   }catch(e){ toast("Error: "+e.message); }
 }
 async function borrarComentario(id, itemKey){
+  if(itemKey && itemKey.includes('%')) itemKey = decodeURIComponent(itemKey);
   if(!confirm("¿Borrar comentario?")) return;
   try{
     await supabaseClient.from("review_comments").delete().eq("id",id);
@@ -2015,13 +2017,13 @@ function oedit(){
     else { banPrev.style.background = S.perfil.banner; }
   }
   document.getElementById("avgr").innerHTML = AVS.map(a=>
-    '<button class="avb'+(a===S.perfil.avatar?" sel":"")+'" onclick="sav(''+a+'')">'+a+'</button>').join("");
+    '<button class="avb'+(a===S.perfil.avatar?" sel":"")+" onclick="sav(this.dataset.a)" data-a=""+a+'">'+a+'</button>').join("");
   document.getElementById("bngr").innerHTML = BANNERS.map(b=>
-    '<button class="bnb2'+(b===ebanner?" sel":"")+'" style="background:'+b+'" onclick="sbn(this,''+b.replace(/'/g,"\'")+'')" ></button>').join("");
+    '<button class="bnb2'+(b===ebanner?" sel":"")+"' style='background:"+b+"' onclick="sbn(this,this.dataset.b)" data-b=""+encodeURIComponent(b)+""></button>").join("");
   document.getElementById("emod").classList.add("on");
 }
-function sav(a){S.perfil.avatar=a;document.querySelectorAll("#avgr .avb").forEach(b=>b.classList.toggle("sel",b.textContent===a));}
-function sbn(btn,b){ebanner=b;document.querySelectorAll("#bngr .bnb2").forEach(e=>e.classList.remove("sel"));btn.classList.add("sel");}
+function sav(a){S.perfil.avatar=a;document.getElementById("av-preview").textContent=a;document.querySelectorAll("#avgr .avb").forEach(b=>b.classList.toggle("sel",b.dataset.a===a));}
+function sbn(btn,b){if(b&&b.includes('%'))b=decodeURIComponent(b);ebanner=b;document.querySelectorAll("#bngr .bnb2").forEach(e=>e.classList.remove("sel"));btn.classList.add("sel");}
 async function spro(){
   const btn = document.getElementById("save-profile-btn");
   if(btn){ btn.textContent="Guardando..."; btn.disabled=true; }
@@ -2088,7 +2090,6 @@ function rwrapped(){
 
 /* ── INIT ── */
 rinicio();
-ramigos();
 
 /* ── SUPABASE AUTH + SINCRONIZACIÓN ONLINE ── */
 let authMode = "login";
