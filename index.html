@@ -995,7 +995,7 @@ body.auth-locked .hdr,body.auth-locked .main,body.auth-locked .bnav{display:none
   <div class="min">
     <div class="mbox" id="mbox">
       <button class="mcls" onclick="cmod()">✕</button>
-      <img class="mbdrop" id="mbd" src="" alt="" style="display:none" onerror="this.style.display='none'">
+      <img class="mbdrop" id="mbd" src="" alt="" style="display:none" onerror="this.style.display=\'none\'">
       <div class="mbgrad"></div>
       <div class="mbody">
         <div class="mpost" id="mpost"></div>
@@ -1282,7 +1282,7 @@ async function abrirPerfilPublico(username){
     };
     var p=pubPerfil;
     var banStyle=p.banner_url?"background:url('"+p.banner_url+"') center/cover no-repeat":"background:"+(p.banner||BANNERS[0]);
-    var avHtml=p.avatar_url?'<img src="'+p.avatar_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:17px" onerror="this.parentNode.textContent=''+(p.avatar||"🎬")+''">':'<span style="font-size:38px">'+(p.avatar||"🎬")+'</span>';
+    var avHtml=p.avatar_url?'<img src="'+p.avatar_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:17px" onerror="this.style.display=\'none\'">':'<span style="font-size:38px">'+(p.avatar||"🎬")+'</span>'
     // Compatibilidad
     var myGs=new Set(Object.values(S.titulos).reduce(function(a,t){return a.concat(t.genre_ids||[]);},[]));
     var thGs=(p.favorite_genres||[]).map(Number);
@@ -1313,11 +1313,11 @@ async function abrirPerfilPublico(username){
       +'<div class="ptit padded">❤️ Top favoritos</div>'
       +'<div class="fgrid padded">'+favsHtml+'</div>'
       +'<div class="ptabs-wrap" id="pub-tabs">'
-        +'<button class="ptab on" data-tab="todo"       onclick="setPubTab('todo')">Todo <span class="ptab-cnt">'+cnts.todo+'</span></button>'
-        +'<button class="ptab"   data-tab="viendo"      onclick="setPubTab('viendo')">▶️ Viendo <span class="ptab-cnt">'+cnts.viendo+'</span></button>'
-        +'<button class="ptab"   data-tab="visto"       onclick="setPubTab('visto')">✅ Vistos <span class="ptab-cnt">'+cnts.visto+'</span></button>'
-        +'<button class="ptab"   data-tab="pendiente"   onclick="setPubTab('pendiente')">📌 Pendientes <span class="ptab-cnt">'+cnts.pendiente+'</span></button>'
-        +'<button class="ptab"   data-tab="abandonado"  onclick="setPubTab('abandonado')">❌ Abandon. <span class="ptab-cnt">'+cnts.abandonado+'</span></button>'
+        +'<button class="ptab on" data-tab="todo"       onclick="setPubTab(this.dataset.tab)">Todo <span class="ptab-cnt">'+cnts.todo+'</span></button>'
+        +'<button class="ptab"   data-tab="viendo"      onclick="setPubTab(this.dataset.tab)">▶️ Viendo <span class="ptab-cnt">'+cnts.viendo+'</span></button>'
+        +'<button class="ptab"   data-tab="visto"       onclick="setPubTab(this.dataset.tab)">✅ Vistos <span class="ptab-cnt">'+cnts.visto+'</span></button>'
+        +'<button class="ptab"   data-tab="pendiente"   onclick="setPubTab(this.dataset.tab)">📌 Pendientes <span class="ptab-cnt">'+cnts.pendiente+'</span></button>'
+        +'<button class="ptab"   data-tab="abandonado"  onclick="setPubTab(this.dataset.tab)">❌ Abandon. <span class="ptab-cnt">'+cnts.abandonado+'</span></button>'
       +'</div>'
       +'<div class="wgrd padded" id="pub-grid"></div>'
       +'<div class="ptit padded">📋 Listas públicas</div>'
@@ -1554,7 +1554,7 @@ function rmodfull(d){
   let ext="";
   if(cast.length){
     ext+=`<div class="csect"><div style="font-size:13px;font-weight:700;margin-bottom:8px">👥 Reparto</div><div class="cgrid">${
-      cast.map(p=>{const ph=IMG(p.profile_path,"w185");return`<div class="citem"><div class="cphoto">${ph?`<img src="${ph}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">`:`<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--bg3)">👤</div>`}</div><div class="cname">${p.name}</div><div class="cchar">${p.character||""}</div></div>`;}).join("")
+      cast.map(p=>{const ph=IMG(p.profile_path,"w185");return`<div class="citem"><div class="cphoto">${ph?`<img src="${ph}" alt="${p.name}" loading="lazy" onerror="this.style.display=\'none\'">`:`<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--bg3)">👤</div>`}</div><div class="cname">${p.name}</div><div class="cchar">${p.character||""}</div></div>`;}).join("")
     }</div></div>`;
   }
   if(sim.length){
@@ -1754,13 +1754,13 @@ function rlistas(){
 
   document.getElementById("lgrid").innerHTML = S.listas.map(function(l){
     var pv = l.items.slice(0,4).map(function(k){ return S.titulos[k]; }).filter(Boolean);
-    return '<button class="lcard" onclick="old(''+l.id+')">'
+    return '<button class="lcard" onclick="old(this.dataset.id)" data-id="'+l.id+'">'
       +'<div class="lemo">'+l.emoji+'</div>'
       +'<div class="lnom">'+l.nombre+'</div>'
       +'<div class="lcnt">'+l.items.length+' títulos · '+(l.publica?"Pública":"Privada")+'</div>'
       +'<div class="lprvs">'+Array(4).fill(0).map(function(_,i){
         var e=pv[i], src=e&&IMG(e.poster_path,"w185");
-        return '<div class="lprv">'+(src?'<img src="'+src+'" alt="" loading="lazy" onerror="this.style.display='none'">':'')+'</div>';
+        return '<div class="lprv">'+(src?'<img src="'+src+'" alt="" loading="lazy" onerror="this.style.display=\'none\'">':'')+'</div>';
       }).join("")+'</div>'
       +'</button>';
   }).join("") || '<p style="color:var(--text3);font-size:12px;grid-column:1/-1">Aún no has creado ninguna lista.</p>';
@@ -1845,11 +1845,11 @@ async function ramigos(){
 
 /* ── SISTEMA RESEÑAS ── */
 function renderRevCard(r, targetUserId, isOwn){
-  var poster=r.poster_path?'<img src="https://image.tmdb.org/t/p/w92'+r.poster_path+'" class="rev-poster" onerror="this.style.display='none'">':'';
+  var poster=r.poster_path?'<img src="https://image.tmdb.org/t/p/w92'+r.poster_path+'" class="rev-poster" onerror="this.style.display=\'none\'">':'';
   var stars=r.puntuacion>0?'<span class="rev-rating">⭐ '+r.puntuacion+'/10</span>':"";
   var delBtn=isOwn?'<button class="rev-act-btn" onclick="borrarResena(this.dataset.k)" data-k="'+r.item_key+'">🗑️</button>':"";
   var textCls=r.spoiler?"rev-text spoiler-hidden":"rev-text";
-  var spoilerOverlay=r.spoiler?'<div class="spoiler-overlay" onclick="this.parentNode.classList.remove('spoiler-hidden');this.remove()"><span>⚠️ Spoilers</span><button>Mostrar</button></div>':"";
+  var spoilerOverlay=r.spoiler?'<div class="spoiler-overlay" onclick="this.parentNode.classList.remove(\'spoiler-hidden\');this.remove()"><span>⚠️ Spoilers</span><button>Mostrar</button></div>':"";
   return '<div class="rev-card" id="rvc-'+encodeURIComponent(r.item_key||"")+'">'
     +poster
     +'<div class="rev-body">'
@@ -2081,7 +2081,7 @@ function rperfil(){
   else { pbanEl.style.backgroundImage=""; pbanEl.style.background=p.banner; }
   // Avatar
   const pavEl = document.getElementById("pav");
-  if(p.avatar_url) pavEl.innerHTML = '<img src="'+p.avatar_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:19px" onerror="this.parentNode.textContent=''+p.avatar+''">';
+  if(p.avatar_url) pavEl.innerHTML = '<img src="'+p.avatar_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:19px" onerror="this.style.display=\'none\'">';
   else pavEl.textContent = p.avatar;
   document.getElementById("pname").textContent = "@"+p.usuario;
   document.getElementById("pbio").textContent   = p.bio;
@@ -2223,8 +2223,8 @@ function rwrapped(){
           <div class="wst"><div class="wsti">🎬</div><div class="wstv">${m}</div><div class="wstl">Películas</div></div>
           <div class="wst"><div class="wsti">📺</div><div class="wstv">${s}</div><div class="wstl">Series</div></div>
         </div>
-        ${tm.length?`<div class="wslbl">Tus mejores películas</div><div class="wprow">${tm.map(e=>{const src=IMG(e.poster_path,"w200");return`<div class="wpp">${src?`<img src="${src}" alt="" onerror="this.style.display='none'">`:""}</div>`;}).join("")}</div>`:""}
-        ${ts.length?`<div class="wslbl">Tus mejores series</div><div class="wprow">${ts.map(e=>{const src=IMG(e.poster_path,"w200");return`<div class="wpp">${src?`<img src="${src}" alt="" onerror="this.style.display='none'">`:""}</div>`;}).join("")}</div>`:""}
+        ${tm.length?`<div class="wslbl">Tus mejores películas</div><div class="wprow">${tm.map(e=>{const src=IMG(e.poster_path,"w200");return`<div class="wpp">${src?`<img src="${src}" alt="" onerror="this.style.display=\'none\'">`:""}</div>`;}).join("")}</div>`:""}
+        ${ts.length?`<div class="wslbl">Tus mejores series</div><div class="wprow">${ts.map(e=>{const src=IMG(e.poster_path,"w200");return`<div class="wpp">${src?`<img src="${src}" alt="" onerror="this.style.display=\'none\'">`:""}</div>`;}).join("")}</div>`:""}
         <div class="wfoot">
           <div class="wavg">Puntuación media <span>${med}/10</span></div>
           <div class="wbrand">CINECIRCLE</div>
@@ -2430,7 +2430,7 @@ function abrirNotificaciones(){
   }
   list.innerHTML = _notifs.map(function(n){
     var icons = {like:"❤️",comment:"💬",follow:"👤",match:"🎯"};
-    return '<div class="notif-item'+(n.leida?"":" unread")+'" onclick="marcarLeida(''+n.id+'')">'
+    return '<div class="notif-item'+(n.leida?"":" unread")+'" onclick="marcarLeida(this.dataset.id)" data-id="'+n.id+'">'
       +'<div class="notif-ico">'+(icons[n.tipo]||"🔔")+'</div>'
       +'<div>'
         +'<div class="notif-txt">'+n.mensaje+'</div>'
@@ -2467,7 +2467,7 @@ function compartirPerfil(){
   var tg=Object.entries(gc).sort(function(a,b){return b[1]-a[1];})[0]?.[0]||"Cine";
   var avHtml=p.avatar_url?'<img src="'+p.avatar_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:14px">':"<span>"+p.avatar+"</span>";
   var postersHtml=favs.map(function(f){
-    return '<div class="share-card-poster">'+(f.poster_path?'<img src="https://image.tmdb.org/t/p/w185'+f.poster_path+'" loading="lazy" onerror="this.style.display='none'">':'')+'</div>';
+    return '<div class="share-card-poster">'+(f.poster_path?'<img src="https://image.tmdb.org/t/p/w185'+f.poster_path+'" loading="lazy" onerror="this.style.display=\'none\'">':'')+'</div>';
   }).join("")+Array(Math.max(0,4-favs.length)).fill('<div class="share-card-poster"></div>').join("");
 
   wrap.innerHTML='<div class="share-card" id="share-card-inner">'
