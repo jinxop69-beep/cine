@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ollada-pwa-v14-rebuild-home-profile';
+const CACHE_NAME = 'ollada-pwa-v15-safe-rebuild';
 const APP_SHELL = [
   '/',
   '/index.html',

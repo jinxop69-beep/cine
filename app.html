@@ -906,102 +906,91 @@ html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:1
 @media(min-width:881px){.of-profile{max-width:1280px;margin:0 auto;padding:22px}.of-hero{border-radius:32px;min-height:310px}.of-stats{max-width:780px;margin:-22px auto 0}.of-card{margin:20px 0 0}.of-profile{display:block}.of-library{flex-wrap:wrap!important;overflow:visible!important}.of-grid{display:grid}.of-poster{width:136px;flex-basis:136px}.of-poster img,.of-poster .cph{width:136px;height:204px}}
 
 
-/* === OLLADA APP REBUILD · home + perfil === */
-@media (max-width: 900px) {
-  .nav,.live-badge,.mode-toggle {display:none !important;}
-  .hdr {padding:18px 18px 14px; position:sticky; top:0; z-index:60; background:rgba(6,8,18,.88); backdrop-filter: blur(16px); border-bottom:1px solid rgba(255,255,255,.08);}
-  .logo {gap:12px;}
-  .logo-ico {width:68px;height:42px;border-radius:16px;background:linear-gradient(135deg, rgba(236,72,153,.26), rgba(99,102,241,.18)); box-shadow:0 0 0 1px rgba(255,255,255,.08) inset, 0 14px 40px rgba(168,85,247,.24); display:flex;align-items:center;justify-content:center;}
-  .logo-eye {width:58px;height:34px;display:block;}
-  .logo-txt {font-size:24px;font-weight:800;letter-spacing:-.03em;}
-  .hdr-right {gap:10px;}
-  #auth-btn {padding:16px 24px;border-radius:22px;font-weight:800;background:rgba(20,20,30,.9);border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);}
-  .hdr-av {width:50px;height:50px;border-radius:18px;background:rgba(25,25,35,.92);border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);font-size:22px;}
-  .main {padding-bottom:110px;}
-  .mock-view {background:radial-gradient(circle at 50% 0%, rgba(141,58,255,.10), transparent 35%), #04060f;}
-  .mock-shell {padding:18px 16px 110px; display:flex; flex-direction:column; gap:18px;}
-  .mock-hero-card {position:relative; overflow:hidden; border-radius:30px; padding:22px 18px 18px; background:linear-gradient(180deg, rgba(12,12,24,.98), rgba(7,8,18,.98)); box-shadow:0 18px 48px rgba(0,0,0,.42), inset 0 0 0 1px rgba(255,255,255,.08);}
-  .mock-hero-bg {position:absolute; inset:0; pointer-events:none;}
-  .mock-bg-glow {position:absolute; inset:0; background:radial-gradient(circle at 50% 12%, rgba(255,115,182,.35), rgba(168,85,247,.17) 28%, rgba(59,78,255,.0) 60%); opacity:.95;}
-  .mock-bg-mountains {position:absolute; inset:0; background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20600%20320%27%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%27sky%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%231b0a39%27/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%2745%25%27%20stop-color%3D%27%2331115f%27/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%2308122e%27/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3CradialGradient%20id%3D%27glow%27%20cx%3D%2750%25%27%20cy%3D%2718%25%27%20r%3D%2745%25%27%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%23ff6bb7%27%20stop-opacity%3D%27.45%27/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%2760%25%27%20stop-color%3D%27%23b04bff%27%20stop-opacity%3D%27.18%27/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%23000%27%20stop-opacity%3D%270%27/%3E%0A%20%20%20%20%3C/radialGradient%3E%0A%20%20%3C/defs%3E%0A%20%20%3Crect%20width%3D%27600%27%20height%3D%27320%27%20fill%3D%27url%28%23sky%29%27/%3E%0A%20%20%3Crect%20width%3D%27600%27%20height%3D%27320%27%20fill%3D%27url%28%23glow%29%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%20205%20L60%20155%20L102%20177%20L156%20132%20L214%20183%20L282%20114%20L342%20180%20L420%20102%20L500%20178%20L548%20150%20L600%20182%20L600%20320%20L0%20320%20Z%27%20fill%3D%27%2331104e%27%20opacity%3D%27.95%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%20232%20L76%20182%20L124%20202%20L194%20154%20L255%20214%20L330%20150%20L404%20208%20L474%20142%20L548%20194%20L600%20170%20L600%20320%20L0%20320%20Z%27%20fill%3D%27%231b0930%27%20opacity%3D%27.95%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%20256%20L82%20224%20L144%20246%20L220%20206%20L288%20244%20L356%20202%20L448%20250%20L530%20216%20L600%20240%20L600%20320%20L0%20320%20Z%27%20fill%3D%27%230f071d%27%20opacity%3D%27.98%27/%3E%0A%3C/svg%3E"); background-size:cover; background-position:center 34%; opacity:.93; mix-blend-mode:screen;}
-  .mock-topbar-row {position:relative; z-index:2; display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
-  .mock-inline-brand {display:flex; align-items:center; gap:12px; color:#fff; font-weight:800; font-size:19px;}
-  .mock-inline-pill {width:44px;height:28px;border-radius:999px; background:linear-gradient(135deg,#d946ef,#8b5cf6); box-shadow:0 10px 24px rgba(168,85,247,.28); position:relative; display:flex;align-items:center;justify-content:center;}
-  .mock-inline-pill::before {content:''; width:23px;height:13px; border-radius:999px; border:2px solid rgba(14,10,23,.9); position:absolute;}
-  .mock-inline-pill::after {content:''; border-left:8px solid rgba(14,10,23,.95); border-top:5px solid transparent; border-bottom:5px solid transparent; position:absolute; left:20px;}
-  .mock-inline-pill .dot {position:absolute; width:4px;height:4px;border-radius:50%; background:rgba(255,255,255,.75); left:10px; top:12px;}
-  .mock-inline-actions {display:flex; gap:10px;}
-  .mock-round-icon {width:44px;height:44px;border-radius:50%; border:1px solid rgba(255,255,255,.10); background:rgba(12,16,30,.68); color:#fff; font-size:20px; display:flex;align-items:center;justify-content:center; position:relative; box-shadow:0 10px 26px rgba(0,0,0,.22);}
-  .mock-badge {position:absolute; top:6px; right:6px; min-width:16px; height:16px; padding:0 4px; border-radius:999px; background:#ef4444; color:#fff; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center;}
-  .mock-avatar-stack {position:relative; z-index:2; width:max-content; margin:18px auto 12px;}
-  .mock-avatar-ring {width:130px; height:130px; padding:5px; border-radius:50%; background:linear-gradient(135deg,#f472b6,#a855f7,#8b5cf6); box-shadow:0 12px 34px rgba(168,85,247,.28);}
-  .mock-avatar-inner {width:100%; height:100%; border-radius:50%; overflow:hidden; background:#0a0a11; display:flex; align-items:center; justify-content:center; font-size:58px; color:#fff; box-shadow:inset 0 0 0 4px rgba(8,8,14,.9);}
-  .mock-avatar-inner img {width:100%; height:100%; object-fit:cover;}
-  .mock-avatar-inner .empty {width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
-  .mock-avatar-edit {position:absolute; right:-4px; bottom:8px; width:40px; height:40px; border-radius:50%; border:none; background:linear-gradient(135deg,#c026d3,#8b5cf6); color:#fff; font-weight:800; box-shadow:0 10px 22px rgba(168,85,247,.35);}
-  .mock-user-name {position:relative; z-index:2; text-align:center; color:#fff; font-size:24px; font-weight:800; line-height:1.05; letter-spacing:-.02em;}
-  .mock-user-handle {position:relative; z-index:2; margin-top:5px; text-align:center; color:rgba(255,255,255,.68); font-size:15px; font-weight:600;}
-  .mock-stats-panel {position:relative; z-index:2; margin:16px 0 10px; border-radius:24px; background:rgba(13,17,34,.70); border:1px solid rgba(255,255,255,.08); display:grid; grid-template-columns:repeat(4,1fr); overflow:hidden;}
-  .mock-stat {padding:14px 8px 12px; text-align:center; position:relative;}
-  .mock-stat + .mock-stat::before {content:''; position:absolute; left:0; top:18%; bottom:18%; width:1px; background:rgba(255,255,255,.08);}
-  .mock-stat-value {color:#fff; font-weight:800; font-size:23px; line-height:1;}
-  .mock-stat-label {margin-top:6px; color:rgba(255,255,255,.70); font-size:12px; font-weight:600;}
-  .mock-bio-text {position:relative; z-index:2; text-align:center; color:rgba(255,255,255,.76); font-size:15px; line-height:1.5; padding:0 10px 2px;}
-  .mock-content-card {border-radius:28px; background:linear-gradient(180deg, rgba(9,10,20,.98), rgba(7,8,18,.98)); box-shadow:0 14px 38px rgba(0,0,0,.34), inset 0 0 0 1px rgba(255,255,255,.07); padding:16px;}
-  .mock-section-head {display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px;}
-  .mock-section-head h3 {margin:0; font-size:18px; font-weight:800; color:#fff; letter-spacing:-.02em;}
-  .mock-link-btn {background:none; border:none; color:#d66bff; font-size:14px; font-weight:800; padding:0;}
-  .mock-poster-row {display:flex; gap:12px; overflow-x:auto; padding-bottom:4px; scroll-snap-type:x proximity;}
-  .mock-poster-row::-webkit-scrollbar {display:none;}
-  .mock-poster-card {min-width:94px; width:94px; scroll-snap-align:start; border:none; background:none; padding:0; text-align:left;}
-  .mock-poster-thumb {width:94px; aspect-ratio:0.69; border-radius:16px; background:linear-gradient(180deg,#171925,#0a0b12); overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.30); position:relative;}
-  .mock-poster-thumb img {width:100%; height:100%; object-fit:cover; display:block;}
-  .mock-poster-thumb .empty {width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.7); font-size:34px;}
-  .mock-poster-score {margin-top:8px; color:#f8cc54; font-size:13px; font-weight:700;}
-  .mock-poster-title {margin-top:4px; color:#fff; font-size:13px; font-weight:700; line-height:1.25; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
-  .mock-activity-list {display:flex; flex-direction:column; gap:12px;}
-  .mock-activity-item {display:flex; align-items:center; gap:12px; border-radius:20px; background:rgba(14,17,31,.76); border:1px solid rgba(255,255,255,.06); padding:12px;}
-  .mock-activity-avatar {width:42px; height:42px; border-radius:50%; overflow:hidden; background:linear-gradient(135deg,#c026d3,#7c3aed); display:flex; align-items:center; justify-content:center; font-size:20px; flex:0 0 auto; color:#fff;}
-  .mock-activity-avatar img {width:100%; height:100%; object-fit:cover;}
-  .mock-activity-copy {min-width:0; flex:1;}
-  .mock-activity-copy b {display:block; color:#fff; font-size:14px; line-height:1.3;}
-  .mock-activity-copy span {display:block; color:rgba(255,255,255,.67); font-size:12px; line-height:1.4; margin-top:3px;}
-  .mock-activity-side {color:#fb5da8; font-size:20px; flex:0 0 auto;}
-  .mock-juntos-card {display:grid; grid-template-columns:70px 1fr; gap:12px; align-items:center; border-radius:22px; background:linear-gradient(135deg, rgba(100,42,150,.34), rgba(11,15,28,.82)); border:1px solid rgba(255,255,255,.07); padding:12px;}
-  .mock-juntos-poster {width:70px; aspect-ratio:.72; border-radius:16px; background:linear-gradient(180deg,#171925,#0a0b12); overflow:hidden;}
-  .mock-juntos-poster img {width:100%; height:100%; object-fit:cover;}
-  .mock-juntos-poster .empty {width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;}
-  .mock-juntos-meta h4 {margin:0; color:#fff; font-size:15px; font-weight:800;}
-  .mock-juntos-meta p {margin:6px 0 0; color:rgba(255,255,255,.68); font-size:12px; line-height:1.45;}
-  .mock-pill-grid {display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px;}
-  .mock-pill-btn {padding:14px 12px; border-radius:999px; background:rgba(17,19,31,.86); border:1px solid rgba(255,255,255,.08); color:#fff; font-weight:800; font-size:15px; box-shadow:inset 0 1px 0 rgba(255,255,255,.05);}
-  .mock-pill-btn.primary {background:linear-gradient(135deg,#d946ef,#8b5cf6); border:none; box-shadow:0 10px 26px rgba(168,85,247,.26);}
-  .mock-tabs-wrap {display:flex; gap:10px; overflow-x:auto; padding-bottom:4px; margin-bottom:14px;}
-  .mock-tabs-wrap::-webkit-scrollbar {display:none;}
-  .mock-tab-btn {border:none; white-space:nowrap; padding:10px 16px; border-radius:999px; background:rgba(18,20,31,.92); color:rgba(255,255,255,.72); font-weight:800; display:inline-flex; gap:6px; align-items:center; box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);}
-  .mock-tab-btn.on {background:linear-gradient(135deg,#d946ef,#8b5cf6); color:#fff; box-shadow:0 10px 24px rgba(168,85,247,.26);}
-  .mock-tab-btn span {font-size:12px; opacity:.88;}
-  .mock-library-grid {display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px;}
-  .mock-library-item {display:block; border:none; background:rgba(14,16,28,.84); border-radius:18px; overflow:hidden; text-align:left; box-shadow:inset 0 0 0 1px rgba(255,255,255,.06); padding:0;}
-  .mock-library-cover {width:100%; aspect-ratio:.74; background:linear-gradient(180deg,#171925,#0a0b12); overflow:hidden;}
-  .mock-library-cover img {width:100%; height:100%; object-fit:cover; display:block;}
-  .mock-library-cover .empty {width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:34px; color:rgba(255,255,255,.7);}
-  .mock-library-body {padding:11px 11px 12px;}
-  .mock-library-title {color:#fff; font-size:13px; font-weight:800; line-height:1.3; min-height:34px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
-  .mock-library-meta {display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:9px; color:rgba(255,255,255,.68); font-size:12px;}
-  .mock-library-state {display:inline-flex; align-items:center; gap:5px; padding:6px 8px; border-radius:999px; background:rgba(255,255,255,.05); color:#fff; font-size:11px; font-weight:700;}
-  .mock-shortcuts-grid {display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px;}
-  .mock-shortcut {border:none; border-radius:20px; background:rgba(14,16,28,.86); box-shadow:inset 0 0 0 1px rgba(255,255,255,.06); padding:14px 10px; color:#fff; display:flex; flex-direction:column; gap:7px; align-items:flex-start; justify-content:center; min-height:88px; text-align:left;}
-  .mock-shortcut span {font-size:22px;}
-  .mock-shortcut b {font-size:14px;}
-  .mock-achievements-grid {display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px;}
-  .mock-achievement {border-radius:20px; background:rgba(14,16,28,.86); box-shadow:inset 0 0 0 1px rgba(255,255,255,.06); padding:14px 12px; color:#fff;}
-  .mock-achievement.locked {opacity:.55;}
-  .mock-achievement .icon {font-size:26px; margin-bottom:8px; display:block;}
-  .mock-achievement .name {font-weight:800; font-size:14px;}
-  .mock-achievement .status {font-size:12px; color:rgba(255,255,255,.62); margin-top:4px;}
-  .profile-shell {padding-top:16px;}
-  .pstats, .ptabs-wrap, .more-grid, #heatmap-section, #stats-av-section, #retos-section, .ptit, .bgrd.padded, .wgrd.padded {display:none !important;}
+/* === OLLADA APP SAFE REBUILD v15: only Inicio + Perfil visual layer === */
+@media (max-width:900px){
+  html.app-mode body{background:#04050c!important;}
+  html.app-mode .nav, html.app-mode .live-badge, html.app-mode .mode-toggle{display:none!important;}
+  html.app-mode .hdr{height:78px!important;padding:16px 18px!important;position:sticky!important;top:0!important;z-index:80!important;background:rgba(5,6,14,.92)!important;backdrop-filter:blur(18px)!important;border-bottom:1px solid rgba(255,255,255,.08)!important;}
+  html.app-mode .logo{gap:12px!important;}
+  html.app-mode .logo-ico{width:68px!important;height:42px!important;border-radius:16px!important;background:linear-gradient(135deg,rgba(217,70,239,.35),rgba(99,102,241,.22))!important;display:flex!important;align-items:center!important;justify-content:center!important;box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 14px 40px rgba(168,85,247,.26)!important;}
+  html.app-mode .logo-eye{width:58px!important;height:34px!important;display:block!important;}
+  html.app-mode .logo-txt{font-size:25px!important;font-weight:900!important;letter-spacing:-.04em!important;font-family:Inter,system-ui,sans-serif!important;}
+  html.app-mode #auth-btn{padding:14px 22px!important;border-radius:22px!important;font-weight:850!important;font-size:15px!important;background:rgba(19,20,31,.92)!important;border:1px solid rgba(255,255,255,.10)!important;}
+  html.app-mode .hdr-av{width:50px!important;height:50px!important;border-radius:17px!important;background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.10)!important;font-size:23px!important;}
+  html.app-mode .main{padding-bottom:96px!important;}
+  .ollada-clean{padding:18px 16px 112px;background:radial-gradient(circle at 50% 0%,rgba(168,85,247,.10),transparent 38%),#04050c;min-height:calc(100vh - 78px);display:flex;flex-direction:column;gap:18px;}
+  .oc-hero{position:relative;overflow:hidden;border-radius:30px;padding:22px 18px 18px;min-height:520px;background:linear-gradient(180deg,rgba(12,12,24,.98),rgba(7,8,18,.98));box-shadow:0 20px 54px rgba(0,0,0,.44),inset 0 0 0 1px rgba(255,255,255,.08);}
+  .oc-bg{position:absolute;inset:0;background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20600%20320%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27sky%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%2310072a%27/%3E%3Cstop%20offset%3D%2745%25%27%20stop-color%3D%27%2332105b%27/%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%2307122c%27/%3E%3C/linearGradient%3E%3CradialGradient%20id%3D%27glow%27%20cx%3D%2750%25%27%20cy%3D%2712%25%27%20r%3D%2750%25%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%23ff71cf%27%20stop-opacity%3D%27.55%27/%3E%3Cstop%20offset%3D%2755%25%27%20stop-color%3D%27%23a855f7%27%20stop-opacity%3D%27.20%27/%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%23000%27%20stop-opacity%3D%270%27/%3E%3C/radialGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27600%27%20height%3D%27320%27%20fill%3D%27url%28%23sky%29%27/%3E%3Crect%20width%3D%27600%27%20height%3D%27320%27%20fill%3D%27url%28%23glow%29%27/%3E%0A%3Cpath%20d%3D%27M0%20207%2058%20155%20105%20180%20158%20131%20214%20184%20283%20113%20342%20178%20421%20101%20500%20180%20548%20150%20600%20184%20600%20320%200%20320Z%27%20fill%3D%27%2331104e%27%20opacity%3D%27.92%27/%3E%0A%3Cpath%20d%3D%27M0%20233%2075%20183%20124%20203%20194%20154%20255%20214%20330%20150%20404%20208%20474%20142%20548%20194%20600%20171%20600%20320%200%20320Z%27%20fill%3D%27%231b0930%27%20opacity%3D%27.96%27/%3E%0A%3Cpath%20d%3D%27M0%20258%2082%20225%20144%20247%20220%20207%20288%20245%20356%20203%20448%20250%20530%20217%20600%20241%20600%20320%200%20320Z%27%20fill%3D%27%230d071a%27%20opacity%3D%27.98%27/%3E%0A%3C/svg%3E");background-size:cover;background-position:center 28%;opacity:.98;pointer-events:none;}
+  .oc-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,8,16,.05) 0%,rgba(7,8,16,.12) 44%,rgba(4,5,12,.86) 100%);}
+  .oc-top{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;margin-bottom:58px;}
+  .oc-brand{display:flex;align-items:center;gap:12px;font-size:24px;font-weight:900;color:white;letter-spacing:-.04em;}
+  .oc-eye{width:64px;height:39px;border-radius:18px;background:linear-gradient(135deg,#e347eb,#7c3aed);position:relative;box-shadow:0 12px 30px rgba(168,85,247,.30);}
+  .oc-eye:before{content:"";position:absolute;left:10px;right:10px;top:11px;height:17px;border-radius:999px;border:3px solid #0a0a13;}
+  .oc-eye:after{content:"";position:absolute;left:31px;top:13px;border-left:12px solid #0a0a13;border-top:7px solid transparent;border-bottom:7px solid transparent;}
+  .oc-actions{display:flex;gap:10px;}
+  .oc-icon{width:48px;height:48px;border:0;border-radius:50%;background:rgba(9,12,25,.72);color:#fff;font-size:21px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.10),0 10px 24px rgba(0,0,0,.25);position:relative;}
+  .oc-dot{position:absolute;right:7px;top:7px;width:17px;height:17px;border-radius:50%;background:#ef4444;}
+  .oc-avatar-wrap{position:relative;z-index:2;width:max-content;margin:0 auto 14px;}
+  .oc-avatar{width:142px;height:142px;border-radius:50%;padding:5px;background:linear-gradient(135deg,#f472b6,#d946ef,#7c3aed);box-shadow:0 14px 38px rgba(168,85,247,.30);}
+  .oc-avatar-in{width:100%;height:100%;border-radius:50%;overflow:hidden;background:#090a12;display:flex;align-items:center;justify-content:center;font-size:64px;color:#fff;box-shadow:inset 0 0 0 5px rgba(5,6,14,.96);}
+  .oc-avatar-in img{width:100%;height:100%;object-fit:cover;}
+  .oc-edit{position:absolute;right:-5px;bottom:11px;width:43px;height:43px;border:0;border-radius:50%;background:linear-gradient(135deg,#d946ef,#8b5cf6);color:#fff;font-weight:900;box-shadow:0 10px 24px rgba(168,85,247,.32);}
+  .oc-name{position:relative;z-index:2;text-align:center;font-size:28px;line-height:1.05;font-weight:900;letter-spacing:-.04em;color:white;text-shadow:0 4px 18px rgba(0,0,0,.55);}
+  .oc-handle{position:relative;z-index:2;text-align:center;margin-top:7px;font-size:16px;font-weight:700;color:rgba(255,255,255,.68);}
+  .oc-stats{position:relative;z-index:2;margin:19px 10px 15px;display:grid;grid-template-columns:repeat(4,1fr);border-radius:22px;background:rgba(8,12,26,.74);border:1px solid rgba(255,255,255,.09);overflow:hidden;backdrop-filter:blur(14px);}
+  .oc-stat{position:relative;text-align:center;padding:15px 6px 13px;}
+  .oc-stat+.oc-stat:before{content:"";position:absolute;left:0;top:18%;bottom:18%;width:1px;background:rgba(255,255,255,.08);}
+  .oc-stat b{display:block;color:white;font-size:23px;line-height:1;font-weight:900;}
+  .oc-stat span{display:block;margin-top:7px;color:rgba(255,255,255,.70);font-size:12px;font-weight:700;}
+  .oc-bio{position:relative;z-index:2;text-align:center;color:rgba(255,255,255,.76);font-size:16px;line-height:1.45;padding-top:4px;}
+  .oc-card{border-radius:28px;background:linear-gradient(180deg,rgba(9,10,20,.98),rgba(6,7,16,.98));box-shadow:0 14px 42px rgba(0,0,0,.36),inset 0 0 0 1px rgba(255,255,255,.07);padding:17px 16px;}
+  .oc-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
+  .oc-head h2{font-size:20px;font-weight:900;letter-spacing:-.04em;color:white;margin:0;}
+  .oc-link{border:0;background:none;color:#e86bff;font-size:15px;font-weight:900;padding:0;}
+  .oc-row{display:flex;gap:13px;overflow-x:auto;padding-bottom:3px;}
+  .oc-row::-webkit-scrollbar{display:none;}
+  .oc-poster{min-width:98px;width:98px;border:0;background:none;padding:0;text-align:left;color:white;}
+  .oc-poster-img{width:98px;aspect-ratio:.68;border-radius:16px;overflow:hidden;background:#111320;box-shadow:0 10px 26px rgba(0,0,0,.32);display:flex;align-items:center;justify-content:center;font-size:34px;}
+  .oc-poster-img img{width:100%;height:100%;object-fit:cover;}
+  .oc-poster-title{margin-top:8px;font-size:13px;font-weight:800;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:white;}
+  .oc-poster-score{margin-top:5px;color:#facc15;font-size:13px;font-weight:800;}
+  .oc-empty{color:rgba(255,255,255,.58);font-size:14px;padding:10px 2px;}
+  .oc-activity{display:flex;align-items:center;gap:12px;padding:13px;border-radius:20px;background:rgba(14,17,31,.78);border:1px solid rgba(255,255,255,.06);}
+  .oc-activity+.oc-activity{margin-top:10px;}
+  .oc-act-av{width:42px;height:42px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:20px;}
+  .oc-act-av img{width:100%;height:100%;object-fit:cover;}
+  .oc-act-copy{flex:1;min-width:0;}
+  .oc-act-copy b{display:block;color:white;font-size:14px;line-height:1.25;}
+  .oc-act-copy span{display:block;color:rgba(255,255,255,.64);font-size:12px;line-height:1.35;margin-top:4px;}
+  .oc-act-side{font-size:21px;color:#ff5da8;}
+  .oc-juntos{display:grid;grid-template-columns:72px 1fr;gap:12px;align-items:center;border-radius:22px;background:linear-gradient(135deg,rgba(104,45,160,.35),rgba(11,15,28,.82));border:1px solid rgba(255,255,255,.07);padding:12px;}
+  .oc-mini{width:72px;aspect-ratio:.72;border-radius:16px;overflow:hidden;background:#111320;display:flex;align-items:center;justify-content:center;font-size:28px;}
+  .oc-mini img{width:100%;height:100%;object-fit:cover;}
+  .oc-juntos h3{margin:0;color:white;font-size:15px;font-weight:900;}
+  .oc-juntos p{margin:6px 0 0;color:rgba(255,255,255,.65);font-size:12px;line-height:1.4;}
+  .oc-actions-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .oc-pill{border:0;border-radius:999px;background:rgba(17,19,31,.88);box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);color:white;padding:14px 10px;font-size:15px;font-weight:900;}
+  .oc-pill.primary{background:linear-gradient(135deg,#d946ef,#8b5cf6);box-shadow:0 12px 28px rgba(168,85,247,.28);}
+  .oc-tabs{display:flex;gap:10px;overflow-x:auto;margin-bottom:14px;}
+  .oc-tabs::-webkit-scrollbar{display:none;}
+  .oc-tab{border:0;white-space:nowrap;border-radius:999px;background:rgba(18,20,31,.92);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);color:rgba(255,255,255,.72);padding:10px 16px;font-size:14px;font-weight:900;}
+  .oc-tab.on{background:linear-gradient(135deg,#d946ef,#8b5cf6);color:white;}
+  .oc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+  .oc-lib{border:0;padding:0;background:rgba(14,16,28,.84);border-radius:18px;overflow:hidden;text-align:left;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);}
+  .oc-lib-img{width:100%;aspect-ratio:.72;overflow:hidden;background:#111320;display:flex;align-items:center;justify-content:center;font-size:34px;color:white;}
+  .oc-lib-img img{width:100%;height:100%;object-fit:cover;}
+  .oc-lib-body{padding:11px;}
+  .oc-lib-title{color:white;font-size:13px;font-weight:900;line-height:1.25;min-height:33px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .oc-lib-meta{display:flex;justify-content:space-between;gap:8px;margin-top:9px;color:rgba(255,255,255,.67);font-size:12px;font-weight:700;}
+  .oc-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+  .oc-short{border:0;border-radius:20px;background:rgba(14,16,28,.86);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);padding:14px 10px;color:white;min-height:86px;text-align:left;}
+  .oc-short span{display:block;font-size:23px;margin-bottom:8px;}
+  .oc-short b{font-size:14px;}
+  .oc-ach{border-radius:20px;background:rgba(14,16,28,.86);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);padding:14px;color:white;}
+  .oc-ach.locked{opacity:.55;}
+  .oc-ach .ico{font-size:25px;margin-bottom:7px;}
+  .oc-ach .name{font-size:14px;font-weight:900;}
+  .oc-ach .status{margin-top:4px;font-size:12px;color:rgba(255,255,255,.62);}
 }
 
 </style>
@@ -1157,64 +1146,33 @@ html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:1
 <main class="main">
 
   <!-- ═══ INICIO ═══ -->
-  <div id="v-inicio" class="view on mock-view mock-home-view">
-    <div class="mock-shell">
-      <section class="mock-hero-card home-hero-card">
-        <div class="mock-hero-bg">
-          <div class="mock-bg-glow"></div>
-          <div class="mock-bg-mountains"></div>
-        </div>
-        <div class="mock-topbar-row">
-          <div class="mock-inline-brand">
-            <div class="mock-inline-pill"><span class="dot"></span></div>
-            <span class="brand-name">Ollada</span>
-          </div>
-          <div class="mock-inline-actions">
-            <button class="mock-round-icon" onclick="abrirNotificaciones()">🔔<span id="notif-count" class="mock-badge"></span></button>
-            <button class="mock-round-icon" onclick="oedit()">⚙️</button>
+  <div id="v-inicio" class="view on">
+    <section class="hero">
+      <div class="blobs"><div class="blob bl1"></div><div class="blob bl2"></div><div class="blob bl3"></div></div>
+      <div class="hcon">
+        <div class="hbadge">✨ Tu universo cinematográfico, en un solo lugar</div>
+        <h1 class="htit"><span class="ht1">Cada historia</span><br><span class="ht2">que has amado.</span></h1>
+        <p class="hsub">Registra películas y series, puntúalas, crea listas, sigue a tus amigos y descubre qué ver a continuación.</p>
+        <div class="sbwrap">
+          <div class="sbglow"></div>
+          <div class="sb">
+            <span>🔍</span>
+            <input id="h-sinp" placeholder="Busca Inception, Breaking Bad, El Señor de los Anillos…" onkeydown="if(event.key==='Enter'&&this.value.trim())hbuscar()">
+            <button class="sb-btn" onclick="hbuscar()">Buscar</button>
           </div>
         </div>
-        <div class="mock-avatar-stack">
-          <div class="mock-avatar-ring"><div class="mock-avatar-inner" id="mh-avatar">🎬</div></div>
-          <button class="mock-avatar-edit" onclick="oedit()">✎</button>
-        </div>
-        <div class="mock-user-name" id="mh-name">Kenneth</div>
-        <div class="mock-user-handle" id="mh-handle">@kenneth</div>
-        <div class="mock-stats-panel" id="mh-stats"></div>
-        <div class="mock-bio-text" id="mh-bio">Viviendo fotograma a fotograma.</div>
-      </section>
-
-      <section class="mock-content-card">
-        <div class="mock-section-head">
-          <h3>Top favoritos</h3>
-          <button class="mock-link-btn" onclick="ir('perfil')">Ver todos</button>
-        </div>
-        <div class="mock-poster-row" id="mh-favs"></div>
-      </section>
-
-      <section class="mock-content-card">
-        <div class="mock-section-head">
-          <h3>Actividad reciente</h3>
-          <button class="mock-link-btn" onclick="ir('amigos')">Abrir</button>
-        </div>
-        <div class="mock-activity-list" id="mh-activity"></div>
-      </section>
-
-      <section class="mock-content-card">
-        <div class="mock-section-head">
-          <h3>Qué vemos esta noche</h3>
-          <button class="mock-link-btn" onclick="ir('conjunto')">Abrir</button>
-        </div>
-        <div class="mock-juntos-card" id="mh-juntos"></div>
-      </section>
-
-      <section class="mock-content-card">
-        <div class="mock-section-head">
-          <h3>Tendencias</h3>
-          <button class="mock-link-btn" onclick="ir('buscar')">Buscar</button>
-        </div>
-        <div class="mock-poster-row" id="mh-trending"></div>
-      </section>
+        <div class="hstats" id="hstats"></div>
+      </div>
+    </section>
+    <div class="sec" style="padding-top:0">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span>🔥</span><span style="font-size:16px;font-weight:700">Tendencias esta semana</span></div>
+      <div class="prow" id="trend-row"></div>
+      <div class="feats">
+        <div class="fcard"><div class="ficon" style="background:linear-gradient(135deg,#34d399,#0d9488)">👁️</div><div class="ftit">Registra todo</div><div class="fdesc">Marca títulos como visto, viendo, pendiente o abandonado y obtén un perfil con estadísticas reales.</div></div>
+        <div class="fcard"><div class="ficon" style="background:linear-gradient(135deg,#d946ef,#7c3aed)">📋</div><div class="ftit">Curar la lista perfecta</div><div class="fdesc">Crea listas públicas o privadas. Tus pelis de atracos, comedias de sofá — tu gusto, organizado.</div></div>
+        <div class="fcard"><div class="ficon" style="background:linear-gradient(135deg,#fbbf24,#f97316)">👥</div><div class="ftit">Comparte con amigos</div><div class="fdesc">Compatibilidad de gustos, feed de actividad y un Wrapped compartible que realmente dice algo de ti.</div></div>
+      </div>
+      <p style="font-size:10px;color:var(--text3);text-align:center;padding:16px 0">Desarrollado con TMDb. No está avalado ni certificado por TMDb.</p>
     </div>
   </div>
 
@@ -1348,93 +1306,59 @@ html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:1
   </div>
 
   <!-- ═══ PERFIL ═══ -->
-  <div id="v-perfil" class="view mock-view mock-profile-view">
-    <div class="mock-shell profile-shell">
-      <section class="mock-hero-card profile-hero-card">
-        <div class="mock-hero-bg">
-          <div class="mock-bg-glow"></div>
-          <div class="mock-bg-mountains"></div>
+  <div id="v-perfil" class="view">
+    <div id="pban" class="pban" style="background:linear-gradient(135deg,#d946ef,#7c3aed,#6366f1)">
+      <div class="pban-pat"></div>
+      <button class="edbtn" onclick="oedit()">✏️ Editar</button>
+    </div>
+    <div class="pinr">
+      <div class="ptop-new">
+        <div class="pav-new" id="pav">🎬</div>
+        <div class="ptop-info">
+          <div class="pname" id="pname">@cinephile_42</div>
+          <div class="pbio" id="pbio">Viviendo fotograma a fotograma.</div>
         </div>
-        <div class="mock-topbar-row">
-          <div class="mock-inline-brand">
-            <div class="mock-inline-pill"><span class="dot"></span></div>
-            <span class="brand-name">Ollada</span>
-          </div>
-          <div class="mock-inline-actions">
-            <button class="mock-round-icon" onclick="abrirNotificaciones()">🔔</button>
-            <button class="mock-round-icon" onclick="oedit()">⚙️</button>
-          </div>
-        </div>
-        <div class="mock-avatar-stack">
-          <div class="mock-avatar-ring"><div class="mock-avatar-inner" id="mp-avatar">🎬</div></div>
-          <button class="mock-avatar-edit" onclick="oedit()">✎</button>
-        </div>
-        <div class="mock-user-name" id="mp-name">Kenneth</div>
-        <div class="mock-user-handle" id="mp-handle">@kenneth</div>
-        <div class="mock-stats-panel" id="mp-stats"></div>
-        <div class="mock-bio-text" id="mp-bio">Viviendo fotograma a fotograma.</div>
-      </section>
-
-      <section class="mock-content-card profile-actions-card">
-        <div class="mock-pill-grid">
-          <button class="mock-pill-btn primary" onclick="copiarPerfilPublico()">📸 Compartir perfil</button>
-          <button class="mock-pill-btn" onclick="oedit()">✏️ Editar</button>
-          <button class="mock-pill-btn" onclick="abrirMiPerfilPublico()">👁️ Público</button>
-          <button class="mock-pill-btn" onclick="cerrarSesion()">🚪 Salir</button>
-        </div>
-      </section>
-
-      <section class="mock-content-card">
-        <div class="mock-section-head">
-          <h3>Top favoritos</h3>
-          <button class="mock-link-btn" onclick="ir('buscar')">Añadir</button>
-        </div>
-        <div class="mock-poster-row" id="mp-favs"></div>
-      </section>
-
-      <section class="mock-content-card">
-        <div class="mock-section-head">
-          <h3>Actividad reciente</h3>
-          <button class="mock-link-btn" onclick="ir('amigos')">Ver</button>
-        </div>
-        <div class="mock-activity-list" id="mp-activity"></div>
-      </section>
-
-      <section class="mock-content-card">
-        <div class="mock-section-head">
-          <h3>Biblioteca</h3>
-          <button class="mock-link-btn" onclick="ir('buscar')">Buscar</button>
-        </div>
-        <div class="mock-tabs-wrap">
-          <button class="mock-tab-btn on" data-tab="todo" onclick="setTabPerfil('todo')">Todo <span id="tc-todo">0</span></button>
-          <button class="mock-tab-btn" data-tab="viendo" onclick="setTabPerfil('viendo')">Viendo <span id="tc-viendo">0</span></button>
-          <button class="mock-tab-btn" data-tab="visto" onclick="setTabPerfil('visto')">Vistos <span id="tc-visto">0</span></button>
-          <button class="mock-tab-btn" data-tab="pendiente" onclick="setTabPerfil('pendiente')">Pend. <span id="tc-pendiente">0</span></button>
-          <button class="mock-tab-btn" data-tab="abandonado" onclick="setTabPerfil('abandonado')">Aband. <span id="tc-abandonado">0</span></button>
-        </div>
-        <div class="mock-library-grid" id="wgrd"></div>
-      </section>
-
-      <section class="mock-content-card">
-        <div class="mock-section-head">
-          <h3>Accesos</h3>
-        </div>
-        <div class="mock-shortcuts-grid">
-          <button class="mock-shortcut" onclick="ir('conjunto')"><span>🤝</span><b>Juntos</b></button>
-          <button class="mock-shortcut" onclick="ir('ia')"><span>✨</span><b>IA</b></button>
-          <button class="mock-shortcut" onclick="ir('wrapped')"><span>🏆</span><b>Wrapped</b></button>
-          <button class="mock-shortcut" onclick="ir('listas')"><span>📋</span><b>Listas</b></button>
-          <button class="mock-shortcut" onclick="mostrarStatsAvanzadas()"><span>📊</span><b>Stats</b></button>
-          <button class="mock-shortcut" onclick="abrirNotificaciones()"><span>🔔</span><b>Notifs</b></button>
-        </div>
-      </section>
-
-      <section class="mock-content-card">
-        <div class="mock-section-head">
-          <h3>Logros</h3>
-        </div>
-        <div class="mock-achievements-grid" id="bgrd"></div>
-      </section>
+      </div>
+      <div class="ppills">
+        <button class="ppill ppill-main" onclick="copiarPerfilPublico()">🔗 Compartir</button>
+        <button class="ppill" onclick="abrirMiPerfilPublico()">👁️ Ver perfil</button>
+        <button class="ppill" onclick="cerrarSesion()">🚪 Salir</button>
+      </div>
+      <div class="more-grid">
+        <button class="more-tile" onclick="ir('descubrir')"><span>🧭</span><span>Descubrir</span></button>
+        <button class="more-tile" onclick="ir('conjunto')"><span>🤝</span><span>Juntos</span></button>
+        <button class="more-tile" onclick="ir('ia')"><span>✨</span><span>Recomendar</span></button>
+        <button class="more-tile" onclick="ir('wrapped')"><span>🏆</span><span>Wrapped</span></button>
+        <button class="more-tile" onclick="mostrarStatsAvanzadas()"><span>📊</span><span>Stats</span></button>
+        <button class="more-tile" onclick="mostrarRetos()"><span>🎯</span><span>Retos</span></button>
+        <button class="more-tile" onclick="abrirNotificaciones()"><span>🔔</span><span id="notif-count"></span><span>Notifs</span></button>
+        <button class="more-tile" onclick="compartirPerfil()"><span>📸</span><span>Compartir</span></button>
+        <button class="more-tile" onclick="mostrarPremium()"><span>💎</span><span>Premium</span></button>
+      </div>
+      <div id="heatmap-section" style="padding:0 16px 18px;display:none">
+        <div class="ptit" style="padding:0 0 10px">🗓️ Tu actividad</div>
+        <div id="heatmap-grid"></div>
+        <div id="racha-info" style="margin-top:8px;font-size:12px;color:var(--text2)"></div>
+      </div>
+      <div id="stats-av-section" style="padding:0 16px 18px;display:none">
+        <div class="ptit" style="padding:0 0 10px">📊 Estadísticas avanzadas</div>
+        <div id="stats-av-content"></div>
+      </div>
+      <div id="retos-section" style="padding:0 16px 18px;display:none">
+        <div class="ptit" style="padding:0 0 10px">🎯 Retos semanales</div>
+        <div id="retos-content"></div>
+      </div>
+      <div class="pstats" id="pstats"></div>
+      <div class="ptabs-wrap">
+        <button class="ptab on" data-tab="todo"        onclick="setTabPerfil('todo')">Todo <span class="ptab-cnt" id="tc-todo">0</span></button>
+        <button class="ptab"    data-tab="viendo"      onclick="setTabPerfil('viendo')">▶️ Viendo <span class="ptab-cnt" id="tc-viendo">0</span></button>
+        <button class="ptab"    data-tab="visto"       onclick="setTabPerfil('visto')">✅ Vistos <span class="ptab-cnt" id="tc-visto">0</span></button>
+        <button class="ptab"    data-tab="pendiente"   onclick="setTabPerfil('pendiente')">📌 Pendientes <span class="ptab-cnt" id="tc-pendiente">0</span></button>
+        <button class="ptab"    data-tab="abandonado"  onclick="setTabPerfil('abandonado')">❌ Abandon. <span class="ptab-cnt" id="tc-abandonado">0</span></button>
+      </div>
+      <div class="wgrd padded" id="wgrd"></div>
+      <div class="ptit padded">🏅 Logros</div>
+      <div class="bgrd padded" id="bgrd"></div>
     </div>
   </div>
 
@@ -3548,7 +3472,7 @@ function alternarModoApp(){
       const res=await supabaseClient.from('review_comments').insert({user_id:usuarioActual.id,item_key:cmt_itemKey,target_user_id:cmt_targetId,body:body,username:S.perfil.usuario});
       if(res.error) throw res.error;
       try{await logActivity('review_commented', null, {title:itemTitle, text:body, target_username:targetUsername});}catch(e){}
-      try{if(cmt_targetId && String(cmt_targetId)!==String(usuarioActual.id)){await supabaseClient.from('notificaciones').insert({user_id:cmt_targetId,tipo:'comment',mensaje:'@'+(S.perfil.usuario||'usuario')+' comentó tu reseña sobre '+itemTitle+'.',leida:false});}catch(e){}
+      try{if(cmt_targetId && String(cmt_targetId)!==String(usuarioActual.id)){await supabaseClient.from('notificaciones').insert({user_id:cmt_targetId,tipo:'comment',mensaje:'@'+(S.perfil.usuario||'usuario')+' comentó tu reseña sobre '+itemTitle+'.',leida:false});}}catch(e){}
       inp.value=''; cargarComentarios(); if(typeof cargarNotificaciones==='function') cargarNotificaciones(); toast('Comentario enviado ✓');
     }catch(e){toast('Error: '+e.message);}
   };
@@ -3752,168 +3676,38 @@ setTimeout(aplicarModoOlladaFinal,0);
   setTimeout(()=>{try{aplicarModoOllada(); if((window.vistaActual||'inicio')==='inicio') rinicio();}catch(e){}},60);
 })();
 </script>
+
 <script>
-/* === OLLADA APP REBUILD · helpers / home / perfil === */
-function mockDisplayName(){
-  const raw = ((S && S.perfil && S.perfil.usuario) || 'Usuario').replace(/^@+/, '').trim();
-  return raw ? raw.charAt(0).toUpperCase() + raw.slice(1) : 'Usuario';
-}
-function mockHandle(){
-  const raw = ((S && S.perfil && S.perfil.usuario) || 'usuario').replace(/^@+/, '').trim() || 'usuario';
-  return '@' + raw;
-}
-function mockAvatarHTML(){
-  const p = (S && S.perfil) || {};
-  if(p.avatar_url){
-    return '<img src="'+p.avatar_url+'" alt="avatar" onerror="this.outerHTML=\'<div class=empty>🎬</div>\'">';
-  }
-  return '<div class="empty">'+(p.avatar || '🎬')+'</div>';
-}
-function mockAllTitles(){ return Object.values((S && S.titulos) || {}); }
-function mockViewed(){ return mockAllTitles().filter(function(e){ return e.estado==='visto'; }); }
-function mockStats(){
-  const all = mockAllTitles();
-  const visto = mockViewed();
-  const movies = visto.filter(function(e){ return e.media_type==='movie'; }).length;
-  const series = visto.filter(function(e){ return e.media_type==='tv'; }).length;
-  const lists = ((S && S.listas) || []).length;
-  const friends = (typeof AMG !== 'undefined' && Array.isArray(AMG)) ? AMG.length : 0;
-  const hours = Math.round(movies*2 + series*8);
-  const ratings = all.filter(function(e){ return Number(e.puntuacion)>0; }).map(function(e){ return Number(e.puntuacion); });
-  const avg = ratings.length ? (ratings.reduce(function(a,b){return a+b;},0)/ratings.length).toFixed(1) : '—';
-  return {all:all, visto:visto, movies:movies, series:series, lists:lists, friends:friends, hours:hours, avg:avg};
-}
-function mockStateLabel(est){ return ({visto:'Visto', viendo:'Viendo', pendiente:'Pendiente', abandonado:'Abandonado'})[est] || 'Guardado'; }
-function mockStateEmoji(est){ return ({visto:'✅', viendo:'▶️', pendiente:'📌', abandonado:'❌'})[est] || '🎬'; }
-function mockPoster(item, fallback){
-  fallback = fallback || '🎬';
-  const src = item && item.poster_path ? IMG(item.poster_path, 'w342') : null;
-  return src ? '<img src="'+src+'" alt="'+((item.titulo||item.title||item.name||'').replace(/"/g,'&quot;'))+'" loading="lazy" onerror="this.outerHTML=\'<div class=empty>'+fallback+'</div>\'">' : '<div class="empty">'+fallback+'</div>';
-}
-function mockReify(e){ return {id:e.tmdb_id, media_type:e.media_type, title:e.titulo, name:e.titulo, poster_path:e.poster_path, backdrop_path:e.backdrop_path, overview:e.descripcion, release_date:e.fecha, first_air_date:e.fecha, genre_ids:e.genre_ids, vote_average:e.vote_average}; }
-function mockTopItems(limit){
-  limit = limit || 4;
-  const all = mockAllTitles();
-  const scored = all.slice().sort(function(a,b){
-    const af = a.favorito ? 1 : 0, bf = b.favorito ? 1 : 0;
-    if(bf !== af) return bf - af;
-    const ar = Number(a.puntuacion||0), br = Number(b.puntuacion||0);
-    if(br !== ar) return br - ar;
-    return (new Date(b.updated_at || b.visto_en || b.created_at || 0)) - (new Date(a.updated_at || a.visto_en || a.created_at || 0));
-  });
-  return scored.filter(function(e){ return e.poster_path || e.titulo; }).slice(0, limit);
-}
-function mockRenderStatPanel(el){
-  if(!el) return;
-  const st = mockStats();
-  const stats = [
-    {label:'Películas', value:st.movies},
-    {label:'Series', value:st.series},
-    {label:'Listas', value:st.lists},
-    {label:'Amigos', value:st.friends}
-  ];
-  el.innerHTML = stats.map(function(s){ return '<div class="mock-stat"><div class="mock-stat-value">'+s.value+'</div><div class="mock-stat-label">'+s.label+'</div></div>'; }).join('');
-}
-function mockRenderPosterRow(elId, items, emptyText){
-  const el = document.getElementById(elId);
-  if(!el) return;
-  if(!items || !items.length){ el.innerHTML = '<div style="color:rgba(255,255,255,.62);font-size:13px;padding:10px 4px">'+(emptyText||'Todavía no hay títulos.')+'</div>'; return; }
-  el.innerHTML = items.map(function(e){
-    const item = mockReify(e);
-    const score = Number(e.puntuacion || 0) > 0 ? Number(e.puntuacion).toFixed(Number.isInteger(Number(e.puntuacion))?0:1) : (e.vote_average ? (Number(e.vote_average)/2).toFixed(1) : '—');
-    return '<button class="mock-poster-card" onclick=\'abrir('+JSON.stringify(JSON.stringify(item))+')\'><div class="mock-poster-thumb">'+mockPoster(e)+'<\/div><div class="mock-poster-title">'+(e.titulo||'Sin título')+'<\/div><div class="mock-poster-score">⭐ '+score+'<\/div><\/button>';
-  }).join('');
-}
-function mockRecentActivity(limit){
-  limit = limit || 3;
-  const all = mockAllTitles().slice().sort(function(a,b){ return new Date(b.updated_at || b.visto_en || b.created_at || 0) - new Date(a.updated_at || a.visto_en || a.created_at || 0); });
-  const acts = [];
-  for(let i=0;i<all.length;i++){
-    const e = all[i];
-    if(e.resena) acts.push({title:'Reseñaste '+e.titulo, sub:(e.resena||'').slice(0,85), icon:'💬', time:e.updated_at || e.created_at || e.visto_en || '', item:e});
-    else if(Number(e.puntuacion)>0) acts.push({title:'Puntuaste '+e.titulo, sub:'Tu nota: '+e.puntuacion+'/10', icon:'⭐', time:e.updated_at || e.created_at || e.visto_en || '', item:e});
-    else if(e.favorito) acts.push({title:'Añadiste a favoritos', sub:e.titulo, icon:'❤️', time:e.updated_at || e.created_at || e.visto_en || '', item:e});
-    else if(e.estado) acts.push({title:'Marcaste como '+mockStateLabel(e.estado), sub:e.titulo, icon:mockStateEmoji(e.estado), time:e.updated_at || e.created_at || e.visto_en || '', item:e});
-    if(acts.length >= limit) break;
-  }
-  return acts;
-}
-function mockTimeAgo(raw){
-  if(!raw) return 'Hace poco';
-  const d = new Date(raw); if(isNaN(d)) return 'Hace poco';
-  const mins = Math.max(1, Math.round((Date.now() - d.getTime())/60000));
-  if(mins < 60) return 'Hace '+mins+' min';
-  const hrs = Math.round(mins/60); if(hrs < 24) return 'Hace '+hrs+' h';
-  const days = Math.round(hrs/24); return 'Hace '+days+' d';
-}
-function mockRenderActivity(elId, acts){
-  const el = document.getElementById(elId); if(!el) return;
-  if(!acts || !acts.length){ el.innerHTML = '<div class="mock-activity-item"><div class="mock-activity-avatar">🎬</div><div class="mock-activity-copy"><b>Aún no hay actividad</b><span>Empieza a puntuar, marcar vistas o escribir reseñas para verla aquí.</span></div><div class="mock-activity-side">›</div></div>'; return; }
-  el.innerHTML = acts.map(function(a){
-    const item = a.item ? mockReify(a.item) : null;
-    const click = item ? ' onclick=\'abrir('+JSON.stringify(JSON.stringify(item))+')\'' : '';
-    const av = (S && S.perfil && S.perfil.avatar_url) ? '<img src="'+S.perfil.avatar_url+'" alt="">' : (((S && S.perfil && S.perfil.avatar) || '🎬'));
-    return '<div class="mock-activity-item"'+click+'><div class="mock-activity-avatar">'+av+'<\/div><div class="mock-activity-copy"><b>'+a.title+'<\/b><span>'+(a.sub || mockTimeAgo(a.time))+' · '+mockTimeAgo(a.time)+'<\/span><\/div><div class="mock-activity-side">'+a.icon+'<\/div><\/div>';
-  }).join('');
-}
-function mockRenderJuntos(){
-  const el = document.getElementById('mh-juntos'); if(!el) return;
-  const picks = mockTopItems(1), it = picks[0];
-  const poster = it ? mockPoster(it, '🤝') : '<div class="empty">🤝</div>';
-  const title = it ? (it.titulo || 'Proyecto Salvación') : 'Qué vemos esta noche';
-  const desc = it ? 'Un favorito reciente perfecto para decidir juntos.' : 'Abre Juntos y haced match entre vuestras pelis y series.';
-  el.innerHTML = '<div class="mock-juntos-poster">'+poster+'</div><div class="mock-juntos-meta"><h4>'+title+'</h4><p>'+desc+'</p></div>';
-}
-async function mockRenderTrending(){
-  const el = document.getElementById('mh-trending'); if(!el) return;
-  el.innerHTML = '<div style="color:rgba(255,255,255,.62);font-size:13px;padding:10px 4px">Cargando tendencias…</div>';
-  try{
-    const d = await tmdb('/trending/all/week');
-    const items = (d.results || []).filter(function(r){ return r.media_type !== 'person'; }).slice(0,8).map(function(r){
-      return {tmdb_id:r.id, media_type:r.media_type || (r.title?'movie':'tv'), titulo:r.title||r.name, poster_path:r.poster_path, backdrop_path:r.backdrop_path, descripcion:r.overview, fecha:r.release_date||r.first_air_date, genre_ids:r.genre_ids, vote_average:r.vote_average, puntuacion:''};
-    });
-    mockRenderPosterRow('mh-trending', items, 'No se pudieron cargar las tendencias.');
-  }catch(e){ el.innerHTML = '<div style="color:rgba(255,255,255,.62);font-size:13px;padding:10px 4px">No se pudieron cargar las tendencias.</div>'; }
-}
-function mockMountAvatar(id){ const el=document.getElementById(id); if(el) el.innerHTML = mockAvatarHTML(); }
-function mockSyncTopSections(){
-  if(document.getElementById('hdr-av')) document.getElementById('hdr-av').textContent = (S && S.perfil && S.perfil.avatar) || '🎬';
-  if(document.getElementById('mh-name')) document.getElementById('mh-name').textContent = mockDisplayName();
-  if(document.getElementById('mh-handle')) document.getElementById('mh-handle').textContent = mockHandle();
-  if(document.getElementById('mh-bio')) document.getElementById('mh-bio').textContent = (S && S.perfil && S.perfil.bio) || 'Viviendo fotograma a fotograma.';
-  if(document.getElementById('mp-name')) document.getElementById('mp-name').textContent = mockDisplayName();
-  if(document.getElementById('mp-handle')) document.getElementById('mp-handle').textContent = mockHandle();
-  if(document.getElementById('mp-bio')) document.getElementById('mp-bio').textContent = (S && S.perfil && S.perfil.bio) || 'Viviendo fotograma a fotograma.';
-  mockMountAvatar('mh-avatar'); mockMountAvatar('mp-avatar');
-  mockRenderStatPanel(document.getElementById('mh-stats')); mockRenderStatPanel(document.getElementById('mp-stats'));
-}
-rinicio = async function(){ mockSyncTopSections(); mockRenderPosterRow('mh-favs', mockTopItems(4), 'Añade favoritos para verlos aquí.'); mockRenderActivity('mh-activity', mockRecentActivity(2)); mockRenderJuntos(); await mockRenderTrending(); };
-rstats = function(){ mockSyncTopSections(); };
-rperfil = function(){
-  mockSyncTopSections();
-  const st = mockStats();
-  const cnts = { todo: st.all.length, viendo: st.all.filter(function(e){return e.estado==='viendo';}).length, visto: st.visto.length, pendiente: st.all.filter(function(e){return e.estado==='pendiente';}).length, abandonado: st.all.filter(function(e){return e.estado==='abandonado';}).length };
-  Object.keys(cnts).forEach(function(k){ var el=document.getElementById('tc-'+k); if(el) el.textContent=cnts[k]; });
-  document.querySelectorAll('.mock-tab-btn').forEach(function(b){ b.classList.toggle('on', b.dataset.tab === (window.tabPerfilActual || 'todo')); });
-  mockRenderPosterRow('mp-favs', mockTopItems(4), 'Añade favoritos para verlos aquí.');
-  mockRenderActivity('mp-activity', mockRecentActivity(3));
-  const logros = [{i:'🎬',n:'Primera vez',e:st.all.length>=1},{i:'🔟',n:'Diez títulos',e:st.all.length>=10},{i:'✍️',n:'Crítico/a',e:st.all.filter(function(x){return x.resena;}).length>=3},{i:'🏆',n:'Favoritos',e:st.all.filter(function(x){return x.favorito;}).length>=4},{i:'💯',n:'Perfeccionista',e:st.all.filter(function(x){return Number(x.puntuacion)===10;}).length>=3},{i:'🌌',n:'Explorador/a',e:st.all.length>=25}];
-  const bg = document.getElementById('bgrd'); if(bg) bg.innerHTML = logros.map(function(b){ return '<div class="mock-achievement'+(b.e?'':' locked')+'"><span class="icon">'+b.i+'</span><div class="name">'+b.n+'</div><div class="status">'+(b.e?'Obtenido ✓':'Bloqueado')+'</div></div>'; }).join('');
-  tabPerfilActual = tabPerfilActual || 'todo'; renderTabPerfil();
-};
-var tabPerfilActual = window.tabPerfilActual || 'todo';
-setTabPerfil = function(tab){ tabPerfilActual = tab; document.querySelectorAll('.mock-tab-btn').forEach(function(b){ b.classList.toggle('on', b.dataset.tab===tab); }); renderTabPerfil(); };
-renderTabPerfil = function(){
-  const all = mockAllTitles();
-  const items = tabPerfilActual==='todo' ? all : all.filter(function(e){ return e.estado===tabPerfilActual; });
-  const grid = document.getElementById('wgrd'); if(!grid) return;
-  if(!items.length){ const msgs={todo:'Nada por aquí todavía.',viendo:'No estás viendo nada ahora.',visto:'Nada marcado como visto aún.',pendiente:'Tu watchlist está vacía.',abandonado:'No has abandonado nada.'}; grid.innerHTML='<div style="grid-column:1/-1;color:rgba(255,255,255,.62);font-size:13px;padding:12px 2px">'+(msgs[tabPerfilActual]||'Sin resultados')+'</div>'; return; }
-  grid.innerHTML = items.slice(0,8).map(function(e){
-    const item = mockReify(e); const year=(e.fecha||'').slice(0,4)||'—'; const score=Number(e.puntuacion||0)>0 ? Number(e.puntuacion).toFixed(Number.isInteger(Number(e.puntuacion))?0:1) : '—';
-    return '<button class="mock-library-item" onclick=\'abrir('+JSON.stringify(JSON.stringify(item))+')\'><div class="mock-library-cover">'+mockPoster(e)+'<\/div><div class="mock-library-body"><div class="mock-library-title">'+(e.titulo||'Sin título')+'<\/div><div class="mock-library-meta"><span>'+year+'<\/span><span>⭐ '+score+'<\/span><\/div><div style="margin-top:10px"><span class="mock-library-state">'+mockStateEmoji(e.estado)+' '+mockStateLabel(e.estado)+'<\/span><\/div><\/div><\/button>';
-  }).join('');
-};
-setTimeout(function(){ try{ if(window.vistaActual==='perfil') rperfil(); else rinicio(); }catch(e){} }, 0);
+/* === OLLADA APP SAFE REBUILD v15: render Inicio/Perfil after original app is loaded === */
+(function(){
+  function safe(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function all(){try{return Object.values(S&&S.titulos||{});}catch(e){return [];}}
+  function viewed(){return all().filter(function(x){return x.estado==='visto';});}
+  function stats(){var a=all(), v=viewed(), m=v.filter(x=>x.media_type==='movie').length, s=v.filter(x=>x.media_type==='tv').length, l=(S&&S.listas||[]).length, f=(typeof AMG!=='undefined'&&Array.isArray(AMG)?AMG.length:0); return {all:a,viewed:v,movies:m,series:s,lists:l,friends:f};}
+  function avatar(){var p=S&&S.perfil||{}; if(p.avatar_url)return '<img src="'+safe(p.avatar_url)+'" alt="avatar">'; return safe(p.avatar||'🎬');}
+  function name(){var u=(S&&S.perfil&&S.perfil.usuario)||'Kenneth'; u=String(u).replace(/^@+/,''); return u?u.charAt(0).toUpperCase()+u.slice(1):'Kenneth';}
+  function handle(){var u=(S&&S.perfil&&S.perfil.usuario)||'kenneth'; return '@'+String(u).replace(/^@+/,'');}
+  function bio(){return safe((S&&S.perfil&&S.perfil.bio)||'Viviendo fotograma a fotograma.');}
+  function reify(e){return {id:e.tmdb_id,media_type:e.media_type,title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average};}
+  function openStr(e){return JSON.stringify(JSON.stringify(reify(e))).replace(/'/g,'&#39;');}
+  function posterImg(e, cls){var src=e&&e.poster_path?IMG(e.poster_path,'w342'):''; return '<div class="'+cls+'">'+(src?'<img src="'+src+'" alt="'+safe(e.titulo||'')+'">':'🎬')+'</div>';}
+  function top(n){return all().slice().sort(function(a,b){var af=a.favorito?1:0,bf=b.favorito?1:0;if(bf-af)return bf-af;return Number(b.puntuacion||0)-Number(a.puntuacion||0);}).filter(x=>x.poster_path||x.titulo).slice(0,n||6);}
+  function statPanel(){var st=stats(); return [{v:st.movies,l:'Películas'},{v:st.series,l:'Series'},{v:st.lists,l:'Listas'},{v:st.friends,l:'Amigos'}].map(x=>'<div class="oc-stat"><b>'+x.v+'</b><span>'+x.l+'</span></div>').join('');}
+  function topRow(id, items){var el=document.getElementById(id); if(!el)return; if(!items.length){el.innerHTML='<div class="oc-empty">Añade favoritos para verlos aquí.</div>';return;} el.innerHTML=items.map(function(e){var sc=Number(e.puntuacion||0)>0?e.puntuacion:'—';return '<button class="oc-poster" onclick=\'abrir('+openStr(e)+')\'>'+posterImg(e,'oc-poster-img')+'<div class="oc-poster-title">'+safe(e.titulo||'Sin título')+'</div><div class="oc-poster-score">⭐ '+sc+'</div></button>';}).join('');}
+  function acts(n){var arr=all().slice().sort((a,b)=>new Date(b.updated_at||b.visto_en||b.created_at||0)-new Date(a.updated_at||a.visto_en||a.created_at||0));return arr.slice(0,n||3);}
+  function activity(id,n){var el=document.getElementById(id); if(!el)return; var a=acts(n); if(!a.length){el.innerHTML='<div class="oc-activity"><div class="oc-act-av">🎬</div><div class="oc-act-copy"><b>Aún no hay actividad</b><span>Cuando puntúes o reseñes algo saldrá aquí.</span></div><div class="oc-act-side">›</div></div>';return;} el.innerHTML=a.map(function(e){var txt=e.resena?'reseñó':Number(e.puntuacion)>0?'puntuó':e.favorito?'añadió a favoritos':e.estado?'marcó '+e.estado:'guardó';return '<div class="oc-activity" onclick=\'abrir('+openStr(e)+')\'><div class="oc-act-av">'+avatar()+'</div><div class="oc-act-copy"><b>'+safe(name())+' '+txt+'</b><span>'+safe(e.titulo||'Título')+'</span></div><div class="oc-act-side">❤️</div></div>';}).join('');}
+  function shell(extra){return '<div class="ollada-clean">'+extra+'</div>';}
+  function hero(prefix){return '<section class="oc-hero"><div class="oc-bg"></div><div class="oc-top"><div class="oc-brand"><div class="oc-eye"></div><span>Ollada</span></div><div class="oc-actions"><button class="oc-icon" onclick="abrirNotificaciones()">🔔<i class="oc-dot"></i></button><button class="oc-icon" onclick="oedit()">⚙️</button></div></div><div class="oc-avatar-wrap"><div class="oc-avatar"><div class="oc-avatar-in">'+avatar()+'</div></div><button class="oc-edit" onclick="oedit()">✎</button></div><div class="oc-name">'+safe(name())+'</div><div class="oc-handle">'+safe(handle())+'</div><div class="oc-stats">'+statPanel()+'</div><div class="oc-bio">'+bio()+'</div></section>';}
+  function card(title, action, body){return '<section class="oc-card"><div class="oc-head"><h2>'+title+'</h2>'+(action||'')+'</div>'+body+'</section>';}
+  function renderHome(){var root=document.getElementById('v-inicio'); if(!root)return; var t=top(6), one=t[0]; root.innerHTML=shell(hero('h')+card('Top favoritos','<button class="oc-link" onclick="ir(\'perfil\')">Ver todos</button>','<div class="oc-row" id="oc-home-favs"></div>')+card('Actividad reciente','<button class="oc-link" onclick="ir(\'amigos\')">Abrir</button>','<div id="oc-home-act"></div>')+card('Qué vemos esta noche','<button class="oc-link" onclick="ir(\'conjunto\')">Abrir</button>','<div class="oc-juntos">'+(one?posterImg(one,'oc-mini'):'<div class="oc-mini">🤝</div>')+'<div><h3>'+(one?safe(one.titulo):'Abre Juntos')+'</h3><p>'+(one?'Perfecta para decidir con otra persona.':'Haced match de películas o series para ver juntos.')+'</p></div></div>')); topRow('oc-home-favs',t); activity('oc-home-act',2);}
+  window.__ocTab='todo';
+  function renderLibrary(){var grid=document.getElementById('oc-library'); if(!grid)return; var items=all().filter(function(e){return window.__ocTab==='todo'||e.estado===window.__ocTab;}); if(!items.length){grid.innerHTML='<div class="oc-empty">Nada por aquí todavía.</div>';return;} grid.innerHTML=items.slice(0,8).map(function(e){return '<button class="oc-lib" onclick=\'abrir('+openStr(e)+')\'>'+posterImg(e,'oc-lib-img')+'<div class="oc-lib-body"><div class="oc-lib-title">'+safe(e.titulo||'Sin título')+'</div><div class="oc-lib-meta"><span>'+(String(e.fecha||'').slice(0,4)||'—')+'</span><span>⭐ '+(e.puntuacion||'—')+'</span></div></div></button>';}).join('');}
+  window.ocSetTab=function(t){window.__ocTab=t;document.querySelectorAll('.oc-tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));renderLibrary();};
+  function renderProfile(){var root=document.getElementById('v-perfil'); if(!root)return; var t=top(6); root.innerHTML=shell(hero('p')+card('','', '<div class="oc-actions-grid"><button class="oc-pill primary" onclick="copiarPerfilPublico()">📸 Compartir</button><button class="oc-pill" onclick="oedit()">✏️ Editar</button><button class="oc-pill" onclick="abrirMiPerfilPublico()">👁️ Público</button><button class="oc-pill" onclick="cerrarSesion()">🚪 Salir</button></div>')+card('Top favoritos','<button class="oc-link" onclick="ir(\'buscar\')">Añadir</button>','<div class="oc-row" id="oc-profile-favs"></div>')+card('Actividad reciente','<button class="oc-link" onclick="ir(\'amigos\')">Ver</button>','<div id="oc-profile-act"></div>')+card('Biblioteca','<button class="oc-link" onclick="ir(\'buscar\')">Buscar</button>','<div class="oc-tabs"><button class="oc-tab on" data-tab="todo" onclick="ocSetTab(\'todo\')">Todo</button><button class="oc-tab" data-tab="viendo" onclick="ocSetTab(\'viendo\')">Viendo</button><button class="oc-tab" data-tab="visto" onclick="ocSetTab(\'visto\')">Vistos</button><button class="oc-tab" data-tab="pendiente" onclick="ocSetTab(\'pendiente\')">Pend.</button></div><div class="oc-grid" id="oc-library"></div>')+card('Accesos','', '<div class="oc-shortcuts"><button class="oc-short" onclick="ir(\'conjunto\')"><span>🤝</span><b>Juntos</b></button><button class="oc-short" onclick="ir(\'ia\')"><span>✨</span><b>IA</b></button><button class="oc-short" onclick="ir(\'listas\')"><span>📋</span><b>Listas</b></button></div>')); topRow('oc-profile-favs',t); activity('oc-profile-act',3); renderLibrary();}
+  window.rinicio=rinicio=renderHome; window.rperfil=rperfil=renderProfile;
+  setTimeout(function(){try{if((window.vistaActual||'inicio')==='perfil')renderProfile();else renderHome();}catch(e){console.error(e)}},50);
+})();
 </script>
+
 </body>
 </html>
