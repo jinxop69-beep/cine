@@ -906,332 +906,105 @@ html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:1
 @media(min-width:881px){.of-profile{max-width:1280px;margin:0 auto;padding:22px}.of-hero{border-radius:32px;min-height:310px}.of-stats{max-width:780px;margin:-22px auto 0}.of-card{margin:20px 0 0}.of-profile{display:block}.of-library{flex-wrap:wrap!important;overflow:visible!important}.of-grid{display:grid}.of-poster{width:136px;flex-basis:136px}.of-poster img,.of-poster .cph{width:136px;height:204px}}
 
 
-/* ==========================================================
-   OLLADA APP — HOME TIPO MOCKUP PERFIL NATIVO
-   Solo visual en app.html. No toca Supabase ni lógica.
-========================================================== */
-html.app-mode body{background:#050507;}
-html.app-mode .main{padding-bottom:78px;background:radial-gradient(circle at 50% 0%,rgba(168,85,247,.08),transparent 34%),#050507;}
-html.app-mode #v-inicio{padding:16px 14px 22px;}
-.oll-app-shell{max-width:520px;margin:0 auto;padding-bottom:10px;}
-.oll-hero-profile{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.10);border-radius:26px;background:linear-gradient(180deg,rgba(26,11,45,.92),rgba(6,8,18,.88));box-shadow:0 24px 70px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.07);margin-bottom:16px;}
-.oll-hero-bg{height:138px;background:radial-gradient(circle at 50% 20%,rgba(236,72,153,.24),transparent 38%),linear-gradient(135deg,#35134d,#0b1330 60%,#050507);position:relative;}
-.oll-hero-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 20%,rgba(5,5,7,.84));}
-.oll-profile-center{position:relative;margin-top:-72px;padding:0 16px 16px;text-align:center;}
-.oll-avatar{width:104px;height:104px;margin:0 auto 10px;border-radius:999px;background:#121217;border:3px solid rgba(217,70,239,.75);box-shadow:0 0 0 6px rgba(217,70,239,.13),0 12px 36px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:44px;overflow:hidden;}
-.oll-avatar img{width:100%;height:100%;object-fit:cover;}
-.oll-edit-dot{position:absolute;left:calc(50% + 32px);top:31px;width:34px;height:34px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 10px 26px rgba(124,58,237,.35);}
-.oll-user{font-size:23px;font-weight:900;letter-spacing:-.03em;color:#fff;margin-bottom:2px;}
-.oll-handle{font-size:12px;color:rgba(255,255,255,.48);font-weight:700;margin-bottom:12px;}
-.oll-stat-panel{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid rgba(255,255,255,.09);border-radius:17px;background:rgba(8,9,18,.55);backdrop-filter:blur(14px);overflow:hidden;margin-bottom:12px;}
-.oll-stat{padding:12px 5px 10px;min-width:0;}
-.oll-stat:not(:last-child){border-right:1px solid rgba(255,255,255,.08);}
-.oll-stat strong{display:block;font-size:19px;line-height:1;font-weight:900;color:#fff;margin-bottom:5px;}
-.oll-stat span{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.04em;color:rgba(255,255,255,.52);font-weight:800;white-space:nowrap;}
-.oll-bio{font-size:12px;line-height:1.45;color:rgba(255,255,255,.62);padding:0 6px;max-width:330px;margin:0 auto;}
-.oll-section{border:1px solid rgba(255,255,255,.09);border-radius:21px;background:rgba(255,255,255,.035);box-shadow:inset 0 1px 0 rgba(255,255,255,.035);padding:14px;margin-bottom:14px;overflow:hidden;}
-.oll-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
-.oll-section-title{font-size:16px;font-weight:900;letter-spacing:-.02em;color:#fff;display:flex;align-items:center;gap:8px;}
-.oll-see{background:transparent;border:0;color:#d946ef;font-size:12px;font-weight:800;padding:6px 0;}
-.oll-posters{display:flex;gap:10px;overflow-x:auto;padding-bottom:3px;scroll-snap-type:x proximity;}
-.oll-posters::-webkit-scrollbar{display:none;}
-.oll-poster{width:92px;flex:0 0 92px;scroll-snap-align:start;}
-.oll-poster-box{aspect-ratio:2/3;border-radius:11px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);box-shadow:0 12px 28px rgba(0,0,0,.3);}
-.oll-poster-box img{width:100%;height:100%;object-fit:cover;}
-.oll-poster-title{font-size:10px;font-weight:800;color:#fff;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.oll-poster-rating{font-size:10px;color:#fbbf24;margin-top:2px;font-weight:800;}
-.oll-empty-mini{border:1px dashed rgba(255,255,255,.13);border-radius:15px;padding:16px;text-align:center;color:rgba(255,255,255,.42);font-size:12px;width:100%;}
-.oll-activity-list{display:grid;gap:9px;}
-.oll-activity-card{display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;background:rgba(7,10,18,.58);border:1px solid rgba(255,255,255,.07);}
-.oll-act-av{width:38px;height:38px;border-radius:999px;background:linear-gradient(135deg,#d946ef,#6366f1);display:flex;align-items:center;justify-content:center;flex:0 0 38px;overflow:hidden;font-size:17px;}
-.oll-act-av img{width:100%;height:100%;object-fit:cover;}
-.oll-act-text{min-width:0;flex:1;}
-.oll-act-text strong{font-size:12px;color:#fff;display:block;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.oll-act-text span{font-size:11px;color:rgba(255,255,255,.55);line-height:1.35;display:block;}
-.oll-heart{font-size:20px;color:#f43f5e;}
-.oll-night{display:flex;align-items:center;gap:12px;padding:13px;border-radius:18px;background:linear-gradient(135deg,rgba(124,58,237,.17),rgba(217,70,239,.08));border:1px solid rgba(217,70,239,.16);}
-.oll-night-poster{width:62px;aspect-ratio:2/3;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);flex:0 0 62px;}
-.oll-night-poster img{width:100%;height:100%;object-fit:cover;}
-.oll-night-info{flex:1;min-width:0;}
-.oll-night-info strong{display:block;font-size:13px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
-.oll-night-info span{display:block;font-size:11px;line-height:1.35;color:rgba(255,255,255,.55);}
-.oll-night-btn{border:0;border-radius:999px;background:linear-gradient(135deg,#d946ef,#7c3aed);color:#fff;font-size:12px;font-weight:900;padding:9px 12px;white-space:nowrap;}
-html.app-mode #v-inicio .hero, html.app-mode #v-inicio>.sec{display:none!important;}
-html.app-mode .bnav{height:64px;background:rgba(5,5,7,.88);border-top:1px solid rgba(255,255,255,.08);box-shadow:0 -12px 40px rgba(0,0,0,.5);}
-html.app-mode .bnb{font-size:10px;gap:4px;}
-html.app-mode .bnb svg{width:21px;height:21px;}
-@media(max-width:380px){.oll-avatar{width:92px;height:92px}.oll-user{font-size:21px}.oll-stat strong{font-size:17px}.oll-poster{width:84px;flex-basis:84px}.oll-section{padding:12px;border-radius:19px}}
-
-
-
-/* === OLLADA APP MOCKUP V3 — pantalla Inicio igual al mockup enviado === */
-html.app-mode body{background:#05050a!important;}
-html.app-mode .hdr{display:none!important;}
-html.app-mode .main{min-height:100vh!important;padding-bottom:78px!important;}
-html.app-mode .bnav{height:72px!important;background:rgba(5,5,10,.86)!important;border-top:1px solid rgba(255,255,255,.08)!important;backdrop-filter:blur(22px)!important;-webkit-backdrop-filter:blur(22px)!important;}
-html.app-mode .bnb{font-size:10px!important;font-weight:700!important;gap:3px!important;}
-html.app-mode .bnb svg{width:24px!important;height:24px!important;}
-html.app-mode .bnb.on{color:#e040ff!important;text-shadow:0 0 18px rgba(224,64,255,.45)!important;}
-html.app-mode .view#v-inicio{background:#05050a!important;min-height:100vh!important;}
-html.app-mode .ohm-shell{max-width:100%!important;width:100%!important;margin:0!important;padding:0 0 92px!important;background:#05050a!important;color:#fff!important;overflow-x:hidden!important;}
-html.app-mode .ohm-profile{position:relative!important;margin:0!important;padding:92px 18px 16px!important;border:0!important;border-radius:0!important;background:linear-gradient(180deg,#0d0920 0%,#06070d 100%)!important;box-shadow:none!important;text-align:center!important;min-height:440px!important;overflow:hidden!important;}
-html.app-mode .ohm-profile:before{content:"";position:absolute;left:-8%;right:-8%;top:108px;height:150px;background:linear-gradient(135deg,transparent 0 22%,rgba(83,32,120,.44) 23% 35%,transparent 36% 48%,rgba(37,59,112,.38) 49% 64%,transparent 65% 100%);clip-path:polygon(0 76%,12% 42%,23% 64%,36% 24%,51% 62%,63% 36%,75% 68%,88% 32%,100% 73%,100% 100%,0 100%);filter:blur(.4px);opacity:.82;z-index:0;}
-html.app-mode .ohm-profile:after{content:"";position:absolute;left:0;right:0;bottom:0;height:180px;background:linear-gradient(180deg,transparent,rgba(5,5,10,.95) 88%);z-index:0;pointer-events:none;}
-html.app-mode .ohm-bg{position:absolute!important;inset:0!important;background:radial-gradient(circle at 50% 24%,rgba(236,72,153,.38),transparent 18%),radial-gradient(circle at 78% 10%,rgba(99,102,241,.25),transparent 30%),radial-gradient(circle at 15% 6%,rgba(217,70,239,.28),transparent 28%),linear-gradient(180deg,#170a35 0%,#090b20 48%,#05050a 100%)!important;opacity:1!important;z-index:0!important;}
-html.app-mode .ohm-top{position:absolute!important;z-index:4!important;top:14px!important;left:18px!important;right:18px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;margin:0!important;}
-html.app-mode .ohm-brand{font-size:22px!important;font-weight:900!important;letter-spacing:-.04em!important;gap:8px!important;color:#fff!important;text-shadow:0 2px 18px rgba(0,0,0,.5)!important;}
-html.app-mode .ohm-eye{width:52px!important;height:30px!important;border-radius:999px!important;background:linear-gradient(135deg,#ff3ee7,#7847ff)!important;box-shadow:0 0 24px rgba(217,70,239,.55)!important;color:transparent!important;position:relative!important;overflow:hidden!important;}
-html.app-mode .ohm-eye:before{content:"";position:absolute;inset:5px 9px;border-radius:999px;border:2px solid rgba(12,12,20,.86);background:rgba(255,255,255,.08);}
-html.app-mode .ohm-eye:after{content:"▶";position:absolute;left:20px;top:5px;color:#080812;font-size:14px;font-weight:900;}
-html.app-mode .ohm-top > button{width:36px!important;height:36px!important;border-radius:999px!important;border:1px solid rgba(255,255,255,.13)!important;background:rgba(9,9,15,.45)!important;color:#fff!important;backdrop-filter:blur(12px)!important;box-shadow:0 8px 20px rgba(0,0,0,.22)!important;font-size:16px!important;}
-html.app-mode .ohm-top > button:first-of-type{margin-left:auto!important;margin-right:8px!important;}
-html.app-mode .ohm-avatar{position:relative!important;z-index:2!important;width:112px!important;height:112px!important;margin:64px auto 12px!important;border-radius:999px!important;background:#11121a!important;border:3px solid rgba(238,117,255,.88)!important;box-shadow:0 0 0 5px rgba(217,70,239,.13),0 0 36px rgba(217,70,239,.45),0 10px 34px rgba(0,0,0,.62)!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:46px!important;overflow:hidden!important;}
-html.app-mode .ohm-avatar img{width:100%!important;height:100%!important;object-fit:cover!important;}
-html.app-mode .ohm-avatar button{position:absolute!important;right:-1px!important;bottom:6px!important;width:34px!important;height:34px!important;border-radius:999px!important;border:0!important;background:linear-gradient(135deg,#d946ef,#6d5dfc)!important;color:#fff!important;box-shadow:0 6px 18px rgba(0,0,0,.35)!important;font-size:0!important;}
-html.app-mode .ohm-avatar button:after{content:"✎";font-size:15px;font-weight:900;}
-html.app-mode .ohm-profile h1{position:relative!important;z-index:2!important;font-family:Inter,system-ui,sans-serif!important;font-size:25px!important;line-height:1.05!important;font-weight:900!important;letter-spacing:-.04em!important;margin:0 0 4px!important;color:#fff!important;text-shadow:0 2px 18px rgba(0,0,0,.7)!important;}
-html.app-mode .ohm-user{position:relative!important;z-index:2!important;font-size:12px!important;color:rgba(255,255,255,.58)!important;margin:0 0 12px!important;font-weight:600!important;}
-html.app-mode .ohm-stats{position:relative!important;z-index:2!important;display:grid!important;grid-template-columns:repeat(4,1fr)!important;background:rgba(8,12,24,.62)!important;border:1px solid rgba(255,255,255,.11)!important;border-radius:15px!important;padding:12px 0 10px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 14px 30px rgba(0,0,0,.25)!important;backdrop-filter:blur(16px)!important;max-width:350px!important;margin:0 auto!important;}
-html.app-mode .ohm-stats div{border-right:1px solid rgba(255,255,255,.10)!important;min-width:0!important;}
-html.app-mode .ohm-stats div:last-child{border-right:0!important;}
-html.app-mode .ohm-stats b{display:block!important;font-size:20px!important;line-height:1!important;font-weight:900!important;color:#fff!important;}
-html.app-mode .ohm-stats span{display:block!important;font-size:9px!important;color:rgba(255,255,255,.68)!important;margin-top:5px!important;font-weight:700!important;}
-html.app-mode .ohm-profile p{position:relative!important;z-index:2!important;max-width:330px!important;margin:12px auto 0!important;padding:0 20px!important;color:rgba(255,255,255,.68)!important;font-size:13px!important;line-height:1.45!important;}
-html.app-mode .ohm-section{background:transparent!important;border:0!important;border-radius:0!important;padding:17px 18px 0!important;margin:0!important;}
-html.app-mode .ohm-head{display:flex!important;align-items:center!important;justify-content:space-between!important;margin-bottom:12px!important;}
-html.app-mode .ohm-head h2{font-size:17px!important;line-height:1!important;margin:0!important;font-weight:900!important;letter-spacing:-.03em!important;color:#fff!important;}
-html.app-mode .ohm-head button{border:0!important;background:transparent!important;color:#d946ef!important;font-size:12px!important;font-weight:900!important;padding:4px 0!important;}
-html.app-mode .ohm-row{display:flex!important;gap:12px!important;overflow-x:auto!important;padding:0 0 4px!important;scroll-snap-type:x mandatory!important;-webkit-overflow-scrolling:touch!important;}
-html.app-mode .ohm-row::-webkit-scrollbar{display:none!important;}
-html.app-mode .ohm-poster{width:94px!important;flex:0 0 94px!important;background:transparent!important;border:0!important;text-align:left!important;color:#fff!important;scroll-snap-align:start!important;padding:0!important;}
-html.app-mode .ohm-img{width:94px!important;height:141px!important;border-radius:10px!important;overflow:hidden!important;background:#15151a!important;border:1px solid rgba(255,255,255,.13)!important;box-shadow:0 10px 28px rgba(0,0,0,.35)!important;}
-html.app-mode .ohm-img img,html.app-mode .ohm-img .cph{width:100%!important;height:100%!important;object-fit:cover!important;}
-html.app-mode .ohm-poster b{display:block!important;font-size:10.5px!important;line-height:1.15!important;margin-top:7px!important;color:#fff!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
-html.app-mode .ohm-poster span{display:block!important;font-size:10px!important;color:#fbbf24!important;font-weight:800!important;margin-top:3px!important;}
-html.app-mode .ohm-tonight,html.app-mode .ohm-activity{background:rgba(10,15,28,.68)!important;border:1px solid rgba(255,255,255,.09)!important;border-radius:16px!important;padding:12px!important;box-shadow:0 12px 28px rgba(0,0,0,.20)!important;backdrop-filter:blur(16px)!important;}
-html.app-mode .ohm-tonight{display:flex!important;align-items:center!important;gap:12px!important;}
-html.app-mode .ohm-mini{width:54px!important;height:72px!important;border-radius:10px!important;overflow:hidden!important;background:#111!important;display:flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;}
-html.app-mode .ohm-mini img{width:100%!important;height:100%!important;object-fit:cover!important;}
-html.app-mode .ohm-tonight div:nth-child(2){flex:1!important;min-width:0!important;}
-html.app-mode .ohm-tonight b{display:block!important;font-size:13px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
-html.app-mode .ohm-tonight span{display:block!important;color:rgba(255,255,255,.58)!important;font-size:11px!important;line-height:1.35!important;margin-top:3px!important;}
-html.app-mode .ohm-activity{display:flex!important;align-items:center!important;gap:10px!important;margin-top:8px!important;}
-html.app-mode .ohm-act-av{width:40px!important;height:40px!important;border-radius:999px!important;background:linear-gradient(135deg,#d946ef,#7c3aed)!important;display:flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;}
-html.app-mode .ohm-activity div:nth-child(2){flex:1!important;min-width:0!important;}
-html.app-mode .ohm-activity b{display:block!important;font-size:12px!important;color:#fff!important;}
-html.app-mode .ohm-activity span{display:block!important;font-size:11px!important;color:rgba(255,255,255,.6)!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
-html.app-mode .ohm-empty{width:100%!important;border:1px dashed rgba(255,255,255,.12)!important;border-radius:14px!important;padding:18px!important;color:rgba(255,255,255,.45)!important;font-size:12px!important;text-align:center!important;}
-@media(max-width:380px){html.app-mode .ohm-profile{padding-left:14px!important;padding-right:14px!important;min-height:420px!important}html.app-mode .ohm-avatar{width:100px!important;height:100px!important;margin-top:58px!important}html.app-mode .ohm-stats b{font-size:18px!important}html.app-mode .ohm-img{width:86px!important;height:129px!important}html.app-mode .ohm-poster{width:86px!important;flex-basis:86px!important}}
-
-
-/* === OLLADA APP V4: logo ojo + montañas cinematográficas === */
-html.app-mode .ohm-profile{background:linear-gradient(180deg,#140a31 0%,#090b21 56%,#05050a 100%)!important;}
-html.app-mode .ohm-bg,
-.ohm-bg{
-  background:
-    radial-gradient(circle at 50% 20%, rgba(255,126,235,.30), transparent 18%),
-    radial-gradient(circle at 78% 8%, rgba(99,102,241,.18), transparent 26%),
-    radial-gradient(circle at 18% 12%, rgba(236,72,153,.18), transparent 24%),
-    linear-gradient(180deg,#170a36 0%, #090b22 50%, #05050a 100%)!important;
-}
-.ohm-mountains{position:absolute;left:0;right:0;top:78px;height:160px;z-index:1;pointer-events:none;overflow:hidden;}
-.ohm-mountains:before,
-.ohm-mountains:after{content:"";position:absolute;left:-2%;right:-2%;bottom:0;background-repeat:no-repeat;background-position:center bottom;background-size:cover;}
-.ohm-mountains:before{height:126px;opacity:.90;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 240' preserveAspectRatio='none'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='%23341b67'/><stop offset='0.5' stop-color='%23512b87'/><stop offset='1' stop-color='%23261752'/></linearGradient></defs><path fill='url(%23g)' d='M0 192L68 136 125 172 205 118 278 176 360 96 458 168 535 120 615 180 692 104 800 176V240H0Z'/></svg>");filter:drop-shadow(0 0 24px rgba(217,70,239,.18));}
-.ohm-mountains:after{height:98px;opacity:.98;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 200' preserveAspectRatio='none'><defs><linearGradient id='g2' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='%23090a14'/><stop offset='0.5' stop-color='%23111224'/><stop offset='1' stop-color='%23080914'/></linearGradient></defs><path fill='url(%23g2)' d='M0 150L85 110 164 132 238 84 316 142 404 76 486 128 575 88 658 148 730 114 800 138V200H0Z'/></svg>");}
-html.app-mode .ohm-avatar,
-.ohm-avatar{margin-top:78px!important;}
-html.app-mode .ohm-brand,
-.ohm-brand{gap:10px!important;}
-html.app-mode .ohm-eye,
-.ohm-eye{width:54px!important;height:34px!important;border-radius:0!important;background:none!important;box-shadow:none!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;overflow:visible!important;}
-html.app-mode .ohm-eye svg,
-.ohm-eye svg{width:54px!important;height:34px!important;display:block;filter:drop-shadow(0 0 16px rgba(217,70,239,.42));}
-html.app-mode .ohm-eye:before,
-html.app-mode .ohm-eye:after,
-.ohm-eye:before,
-.ohm-eye:after{display:none!important;content:none!important;}
-html.app-mode .ohm-profile h1,
-.ohm-profile h1{text-shadow:0 2px 16px rgba(0,0,0,.55)!important;}
-html.app-mode .ohm-stats,
-.ohm-stats{background:rgba(7,10,22,.68)!important;backdrop-filter:blur(14px)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 18px 40px rgba(0,0,0,.28)!important;}
-html.app-mode .ohm-profile p,
-.ohm-profile p{max-width:300px!important;color:rgba(255,255,255,.72)!important;}
-@media(max-width:380px){
-  .ohm-mountains{top:74px;height:146px}
-  html.app-mode .ohm-avatar,.ohm-avatar{margin-top:72px!important;}
+/* === OLLADA APP REBUILD · home + perfil === */
+@media (max-width: 900px) {
+  .nav,.live-badge,.mode-toggle {display:none !important;}
+  .hdr {padding:18px 18px 14px; position:sticky; top:0; z-index:60; background:rgba(6,8,18,.88); backdrop-filter: blur(16px); border-bottom:1px solid rgba(255,255,255,.08);}
+  .logo {gap:12px;}
+  .logo-ico {width:68px;height:42px;border-radius:16px;background:linear-gradient(135deg, rgba(236,72,153,.26), rgba(99,102,241,.18)); box-shadow:0 0 0 1px rgba(255,255,255,.08) inset, 0 14px 40px rgba(168,85,247,.24); display:flex;align-items:center;justify-content:center;}
+  .logo-eye {width:58px;height:34px;display:block;}
+  .logo-txt {font-size:24px;font-weight:800;letter-spacing:-.03em;}
+  .hdr-right {gap:10px;}
+  #auth-btn {padding:16px 24px;border-radius:22px;font-weight:800;background:rgba(20,20,30,.9);border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);}
+  .hdr-av {width:50px;height:50px;border-radius:18px;background:rgba(25,25,35,.92);border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);font-size:22px;}
+  .main {padding-bottom:110px;}
+  .mock-view {background:radial-gradient(circle at 50% 0%, rgba(141,58,255,.10), transparent 35%), #04060f;}
+  .mock-shell {padding:18px 16px 110px; display:flex; flex-direction:column; gap:18px;}
+  .mock-hero-card {position:relative; overflow:hidden; border-radius:30px; padding:22px 18px 18px; background:linear-gradient(180deg, rgba(12,12,24,.98), rgba(7,8,18,.98)); box-shadow:0 18px 48px rgba(0,0,0,.42), inset 0 0 0 1px rgba(255,255,255,.08);}
+  .mock-hero-bg {position:absolute; inset:0; pointer-events:none;}
+  .mock-bg-glow {position:absolute; inset:0; background:radial-gradient(circle at 50% 12%, rgba(255,115,182,.35), rgba(168,85,247,.17) 28%, rgba(59,78,255,.0) 60%); opacity:.95;}
+  .mock-bg-mountains {position:absolute; inset:0; background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20600%20320%27%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%27sky%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%231b0a39%27/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%2745%25%27%20stop-color%3D%27%2331115f%27/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%2308122e%27/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3CradialGradient%20id%3D%27glow%27%20cx%3D%2750%25%27%20cy%3D%2718%25%27%20r%3D%2745%25%27%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%23ff6bb7%27%20stop-opacity%3D%27.45%27/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%2760%25%27%20stop-color%3D%27%23b04bff%27%20stop-opacity%3D%27.18%27/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%23000%27%20stop-opacity%3D%270%27/%3E%0A%20%20%20%20%3C/radialGradient%3E%0A%20%20%3C/defs%3E%0A%20%20%3Crect%20width%3D%27600%27%20height%3D%27320%27%20fill%3D%27url%28%23sky%29%27/%3E%0A%20%20%3Crect%20width%3D%27600%27%20height%3D%27320%27%20fill%3D%27url%28%23glow%29%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%20205%20L60%20155%20L102%20177%20L156%20132%20L214%20183%20L282%20114%20L342%20180%20L420%20102%20L500%20178%20L548%20150%20L600%20182%20L600%20320%20L0%20320%20Z%27%20fill%3D%27%2331104e%27%20opacity%3D%27.95%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%20232%20L76%20182%20L124%20202%20L194%20154%20L255%20214%20L330%20150%20L404%20208%20L474%20142%20L548%20194%20L600%20170%20L600%20320%20L0%20320%20Z%27%20fill%3D%27%231b0930%27%20opacity%3D%27.95%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%20256%20L82%20224%20L144%20246%20L220%20206%20L288%20244%20L356%20202%20L448%20250%20L530%20216%20L600%20240%20L600%20320%20L0%20320%20Z%27%20fill%3D%27%230f071d%27%20opacity%3D%27.98%27/%3E%0A%3C/svg%3E"); background-size:cover; background-position:center 34%; opacity:.93; mix-blend-mode:screen;}
+  .mock-topbar-row {position:relative; z-index:2; display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
+  .mock-inline-brand {display:flex; align-items:center; gap:12px; color:#fff; font-weight:800; font-size:19px;}
+  .mock-inline-pill {width:44px;height:28px;border-radius:999px; background:linear-gradient(135deg,#d946ef,#8b5cf6); box-shadow:0 10px 24px rgba(168,85,247,.28); position:relative; display:flex;align-items:center;justify-content:center;}
+  .mock-inline-pill::before {content:''; width:23px;height:13px; border-radius:999px; border:2px solid rgba(14,10,23,.9); position:absolute;}
+  .mock-inline-pill::after {content:''; border-left:8px solid rgba(14,10,23,.95); border-top:5px solid transparent; border-bottom:5px solid transparent; position:absolute; left:20px;}
+  .mock-inline-pill .dot {position:absolute; width:4px;height:4px;border-radius:50%; background:rgba(255,255,255,.75); left:10px; top:12px;}
+  .mock-inline-actions {display:flex; gap:10px;}
+  .mock-round-icon {width:44px;height:44px;border-radius:50%; border:1px solid rgba(255,255,255,.10); background:rgba(12,16,30,.68); color:#fff; font-size:20px; display:flex;align-items:center;justify-content:center; position:relative; box-shadow:0 10px 26px rgba(0,0,0,.22);}
+  .mock-badge {position:absolute; top:6px; right:6px; min-width:16px; height:16px; padding:0 4px; border-radius:999px; background:#ef4444; color:#fff; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center;}
+  .mock-avatar-stack {position:relative; z-index:2; width:max-content; margin:18px auto 12px;}
+  .mock-avatar-ring {width:130px; height:130px; padding:5px; border-radius:50%; background:linear-gradient(135deg,#f472b6,#a855f7,#8b5cf6); box-shadow:0 12px 34px rgba(168,85,247,.28);}
+  .mock-avatar-inner {width:100%; height:100%; border-radius:50%; overflow:hidden; background:#0a0a11; display:flex; align-items:center; justify-content:center; font-size:58px; color:#fff; box-shadow:inset 0 0 0 4px rgba(8,8,14,.9);}
+  .mock-avatar-inner img {width:100%; height:100%; object-fit:cover;}
+  .mock-avatar-inner .empty {width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+  .mock-avatar-edit {position:absolute; right:-4px; bottom:8px; width:40px; height:40px; border-radius:50%; border:none; background:linear-gradient(135deg,#c026d3,#8b5cf6); color:#fff; font-weight:800; box-shadow:0 10px 22px rgba(168,85,247,.35);}
+  .mock-user-name {position:relative; z-index:2; text-align:center; color:#fff; font-size:24px; font-weight:800; line-height:1.05; letter-spacing:-.02em;}
+  .mock-user-handle {position:relative; z-index:2; margin-top:5px; text-align:center; color:rgba(255,255,255,.68); font-size:15px; font-weight:600;}
+  .mock-stats-panel {position:relative; z-index:2; margin:16px 0 10px; border-radius:24px; background:rgba(13,17,34,.70); border:1px solid rgba(255,255,255,.08); display:grid; grid-template-columns:repeat(4,1fr); overflow:hidden;}
+  .mock-stat {padding:14px 8px 12px; text-align:center; position:relative;}
+  .mock-stat + .mock-stat::before {content:''; position:absolute; left:0; top:18%; bottom:18%; width:1px; background:rgba(255,255,255,.08);}
+  .mock-stat-value {color:#fff; font-weight:800; font-size:23px; line-height:1;}
+  .mock-stat-label {margin-top:6px; color:rgba(255,255,255,.70); font-size:12px; font-weight:600;}
+  .mock-bio-text {position:relative; z-index:2; text-align:center; color:rgba(255,255,255,.76); font-size:15px; line-height:1.5; padding:0 10px 2px;}
+  .mock-content-card {border-radius:28px; background:linear-gradient(180deg, rgba(9,10,20,.98), rgba(7,8,18,.98)); box-shadow:0 14px 38px rgba(0,0,0,.34), inset 0 0 0 1px rgba(255,255,255,.07); padding:16px;}
+  .mock-section-head {display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px;}
+  .mock-section-head h3 {margin:0; font-size:18px; font-weight:800; color:#fff; letter-spacing:-.02em;}
+  .mock-link-btn {background:none; border:none; color:#d66bff; font-size:14px; font-weight:800; padding:0;}
+  .mock-poster-row {display:flex; gap:12px; overflow-x:auto; padding-bottom:4px; scroll-snap-type:x proximity;}
+  .mock-poster-row::-webkit-scrollbar {display:none;}
+  .mock-poster-card {min-width:94px; width:94px; scroll-snap-align:start; border:none; background:none; padding:0; text-align:left;}
+  .mock-poster-thumb {width:94px; aspect-ratio:0.69; border-radius:16px; background:linear-gradient(180deg,#171925,#0a0b12); overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.30); position:relative;}
+  .mock-poster-thumb img {width:100%; height:100%; object-fit:cover; display:block;}
+  .mock-poster-thumb .empty {width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.7); font-size:34px;}
+  .mock-poster-score {margin-top:8px; color:#f8cc54; font-size:13px; font-weight:700;}
+  .mock-poster-title {margin-top:4px; color:#fff; font-size:13px; font-weight:700; line-height:1.25; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+  .mock-activity-list {display:flex; flex-direction:column; gap:12px;}
+  .mock-activity-item {display:flex; align-items:center; gap:12px; border-radius:20px; background:rgba(14,17,31,.76); border:1px solid rgba(255,255,255,.06); padding:12px;}
+  .mock-activity-avatar {width:42px; height:42px; border-radius:50%; overflow:hidden; background:linear-gradient(135deg,#c026d3,#7c3aed); display:flex; align-items:center; justify-content:center; font-size:20px; flex:0 0 auto; color:#fff;}
+  .mock-activity-avatar img {width:100%; height:100%; object-fit:cover;}
+  .mock-activity-copy {min-width:0; flex:1;}
+  .mock-activity-copy b {display:block; color:#fff; font-size:14px; line-height:1.3;}
+  .mock-activity-copy span {display:block; color:rgba(255,255,255,.67); font-size:12px; line-height:1.4; margin-top:3px;}
+  .mock-activity-side {color:#fb5da8; font-size:20px; flex:0 0 auto;}
+  .mock-juntos-card {display:grid; grid-template-columns:70px 1fr; gap:12px; align-items:center; border-radius:22px; background:linear-gradient(135deg, rgba(100,42,150,.34), rgba(11,15,28,.82)); border:1px solid rgba(255,255,255,.07); padding:12px;}
+  .mock-juntos-poster {width:70px; aspect-ratio:.72; border-radius:16px; background:linear-gradient(180deg,#171925,#0a0b12); overflow:hidden;}
+  .mock-juntos-poster img {width:100%; height:100%; object-fit:cover;}
+  .mock-juntos-poster .empty {width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;}
+  .mock-juntos-meta h4 {margin:0; color:#fff; font-size:15px; font-weight:800;}
+  .mock-juntos-meta p {margin:6px 0 0; color:rgba(255,255,255,.68); font-size:12px; line-height:1.45;}
+  .mock-pill-grid {display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px;}
+  .mock-pill-btn {padding:14px 12px; border-radius:999px; background:rgba(17,19,31,.86); border:1px solid rgba(255,255,255,.08); color:#fff; font-weight:800; font-size:15px; box-shadow:inset 0 1px 0 rgba(255,255,255,.05);}
+  .mock-pill-btn.primary {background:linear-gradient(135deg,#d946ef,#8b5cf6); border:none; box-shadow:0 10px 26px rgba(168,85,247,.26);}
+  .mock-tabs-wrap {display:flex; gap:10px; overflow-x:auto; padding-bottom:4px; margin-bottom:14px;}
+  .mock-tabs-wrap::-webkit-scrollbar {display:none;}
+  .mock-tab-btn {border:none; white-space:nowrap; padding:10px 16px; border-radius:999px; background:rgba(18,20,31,.92); color:rgba(255,255,255,.72); font-weight:800; display:inline-flex; gap:6px; align-items:center; box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);}
+  .mock-tab-btn.on {background:linear-gradient(135deg,#d946ef,#8b5cf6); color:#fff; box-shadow:0 10px 24px rgba(168,85,247,.26);}
+  .mock-tab-btn span {font-size:12px; opacity:.88;}
+  .mock-library-grid {display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px;}
+  .mock-library-item {display:block; border:none; background:rgba(14,16,28,.84); border-radius:18px; overflow:hidden; text-align:left; box-shadow:inset 0 0 0 1px rgba(255,255,255,.06); padding:0;}
+  .mock-library-cover {width:100%; aspect-ratio:.74; background:linear-gradient(180deg,#171925,#0a0b12); overflow:hidden;}
+  .mock-library-cover img {width:100%; height:100%; object-fit:cover; display:block;}
+  .mock-library-cover .empty {width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:34px; color:rgba(255,255,255,.7);}
+  .mock-library-body {padding:11px 11px 12px;}
+  .mock-library-title {color:#fff; font-size:13px; font-weight:800; line-height:1.3; min-height:34px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+  .mock-library-meta {display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:9px; color:rgba(255,255,255,.68); font-size:12px;}
+  .mock-library-state {display:inline-flex; align-items:center; gap:5px; padding:6px 8px; border-radius:999px; background:rgba(255,255,255,.05); color:#fff; font-size:11px; font-weight:700;}
+  .mock-shortcuts-grid {display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px;}
+  .mock-shortcut {border:none; border-radius:20px; background:rgba(14,16,28,.86); box-shadow:inset 0 0 0 1px rgba(255,255,255,.06); padding:14px 10px; color:#fff; display:flex; flex-direction:column; gap:7px; align-items:flex-start; justify-content:center; min-height:88px; text-align:left;}
+  .mock-shortcut span {font-size:22px;}
+  .mock-shortcut b {font-size:14px;}
+  .mock-achievements-grid {display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px;}
+  .mock-achievement {border-radius:20px; background:rgba(14,16,28,.86); box-shadow:inset 0 0 0 1px rgba(255,255,255,.06); padding:14px 12px; color:#fff;}
+  .mock-achievement.locked {opacity:.55;}
+  .mock-achievement .icon {font-size:26px; margin-bottom:8px; display:block;}
+  .mock-achievement .name {font-weight:800; font-size:14px;}
+  .mock-achievement .status {font-size:12px; color:rgba(255,255,255,.62); margin-top:4px;}
+  .profile-shell {padding-top:16px;}
+  .pstats, .ptabs-wrap, .more-grid, #heatmap-section, #stats-av-section, #retos-section, .ptit, .bgrd.padded, .wgrd.padded {display:none !important;}
 }
 
 </style>
-<style>
-
-/* === OLLADA APP MOCKUP V2: perfil móvil estilo mockup, SOLO CSS === */
-@media(max-width:880px){
-  html.app-mode, html.app-mode body{background:#050509!important;}
-  html.app-mode body.ollada-mobile-ui .hdr{
-    height:72px!important;
-    padding:0 18px!important;
-    background:linear-gradient(180deg,rgba(5,5,9,.98),rgba(8,8,12,.88))!important;
-    border-bottom:1px solid rgba(255,255,255,.07)!important;
-    box-shadow:0 16px 32px rgba(0,0,0,.22)!important;
-  }
-  html.app-mode body.ollada-mobile-ui .logo{gap:12px!important;}
-  html.app-mode body.ollada-mobile-ui .logo-ico{
-    width:54px!important;height:34px!important;border-radius:0!important;background:none!important;box-shadow:none!important;
-  }
-  html.app-mode body.ollada-mobile-ui .logo-eye{width:54px!important;height:34px!important;filter:drop-shadow(0 0 16px rgba(217,70,239,.45))!important;}
-  html.app-mode body.ollada-mobile-ui .logo-txt{font-size:23px!important;font-family:'Inter',system-ui,sans-serif!important;font-weight:950!important;letter-spacing:-.05em!important;}
-  html.app-mode body.ollada-mobile-ui .auth-hbtn{padding:11px 16px!important;border-radius:999px!important;font-size:13px!important;background:rgba(255,255,255,.06)!important;}
-  html.app-mode body.ollada-mobile-ui .hdr-av{width:44px!important;height:44px!important;border-radius:14px!important;background:rgba(255,255,255,.08)!important;font-size:22px!important;}
-  html.app-mode body.ollada-mobile-ui .main{padding-bottom:86px!important;}
-  html.app-mode body.ollada-mobile-ui .bnav{height:72px!important;background:rgba(5,5,8,.92)!important;border-top:1px solid rgba(255,255,255,.08)!important;box-shadow:0 -18px 42px rgba(0,0,0,.45)!important;}
-  html.app-mode body.ollada-mobile-ui .bnb{font-size:10px!important;font-weight:700!important;gap:4px!important;}
-  html.app-mode body.ollada-mobile-ui .bnb svg{width:24px!important;height:24px!important;}
-
-  /* INICIO APP: menos landing y más app */
-  html.app-mode body.ollada-mobile-ui .om-home{padding:16px 14px 22px!important;}
-  html.app-mode body.ollada-mobile-ui .om-hero-card{
-    border-radius:28px!important;
-    min-height:0!important;
-    padding:22px 18px 18px!important;
-    background:
-      radial-gradient(circle at 18% 12%,rgba(217,70,239,.24),transparent 34%),
-      radial-gradient(circle at 82% 8%,rgba(99,102,241,.22),transparent 36%),
-      linear-gradient(180deg,#15101e 0%,#09090d 100%)!important;
-    box-shadow:0 18px 48px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06)!important;
-  }
-  html.app-mode body.ollada-mobile-ui .om-hero-card h1{font-size:46px!important;margin:16px 0 8px!important;line-height:.92!important;}
-  html.app-mode body.ollada-mobile-ui .om-hero-card p{font-size:13px!important;line-height:1.45!important;margin-bottom:15px!important;}
-  html.app-mode body.ollada-mobile-ui .om-kicker{font-size:11px!important;padding:6px 11px!important;}
-  html.app-mode body.ollada-mobile-ui .om-search{height:54px!important;border-radius:999px!important;background:rgba(0,0,0,.56)!important;}
-  html.app-mode body.ollada-mobile-ui .om-search button{height:44px!important;padding:0 16px!important;font-size:14px!important;}
-  html.app-mode body.ollada-mobile-ui .om-stats{gap:8px!important;margin-top:14px!important;}
-  html.app-mode body.ollada-mobile-ui .om-stats div{border-radius:16px!important;padding:11px 6px!important;}
-  html.app-mode body.ollada-mobile-ui .om-stats b{font-size:21px!important;}
-  html.app-mode body.ollada-mobile-ui .om-card,html.app-mode body.ollada-mobile-ui .om-section{border-radius:26px!important;margin-top:14px!important;padding:16px!important;background:rgba(255,255,255,.035)!important;}
-  html.app-mode body.ollada-mobile-ui .om-title{font-size:18px!important;line-height:1.15!important;}
-  html.app-mode body.ollada-mobile-ui .om-section h2{font-size:22px!important;}
-  html.app-mode body.ollada-mobile-ui .om-poster-wrap{flex-basis:126px!important;}
-  html.app-mode body.ollada-mobile-ui .om-poster-wrap .card{border-radius:16px!important;}
-
-  /* PERFIL APP ESTILO MOCKUP */
-  html.app-mode body.ollada-mobile-ui .of-profile{
-    background:
-      radial-gradient(circle at 50% -90px,rgba(217,70,239,.18),transparent 42%),
-      linear-gradient(180deg,#09090d,#050507 42%,#050507)!important;
-    padding-bottom:88px!important;
-  }
-  html.app-mode body.ollada-mobile-ui .of-hero{
-    min-height:0!important;
-    padding:18px 16px 14px!important;
-    margin:0 0 0!important;
-    text-align:center!important;
-    border-radius:0 0 32px 32px!important;
-    background:
-      linear-gradient(180deg,rgba(0,0,0,.04),rgba(5,5,9,.10) 52%,#050507 100%),
-      radial-gradient(circle at 50% 4%,rgba(217,70,239,.36),transparent 38%),
-      radial-gradient(circle at 10% 0%,rgba(99,102,241,.20),transparent 42%),
-      linear-gradient(180deg,#21112d 0%,#0a0a10 100%)!important;
-    box-shadow:0 26px 50px rgba(0,0,0,.30)!important;
-  }
-  html.app-mode body.ollada-mobile-ui .of-hero:before{
-    background:
-      linear-gradient(180deg,rgba(255,255,255,.02),transparent 52%),
-      radial-gradient(circle at 50% 10%,rgba(236,72,153,.30),transparent 26%)!important;
-    opacity:.95!important;
-  }
-  html.app-mode body.ollada-mobile-ui .of-avatar{
-    width:96px!important;height:96px!important;
-    border-radius:50%!important;
-    margin:2px auto 10px!important;
-    border:3px solid rgba(217,70,239,.65)!important;
-    box-shadow:0 0 0 5px rgba(217,70,239,.13),0 14px 34px rgba(0,0,0,.55),0 0 34px rgba(217,70,239,.22)!important;
-    font-size:42px!important;
-  }
-  html.app-mode body.ollada-mobile-ui .of-hero h1{
-    font-family:'Inter',system-ui,sans-serif!important;
-    font-size:24px!important;line-height:1.05!important;margin:0 0 2px!important;font-weight:950!important;letter-spacing:-.04em!important;
-  }
-  html.app-mode body.ollada-mobile-ui .of-hero p{
-    font-size:12px!important;line-height:1.35!important;margin:0 auto 10px!important;max-width:270px!important;color:rgba(255,255,255,.64)!important;
-  }
-  html.app-mode body.ollada-mobile-ui .of-actions{
-    display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;max-width:330px!important;margin:0 auto!important;
-  }
-  html.app-mode body.ollada-mobile-ui .of-actions button{
-    padding:9px 10px!important;border-radius:999px!important;font-size:12px!important;min-height:38px!important;
-    background:rgba(255,255,255,.055)!important;border:1px solid rgba(255,255,255,.12)!important;box-shadow:none!important;
-  }
-  html.app-mode body.ollada-mobile-ui .of-actions .primary{background:linear-gradient(135deg,#d946ef,#7c3aed)!important;border:0!important;box-shadow:0 10px 26px rgba(217,70,239,.26)!important;}
-  html.app-mode body.ollada-mobile-ui .of-actions button:nth-child(3),
-  html.app-mode body.ollada-mobile-ui .of-actions button:nth-child(4){font-size:11px!important;opacity:.92!important;}
-
-  html.app-mode body.ollada-mobile-ui .of-stats{
-    display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:0!important;
-    margin:12px 16px 0!important;padding:0!important;
-    background:rgba(255,255,255,.045)!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:18px!important;
-    backdrop-filter:blur(14px)!important;overflow:hidden!important;box-shadow:0 16px 34px rgba(0,0,0,.20)!important;
-  }
-  html.app-mode body.ollada-mobile-ui .of-stats div{
-    padding:13px 5px 12px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;position:relative!important;
-  }
-  html.app-mode body.ollada-mobile-ui .of-stats div:not(:last-child):after{content:"";position:absolute;right:0;top:17%;bottom:17%;width:1px;background:rgba(255,255,255,.10)}
-  html.app-mode body.ollada-mobile-ui .of-stats b{font-size:19px!important;line-height:1.05!important;}
-  html.app-mode body.ollada-mobile-ui .of-stats span{font-size:8px!important;text-transform:none!important;color:rgba(255,255,255,.58)!important;font-weight:700!important;letter-spacing:0!important;}
-
-  html.app-mode body.ollada-mobile-ui .of-card{
-    margin:14px 14px 0!important;padding:14px!important;border-radius:22px!important;
-    background:rgba(255,255,255,.035)!important;border:1px solid rgba(255,255,255,.09)!important;
-    box-shadow:0 14px 36px rgba(0,0,0,.18)!important;
-  }
-  html.app-mode body.ollada-mobile-ui .of-head{margin-bottom:10px!important;}
-  html.app-mode body.ollada-mobile-ui .of-head h2{font-size:18px!important;letter-spacing:-.03em!important;}
-  html.app-mode body.ollada-mobile-ui .of-head button{font-size:11px!important;padding:8px 12px!important;}
-  html.app-mode body.ollada-mobile-ui .of-posters{gap:10px!important;padding-bottom:5px!important;}
-  html.app-mode body.ollada-mobile-ui .of-poster{width:94px!important;flex-basis:94px!important;}
-  html.app-mode body.ollada-mobile-ui .of-poster img,html.app-mode body.ollada-mobile-ui .of-poster .cph{width:94px!important;height:141px!important;border-radius:13px!important;}
-  html.app-mode body.ollada-mobile-ui .of-poster b{font-size:10px!important;margin-top:5px!important;}
-  html.app-mode body.ollada-mobile-ui .of-poster span{font-size:10px!important;}
-
-  html.app-mode body.ollada-mobile-ui .of-tabs{gap:7px!important;padding-bottom:8px!important;}
-  html.app-mode body.ollada-mobile-ui .of-tabs .ptab{padding:9px 12px!important;font-size:11px!important;}
-  html.app-mode body.ollada-mobile-ui .of-library{gap:10px!important;padding-bottom:4px!important;}
-  html.app-mode body.ollada-mobile-ui .of-library-item{flex-basis:108px!important;width:108px!important;}
-  html.app-mode body.ollada-mobile-ui .of-library-item .card{width:108px!important;min-width:108px!important;border-radius:14px!important;}
-  html.app-mode body.ollada-mobile-ui .of-menu{grid-template-columns:repeat(3,1fr)!important;gap:8px!important;}
-  html.app-mode body.ollada-mobile-ui .of-menu button{min-height:70px!important;border-radius:17px!important;padding:10px 8px!important;font-size:12px!important;text-align:center!important;}
-  html.app-mode body.ollada-mobile-ui .of-menu span{font-size:21px!important;margin-bottom:5px!important;}
-  html.app-mode body.ollada-mobile-ui .of-review{padding:11px!important;border-radius:14px!important;}
-  html.app-mode body.ollada-mobile-ui .of-review p{font-size:12px!important;}
-  html.app-mode body.ollada-mobile-ui .of-badges div{min-width:112px!important;border-radius:16px!important;padding:12px!important;}
-  html.app-mode body.ollada-mobile-ui .of-empty{padding:14px!important;border-radius:16px!important;font-size:12px!important;}
-
-  /* Detalle de peli en app: controles más proporcionados */
-  html.app-mode body.ollada-mobile-ui .mbox{background:#08080a!important;}
-  html.app-mode body.ollada-mobile-ui .mbody{padding:16px!important;}
-  html.app-mode body.ollada-mobile-ui .mtit{font-size:34px!important;}
-  html.app-mode body.ollada-mobile-ui .movw{font-size:14px!important;line-height:1.55!important;}
-  html.app-mode body.ollada-mobile-ui .sgrid{grid-template-columns:repeat(2,1fr)!important;gap:8px!important;}
-  html.app-mode body.ollada-mobile-ui .stbtn{min-height:72px!important;border-radius:16px!important;font-size:13px!important;}
-  html.app-mode body.ollada-mobile-ui .arow{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;}
-  html.app-mode body.ollada-mobile-ui .abtn{min-height:54px!important;border-radius:15px!important;font-size:13px!important;}
-  html.app-mode body.ollada-mobile-ui .rnum{width:44px!important;height:44px!important;border-radius:13px!important;font-size:14px!important;}
-}
-</style>
-
-<style>
-/* === OLLADA HOME MOCKUP FORZADO === */
-html.app-mode #v-inicio .hero, html.app-mode #v-inicio .sec{display:none!important}
-.ohm-shell{max-width:430px;margin:0 auto;padding:12px 14px 88px;background:#07070a;min-height:100vh;color:#fff}
-.ohm-profile{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.12);border-radius:28px;background:linear-gradient(180deg,rgba(32,10,56,.92),rgba(5,8,18,.96));box-shadow:0 22px 70px rgba(0,0,0,.55);padding:16px 16px 18px;text-align:center}
-.ohm-bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 18%,rgba(217,70,239,.55),transparent 34%),radial-gradient(circle at 50% -10%,rgba(99,102,241,.55),transparent 34%),linear-gradient(180deg,rgba(255,255,255,.04),transparent 55%);opacity:.95;pointer-events:none}
-.ohm-top{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.ohm-brand{display:flex;align-items:center;gap:8px;font-weight:900;font-size:20px}.ohm-eye{width:32px;height:20px;border-radius:999px;background:linear-gradient(135deg,#d946ef,#7c3aed);display:inline-flex;align-items:center;justify-content:center;color:#09090b;font-size:12px}.ohm-top button{border:0;background:rgba(0,0,0,.25);color:#fff;width:34px;height:34px;border-radius:999px;border:1px solid rgba(255,255,255,.12)}
-.ohm-avatar{position:relative;z-index:1;width:112px;height:112px;margin:10px auto 9px;border-radius:999px;background:#111116;border:3px solid rgba(217,70,239,.8);box-shadow:0 0 0 6px rgba(217,70,239,.13),0 10px 28px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font-size:44px;overflow:hidden}.ohm-avatar img{width:100%;height:100%;object-fit:cover}.ohm-avatar button{position:absolute;right:2px;bottom:6px;width:30px;height:30px;border-radius:999px;border:0;background:linear-gradient(135deg,#d946ef,#7c3aed);color:#fff;font-weight:900}
-.ohm-profile h1{position:relative;z-index:1;font-size:24px;font-weight:900;margin:3px 0 1px;letter-spacing:-.02em}.ohm-user{position:relative;z-index:1;color:rgba(255,255,255,.55);font-size:12px;margin-bottom:12px}.ohm-profile p{position:relative;z-index:1;color:rgba(255,255,255,.65);font-size:12px;line-height:1.45;margin:10px auto 0;max-width:280px}.ohm-stats{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);background:rgba(10,12,22,.58);border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:10px 0}.ohm-stats div{border-right:1px solid rgba(255,255,255,.1)}.ohm-stats div:last-child{border-right:0}.ohm-stats b{display:block;font-size:20px}.ohm-stats span{display:block;font-size:9px;color:rgba(255,255,255,.55);margin-top:2px}
-.ohm-section{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:13px;margin-top:13px}.ohm-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.ohm-head h2{font-size:16px;margin:0;font-weight:900}.ohm-head button{border:0;background:transparent;color:#d946ef;font-size:12px;font-weight:800}.ohm-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}.ohm-row::-webkit-scrollbar{display:none}.ohm-poster{width:86px;flex:0 0 86px;background:transparent;border:0;text-align:left;color:#fff}.ohm-img{width:86px;height:129px;border-radius:10px;overflow:hidden;background:#15151a;border:1px solid rgba(255,255,255,.1)}.ohm-img img,.ohm-img .cph{width:100%;height:100%;object-fit:cover}.ohm-poster b{display:block;font-size:10px;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ohm-poster span{font-size:10px;color:#fbbf24}.ohm-tonight{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:10px}.ohm-mini{width:58px;height:78px;border-radius:10px;overflow:hidden;background:#111;display:flex;align-items:center;justify-content:center;flex:0 0 auto}.ohm-mini img{width:100%;height:100%;object-fit:cover}.ohm-tonight div:nth-child(2){flex:1;min-width:0}.ohm-tonight b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ohm-tonight span{display:block;color:rgba(255,255,255,.55);font-size:11px;line-height:1.35;margin-top:3px}.ohm-activity{display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);margin-top:8px}.ohm-act-av{width:34px;height:34px;border-radius:999px;background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center}.ohm-activity div:nth-child(2){flex:1;min-width:0}.ohm-activity b{display:block;font-size:12px}.ohm-activity span{display:block;color:rgba(255,255,255,.58);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ohm-activity em{font-style:normal;color:#d946ef}.ohm-empty{width:100%;border:1px dashed rgba(255,255,255,.12);border-radius:14px;padding:18px;color:rgba(255,255,255,.45);font-size:12px;text-align:center}
-@media(max-width:380px){.ohm-shell{padding-left:10px;padding-right:10px}.ohm-avatar{width:96px;height:96px}.ohm-profile h1{font-size:22px}.ohm-stats b{font-size:18px}.ohm-img{width:78px;height:117px}.ohm-poster{width:78px;flex-basis:78px}}
-</style>
-
 </head>
 <body>
 <div id="toast-root"></div>
@@ -1240,7 +1013,20 @@ html.app-mode #v-inicio .hero, html.app-mode #v-inicio .sec{display:none!importa
 <!-- HEADER -->
 <header class="hdr">
   <a class="logo" onclick="ir('inicio')">
-    <div class="logo-ico" aria-hidden="true"><svg class="logo-eye" viewBox="0 0 68 42" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ollada"><defs><linearGradient id="oll-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ff4bd8"/><stop offset="52%" stop-color="#a855f7"/><stop offset="100%" stop-color="#6366f1"/></linearGradient></defs><path d="M3 21C10.4 8.8 21.4 3 34 3s23.6 5.8 31 18c-7.4 12.2-18.4 18-31 18S10.4 33.2 3 21Z" fill="url(#oll-grad)"/><path d="M11 21c5.7-7.2 13.3-11 23-11s17.3 3.8 23 11c-5.7 7.2-13.3 11-23 11S16.7 28.2 11 21Z" fill="#0a0b12" fill-opacity=".92"/><circle cx="34" cy="21" r="9.6" fill="url(#oll-grad)"/><circle cx="34" cy="21" r="6.7" fill="#0b0b12"/><path d="M32.2 16.2 40.6 21l-8.4 4.8Z" fill="#ffffff"/><circle cx="26.5" cy="14.2" r="2" fill="#ffffff" fill-opacity=".4"/></svg></div>
+    <div class="logo-ico" aria-hidden="true"><svg class="logo-eye" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ollada">
+  <defs>
+    <linearGradient id="oll-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ec4899"/>
+      <stop offset="52%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <path d="M3 20C10 8.5 20.2 3.2 32 3.2S54 8.5 61 20C54 31.5 43.8 36.8 32 36.8S10 31.5 3 20Z" fill="url(#oll-grad)"/>
+  <path d="M11 20C16.5 12.8 23.2 9.4 32 9.4S47.5 12.8 53 20C47.5 27.2 40.8 30.6 32 30.6S16.5 27.2 11 20Z" fill="#08080f" fill-opacity=".76"/>
+  <circle cx="32" cy="20" r="10.6" fill="#0a0a11"/>
+  <path d="M29.2 13.9 41 20l-11.8 6.1Z" fill="url(#oll-grad)"/>
+  <circle cx="24.3" cy="13.3" r="2.2" fill="#fff" fill-opacity=".35"/>
+</svg></div>
     <span class="logo-txt">Ollada</span>
   </a>
   <nav class="nav">
@@ -1268,7 +1054,20 @@ html.app-mode #v-inicio .hero, html.app-mode #v-inicio .sec{display:none!importa
 <section class="auth-screen" id="auth-screen" aria-label="Acceso a Ollada">
   <div class="auth-shell">
     <div class="auth-copy">
-      <div class="auth-logo"><div class="logo-ico" aria-hidden="true"><svg class="logo-eye" viewBox="0 0 68 42" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ollada"><defs><linearGradient id="oll-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ff4bd8"/><stop offset="52%" stop-color="#a855f7"/><stop offset="100%" stop-color="#6366f1"/></linearGradient></defs><path d="M3 21C10.4 8.8 21.4 3 34 3s23.6 5.8 31 18c-7.4 12.2-18.4 18-31 18S10.4 33.2 3 21Z" fill="url(#oll-grad)"/><path d="M11 21c5.7-7.2 13.3-11 23-11s17.3 3.8 23 11c-5.7 7.2-13.3 11-23 11S16.7 28.2 11 21Z" fill="#0a0b12" fill-opacity=".92"/><circle cx="34" cy="21" r="9.6" fill="url(#oll-grad)"/><circle cx="34" cy="21" r="6.7" fill="#0b0b12"/><path d="M32.2 16.2 40.6 21l-8.4 4.8Z" fill="#ffffff"/><circle cx="26.5" cy="14.2" r="2" fill="#ffffff" fill-opacity=".4"/></svg></div><span class="logo-txt" style="font-size:22px">Ollada</span></div>
+      <div class="auth-logo"><div class="logo-ico" aria-hidden="true"><svg class="logo-eye" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ollada">
+  <defs>
+    <linearGradient id="oll-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ec4899"/>
+      <stop offset="52%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <path d="M3 20C10 8.5 20.2 3.2 32 3.2S54 8.5 61 20C54 31.5 43.8 36.8 32 36.8S10 31.5 3 20Z" fill="url(#oll-grad)"/>
+  <path d="M11 20C16.5 12.8 23.2 9.4 32 9.4S47.5 12.8 53 20C47.5 27.2 40.8 30.6 32 30.6S16.5 27.2 11 20Z" fill="#08080f" fill-opacity=".76"/>
+  <circle cx="32" cy="20" r="10.6" fill="#0a0a11"/>
+  <path d="M29.2 13.9 41 20l-11.8 6.1Z" fill="url(#oll-grad)"/>
+  <circle cx="24.3" cy="13.3" r="2.2" fill="#fff" fill-opacity=".35"/>
+</svg></div><span class="logo-txt" style="font-size:22px">Ollada</span></div>
       <h2 class="auth-big"><span class="ht1">Tu perfil</span><br><span class="ht2">cinéfilo vivo.</span></h2>
       <p class="auth-sub">Registra lo que ves, crea listas, comparte reseñas, compara gustos con amigos y guarda todo online con Supabase.</p>
       <div class="auth-pill-row">
@@ -1358,33 +1157,64 @@ html.app-mode #v-inicio .hero, html.app-mode #v-inicio .sec{display:none!importa
 <main class="main">
 
   <!-- ═══ INICIO ═══ -->
-  <div id="v-inicio" class="view on">
-    <section class="hero">
-      <div class="blobs"><div class="blob bl1"></div><div class="blob bl2"></div><div class="blob bl3"></div></div>
-      <div class="hcon">
-        <div class="hbadge">✨ Tu universo cinematográfico, en un solo lugar</div>
-        <h1 class="htit"><span class="ht1">Cada historia</span><br><span class="ht2">que has amado.</span></h1>
-        <p class="hsub">Registra películas y series, puntúalas, crea listas, sigue a tus amigos y descubre qué ver a continuación.</p>
-        <div class="sbwrap">
-          <div class="sbglow"></div>
-          <div class="sb">
-            <span>🔍</span>
-            <input id="h-sinp" placeholder="Busca Inception, Breaking Bad, El Señor de los Anillos…" onkeydown="if(event.key==='Enter'&&this.value.trim())hbuscar()">
-            <button class="sb-btn" onclick="hbuscar()">Buscar</button>
+  <div id="v-inicio" class="view on mock-view mock-home-view">
+    <div class="mock-shell">
+      <section class="mock-hero-card home-hero-card">
+        <div class="mock-hero-bg">
+          <div class="mock-bg-glow"></div>
+          <div class="mock-bg-mountains"></div>
+        </div>
+        <div class="mock-topbar-row">
+          <div class="mock-inline-brand">
+            <div class="mock-inline-pill"><span class="dot"></span></div>
+            <span class="brand-name">Ollada</span>
+          </div>
+          <div class="mock-inline-actions">
+            <button class="mock-round-icon" onclick="abrirNotificaciones()">🔔<span id="notif-count" class="mock-badge"></span></button>
+            <button class="mock-round-icon" onclick="oedit()">⚙️</button>
           </div>
         </div>
-        <div class="hstats" id="hstats"></div>
-      </div>
-    </section>
-    <div class="sec" style="padding-top:0">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span>🔥</span><span style="font-size:16px;font-weight:700">Tendencias esta semana</span></div>
-      <div class="prow" id="trend-row"></div>
-      <div class="feats">
-        <div class="fcard"><div class="ficon" style="background:linear-gradient(135deg,#34d399,#0d9488)">👁️</div><div class="ftit">Registra todo</div><div class="fdesc">Marca títulos como visto, viendo, pendiente o abandonado y obtén un perfil con estadísticas reales.</div></div>
-        <div class="fcard"><div class="ficon" style="background:linear-gradient(135deg,#d946ef,#7c3aed)">📋</div><div class="ftit">Curar la lista perfecta</div><div class="fdesc">Crea listas públicas o privadas. Tus pelis de atracos, comedias de sofá — tu gusto, organizado.</div></div>
-        <div class="fcard"><div class="ficon" style="background:linear-gradient(135deg,#fbbf24,#f97316)">👥</div><div class="ftit">Comparte con amigos</div><div class="fdesc">Compatibilidad de gustos, feed de actividad y un Wrapped compartible que realmente dice algo de ti.</div></div>
-      </div>
-      <p style="font-size:10px;color:var(--text3);text-align:center;padding:16px 0">Desarrollado con TMDb. No está avalado ni certificado por TMDb.</p>
+        <div class="mock-avatar-stack">
+          <div class="mock-avatar-ring"><div class="mock-avatar-inner" id="mh-avatar">🎬</div></div>
+          <button class="mock-avatar-edit" onclick="oedit()">✎</button>
+        </div>
+        <div class="mock-user-name" id="mh-name">Kenneth</div>
+        <div class="mock-user-handle" id="mh-handle">@kenneth</div>
+        <div class="mock-stats-panel" id="mh-stats"></div>
+        <div class="mock-bio-text" id="mh-bio">Viviendo fotograma a fotograma.</div>
+      </section>
+
+      <section class="mock-content-card">
+        <div class="mock-section-head">
+          <h3>Top favoritos</h3>
+          <button class="mock-link-btn" onclick="ir('perfil')">Ver todos</button>
+        </div>
+        <div class="mock-poster-row" id="mh-favs"></div>
+      </section>
+
+      <section class="mock-content-card">
+        <div class="mock-section-head">
+          <h3>Actividad reciente</h3>
+          <button class="mock-link-btn" onclick="ir('amigos')">Abrir</button>
+        </div>
+        <div class="mock-activity-list" id="mh-activity"></div>
+      </section>
+
+      <section class="mock-content-card">
+        <div class="mock-section-head">
+          <h3>Qué vemos esta noche</h3>
+          <button class="mock-link-btn" onclick="ir('conjunto')">Abrir</button>
+        </div>
+        <div class="mock-juntos-card" id="mh-juntos"></div>
+      </section>
+
+      <section class="mock-content-card">
+        <div class="mock-section-head">
+          <h3>Tendencias</h3>
+          <button class="mock-link-btn" onclick="ir('buscar')">Buscar</button>
+        </div>
+        <div class="mock-poster-row" id="mh-trending"></div>
+      </section>
     </div>
   </div>
 
@@ -1518,59 +1348,93 @@ html.app-mode #v-inicio .hero, html.app-mode #v-inicio .sec{display:none!importa
   </div>
 
   <!-- ═══ PERFIL ═══ -->
-  <div id="v-perfil" class="view">
-    <div id="pban" class="pban" style="background:linear-gradient(135deg,#d946ef,#7c3aed,#6366f1)">
-      <div class="pban-pat"></div>
-      <button class="edbtn" onclick="oedit()">✏️ Editar</button>
-    </div>
-    <div class="pinr">
-      <div class="ptop-new">
-        <div class="pav-new" id="pav">🎬</div>
-        <div class="ptop-info">
-          <div class="pname" id="pname">@cinephile_42</div>
-          <div class="pbio" id="pbio">Viviendo fotograma a fotograma.</div>
+  <div id="v-perfil" class="view mock-view mock-profile-view">
+    <div class="mock-shell profile-shell">
+      <section class="mock-hero-card profile-hero-card">
+        <div class="mock-hero-bg">
+          <div class="mock-bg-glow"></div>
+          <div class="mock-bg-mountains"></div>
         </div>
-      </div>
-      <div class="ppills">
-        <button class="ppill ppill-main" onclick="copiarPerfilPublico()">🔗 Compartir</button>
-        <button class="ppill" onclick="abrirMiPerfilPublico()">👁️ Ver perfil</button>
-        <button class="ppill" onclick="cerrarSesion()">🚪 Salir</button>
-      </div>
-      <div class="more-grid">
-        <button class="more-tile" onclick="ir('descubrir')"><span>🧭</span><span>Descubrir</span></button>
-        <button class="more-tile" onclick="ir('conjunto')"><span>🤝</span><span>Juntos</span></button>
-        <button class="more-tile" onclick="ir('ia')"><span>✨</span><span>Recomendar</span></button>
-        <button class="more-tile" onclick="ir('wrapped')"><span>🏆</span><span>Wrapped</span></button>
-        <button class="more-tile" onclick="mostrarStatsAvanzadas()"><span>📊</span><span>Stats</span></button>
-        <button class="more-tile" onclick="mostrarRetos()"><span>🎯</span><span>Retos</span></button>
-        <button class="more-tile" onclick="abrirNotificaciones()"><span>🔔</span><span id="notif-count"></span><span>Notifs</span></button>
-        <button class="more-tile" onclick="compartirPerfil()"><span>📸</span><span>Compartir</span></button>
-        <button class="more-tile" onclick="mostrarPremium()"><span>💎</span><span>Premium</span></button>
-      </div>
-      <div id="heatmap-section" style="padding:0 16px 18px;display:none">
-        <div class="ptit" style="padding:0 0 10px">🗓️ Tu actividad</div>
-        <div id="heatmap-grid"></div>
-        <div id="racha-info" style="margin-top:8px;font-size:12px;color:var(--text2)"></div>
-      </div>
-      <div id="stats-av-section" style="padding:0 16px 18px;display:none">
-        <div class="ptit" style="padding:0 0 10px">📊 Estadísticas avanzadas</div>
-        <div id="stats-av-content"></div>
-      </div>
-      <div id="retos-section" style="padding:0 16px 18px;display:none">
-        <div class="ptit" style="padding:0 0 10px">🎯 Retos semanales</div>
-        <div id="retos-content"></div>
-      </div>
-      <div class="pstats" id="pstats"></div>
-      <div class="ptabs-wrap">
-        <button class="ptab on" data-tab="todo"        onclick="setTabPerfil('todo')">Todo <span class="ptab-cnt" id="tc-todo">0</span></button>
-        <button class="ptab"    data-tab="viendo"      onclick="setTabPerfil('viendo')">▶️ Viendo <span class="ptab-cnt" id="tc-viendo">0</span></button>
-        <button class="ptab"    data-tab="visto"       onclick="setTabPerfil('visto')">✅ Vistos <span class="ptab-cnt" id="tc-visto">0</span></button>
-        <button class="ptab"    data-tab="pendiente"   onclick="setTabPerfil('pendiente')">📌 Pendientes <span class="ptab-cnt" id="tc-pendiente">0</span></button>
-        <button class="ptab"    data-tab="abandonado"  onclick="setTabPerfil('abandonado')">❌ Abandon. <span class="ptab-cnt" id="tc-abandonado">0</span></button>
-      </div>
-      <div class="wgrd padded" id="wgrd"></div>
-      <div class="ptit padded">🏅 Logros</div>
-      <div class="bgrd padded" id="bgrd"></div>
+        <div class="mock-topbar-row">
+          <div class="mock-inline-brand">
+            <div class="mock-inline-pill"><span class="dot"></span></div>
+            <span class="brand-name">Ollada</span>
+          </div>
+          <div class="mock-inline-actions">
+            <button class="mock-round-icon" onclick="abrirNotificaciones()">🔔</button>
+            <button class="mock-round-icon" onclick="oedit()">⚙️</button>
+          </div>
+        </div>
+        <div class="mock-avatar-stack">
+          <div class="mock-avatar-ring"><div class="mock-avatar-inner" id="mp-avatar">🎬</div></div>
+          <button class="mock-avatar-edit" onclick="oedit()">✎</button>
+        </div>
+        <div class="mock-user-name" id="mp-name">Kenneth</div>
+        <div class="mock-user-handle" id="mp-handle">@kenneth</div>
+        <div class="mock-stats-panel" id="mp-stats"></div>
+        <div class="mock-bio-text" id="mp-bio">Viviendo fotograma a fotograma.</div>
+      </section>
+
+      <section class="mock-content-card profile-actions-card">
+        <div class="mock-pill-grid">
+          <button class="mock-pill-btn primary" onclick="copiarPerfilPublico()">📸 Compartir perfil</button>
+          <button class="mock-pill-btn" onclick="oedit()">✏️ Editar</button>
+          <button class="mock-pill-btn" onclick="abrirMiPerfilPublico()">👁️ Público</button>
+          <button class="mock-pill-btn" onclick="cerrarSesion()">🚪 Salir</button>
+        </div>
+      </section>
+
+      <section class="mock-content-card">
+        <div class="mock-section-head">
+          <h3>Top favoritos</h3>
+          <button class="mock-link-btn" onclick="ir('buscar')">Añadir</button>
+        </div>
+        <div class="mock-poster-row" id="mp-favs"></div>
+      </section>
+
+      <section class="mock-content-card">
+        <div class="mock-section-head">
+          <h3>Actividad reciente</h3>
+          <button class="mock-link-btn" onclick="ir('amigos')">Ver</button>
+        </div>
+        <div class="mock-activity-list" id="mp-activity"></div>
+      </section>
+
+      <section class="mock-content-card">
+        <div class="mock-section-head">
+          <h3>Biblioteca</h3>
+          <button class="mock-link-btn" onclick="ir('buscar')">Buscar</button>
+        </div>
+        <div class="mock-tabs-wrap">
+          <button class="mock-tab-btn on" data-tab="todo" onclick="setTabPerfil('todo')">Todo <span id="tc-todo">0</span></button>
+          <button class="mock-tab-btn" data-tab="viendo" onclick="setTabPerfil('viendo')">Viendo <span id="tc-viendo">0</span></button>
+          <button class="mock-tab-btn" data-tab="visto" onclick="setTabPerfil('visto')">Vistos <span id="tc-visto">0</span></button>
+          <button class="mock-tab-btn" data-tab="pendiente" onclick="setTabPerfil('pendiente')">Pend. <span id="tc-pendiente">0</span></button>
+          <button class="mock-tab-btn" data-tab="abandonado" onclick="setTabPerfil('abandonado')">Aband. <span id="tc-abandonado">0</span></button>
+        </div>
+        <div class="mock-library-grid" id="wgrd"></div>
+      </section>
+
+      <section class="mock-content-card">
+        <div class="mock-section-head">
+          <h3>Accesos</h3>
+        </div>
+        <div class="mock-shortcuts-grid">
+          <button class="mock-shortcut" onclick="ir('conjunto')"><span>🤝</span><b>Juntos</b></button>
+          <button class="mock-shortcut" onclick="ir('ia')"><span>✨</span><b>IA</b></button>
+          <button class="mock-shortcut" onclick="ir('wrapped')"><span>🏆</span><b>Wrapped</b></button>
+          <button class="mock-shortcut" onclick="ir('listas')"><span>📋</span><b>Listas</b></button>
+          <button class="mock-shortcut" onclick="mostrarStatsAvanzadas()"><span>📊</span><b>Stats</b></button>
+          <button class="mock-shortcut" onclick="abrirNotificaciones()"><span>🔔</span><b>Notifs</b></button>
+        </div>
+      </section>
+
+      <section class="mock-content-card">
+        <div class="mock-section-head">
+          <h3>Logros</h3>
+        </div>
+        <div class="mock-achievements-grid" id="bgrd"></div>
+      </section>
     </div>
   </div>
 
@@ -3684,7 +3548,7 @@ function alternarModoApp(){
       const res=await supabaseClient.from('review_comments').insert({user_id:usuarioActual.id,item_key:cmt_itemKey,target_user_id:cmt_targetId,body:body,username:S.perfil.usuario});
       if(res.error) throw res.error;
       try{await logActivity('review_commented', null, {title:itemTitle, text:body, target_username:targetUsername});}catch(e){}
-      try{if(cmt_targetId && String(cmt_targetId)!==String(usuarioActual.id)){await supabaseClient.from('notificaciones').insert({user_id:cmt_targetId,tipo:'comment',mensaje:'@'+(S.perfil.usuario||'usuario')+' comentó tu reseña sobre '+itemTitle+'.',leida:false});}}catch(e){}
+      try{if(cmt_targetId && String(cmt_targetId)!==String(usuarioActual.id)){await supabaseClient.from('notificaciones').insert({user_id:cmt_targetId,tipo:'comment',mensaje:'@'+(S.perfil.usuario||'usuario')+' comentó tu reseña sobre '+itemTitle+'.',leida:false});}catch(e){}
       inp.value=''; cargarComentarios(); if(typeof cargarNotificaciones==='function') cargarNotificaciones(); toast('Comentario enviado ✓');
     }catch(e){toast('Error: '+e.message);}
   };
@@ -3887,167 +3751,169 @@ setTimeout(aplicarModoOlladaFinal,0);
   }
   setTimeout(()=>{try{aplicarModoOllada(); if((window.vistaActual||'inicio')==='inicio') rinicio();}catch(e){}},60);
 })();
-
-/* ==========================================================
-   OLLADA APP — HOME COMO MOCKUP PERFIL
-   Sobrescribe SOLO rinicio en app.html. No toca Supabase ni guardado.
-========================================================== */
-(function(){
-  function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function reifySaved(e){return {id:e.tmdb_id,media_type:e.media_type||'movie',title:e.titulo||e.title||'',name:e.titulo||e.title||'',poster_path:e.poster_path||e.poster||'',backdrop_path:e.backdrop_path||'',overview:e.descripcion||e.overview||'',release_date:e.fecha||'',first_air_date:e.fecha||'',genre_ids:e.genre_ids||[],vote_average:e.vote_average||0};}
-  function itemClickAttr(item){return "abrir("+JSON.stringify(JSON.stringify(item)).replace(/'/g,"&#39;")+")";}
-  function imgUrl(path,size){return path?(path.indexOf('http')===0?path:'https://image.tmdb.org/t/p/'+(size||'w342')+path):'';}
-  function posterCard(e){
-    var item=reifySaved(e), src=imgUrl(item.poster_path,'w342');
-    return '<div class="oll-poster" onclick=\''+itemClickAttr(item)+'\'>'
-      +'<div class="oll-poster-box">'+(src?'<img src="'+src+'" alt="'+esc(item.title||item.name)+'" loading="lazy" onerror="this.outerHTML=\'<div class=cph>🎬</div>\'">':'<div class="cph">🎬</div>')+'</div>'
-      +'<div class="oll-poster-title">'+esc(item.title||item.name||'Sin título')+'</div>'
-      +'<div class="oll-poster-rating">⭐ '+(e.puntuacion||e.rating||'—')+'</div>'
-    +'</div>';
-  }
-  function activityCard(e, p){
-    var src = p && p.avatar_url ? '<img src="'+esc(p.avatar_url)+'" onerror="this.style.display=\'none\'">' : esc((p&&p.avatar)||'🎬');
-    var title = esc(e.titulo||e.title||'un título');
-    var action = e.favorito ? 'añadió a Favoritas' : (e.resena ? 'reseñó' : (e.estado==='visto'?'marcó como vista':'guardó'));
-    return '<div class="oll-activity-card" onclick=\''+itemClickAttr(reifySaved(e))+'\'>'
-      +'<div class="oll-act-av">'+src+'</div>'
-      +'<div class="oll-act-text"><strong>@'+esc((p&&p.usuario)||'usuario')+'</strong><span>'+action+' <b>'+title+'</b></span></div>'
-      +'<div class="oll-heart">'+(e.favorito?'❤️':'›')+'</div>'
-    +'</div>';
-  }
-  window.rinicio = async function(){
-    var root=document.getElementById('v-inicio'); if(!root) return;
-    var p=S.perfil||{};
-    var lst=Object.values(S.titulos||{});
-    var vistos=lst.filter(function(e){return e.estado==='visto';});
-    var m=vistos.filter(function(e){return (e.media_type||'movie')==='movie';}).length;
-    var s=vistos.filter(function(e){return e.media_type==='tv';}).length;
-    var mediaVals=lst.filter(function(e){return Number(e.puntuacion)>0;}).map(function(e){return Number(e.puntuacion);});
-    var med=mediaVals.length?(mediaVals.reduce(function(a,b){return a+b;},0)/mediaVals.length).toFixed(1):'—';
-    var favs=lst.filter(function(e){return e.favorito;});
-    var tops=(favs.length?favs:lst.filter(function(e){return Number(e.puntuacion)>0;}).sort(function(a,b){return (b.puntuacion||0)-(a.puntuacion||0);})).slice(0,8);
-    var recent=lst.slice().sort(function(a,b){return String(b.updated_at||b.created_at||'').localeCompare(String(a.updated_at||a.created_at||''));}).slice(0,3);
-    var night=tops[0]||lst[0]||null;
-    var av = p.avatar_url ? '<img src="'+esc(p.avatar_url)+'" onerror="this.style.display=\'none\'">' : esc(p.avatar||'🎬');
-    root.innerHTML = '<div class="oll-app-shell">'
-      +'<section class="oll-hero-profile">'
-        +'<div class="oll-hero-bg"></div>'
-        +'<div class="oll-profile-center">'
-          +'<div class="oll-avatar">'+av+'</div><button class="oll-edit-dot" onclick="oedit()">✎</button>'
-          +'<div class="oll-user">'+esc(p.nombre||p.name||p.usuario||'Kenneth')+'</div>'
-          +'<div class="oll-handle">@'+esc(p.usuario||'usuario')+'</div>'
-          +'<div class="oll-stat-panel">'
-            +'<div class="oll-stat"><strong>'+m+'</strong><span>Películas</span></div>'
-            +'<div class="oll-stat"><strong>'+s+'</strong><span>Series</span></div>'
-            +'<div class="oll-stat"><strong>'+((S.listas||[]).length)+'</strong><span>Listas</span></div>'
-            +'<div class="oll-stat"><strong>'+med+'</strong><span>Media</span></div>'
-          +'</div>'
-          +'<div class="oll-bio">'+esc(p.bio||'Viviendo fotograma a fotograma.')+'</div>'
-        +'</div>'
-      +'</section>'
-      +'<section class="oll-section">'
-        +'<div class="oll-section-head"><div class="oll-section-title">🏆 Top favoritos</div><button class="oll-see" onclick="ir(\'perfil\')">Ver todos</button></div>'
-        +'<div class="oll-posters">'+(tops.length?tops.map(posterCard).join(''):'<div class="oll-empty-mini">Añade favoritos para verlos aquí.</div>')+'</div>'
-      +'</section>'
-      +'<section class="oll-section">'
-        +'<div class="oll-section-head"><div class="oll-section-title">🤝 Qué vemos esta noche</div><button class="oll-see" onclick="ir(\'conjunto\')">Abrir</button></div>'
-        +(night?'<div class="oll-night"><div class="oll-night-poster">'+(imgUrl(night.poster_path||night.poster,'w185')?'<img src="'+imgUrl(night.poster_path||night.poster,'w185')+'">':'')+'</div><div class="oll-night-info"><strong>'+esc(night.titulo||night.title)+'</strong><span>Recomendación basada en tu perfil. Añádela a Juntos para decidir.</span></div><button class="oll-night-btn" onclick="ir(\'conjunto\')">Juntos</button></div>':'<div class="oll-empty-mini">Cuando guardes títulos aparecerán recomendaciones.</div>')
-      +'</section>'
-      +'<section class="oll-section">'
-        +'<div class="oll-section-head"><div class="oll-section-title">Actividad reciente</div><button class="oll-see" onclick="ir(\'amigos\')">Ver todo</button></div>'
-        +'<div class="oll-activity-list">'+(recent.length?recent.map(function(e){return activityCard(e,p);}).join(''):'<div class="oll-empty-mini">Tu actividad aparecerá aquí.</div>')+'</div>'
-      +'</section>'
-    +'</div>';
-  };
-})();
-
 </script>
-
-
 <script>
-/* ==========================================================
-   OLLADA APP HOME FORCE MOCKUP — PARCHE FUERTE SOLO APP
-   Fuerza Inicio a perfil-first como el mockup, aunque un render antiguo
-   haya pintado la landing anterior. No toca Supabase ni guardado.
-========================================================== */
-(function(){
-  function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function im(path,size){return path?(String(path).indexOf('http')===0?path:'https://image.tmdb.org/t/p/'+(size||'w342')+path):'';}
-  function reify(e){return {id:e.tmdb_id,media_type:e.media_type||'movie',title:e.titulo||e.title||'',name:e.titulo||e.title||'',poster_path:e.poster_path||e.poster||'',backdrop_path:e.backdrop_path||'',overview:e.descripcion||e.overview||'',release_date:e.fecha||'',first_air_date:e.fecha||'',genre_ids:e.genre_ids||[],vote_average:e.vote_average||0};}
-  function payload(item){return JSON.stringify(JSON.stringify(item)).replace(/'/g,'&#39;');}
-  function poster(e){
-    var item=reify(e), src=im(item.poster_path,'w342');
-    return '<button class="ohm-poster" onclick=\'abrir('+payload(item)+')\'>'
-      +'<div class="ohm-img">'+(src?'<img src="'+src+'" alt="'+esc(item.title||item.name)+'" loading="lazy" onerror="this.outerHTML=\'<div class=cph>🎬</div>\'">':'<div class="cph">🎬</div>')+'</div>'
-      +'<b>'+esc(item.title||item.name||'Título')+'</b>'
-      +'<span>⭐ '+(e.puntuacion||e.rating||'—')+'</span>'
-    +'</button>';
+/* === OLLADA APP REBUILD · helpers / home / perfil === */
+function mockDisplayName(){
+  const raw = ((S && S.perfil && S.perfil.usuario) || 'Usuario').replace(/^@+/, '').trim();
+  return raw ? raw.charAt(0).toUpperCase() + raw.slice(1) : 'Usuario';
+}
+function mockHandle(){
+  const raw = ((S && S.perfil && S.perfil.usuario) || 'usuario').replace(/^@+/, '').trim() || 'usuario';
+  return '@' + raw;
+}
+function mockAvatarHTML(){
+  const p = (S && S.perfil) || {};
+  if(p.avatar_url){
+    return '<img src="'+p.avatar_url+'" alt="avatar" onerror="this.outerHTML=\'<div class=empty>🎬</div>\'">';
   }
-  function statData(){
-    var list=Object.values((typeof S!=='undefined'&&S&&S.titulos)||{});
-    var vistos=list.filter(function(e){return e.estado==='visto';});
-    var movies=vistos.filter(function(e){return (e.media_type||'movie')==='movie';}).length;
-    var series=vistos.filter(function(e){return e.media_type==='tv';}).length;
-    var vals=list.filter(function(e){return Number(e.puntuacion)>0;}).map(function(e){return Number(e.puntuacion);});
-    var avg=vals.length?(vals.reduce(function(a,b){return a+b;},0)/vals.length).toFixed(1):'—';
-    var fav=list.filter(function(e){return e.favorito;});
-    var rated=list.filter(function(e){return Number(e.puntuacion)>0 && !fav.includes(e);}).sort(function(a,b){return (b.puntuacion||0)-(a.puntuacion||0);});
-    var recent=list.slice().sort(function(a,b){return String(b.updated_at||b.created_at||'').localeCompare(String(a.updated_at||a.created_at||''));});
-    var seenKeys=new Set();
-    var top=fav.concat(rated).concat(recent).filter(function(e){var k=(e.media_type||'movie')+'_'+(e.tmdb_id||e.id||e.titulo); if(seenKeys.has(k)) return false; seenKeys.add(k); return true;});
-    return {list,vistos,movies,series,avg,top:top.slice(0,8),recent:recent.slice(0,4)};
+  return '<div class="empty">'+(p.avatar || '🎬')+'</div>';
+}
+function mockAllTitles(){ return Object.values((S && S.titulos) || {}); }
+function mockViewed(){ return mockAllTitles().filter(function(e){ return e.estado==='visto'; }); }
+function mockStats(){
+  const all = mockAllTitles();
+  const visto = mockViewed();
+  const movies = visto.filter(function(e){ return e.media_type==='movie'; }).length;
+  const series = visto.filter(function(e){ return e.media_type==='tv'; }).length;
+  const lists = ((S && S.listas) || []).length;
+  const friends = (typeof AMG !== 'undefined' && Array.isArray(AMG)) ? AMG.length : 0;
+  const hours = Math.round(movies*2 + series*8);
+  const ratings = all.filter(function(e){ return Number(e.puntuacion)>0; }).map(function(e){ return Number(e.puntuacion); });
+  const avg = ratings.length ? (ratings.reduce(function(a,b){return a+b;},0)/ratings.length).toFixed(1) : '—';
+  return {all:all, visto:visto, movies:movies, series:series, lists:lists, friends:friends, hours:hours, avg:avg};
+}
+function mockStateLabel(est){ return ({visto:'Visto', viendo:'Viendo', pendiente:'Pendiente', abandonado:'Abandonado'})[est] || 'Guardado'; }
+function mockStateEmoji(est){ return ({visto:'✅', viendo:'▶️', pendiente:'📌', abandonado:'❌'})[est] || '🎬'; }
+function mockPoster(item, fallback){
+  fallback = fallback || '🎬';
+  const src = item && item.poster_path ? IMG(item.poster_path, 'w342') : null;
+  return src ? '<img src="'+src+'" alt="'+((item.titulo||item.title||item.name||'').replace(/"/g,'&quot;'))+'" loading="lazy" onerror="this.outerHTML=\'<div class=empty>'+fallback+'</div>\'">' : '<div class="empty">'+fallback+'</div>';
+}
+function mockReify(e){ return {id:e.tmdb_id, media_type:e.media_type, title:e.titulo, name:e.titulo, poster_path:e.poster_path, backdrop_path:e.backdrop_path, overview:e.descripcion, release_date:e.fecha, first_air_date:e.fecha, genre_ids:e.genre_ids, vote_average:e.vote_average}; }
+function mockTopItems(limit){
+  limit = limit || 4;
+  const all = mockAllTitles();
+  const scored = all.slice().sort(function(a,b){
+    const af = a.favorito ? 1 : 0, bf = b.favorito ? 1 : 0;
+    if(bf !== af) return bf - af;
+    const ar = Number(a.puntuacion||0), br = Number(b.puntuacion||0);
+    if(br !== ar) return br - ar;
+    return (new Date(b.updated_at || b.visto_en || b.created_at || 0)) - (new Date(a.updated_at || a.visto_en || a.created_at || 0));
+  });
+  return scored.filter(function(e){ return e.poster_path || e.titulo; }).slice(0, limit);
+}
+function mockRenderStatPanel(el){
+  if(!el) return;
+  const st = mockStats();
+  const stats = [
+    {label:'Películas', value:st.movies},
+    {label:'Series', value:st.series},
+    {label:'Listas', value:st.lists},
+    {label:'Amigos', value:st.friends}
+  ];
+  el.innerHTML = stats.map(function(s){ return '<div class="mock-stat"><div class="mock-stat-value">'+s.value+'</div><div class="mock-stat-label">'+s.label+'</div></div>'; }).join('');
+}
+function mockRenderPosterRow(elId, items, emptyText){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  if(!items || !items.length){ el.innerHTML = '<div style="color:rgba(255,255,255,.62);font-size:13px;padding:10px 4px">'+(emptyText||'Todavía no hay títulos.')+'</div>'; return; }
+  el.innerHTML = items.map(function(e){
+    const item = mockReify(e);
+    const score = Number(e.puntuacion || 0) > 0 ? Number(e.puntuacion).toFixed(Number.isInteger(Number(e.puntuacion))?0:1) : (e.vote_average ? (Number(e.vote_average)/2).toFixed(1) : '—');
+    return '<button class="mock-poster-card" onclick=\'abrir('+JSON.stringify(JSON.stringify(item))+')\'><div class="mock-poster-thumb">'+mockPoster(e)+'<\/div><div class="mock-poster-title">'+(e.titulo||'Sin título')+'<\/div><div class="mock-poster-score">⭐ '+score+'<\/div><\/button>';
+  }).join('');
+}
+function mockRecentActivity(limit){
+  limit = limit || 3;
+  const all = mockAllTitles().slice().sort(function(a,b){ return new Date(b.updated_at || b.visto_en || b.created_at || 0) - new Date(a.updated_at || a.visto_en || a.created_at || 0); });
+  const acts = [];
+  for(let i=0;i<all.length;i++){
+    const e = all[i];
+    if(e.resena) acts.push({title:'Reseñaste '+e.titulo, sub:(e.resena||'').slice(0,85), icon:'💬', time:e.updated_at || e.created_at || e.visto_en || '', item:e});
+    else if(Number(e.puntuacion)>0) acts.push({title:'Puntuaste '+e.titulo, sub:'Tu nota: '+e.puntuacion+'/10', icon:'⭐', time:e.updated_at || e.created_at || e.visto_en || '', item:e});
+    else if(e.favorito) acts.push({title:'Añadiste a favoritos', sub:e.titulo, icon:'❤️', time:e.updated_at || e.created_at || e.visto_en || '', item:e});
+    else if(e.estado) acts.push({title:'Marcaste como '+mockStateLabel(e.estado), sub:e.titulo, icon:mockStateEmoji(e.estado), time:e.updated_at || e.created_at || e.visto_en || '', item:e});
+    if(acts.length >= limit) break;
   }
-  function renderHomeMock(){
-    var root=document.getElementById('v-inicio');
-    if(!root) return;
-    try{ if(typeof aplicarModoOllada==='function') aplicarModoOllada(); }catch(e){}
-    var p=(typeof S!=='undefined'&&S&&S.perfil)||{};
-    var d=statData();
-    var av=p.avatar_url?'<img src="'+esc(p.avatar_url)+'" onerror="this.style.display=\'none\'">':esc(p.avatar||'🎬');
-    var name=esc(p.nombre||p.name||p.usuario||'Kenneth');
-    var handle=esc(p.usuario||'usuario');
-    var bio=esc(p.bio||'Viviendo fotograma a fotograma.');
-    var night=d.top[0]||d.recent[0]||null;
-    root.innerHTML = '<div class="ohm-shell">'
-      +'<section class="ohm-profile">'
-        +'<div class="ohm-bg"></div><div class="ohm-mountains"></div>'
-        +'<header class="ohm-top"><div class="ohm-brand"><span class="ohm-eye"><svg viewBox="0 0 68 42" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="ohmEyeGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ff4bd8"/><stop offset="52%" stop-color="#a855f7"/><stop offset="100%" stop-color="#6366f1"/></linearGradient></defs><path d="M3 21C10.4 8.8 21.4 3 34 3s23.6 5.8 31 18c-7.4 12.2-18.4 18-31 18S10.4 33.2 3 21Z" fill="url(#ohmEyeGrad)"/><path d="M11 21c5.7-7.2 13.3-11 23-11s17.3 3.8 23 11c-5.7 7.2-13.3 11-23 11S16.7 28.2 11 21Z" fill="#0a0b12" fill-opacity=".92"/><circle cx="34" cy="21" r="9.6" fill="url(#ohmEyeGrad)"/><circle cx="34" cy="21" r="6.7" fill="#0b0b12"/><path d="M32.2 16.2 40.6 21l-8.4 4.8Z" fill="#ffffff"/><circle cx="26.5" cy="14.2" r="2" fill="#ffffff" fill-opacity=".4"/></svg></span><b>Ollada</b></div><button onclick="abrirNotificaciones&&abrirNotificaciones()">🔔</button><button onclick="oedit()">⚙️</button></header>'
-        +'<div class="ohm-avatar">'+av+'<button onclick="oedit()">✎</button></div>'
-        +'<h1>'+name+'</h1><div class="ohm-user">@'+handle+'</div>'
-        +'<div class="ohm-stats"><div><b>'+d.movies+'</b><span>Películas</span></div><div><b>'+d.series+'</b><span>Series</span></div><div><b>'+(((typeof S!=='undefined'&&S&&S.listas)||[]).length)+'</b><span>Listas</span></div><div><b>'+d.avg+'</b><span>Media</span></div></div>'
-        +'<p>'+bio+'</p>'
-      +'</section>'
-      +'<section class="ohm-section"><div class="ohm-head"><h2>Top favoritos</h2><button onclick="ir(\'perfil\')">Ver todos</button></div><div class="ohm-row">'+(d.top.length?d.top.map(poster).join(''):'<div class="ohm-empty">Añade favoritos para verlos aquí.</div>')+'</div></section>'
-      +'<section class="ohm-section">'
-        +'<div class="ohm-head"><h2>Qué vemos esta noche</h2><button onclick="ir(\'conjunto\')">Abrir</button></div>'
-        +(night?'<div class="ohm-tonight" onclick=\'ir("conjunto")\'><div class="ohm-mini">'+(im(night.poster_path||night.poster,'w185')?'<img src="'+im(night.poster_path||night.poster,'w185')+'">':'🎬')+'</div><div><b>'+esc(night.titulo||night.title||'Recomendación')+'</b><span>Basado en tu perfil. Decididlo en Juntos.</span></div><strong>›</strong></div>':'<div class="ohm-empty">Guarda títulos y aparecerán recomendaciones.</div>')
-      +'</section>'
-      +'<section class="ohm-section"><div class="ohm-head"><h2>Actividad reciente</h2><button onclick="ir(\'amigos\')">Ver todo</button></div>'
-        +(d.recent.length?d.recent.map(function(e){return '<div class="ohm-activity" onclick=\'abrir('+payload(reify(e))+')\'><div class="ohm-act-av">'+esc(p.avatar||'🎬')+'</div><div><b>@'+handle+'</b><span>'+esc((e.estado==='visto'?'marcó como vista':e.favorito?'añadió a favoritas':e.resena?'reseñó':'guardó')+' '+(e.titulo||e.title||'un título'))+'</span></div><em>›</em></div>';}).join(''):'<div class="ohm-empty">Tu actividad aparecerá aquí.</div>')
-      +'</section>'
-    +'</div>';
-    document.querySelectorAll('[data-v]').forEach(function(b){b.classList.toggle('on', b.dataset.v==='inicio');});
-  }
-  window.olladaRenderHomeMock = renderHomeMock;
-  window.rinicio = renderHomeMock;
-  try{ rinicio = renderHomeMock; }catch(e){}
-  var oldIr=window.ir;
-  if(oldIr && !window.__ohmIrPatched){
-    window.__ohmIrPatched=true;
-    window.ir=function(v){ oldIr(v); if(v==='inicio'){ setTimeout(renderHomeMock,0); setTimeout(renderHomeMock,80); } };
-  }
-  document.addEventListener('click',function(ev){
-    var b=ev.target.closest && ev.target.closest('[data-v="inicio"], .bnb[data-v="inicio"], .nb[data-v="inicio"]');
-    if(b){setTimeout(renderHomeMock,0);setTimeout(renderHomeMock,80);}
-  },true);
-  function boot(){
-    if((document.getElementById('v-inicio')||{}).classList && document.getElementById('v-inicio').classList.contains('on')) renderHomeMock();
-  }
-  window.addEventListener('load',function(){setTimeout(boot,80);setTimeout(boot,400);});
-  document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(boot,80);});
-  setTimeout(boot,120); setTimeout(boot,700);
-})();
+  return acts;
+}
+function mockTimeAgo(raw){
+  if(!raw) return 'Hace poco';
+  const d = new Date(raw); if(isNaN(d)) return 'Hace poco';
+  const mins = Math.max(1, Math.round((Date.now() - d.getTime())/60000));
+  if(mins < 60) return 'Hace '+mins+' min';
+  const hrs = Math.round(mins/60); if(hrs < 24) return 'Hace '+hrs+' h';
+  const days = Math.round(hrs/24); return 'Hace '+days+' d';
+}
+function mockRenderActivity(elId, acts){
+  const el = document.getElementById(elId); if(!el) return;
+  if(!acts || !acts.length){ el.innerHTML = '<div class="mock-activity-item"><div class="mock-activity-avatar">🎬</div><div class="mock-activity-copy"><b>Aún no hay actividad</b><span>Empieza a puntuar, marcar vistas o escribir reseñas para verla aquí.</span></div><div class="mock-activity-side">›</div></div>'; return; }
+  el.innerHTML = acts.map(function(a){
+    const item = a.item ? mockReify(a.item) : null;
+    const click = item ? ' onclick=\'abrir('+JSON.stringify(JSON.stringify(item))+')\'' : '';
+    const av = (S && S.perfil && S.perfil.avatar_url) ? '<img src="'+S.perfil.avatar_url+'" alt="">' : (((S && S.perfil && S.perfil.avatar) || '🎬'));
+    return '<div class="mock-activity-item"'+click+'><div class="mock-activity-avatar">'+av+'<\/div><div class="mock-activity-copy"><b>'+a.title+'<\/b><span>'+(a.sub || mockTimeAgo(a.time))+' · '+mockTimeAgo(a.time)+'<\/span><\/div><div class="mock-activity-side">'+a.icon+'<\/div><\/div>';
+  }).join('');
+}
+function mockRenderJuntos(){
+  const el = document.getElementById('mh-juntos'); if(!el) return;
+  const picks = mockTopItems(1), it = picks[0];
+  const poster = it ? mockPoster(it, '🤝') : '<div class="empty">🤝</div>';
+  const title = it ? (it.titulo || 'Proyecto Salvación') : 'Qué vemos esta noche';
+  const desc = it ? 'Un favorito reciente perfecto para decidir juntos.' : 'Abre Juntos y haced match entre vuestras pelis y series.';
+  el.innerHTML = '<div class="mock-juntos-poster">'+poster+'</div><div class="mock-juntos-meta"><h4>'+title+'</h4><p>'+desc+'</p></div>';
+}
+async function mockRenderTrending(){
+  const el = document.getElementById('mh-trending'); if(!el) return;
+  el.innerHTML = '<div style="color:rgba(255,255,255,.62);font-size:13px;padding:10px 4px">Cargando tendencias…</div>';
+  try{
+    const d = await tmdb('/trending/all/week');
+    const items = (d.results || []).filter(function(r){ return r.media_type !== 'person'; }).slice(0,8).map(function(r){
+      return {tmdb_id:r.id, media_type:r.media_type || (r.title?'movie':'tv'), titulo:r.title||r.name, poster_path:r.poster_path, backdrop_path:r.backdrop_path, descripcion:r.overview, fecha:r.release_date||r.first_air_date, genre_ids:r.genre_ids, vote_average:r.vote_average, puntuacion:''};
+    });
+    mockRenderPosterRow('mh-trending', items, 'No se pudieron cargar las tendencias.');
+  }catch(e){ el.innerHTML = '<div style="color:rgba(255,255,255,.62);font-size:13px;padding:10px 4px">No se pudieron cargar las tendencias.</div>'; }
+}
+function mockMountAvatar(id){ const el=document.getElementById(id); if(el) el.innerHTML = mockAvatarHTML(); }
+function mockSyncTopSections(){
+  if(document.getElementById('hdr-av')) document.getElementById('hdr-av').textContent = (S && S.perfil && S.perfil.avatar) || '🎬';
+  if(document.getElementById('mh-name')) document.getElementById('mh-name').textContent = mockDisplayName();
+  if(document.getElementById('mh-handle')) document.getElementById('mh-handle').textContent = mockHandle();
+  if(document.getElementById('mh-bio')) document.getElementById('mh-bio').textContent = (S && S.perfil && S.perfil.bio) || 'Viviendo fotograma a fotograma.';
+  if(document.getElementById('mp-name')) document.getElementById('mp-name').textContent = mockDisplayName();
+  if(document.getElementById('mp-handle')) document.getElementById('mp-handle').textContent = mockHandle();
+  if(document.getElementById('mp-bio')) document.getElementById('mp-bio').textContent = (S && S.perfil && S.perfil.bio) || 'Viviendo fotograma a fotograma.';
+  mockMountAvatar('mh-avatar'); mockMountAvatar('mp-avatar');
+  mockRenderStatPanel(document.getElementById('mh-stats')); mockRenderStatPanel(document.getElementById('mp-stats'));
+}
+rinicio = async function(){ mockSyncTopSections(); mockRenderPosterRow('mh-favs', mockTopItems(4), 'Añade favoritos para verlos aquí.'); mockRenderActivity('mh-activity', mockRecentActivity(2)); mockRenderJuntos(); await mockRenderTrending(); };
+rstats = function(){ mockSyncTopSections(); };
+rperfil = function(){
+  mockSyncTopSections();
+  const st = mockStats();
+  const cnts = { todo: st.all.length, viendo: st.all.filter(function(e){return e.estado==='viendo';}).length, visto: st.visto.length, pendiente: st.all.filter(function(e){return e.estado==='pendiente';}).length, abandonado: st.all.filter(function(e){return e.estado==='abandonado';}).length };
+  Object.keys(cnts).forEach(function(k){ var el=document.getElementById('tc-'+k); if(el) el.textContent=cnts[k]; });
+  document.querySelectorAll('.mock-tab-btn').forEach(function(b){ b.classList.toggle('on', b.dataset.tab === (window.tabPerfilActual || 'todo')); });
+  mockRenderPosterRow('mp-favs', mockTopItems(4), 'Añade favoritos para verlos aquí.');
+  mockRenderActivity('mp-activity', mockRecentActivity(3));
+  const logros = [{i:'🎬',n:'Primera vez',e:st.all.length>=1},{i:'🔟',n:'Diez títulos',e:st.all.length>=10},{i:'✍️',n:'Crítico/a',e:st.all.filter(function(x){return x.resena;}).length>=3},{i:'🏆',n:'Favoritos',e:st.all.filter(function(x){return x.favorito;}).length>=4},{i:'💯',n:'Perfeccionista',e:st.all.filter(function(x){return Number(x.puntuacion)===10;}).length>=3},{i:'🌌',n:'Explorador/a',e:st.all.length>=25}];
+  const bg = document.getElementById('bgrd'); if(bg) bg.innerHTML = logros.map(function(b){ return '<div class="mock-achievement'+(b.e?'':' locked')+'"><span class="icon">'+b.i+'</span><div class="name">'+b.n+'</div><div class="status">'+(b.e?'Obtenido ✓':'Bloqueado')+'</div></div>'; }).join('');
+  tabPerfilActual = tabPerfilActual || 'todo'; renderTabPerfil();
+};
+var tabPerfilActual = window.tabPerfilActual || 'todo';
+setTabPerfil = function(tab){ tabPerfilActual = tab; document.querySelectorAll('.mock-tab-btn').forEach(function(b){ b.classList.toggle('on', b.dataset.tab===tab); }); renderTabPerfil(); };
+renderTabPerfil = function(){
+  const all = mockAllTitles();
+  const items = tabPerfilActual==='todo' ? all : all.filter(function(e){ return e.estado===tabPerfilActual; });
+  const grid = document.getElementById('wgrd'); if(!grid) return;
+  if(!items.length){ const msgs={todo:'Nada por aquí todavía.',viendo:'No estás viendo nada ahora.',visto:'Nada marcado como visto aún.',pendiente:'Tu watchlist está vacía.',abandonado:'No has abandonado nada.'}; grid.innerHTML='<div style="grid-column:1/-1;color:rgba(255,255,255,.62);font-size:13px;padding:12px 2px">'+(msgs[tabPerfilActual]||'Sin resultados')+'</div>'; return; }
+  grid.innerHTML = items.slice(0,8).map(function(e){
+    const item = mockReify(e); const year=(e.fecha||'').slice(0,4)||'—'; const score=Number(e.puntuacion||0)>0 ? Number(e.puntuacion).toFixed(Number.isInteger(Number(e.puntuacion))?0:1) : '—';
+    return '<button class="mock-library-item" onclick=\'abrir('+JSON.stringify(JSON.stringify(item))+')\'><div class="mock-library-cover">'+mockPoster(e)+'<\/div><div class="mock-library-body"><div class="mock-library-title">'+(e.titulo||'Sin título')+'<\/div><div class="mock-library-meta"><span>'+year+'<\/span><span>⭐ '+score+'<\/span><\/div><div style="margin-top:10px"><span class="mock-library-state">'+mockStateEmoji(e.estado)+' '+mockStateLabel(e.estado)+'<\/span><\/div><\/div><\/button>';
+  }).join('');
+};
+setTimeout(function(){ try{ if(window.vistaActual==='perfil') rperfil(); else rinicio(); }catch(e){} }, 0);
 </script>
-
 </body>
 </html>
