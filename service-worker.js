@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ollada-sync-fix-v7';
+const CACHE_NAME = 'ollada-app-supabase-only-v8';
 const APP_SHELL = [
   "/",
   "/index.html",

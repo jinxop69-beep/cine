@@ -905,6 +905,8 @@ html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:1
 .of-profile{background:#08080a;min-height:100vh}.of-hero{position:relative;min-height:360px;padding:46px 18px 28px;text-align:center;background:linear-gradient(180deg,rgba(217,70,239,.20),#08080a 86%);background-size:cover;background-position:center;overflow:hidden}.of-hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 25% 15%,rgba(217,70,239,.34),transparent 30%),radial-gradient(circle at 80% 8%,rgba(99,102,241,.24),transparent 34%);pointer-events:none}.of-hero>*{position:relative}.of-avatar{width:120px;height:120px;border-radius:34px;background:#111116;border:3px solid rgba(255,255,255,.1);box-shadow:0 18px 50px rgba(0,0,0,.55),0 0 0 6px rgba(217,70,239,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;overflow:hidden;font-size:58px}.of-avatar img{width:100%;height:100%;object-fit:cover}.of-hero h1{font-family:'Playfair Display',serif;font-size:42px;line-height:1;margin:0 0 10px}.of-hero p{color:var(--text2);font-size:15px;margin:0 auto 18px;max-width:360px}.of-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.of-actions button{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;padding:12px 16px;font-weight:900;font-size:13px}.of-actions .primary{border:0;background:linear-gradient(135deg,#d946ef,#7c3aed);box-shadow:0 12px 32px rgba(217,70,239,.25)}.of-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 18px;margin-top:-18px;position:relative;z-index:2}.of-stats div{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);border-radius:18px;text-align:center;padding:15px 8px;backdrop-filter:blur(14px)}.of-stats b{display:block;font-size:26px}.of-stats span{font-size:10px;color:var(--text3);text-transform:uppercase;font-weight:800}.of-card{margin:18px 16px 0}.of-posters{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px}.of-poster{width:118px;flex:0 0 118px;background:transparent;border:0;color:white;text-align:left}.of-poster img,.of-poster .cph{width:118px;height:177px;border-radius:15px;object-fit:cover;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04)}.of-poster b{font-size:12px;display:block;margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.of-poster span{font-size:11px;color:#fbbf24}.of-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px}.of-tabs .ptab{white-space:nowrap;border-radius:999px;padding:11px 15px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--text2);font-size:12px;font-weight:900}.of-tabs .ptab.on{color:white;background:linear-gradient(135deg,#d946ef,#7c3aed);border-color:transparent}.of-library{display:flex!important;gap:12px!important;overflow-x:auto!important;padding-bottom:8px!important}.of-library-item{flex:0 0 142px!important;width:142px!important}.of-library-item .card{width:142px!important;min-width:142px!important}.of-menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.of-menu button{min-height:82px;border-radius:20px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);color:#fff;text-align:left;padding:14px;font-weight:900;font-size:15px}.of-menu span{display:block;font-size:24px;margin-bottom:8px}.of-review{padding:14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);margin-bottom:10px}.of-review p{color:var(--text2);margin:6px 0 0;font-size:13px;line-height:1.5}.of-badges{display:flex;gap:10px;overflow-x:auto}.of-badges div{min-width:130px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:14px}.of-badges b{font-size:26px;display:block}.of-badges span{font-weight:900;display:block;margin-top:6px}.of-badges small{color:var(--text3)}
 @media(min-width:881px){.of-profile{max-width:1280px;margin:0 auto;padding:22px}.of-hero{border-radius:32px;min-height:310px}.of-stats{max-width:780px;margin:-22px auto 0}.of-card{margin:20px 0 0}.of-profile{display:block}.of-library{flex-wrap:wrap!important;overflow:visible!important}.of-grid{display:grid}.of-poster{width:136px;flex-basis:136px}.of-poster img,.of-poster .cph{width:136px;height:204px}}
 
+
+@media(max-width:880px){.app-sync-btn{display:inline-flex!important}.hdr-right{gap:6px}.auth-hbtn.app-sync-btn{padding:7px 9px}}
 </style>
 </head>
 <body>
@@ -944,7 +946,7 @@ html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:1
   <div class="hdr-right">
     <div class="live-badge"><div class="live-dot"></div>TMDb en directo</div>
     <button class="auth-hbtn mode-toggle" id="mode-toggle" onclick="alternarModoApp()">📱 App</button>
-    <button class="auth-hbtn" id="auth-btn" onclick="abrirAuth()">Entrar</button>
+    <button class="auth-hbtn" id="auth-btn" onclick="abrirAuth()">Entrar</button><button class="auth-hbtn app-sync-btn" onclick="olladaAppSyncNow()" title="Sincronizar">🔄</button>
     <div class="hdr-av" id="hdr-av" onclick="ir('perfil')">🎬</div>
   </div>
 </header>
@@ -3620,6 +3622,21 @@ setTimeout(aplicarModoOlladaFinal,0);
 })();
 </script>
 
+
+<script>
+/* === APP FIX: exponer estado global para los parches visuales ===
+   En modo app algunos parches miraban window.supabaseClient/window.usuarioActual/window.S,
+   pero esas variables estaban declaradas con let y no colgaban de window. */
+(function(){
+  try{
+    if(!Object.getOwnPropertyDescriptor(window,'supabaseClient')) Object.defineProperty(window,'supabaseClient',{configurable:true,get:function(){return supabaseClient;},set:function(v){supabaseClient=v;}});
+    if(!Object.getOwnPropertyDescriptor(window,'usuarioActual')) Object.defineProperty(window,'usuarioActual',{configurable:true,get:function(){return usuarioActual;},set:function(v){usuarioActual=v;}});
+    if(!Object.getOwnPropertyDescriptor(window,'S')) Object.defineProperty(window,'S',{configurable:true,get:function(){return S;},set:function(v){S=v;}});
+    if(!Object.getOwnPropertyDescriptor(window,'vistaActual')) Object.defineProperty(window,'vistaActual',{configurable:true,get:function(){return vistaActual;},set:function(v){vistaActual=v;}});
+  }catch(e){console.warn('Ollada global expose skipped', e);}
+})();
+</script>
+
 <script>
 /* === OLLADA SYNC FIX: Supabase -> Inicio/Perfil/Biblioteca ===
    El perfil público funcionaba porque leía directamente user_titles.
@@ -3758,6 +3775,26 @@ setTimeout(aplicarModoOlladaFinal,0);
   window.addEventListener('focus', _kick);
   setTimeout(_kick, 1200);
   setTimeout(_kick, 3000);
+})();
+</script>
+
+
+<script>
+/* === APP FIX FINAL: sincronización fuerte solo para app.html === */
+(function(){
+  async function strongSyncAndPaint(){
+    try{
+      if(typeof usuarioActual==='undefined' || !usuarioActual || typeof supabaseClient==='undefined' || !supabaseClient) return;
+      if(typeof olladaSyncFromSupabase==='function') await olladaSyncFromSupabase(true);
+      if(typeof vistaActual==='undefined') return;
+      if(vistaActual==='perfil' && typeof rperfil==='function') await rperfil();
+      if(vistaActual==='inicio' && typeof rinicio==='function') await rinicio();
+      if(vistaActual==='listas' && typeof rlistas==='function') rlistas();
+    }catch(e){console.warn('Ollada app strong sync failed', e);}
+  }
+  window.olladaAppSyncNow = strongSyncAndPaint;
+  window.addEventListener('load', function(){ setTimeout(strongSyncAndPaint, 600); setTimeout(strongSyncAndPaint, 1800); setTimeout(strongSyncAndPaint, 3600); });
+  window.addEventListener('visibilitychange', function(){ if(!document.hidden) setTimeout(strongSyncAndPaint, 250); });
 })();
 </script>
 
