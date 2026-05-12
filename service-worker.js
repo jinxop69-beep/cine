@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ollada-pwa-v13-logo-montanas';
+const CACHE_NAME = 'ollada-pwa-v14-rebuild-home-profile';
 const APP_SHELL = [
   '/',
   '/index.html',
