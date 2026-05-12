@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ollada-pwa-v6-supabase-compat';
+const CACHE_NAME = 'ollada-sync-fix-v7';
 const APP_SHELL = [
   "/",
   "/index.html",
