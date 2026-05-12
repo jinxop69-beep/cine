@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ollada-pwa-v16-exact-mockup';
+const CACHE_NAME = 'ollada-pwa-v17-logo-montanas-avatar-social';
 const APP_SHELL = [
   '/',
   '/index.html',
