@@ -962,6 +962,67 @@ html.app-mode .bnb{font-size:10px;gap:4px;}
 html.app-mode .bnb svg{width:21px;height:21px;}
 @media(max-width:380px){.oll-avatar{width:92px;height:92px}.oll-user{font-size:21px}.oll-stat strong{font-size:17px}.oll-poster{width:84px;flex-basis:84px}.oll-section{padding:12px;border-radius:19px}}
 
+
+
+/* === OLLADA APP MOCKUP V3 — pantalla Inicio igual al mockup enviado === */
+html.app-mode body{background:#05050a!important;}
+html.app-mode .hdr{display:none!important;}
+html.app-mode .main{min-height:100vh!important;padding-bottom:78px!important;}
+html.app-mode .bnav{height:72px!important;background:rgba(5,5,10,.86)!important;border-top:1px solid rgba(255,255,255,.08)!important;backdrop-filter:blur(22px)!important;-webkit-backdrop-filter:blur(22px)!important;}
+html.app-mode .bnb{font-size:10px!important;font-weight:700!important;gap:3px!important;}
+html.app-mode .bnb svg{width:24px!important;height:24px!important;}
+html.app-mode .bnb.on{color:#e040ff!important;text-shadow:0 0 18px rgba(224,64,255,.45)!important;}
+html.app-mode .view#v-inicio{background:#05050a!important;min-height:100vh!important;}
+html.app-mode .ohm-shell{max-width:100%!important;width:100%!important;margin:0!important;padding:0 0 92px!important;background:#05050a!important;color:#fff!important;overflow-x:hidden!important;}
+html.app-mode .ohm-profile{position:relative!important;margin:0!important;padding:92px 18px 16px!important;border:0!important;border-radius:0!important;background:linear-gradient(180deg,#0d0920 0%,#06070d 100%)!important;box-shadow:none!important;text-align:center!important;min-height:440px!important;overflow:hidden!important;}
+html.app-mode .ohm-profile:before{content:"";position:absolute;left:-8%;right:-8%;top:108px;height:150px;background:linear-gradient(135deg,transparent 0 22%,rgba(83,32,120,.44) 23% 35%,transparent 36% 48%,rgba(37,59,112,.38) 49% 64%,transparent 65% 100%);clip-path:polygon(0 76%,12% 42%,23% 64%,36% 24%,51% 62%,63% 36%,75% 68%,88% 32%,100% 73%,100% 100%,0 100%);filter:blur(.4px);opacity:.82;z-index:0;}
+html.app-mode .ohm-profile:after{content:"";position:absolute;left:0;right:0;bottom:0;height:180px;background:linear-gradient(180deg,transparent,rgba(5,5,10,.95) 88%);z-index:0;pointer-events:none;}
+html.app-mode .ohm-bg{position:absolute!important;inset:0!important;background:radial-gradient(circle at 50% 24%,rgba(236,72,153,.38),transparent 18%),radial-gradient(circle at 78% 10%,rgba(99,102,241,.25),transparent 30%),radial-gradient(circle at 15% 6%,rgba(217,70,239,.28),transparent 28%),linear-gradient(180deg,#170a35 0%,#090b20 48%,#05050a 100%)!important;opacity:1!important;z-index:0!important;}
+html.app-mode .ohm-top{position:absolute!important;z-index:4!important;top:14px!important;left:18px!important;right:18px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;margin:0!important;}
+html.app-mode .ohm-brand{font-size:22px!important;font-weight:900!important;letter-spacing:-.04em!important;gap:8px!important;color:#fff!important;text-shadow:0 2px 18px rgba(0,0,0,.5)!important;}
+html.app-mode .ohm-eye{width:52px!important;height:30px!important;border-radius:999px!important;background:linear-gradient(135deg,#ff3ee7,#7847ff)!important;box-shadow:0 0 24px rgba(217,70,239,.55)!important;color:transparent!important;position:relative!important;overflow:hidden!important;}
+html.app-mode .ohm-eye:before{content:"";position:absolute;inset:5px 9px;border-radius:999px;border:2px solid rgba(12,12,20,.86);background:rgba(255,255,255,.08);}
+html.app-mode .ohm-eye:after{content:"▶";position:absolute;left:20px;top:5px;color:#080812;font-size:14px;font-weight:900;}
+html.app-mode .ohm-top > button{width:36px!important;height:36px!important;border-radius:999px!important;border:1px solid rgba(255,255,255,.13)!important;background:rgba(9,9,15,.45)!important;color:#fff!important;backdrop-filter:blur(12px)!important;box-shadow:0 8px 20px rgba(0,0,0,.22)!important;font-size:16px!important;}
+html.app-mode .ohm-top > button:first-of-type{margin-left:auto!important;margin-right:8px!important;}
+html.app-mode .ohm-avatar{position:relative!important;z-index:2!important;width:112px!important;height:112px!important;margin:64px auto 12px!important;border-radius:999px!important;background:#11121a!important;border:3px solid rgba(238,117,255,.88)!important;box-shadow:0 0 0 5px rgba(217,70,239,.13),0 0 36px rgba(217,70,239,.45),0 10px 34px rgba(0,0,0,.62)!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:46px!important;overflow:hidden!important;}
+html.app-mode .ohm-avatar img{width:100%!important;height:100%!important;object-fit:cover!important;}
+html.app-mode .ohm-avatar button{position:absolute!important;right:-1px!important;bottom:6px!important;width:34px!important;height:34px!important;border-radius:999px!important;border:0!important;background:linear-gradient(135deg,#d946ef,#6d5dfc)!important;color:#fff!important;box-shadow:0 6px 18px rgba(0,0,0,.35)!important;font-size:0!important;}
+html.app-mode .ohm-avatar button:after{content:"✎";font-size:15px;font-weight:900;}
+html.app-mode .ohm-profile h1{position:relative!important;z-index:2!important;font-family:Inter,system-ui,sans-serif!important;font-size:25px!important;line-height:1.05!important;font-weight:900!important;letter-spacing:-.04em!important;margin:0 0 4px!important;color:#fff!important;text-shadow:0 2px 18px rgba(0,0,0,.7)!important;}
+html.app-mode .ohm-user{position:relative!important;z-index:2!important;font-size:12px!important;color:rgba(255,255,255,.58)!important;margin:0 0 12px!important;font-weight:600!important;}
+html.app-mode .ohm-stats{position:relative!important;z-index:2!important;display:grid!important;grid-template-columns:repeat(4,1fr)!important;background:rgba(8,12,24,.62)!important;border:1px solid rgba(255,255,255,.11)!important;border-radius:15px!important;padding:12px 0 10px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 14px 30px rgba(0,0,0,.25)!important;backdrop-filter:blur(16px)!important;max-width:350px!important;margin:0 auto!important;}
+html.app-mode .ohm-stats div{border-right:1px solid rgba(255,255,255,.10)!important;min-width:0!important;}
+html.app-mode .ohm-stats div:last-child{border-right:0!important;}
+html.app-mode .ohm-stats b{display:block!important;font-size:20px!important;line-height:1!important;font-weight:900!important;color:#fff!important;}
+html.app-mode .ohm-stats span{display:block!important;font-size:9px!important;color:rgba(255,255,255,.68)!important;margin-top:5px!important;font-weight:700!important;}
+html.app-mode .ohm-profile p{position:relative!important;z-index:2!important;max-width:330px!important;margin:12px auto 0!important;padding:0 20px!important;color:rgba(255,255,255,.68)!important;font-size:13px!important;line-height:1.45!important;}
+html.app-mode .ohm-section{background:transparent!important;border:0!important;border-radius:0!important;padding:17px 18px 0!important;margin:0!important;}
+html.app-mode .ohm-head{display:flex!important;align-items:center!important;justify-content:space-between!important;margin-bottom:12px!important;}
+html.app-mode .ohm-head h2{font-size:17px!important;line-height:1!important;margin:0!important;font-weight:900!important;letter-spacing:-.03em!important;color:#fff!important;}
+html.app-mode .ohm-head button{border:0!important;background:transparent!important;color:#d946ef!important;font-size:12px!important;font-weight:900!important;padding:4px 0!important;}
+html.app-mode .ohm-row{display:flex!important;gap:12px!important;overflow-x:auto!important;padding:0 0 4px!important;scroll-snap-type:x mandatory!important;-webkit-overflow-scrolling:touch!important;}
+html.app-mode .ohm-row::-webkit-scrollbar{display:none!important;}
+html.app-mode .ohm-poster{width:94px!important;flex:0 0 94px!important;background:transparent!important;border:0!important;text-align:left!important;color:#fff!important;scroll-snap-align:start!important;padding:0!important;}
+html.app-mode .ohm-img{width:94px!important;height:141px!important;border-radius:10px!important;overflow:hidden!important;background:#15151a!important;border:1px solid rgba(255,255,255,.13)!important;box-shadow:0 10px 28px rgba(0,0,0,.35)!important;}
+html.app-mode .ohm-img img,html.app-mode .ohm-img .cph{width:100%!important;height:100%!important;object-fit:cover!important;}
+html.app-mode .ohm-poster b{display:block!important;font-size:10.5px!important;line-height:1.15!important;margin-top:7px!important;color:#fff!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+html.app-mode .ohm-poster span{display:block!important;font-size:10px!important;color:#fbbf24!important;font-weight:800!important;margin-top:3px!important;}
+html.app-mode .ohm-tonight,html.app-mode .ohm-activity{background:rgba(10,15,28,.68)!important;border:1px solid rgba(255,255,255,.09)!important;border-radius:16px!important;padding:12px!important;box-shadow:0 12px 28px rgba(0,0,0,.20)!important;backdrop-filter:blur(16px)!important;}
+html.app-mode .ohm-tonight{display:flex!important;align-items:center!important;gap:12px!important;}
+html.app-mode .ohm-mini{width:54px!important;height:72px!important;border-radius:10px!important;overflow:hidden!important;background:#111!important;display:flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;}
+html.app-mode .ohm-mini img{width:100%!important;height:100%!important;object-fit:cover!important;}
+html.app-mode .ohm-tonight div:nth-child(2){flex:1!important;min-width:0!important;}
+html.app-mode .ohm-tonight b{display:block!important;font-size:13px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+html.app-mode .ohm-tonight span{display:block!important;color:rgba(255,255,255,.58)!important;font-size:11px!important;line-height:1.35!important;margin-top:3px!important;}
+html.app-mode .ohm-activity{display:flex!important;align-items:center!important;gap:10px!important;margin-top:8px!important;}
+html.app-mode .ohm-act-av{width:40px!important;height:40px!important;border-radius:999px!important;background:linear-gradient(135deg,#d946ef,#7c3aed)!important;display:flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;}
+html.app-mode .ohm-activity div:nth-child(2){flex:1!important;min-width:0!important;}
+html.app-mode .ohm-activity b{display:block!important;font-size:12px!important;color:#fff!important;}
+html.app-mode .ohm-activity span{display:block!important;font-size:11px!important;color:rgba(255,255,255,.6)!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+html.app-mode .ohm-empty{width:100%!important;border:1px dashed rgba(255,255,255,.12)!important;border-radius:14px!important;padding:18px!important;color:rgba(255,255,255,.45)!important;font-size:12px!important;text-align:center!important;}
+@media(max-width:380px){html.app-mode .ohm-profile{padding-left:14px!important;padding-right:14px!important;min-height:420px!important}html.app-mode .ohm-avatar{width:100px!important;height:100px!important;margin-top:58px!important}html.app-mode .ohm-stats b{font-size:18px!important}html.app-mode .ohm-img{width:86px!important;height:129px!important}html.app-mode .ohm-poster{width:86px!important;flex-basis:86px!important}}
+
 </style>
 <style>
 
@@ -1118,6 +1179,20 @@ html.app-mode .bnb svg{width:21px;height:21px;}
   html.app-mode body.ollada-mobile-ui .rnum{width:44px!important;height:44px!important;border-radius:13px!important;font-size:14px!important;}
 }
 </style>
+
+<style>
+/* === OLLADA HOME MOCKUP FORZADO === */
+html.app-mode #v-inicio .hero, html.app-mode #v-inicio .sec{display:none!important}
+.ohm-shell{max-width:430px;margin:0 auto;padding:12px 14px 88px;background:#07070a;min-height:100vh;color:#fff}
+.ohm-profile{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.12);border-radius:28px;background:linear-gradient(180deg,rgba(32,10,56,.92),rgba(5,8,18,.96));box-shadow:0 22px 70px rgba(0,0,0,.55);padding:16px 16px 18px;text-align:center}
+.ohm-bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 18%,rgba(217,70,239,.55),transparent 34%),radial-gradient(circle at 50% -10%,rgba(99,102,241,.55),transparent 34%),linear-gradient(180deg,rgba(255,255,255,.04),transparent 55%);opacity:.95;pointer-events:none}
+.ohm-top{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.ohm-brand{display:flex;align-items:center;gap:8px;font-weight:900;font-size:20px}.ohm-eye{width:32px;height:20px;border-radius:999px;background:linear-gradient(135deg,#d946ef,#7c3aed);display:inline-flex;align-items:center;justify-content:center;color:#09090b;font-size:12px}.ohm-top button{border:0;background:rgba(0,0,0,.25);color:#fff;width:34px;height:34px;border-radius:999px;border:1px solid rgba(255,255,255,.12)}
+.ohm-avatar{position:relative;z-index:1;width:112px;height:112px;margin:10px auto 9px;border-radius:999px;background:#111116;border:3px solid rgba(217,70,239,.8);box-shadow:0 0 0 6px rgba(217,70,239,.13),0 10px 28px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font-size:44px;overflow:hidden}.ohm-avatar img{width:100%;height:100%;object-fit:cover}.ohm-avatar button{position:absolute;right:2px;bottom:6px;width:30px;height:30px;border-radius:999px;border:0;background:linear-gradient(135deg,#d946ef,#7c3aed);color:#fff;font-weight:900}
+.ohm-profile h1{position:relative;z-index:1;font-size:24px;font-weight:900;margin:3px 0 1px;letter-spacing:-.02em}.ohm-user{position:relative;z-index:1;color:rgba(255,255,255,.55);font-size:12px;margin-bottom:12px}.ohm-profile p{position:relative;z-index:1;color:rgba(255,255,255,.65);font-size:12px;line-height:1.45;margin:10px auto 0;max-width:280px}.ohm-stats{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);background:rgba(10,12,22,.58);border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:10px 0}.ohm-stats div{border-right:1px solid rgba(255,255,255,.1)}.ohm-stats div:last-child{border-right:0}.ohm-stats b{display:block;font-size:20px}.ohm-stats span{display:block;font-size:9px;color:rgba(255,255,255,.55);margin-top:2px}
+.ohm-section{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:13px;margin-top:13px}.ohm-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.ohm-head h2{font-size:16px;margin:0;font-weight:900}.ohm-head button{border:0;background:transparent;color:#d946ef;font-size:12px;font-weight:800}.ohm-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}.ohm-row::-webkit-scrollbar{display:none}.ohm-poster{width:86px;flex:0 0 86px;background:transparent;border:0;text-align:left;color:#fff}.ohm-img{width:86px;height:129px;border-radius:10px;overflow:hidden;background:#15151a;border:1px solid rgba(255,255,255,.1)}.ohm-img img,.ohm-img .cph{width:100%;height:100%;object-fit:cover}.ohm-poster b{display:block;font-size:10px;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ohm-poster span{font-size:10px;color:#fbbf24}.ohm-tonight{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:10px}.ohm-mini{width:58px;height:78px;border-radius:10px;overflow:hidden;background:#111;display:flex;align-items:center;justify-content:center;flex:0 0 auto}.ohm-mini img{width:100%;height:100%;object-fit:cover}.ohm-tonight div:nth-child(2){flex:1;min-width:0}.ohm-tonight b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ohm-tonight span{display:block;color:rgba(255,255,255,.55);font-size:11px;line-height:1.35;margin-top:3px}.ohm-activity{display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);margin-top:8px}.ohm-act-av{width:34px;height:34px;border-radius:999px;background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center}.ohm-activity div:nth-child(2){flex:1;min-width:0}.ohm-activity b{display:block;font-size:12px}.ohm-activity span{display:block;color:rgba(255,255,255,.58);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ohm-activity em{font-style:normal;color:#d946ef}.ohm-empty{width:100%;border:1px dashed rgba(255,255,255,.12);border-radius:14px;padding:18px;color:rgba(255,255,255,.45);font-size:12px;text-align:center}
+@media(max-width:380px){.ohm-shell{padding-left:10px;padding-right:10px}.ohm-avatar{width:96px;height:96px}.ohm-profile h1{font-size:22px}.ohm-stats b{font-size:18px}.ohm-img{width:78px;height:117px}.ohm-poster{width:78px;flex-basis:78px}}
+</style>
+
 </head>
 <body>
 <div id="toast-root"></div>
@@ -3874,5 +3949,92 @@ setTimeout(aplicarModoOlladaFinal,0);
 })();
 
 </script>
+
+
+<script>
+/* ==========================================================
+   OLLADA APP HOME FORCE MOCKUP — PARCHE FUERTE SOLO APP
+   Fuerza Inicio a perfil-first como el mockup, aunque un render antiguo
+   haya pintado la landing anterior. No toca Supabase ni guardado.
+========================================================== */
+(function(){
+  function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function im(path,size){return path?(String(path).indexOf('http')===0?path:'https://image.tmdb.org/t/p/'+(size||'w342')+path):'';}
+  function reify(e){return {id:e.tmdb_id,media_type:e.media_type||'movie',title:e.titulo||e.title||'',name:e.titulo||e.title||'',poster_path:e.poster_path||e.poster||'',backdrop_path:e.backdrop_path||'',overview:e.descripcion||e.overview||'',release_date:e.fecha||'',first_air_date:e.fecha||'',genre_ids:e.genre_ids||[],vote_average:e.vote_average||0};}
+  function payload(item){return JSON.stringify(JSON.stringify(item)).replace(/'/g,'&#39;');}
+  function poster(e){
+    var item=reify(e), src=im(item.poster_path,'w342');
+    return '<button class="ohm-poster" onclick=\'abrir('+payload(item)+')\'>'
+      +'<div class="ohm-img">'+(src?'<img src="'+src+'" alt="'+esc(item.title||item.name)+'" loading="lazy" onerror="this.outerHTML=\'<div class=cph>🎬</div>\'">':'<div class="cph">🎬</div>')+'</div>'
+      +'<b>'+esc(item.title||item.name||'Título')+'</b>'
+      +'<span>⭐ '+(e.puntuacion||e.rating||'—')+'</span>'
+    +'</button>';
+  }
+  function statData(){
+    var list=Object.values((typeof S!=='undefined'&&S&&S.titulos)||{});
+    var vistos=list.filter(function(e){return e.estado==='visto';});
+    var movies=vistos.filter(function(e){return (e.media_type||'movie')==='movie';}).length;
+    var series=vistos.filter(function(e){return e.media_type==='tv';}).length;
+    var vals=list.filter(function(e){return Number(e.puntuacion)>0;}).map(function(e){return Number(e.puntuacion);});
+    var avg=vals.length?(vals.reduce(function(a,b){return a+b;},0)/vals.length).toFixed(1):'—';
+    var fav=list.filter(function(e){return e.favorito;});
+    var rated=list.filter(function(e){return Number(e.puntuacion)>0 && !fav.includes(e);}).sort(function(a,b){return (b.puntuacion||0)-(a.puntuacion||0);});
+    var recent=list.slice().sort(function(a,b){return String(b.updated_at||b.created_at||'').localeCompare(String(a.updated_at||a.created_at||''));});
+    var seenKeys=new Set();
+    var top=fav.concat(rated).concat(recent).filter(function(e){var k=(e.media_type||'movie')+'_'+(e.tmdb_id||e.id||e.titulo); if(seenKeys.has(k)) return false; seenKeys.add(k); return true;});
+    return {list,vistos,movies,series,avg,top:top.slice(0,8),recent:recent.slice(0,4)};
+  }
+  function renderHomeMock(){
+    var root=document.getElementById('v-inicio');
+    if(!root) return;
+    try{ if(typeof aplicarModoOllada==='function') aplicarModoOllada(); }catch(e){}
+    var p=(typeof S!=='undefined'&&S&&S.perfil)||{};
+    var d=statData();
+    var av=p.avatar_url?'<img src="'+esc(p.avatar_url)+'" onerror="this.style.display=\'none\'">':esc(p.avatar||'🎬');
+    var name=esc(p.nombre||p.name||p.usuario||'Kenneth');
+    var handle=esc(p.usuario||'usuario');
+    var bio=esc(p.bio||'Viviendo fotograma a fotograma.');
+    var night=d.top[0]||d.recent[0]||null;
+    root.innerHTML = '<div class="ohm-shell">'
+      +'<section class="ohm-profile">'
+        +'<div class="ohm-bg"></div>'
+        +'<header class="ohm-top"><div class="ohm-brand"><span class="ohm-eye">◉</span><b>Ollada</b></div><button onclick="abrirNotificaciones&&abrirNotificaciones()">🔔</button><button onclick="oedit()">⚙️</button></header>'
+        +'<div class="ohm-avatar">'+av+'<button onclick="oedit()">✎</button></div>'
+        +'<h1>'+name+'</h1><div class="ohm-user">@'+handle+'</div>'
+        +'<div class="ohm-stats"><div><b>'+d.movies+'</b><span>Películas</span></div><div><b>'+d.series+'</b><span>Series</span></div><div><b>'+(((typeof S!=='undefined'&&S&&S.listas)||[]).length)+'</b><span>Listas</span></div><div><b>'+d.avg+'</b><span>Media</span></div></div>'
+        +'<p>'+bio+'</p>'
+      +'</section>'
+      +'<section class="ohm-section"><div class="ohm-head"><h2>Top favoritos</h2><button onclick="ir(\'perfil\')">Ver todos</button></div><div class="ohm-row">'+(d.top.length?d.top.map(poster).join(''):'<div class="ohm-empty">Añade favoritos para verlos aquí.</div>')+'</div></section>'
+      +'<section class="ohm-section">'
+        +'<div class="ohm-head"><h2>Qué vemos esta noche</h2><button onclick="ir(\'conjunto\')">Abrir</button></div>'
+        +(night?'<div class="ohm-tonight" onclick=\'ir("conjunto")\'><div class="ohm-mini">'+(im(night.poster_path||night.poster,'w185')?'<img src="'+im(night.poster_path||night.poster,'w185')+'">':'🎬')+'</div><div><b>'+esc(night.titulo||night.title||'Recomendación')+'</b><span>Basado en tu perfil. Decididlo en Juntos.</span></div><strong>›</strong></div>':'<div class="ohm-empty">Guarda títulos y aparecerán recomendaciones.</div>')
+      +'</section>'
+      +'<section class="ohm-section"><div class="ohm-head"><h2>Actividad reciente</h2><button onclick="ir(\'amigos\')">Ver todo</button></div>'
+        +(d.recent.length?d.recent.map(function(e){return '<div class="ohm-activity" onclick=\'abrir('+payload(reify(e))+')\'><div class="ohm-act-av">'+esc(p.avatar||'🎬')+'</div><div><b>@'+handle+'</b><span>'+esc((e.estado==='visto'?'marcó como vista':e.favorito?'añadió a favoritas':e.resena?'reseñó':'guardó')+' '+(e.titulo||e.title||'un título'))+'</span></div><em>›</em></div>';}).join(''):'<div class="ohm-empty">Tu actividad aparecerá aquí.</div>')
+      +'</section>'
+    +'</div>';
+    document.querySelectorAll('[data-v]').forEach(function(b){b.classList.toggle('on', b.dataset.v==='inicio');});
+  }
+  window.olladaRenderHomeMock = renderHomeMock;
+  window.rinicio = renderHomeMock;
+  try{ rinicio = renderHomeMock; }catch(e){}
+  var oldIr=window.ir;
+  if(oldIr && !window.__ohmIrPatched){
+    window.__ohmIrPatched=true;
+    window.ir=function(v){ oldIr(v); if(v==='inicio'){ setTimeout(renderHomeMock,0); setTimeout(renderHomeMock,80); } };
+  }
+  document.addEventListener('click',function(ev){
+    var b=ev.target.closest && ev.target.closest('[data-v="inicio"], .bnb[data-v="inicio"], .nb[data-v="inicio"]');
+    if(b){setTimeout(renderHomeMock,0);setTimeout(renderHomeMock,80);}
+  },true);
+  function boot(){
+    if((document.getElementById('v-inicio')||{}).classList && document.getElementById('v-inicio').classList.contains('on')) renderHomeMock();
+  }
+  window.addEventListener('load',function(){setTimeout(boot,80);setTimeout(boot,400);});
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(boot,80);});
+  setTimeout(boot,120); setTimeout(boot,700);
+})();
+</script>
+
 </body>
 </html>
