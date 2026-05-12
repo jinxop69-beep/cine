@@ -1,46 +1,5 @@
 const CACHE_NAME = 'ollada-pwa-v17-logo-montanas-avatar-social';
-const APP_SHELL = [
-  '/',
-  '/index.html',
-  '/app.html',
-  '/manifest.webmanifest',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/icons/maskable-512.png',
-  '/icons/apple-touch-icon.png'
-];
-
-self.addEventListener('install', event => {
-  self.skipWaiting();
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL).catch(()=>null)));
-});
-
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
-});
-
-self.addEventListener('fetch', event => {
-  const req = event.request;
-  if (req.method !== 'GET') return;
-  const url = new URL(req.url);
-
-  if (url.origin === location.origin && (url.pathname.endsWith('.html') || url.pathname === '/' || url.pathname === '/app.html')) {
-    event.respondWith(fetch(req).then(res => {
-      const clone = res.clone();
-      caches.open(CACHE_NAME).then(cache => cache.put(req, clone));
-      return res;
-    }).catch(() => caches.match(req).then(cached => cached || caches.match('/index.html'))));
-    return;
-  }
-
-  event.respondWith(caches.match(req).then(cached => cached || fetch(req).then(res => {
-    if (url.origin === location.origin) {
-      const clone = res.clone();
-      caches.open(CACHE_NAME).then(cache => cache.put(req, clone));
-    }
-    return res;
-  })));
-});
+const APP_SHELL = ['/','/index.html','/app.html','/manifest.webmanifest','/icons/icon-192.png','/icons/icon-512.png','/icons/maskable-512.png','/icons/apple-touch-icon.png'];
+self.addEventListener('install', e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(APP_SHELL).catch(()=>null)));});
+self.addEventListener('activate', e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
+self.addEventListener('fetch', e=>{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);if(u.origin===location.origin&&(u.pathname.endsWith('.html')||u.pathname==='/')){e.respondWith(fetch(r).then(res=>{caches.open(CACHE_NAME).then(c=>c.put(r,res.clone()));return res;}).catch(()=>caches.match(r).then(c=>c||caches.match('/index.html'))));return;}e.respondWith(caches.match(r).then(c=>c||fetch(r).then(res=>{if(u.origin===location.origin)caches.open(CACHE_NAME).then(c=>c.put(r,res.clone()));return res;})));});

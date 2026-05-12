@@ -3561,161 +3561,12 @@ window.addEventListener('resize', function(){
 setTimeout(aplicarModoOlladaFinal,0);
 
 </script>
-<script>/* === OLLADA VISUAL FINAL PATCH: web/app split + mobile native polish === */
-(function(){
-  const mqMobile = () => window.innerWidth <= 880;
-  const pathIsApp = () => (location.pathname||'').toLowerCase().endsWith('/app.html');
-  const isStandalone = () => (window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone;
-  window.aplicarModoOllada = window.aplicarModoCineCircle = function(){
-    try{
-      const qs=new URLSearchParams(location.search);
-      const app = qs.get('modo')==='web' ? false : (pathIsApp() || qs.get('modo')==='app' || isStandalone() || mqMobile());
-      document.documentElement.classList.toggle('app-mode', app);
-      document.documentElement.classList.toggle('web-mode', !app);
-      document.documentElement.setAttribute('data-mode', app?'app':'web');
-      document.body.classList.toggle('ollada-mobile-ui', app);
-      const btn=document.getElementById('mode-toggle'); if(btn) btn.textContent=app?'🌐 Web':'📱 App';
-    }catch(e){}
-  };
-  const esc = window.esc || function(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')};
-  const safeOpen = window.openPayload || function(item){return JSON.stringify(JSON.stringify(item));};
-  function st(){
-    const lst=Object.values(((typeof S!=="undefined"&&S&&S.titulos)||{}));
-    const vst=lst.filter(e=>e.estado==='visto');
-    const m=vst.filter(e=>e.media_type==='movie').length;
-    const s=vst.filter(e=>e.media_type==='tv').length;
-    const h=Math.max(0,Math.round(m*2+s*8));
-    const pns=lst.filter(e=>e.puntuacion>0).map(e=>Number(e.puntuacion));
-    const med=pns.length?(pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1):'—';
-    return {lst,vst,m,s,h,med};
-  }
-  function av(cls){
-    const p=((typeof S!=="undefined"&&S&&S.perfil)||{});
-    if(p.avatar_url) return `<div class="${cls}"><img src="${esc(p.avatar_url)}" alt="avatar"></div>`;
-    return `<div class="${cls}"><span>${esc(p.avatar||'🎬')}</span></div>`;
-  }
-  function reify(e){return {id:e.tmdb_id,media_type:e.media_type||'movie',title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average};}
-  function posterRow(items, max=6){
-    const arr=(items||[]).slice(0,max);
-    if(!arr.length) return '<div class="of-empty">Añade favoritos para verlos aquí.</div>';
-    return arr.map(e=>{const src=IMG(e.poster_path,'w342');return `<button class="of-poster" onclick='abrir(${safeOpen(reify(e))})'>${src?`<img src="${src}" alt="${esc(e.titulo)}">`:'<div class="cph">🎬</div>'}<b>${esc(e.titulo||'Título')}</b>${e.puntuacion?`<span>⭐ ${e.puntuacion}</span>`:''}</button>`}).join('');
-  }
 
-  // Hard mode on first paint and after resize
-  aplicarModoOllada();
-  window.addEventListener('resize', ()=>{clearTimeout(window.__olladaFinalResize); window.__olladaFinalResize=setTimeout(()=>{aplicarModoOllada(); try{ var _v=(typeof vistaActual!=="undefined"?vistaActual:window.vistaActual); if(_v==='inicio') rinicio(); if(_v==='perfil') rperfil(); }catch(e){}},120)}, {passive:true});
-
-  const previousRinicio = window.rinicio;
-  window.rinicio = async function(){
-    aplicarModoOllada();
-    if(!document.documentElement.classList.contains('app-mode')){
-      if(previousRinicio) return previousRinicio();
-    }
-    const root=document.getElementById('v-inicio'); if(!root) return;
-    const p=(S&&S.perfil)||{}; const stats=st();
-    root.innerHTML = `<div class="om-home">
-      <section class="om-hero-card">
-        <div class="om-hero-glow"></div>
-        <div class="om-kicker">👁️ Tu mirada al cine y las series</div>
-        <h1>Ollada</h1>
-        <p>Registra lo que ves, comparte tu perfil y decide qué ver con amigos o pareja.</p>
-        <div class="om-search"><span>🔍</span><input id="h-sinp" placeholder="Busca Hamnet, Cumbre borrascosa…" onkeydown="if(event.key==='Enter')hbuscarFinal('h-sinp')"><button onclick="hbuscarFinal('h-sinp')">Buscar</button></div>
-        <div class="om-stats"><div><b>${stats.m}</b><span>Películas</span></div><div><b>${stats.s}</b><span>Series</span></div><div><b>${stats.h}h</b><span>Horas</span></div><div><b>${stats.med}</b><span>Media</span></div></div>
-      </section>
-      <section class="om-card om-tonight"><div><div class="om-title">🤝 Qué vemos esta noche</div><p>El acceso a Juntos está aquí para que nadie se pierda.</p></div><button onclick="ir('conjunto')">Abrir Juntos</button></section>
-      <section class="om-section"><div class="om-section-head"><h2>🔥 Tendencias</h2><button onclick="ir('buscar')">Ver más</button></div><div class="om-row" id="trend-row"></div></section>
-      <section class="om-section"><div class="om-section-head"><h2>📈 Actividad reciente</h2><button onclick="ir('amigos')">Ver feed</button></div><div id="om-feed" class="om-feed"><div class="of-empty">Cargando actividad…</div></div></section>
-    </div>`;
-    const row=document.getElementById('trend-row');
-    if(row){row.innerHTML=Array(6).fill('<div class="om-poster-skel"></div>').join(''); try{const d=await tmdb('/trending/all/week'); row.innerHTML=(d.results||[]).slice(0,10).map(i=>`<div class="om-poster-wrap">${tarjeta({...i,media_type:i.media_type||'movie'},true)}</div>`).join('');}catch(e){row.innerHTML='<div class="of-empty">No se pudieron cargar tendencias.</div>';}}
-    loadMobileFeed();
-  };
-  async function loadMobileFeed(){
-    const el=document.getElementById('om-feed'); if(!el) return;
-    if(typeof supabaseClient==="undefined"||!supabaseClient){el.innerHTML='<div class="of-empty">Conecta Supabase para ver actividad.</div>'; return;}
-    try{const acts=await sb('activity.mobile', supabaseClient.from('activity_feed').select('*').order('created_at',{ascending:false}).limit(4)); el.innerHTML=(acts||[]).length?(acts||[]).map(a=>{const d=a.data||{};return `<div class="om-feed-item"><div class="ofi-av">${d.avatar||'🎬'}</div><div><b>@${esc(d.username||'usuario')}</b><span>${textoActividad(a).replace(/<[^>]+>/g,'')}</span>${d.text?`<p>“${esc(String(d.text).slice(0,90))}”</p>`:''}</div></div>`}).join(''):'<div class="of-empty">Tu actividad y la de tus amigos aparecerá aquí.</div>'; }catch(e){el.innerHTML='<div class="of-empty">No se pudo cargar actividad.</div>';}
-  }
-
-  const previousRperfil = window.rperfil;
-  window.rperfil = function(){
-    aplicarModoOllada();
-    const root=document.getElementById('v-perfil'); if(!root) return;
-    const p=(S&&S.perfil)||{}; const stats=st();
-    const favs=stats.lst.filter(e=>e.favorito).sort((a,b)=>(b.puntuacion||0)-(a.puntuacion||0));
-    const reviews=stats.lst.filter(e=>(e.resena||'').trim()).slice(0,4);
-    root.innerHTML = `<div class="of-profile">
-      <section class="of-hero" style="${p.banner_url?`background-image:linear-gradient(180deg,rgba(0,0,0,.08),#08080a 92%),url('${esc(p.banner_url)}')`:''}">
-        <div class="of-orb one"></div><div class="of-orb two"></div>
-        ${av('of-avatar')}
-        <h1>@${esc(p.usuario||'cinephile')}</h1>
-        <p>${esc(p.bio||'Viviendo fotograma a fotograma.')}</p>
-        <div class="of-actions"><button class="primary" onclick="compartirPerfil()">📸 Compartir perfil</button><button onclick="oedit()">✏️ Editar</button><button onclick="abrirMiPerfilPublico()">👁️ Público</button><button onclick="cerrarSesion()">🚪 Salir</button></div>
-      </section>
-      <section class="of-stats"><div><b>${stats.m}</b><span>Películas</span></div><div><b>${stats.s}</b><span>Series</span></div><div><b>${stats.h}h</b><span>Horas</span></div><div><b>${stats.med}</b><span>Media</span></div></section>
-      <section class="of-card"><div class="of-head"><h2>🏆 Top favoritos</h2><button onclick="ir('buscar')">Añadir</button></div><div class="of-posters">${posterRow(favs,6)}</div></section>
-      <section class="of-card"><div class="of-head"><h2>🎬 Biblioteca</h2><button onclick="ir('buscar')">Buscar</button></div><div class="of-tabs"><button class="ptab on" data-tab="todo" onclick="setTabPerfil('todo')">Todo <span id="tc-todo">${stats.lst.length}</span></button><button class="ptab" data-tab="viendo" onclick="setTabPerfil('viendo')">▶️ Viendo <span id="tc-viendo">${stats.lst.filter(e=>e.estado==='viendo').length}</span></button><button class="ptab" data-tab="visto" onclick="setTabPerfil('visto')">✅ Vistos <span id="tc-visto">${stats.vst.length}</span></button><button class="ptab" data-tab="pendiente" onclick="setTabPerfil('pendiente')">📌 Pend. <span id="tc-pendiente">${stats.lst.filter(e=>e.estado==='pendiente').length}</span></button><button class="ptab" data-tab="abandonado" onclick="setTabPerfil('abandonado')">❌ Aband. <span id="tc-abandonado">${stats.lst.filter(e=>e.estado==='abandonado').length}</span></button></div><div class="of-library" id="wgrd"></div></section>
-      <section class="of-card"><div class="of-head"><h2>⚡ Accesos</h2></div><div class="of-menu"><button onclick="ir('conjunto')"><span>🤝</span>Juntos</button><button onclick="ir('ia')"><span>✨</span>IA</button><button onclick="ir('wrapped')"><span>🏆</span>Wrapped</button><button onclick="ir('listas')"><span>📋</span>Listas</button><button onclick="mostrarStatsAvanzadas()"><span>📊</span>Stats</button><button onclick="abrirNotificaciones()"><span>🔔</span>Notifs</button></div></section>
-      <section class="of-card"><div class="of-head"><h2>💬 Reseñas recientes</h2></div>${reviews.length?reviews.map(r=>`<div class="of-review"><b>${esc(r.titulo)}</b><p>${esc(String(r.resena).slice(0,160))}${String(r.resena).length>160?'…':''}</p></div>`).join(''):'<div class="of-empty">Escribe una reseña y aparecerá aquí.</div>'}</section>
-      <section class="of-card"><div class="of-head"><h2>🏅 Logros</h2></div><div class="of-badges"><div><b>🎬</b><span>Primera vez</span><small>${stats.lst.length?'Obtenido ✓':'Bloqueado'}</small></div><div><b>🔟</b><span>Diez títulos</span><small>${stats.lst.length>=10?'Obtenido ✓':'Bloqueado'}</small></div><div><b>✍️</b><span>Crítico/a</span><small>${reviews.length>=3?'Obtenido ✓':'Bloqueado'}</small></div></div></section>
-    </div>`;
-    try{ tabPerfilActual=tabPerfilActual||'todo'; setTabPerfil(tabPerfilActual); }catch(e){}
-  };
-
-  window.renderTabPerfil = function(){
-    const stats=st(); const items=tabPerfilActual==='todo'?stats.lst:stats.lst.filter(e=>e.estado===tabPerfilActual); const grid=document.getElementById('wgrd'); if(!grid) return;
-    document.querySelectorAll('.ptab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tabPerfilActual));
-    if(!items.length){grid.innerHTML='<div class="of-empty">Nada por aquí todavía.</div>'; return;}
-    grid.innerHTML=items.slice(0,30).map(e=>`<div class="of-library-item">${tarjeta(reify(e),true)}</div>`).join('');
-  };
-
-  // Make view changes reapply final mode and renderers.
-  const oldIr = window.ir;
-  if(oldIr){
-    window.ir=function(v){ aplicarModoOllada(); oldIr(v); setTimeout(()=>{try{aplicarModoOllada(); if(v==='inicio') rinicio(); if(v==='perfil') rperfil(); if(v==='buscar') rsr&&rsr();}catch(e){}},20); };
-  }
-  setTimeout(()=>{try{aplicarModoOllada(); if((window.vistaActual||'inicio')==='inicio') rinicio();}catch(e){}},60);
-})();
-</script>
-
-<script>
-/* === OLLADA APP SAFE REBUILD v15: render Inicio/Perfil after original app is loaded === */
-(function(){
-  function safe(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function all(){try{return Object.values(S&&S.titulos||{});}catch(e){return [];}}
-  function viewed(){return all().filter(function(x){return x.estado==='visto';});}
-  function stats(){var a=all(), v=viewed(), m=v.filter(x=>x.media_type==='movie').length, s=v.filter(x=>x.media_type==='tv').length, l=(S&&S.listas||[]).length, f=(typeof AMG!=='undefined'&&Array.isArray(AMG)?AMG.length:0); return {all:a,viewed:v,movies:m,series:s,lists:l,friends:f};}
-  function avatar(){var p=S&&S.perfil||{}; if(p.avatar_url)return '<img src="'+safe(p.avatar_url)+'" alt="avatar">'; return safe(p.avatar||'🎬');}
-  function name(){var u=(S&&S.perfil&&S.perfil.usuario)||'Kenneth'; u=String(u).replace(/^@+/,''); return u?u.charAt(0).toUpperCase()+u.slice(1):'Kenneth';}
-  function handle(){var u=(S&&S.perfil&&S.perfil.usuario)||'kenneth'; return '@'+String(u).replace(/^@+/,'');}
-  function bio(){return safe((S&&S.perfil&&S.perfil.bio)||'Viviendo fotograma a fotograma.');}
-  function reify(e){return {id:e.tmdb_id,media_type:e.media_type,title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average};}
-  function openStr(e){return JSON.stringify(JSON.stringify(reify(e))).replace(/'/g,'&#39;');}
-  function posterImg(e, cls){var src=e&&e.poster_path?IMG(e.poster_path,'w342'):''; return '<div class="'+cls+'">'+(src?'<img src="'+src+'" alt="'+safe(e.titulo||'')+'">':'🎬')+'</div>';}
-  function top(n){return all().slice().sort(function(a,b){var af=a.favorito?1:0,bf=b.favorito?1:0;if(bf-af)return bf-af;return Number(b.puntuacion||0)-Number(a.puntuacion||0);}).filter(x=>x.poster_path||x.titulo).slice(0,n||6);}
-  function statPanel(){var st=stats(); return [{v:st.movies,l:'Películas'},{v:st.series,l:'Series'},{v:st.lists,l:'Listas'},{v:st.friends,l:'Amigos'}].map(x=>'<div class="oc-stat"><b>'+x.v+'</b><span>'+x.l+'</span></div>').join('');}
-  function topRow(id, items){var el=document.getElementById(id); if(!el)return; if(!items.length){el.innerHTML='<div class="oc-empty">Añade favoritos para verlos aquí.</div>';return;} el.innerHTML=items.map(function(e){var sc=Number(e.puntuacion||0)>0?e.puntuacion:'—';return '<button class="oc-poster" onclick=\'abrir('+openStr(e)+')\'>'+posterImg(e,'oc-poster-img')+'<div class="oc-poster-title">'+safe(e.titulo||'Sin título')+'</div><div class="oc-poster-score">⭐ '+sc+'</div></button>';}).join('');}
-  function acts(n){var arr=all().slice().sort((a,b)=>new Date(b.updated_at||b.visto_en||b.created_at||0)-new Date(a.updated_at||a.visto_en||a.created_at||0));return arr.slice(0,n||3);}
-  function activity(id,n){var el=document.getElementById(id); if(!el)return; var a=acts(n); if(!a.length){el.innerHTML='<div class="oc-activity"><div class="oc-act-av">🎬</div><div class="oc-act-copy"><b>Aún no hay actividad</b><span>Cuando puntúes o reseñes algo saldrá aquí.</span></div><div class="oc-act-side">›</div></div>';return;} el.innerHTML=a.map(function(e){var txt=e.resena?'reseñó':Number(e.puntuacion)>0?'puntuó':e.favorito?'añadió a favoritos':e.estado?'marcó '+e.estado:'guardó';return '<div class="oc-activity" onclick=\'abrir('+openStr(e)+')\'><div class="oc-act-av">'+avatar()+'</div><div class="oc-act-copy"><b>'+safe(name())+' '+txt+'</b><span>'+safe(e.titulo||'Título')+'</span></div><div class="oc-act-side">❤️</div></div>';}).join('');}
-  function shell(extra){return '<div class="ollada-clean">'+extra+'</div>';}
-  function hero(prefix){return '<section class="oc-hero"><div class="oc-bg"></div><div class="oc-top"><div class="oc-brand"><div class="oc-eye"></div><span>Ollada</span></div><div class="oc-actions"><button class="oc-icon" onclick="abrirNotificaciones()">🔔<i class="oc-dot"></i></button><button class="oc-icon" onclick="oedit()">⚙️</button></div></div><div class="oc-avatar-wrap"><div class="oc-avatar"><div class="oc-avatar-in">'+avatar()+'</div></div><button class="oc-edit" onclick="oedit()">✎</button></div><div class="oc-name">'+safe(name())+'</div><div class="oc-handle">'+safe(handle())+'</div><div class="oc-stats">'+statPanel()+'</div><div class="oc-bio">'+bio()+'</div></section>';}
-  function card(title, action, body){return '<section class="oc-card"><div class="oc-head"><h2>'+title+'</h2>'+(action||'')+'</div>'+body+'</section>';}
-  function renderHome(){var root=document.getElementById('v-inicio'); if(!root)return; var t=top(6), one=t[0]; root.innerHTML=shell(hero('h')+card('Top favoritos','<button class="oc-link" onclick="ir(\'perfil\')">Ver todos</button>','<div class="oc-row" id="oc-home-favs"></div>')+card('Actividad reciente','<button class="oc-link" onclick="ir(\'amigos\')">Abrir</button>','<div id="oc-home-act"></div>')+card('Qué vemos esta noche','<button class="oc-link" onclick="ir(\'conjunto\')">Abrir</button>','<div class="oc-juntos">'+(one?posterImg(one,'oc-mini'):'<div class="oc-mini">🤝</div>')+'<div><h3>'+(one?safe(one.titulo):'Abre Juntos')+'</h3><p>'+(one?'Perfecta para decidir con otra persona.':'Haced match de películas o series para ver juntos.')+'</p></div></div>')); topRow('oc-home-favs',t); activity('oc-home-act',2);}
-  window.__ocTab='todo';
-  function renderLibrary(){var grid=document.getElementById('oc-library'); if(!grid)return; var items=all().filter(function(e){return window.__ocTab==='todo'||e.estado===window.__ocTab;}); if(!items.length){grid.innerHTML='<div class="oc-empty">Nada por aquí todavía.</div>';return;} grid.innerHTML=items.slice(0,8).map(function(e){return '<button class="oc-lib" onclick=\'abrir('+openStr(e)+')\'>'+posterImg(e,'oc-lib-img')+'<div class="oc-lib-body"><div class="oc-lib-title">'+safe(e.titulo||'Sin título')+'</div><div class="oc-lib-meta"><span>'+(String(e.fecha||'').slice(0,4)||'—')+'</span><span>⭐ '+(e.puntuacion||'—')+'</span></div></div></button>';}).join('');}
-  window.ocSetTab=function(t){window.__ocTab=t;document.querySelectorAll('.oc-tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));renderLibrary();};
-  function renderProfile(){var root=document.getElementById('v-perfil'); if(!root)return; var t=top(6); root.innerHTML=shell(hero('p')+card('','', '<div class="oc-actions-grid"><button class="oc-pill primary" onclick="copiarPerfilPublico()">📸 Compartir</button><button class="oc-pill" onclick="oedit()">✏️ Editar</button><button class="oc-pill" onclick="abrirMiPerfilPublico()">👁️ Público</button><button class="oc-pill" onclick="cerrarSesion()">🚪 Salir</button></div>')+card('Top favoritos','<button class="oc-link" onclick="ir(\'buscar\')">Añadir</button>','<div class="oc-row" id="oc-profile-favs"></div>')+card('Actividad reciente','<button class="oc-link" onclick="ir(\'amigos\')">Ver</button>','<div id="oc-profile-act"></div>')+card('Biblioteca','<button class="oc-link" onclick="ir(\'buscar\')">Buscar</button>','<div class="oc-tabs"><button class="oc-tab on" data-tab="todo" onclick="ocSetTab(\'todo\')">Todo</button><button class="oc-tab" data-tab="viendo" onclick="ocSetTab(\'viendo\')">Viendo</button><button class="oc-tab" data-tab="visto" onclick="ocSetTab(\'visto\')">Vistos</button><button class="oc-tab" data-tab="pendiente" onclick="ocSetTab(\'pendiente\')">Pend.</button></div><div class="oc-grid" id="oc-library"></div>')+card('Accesos','', '<div class="oc-shortcuts"><button class="oc-short" onclick="ir(\'conjunto\')"><span>🤝</span><b>Juntos</b></button><button class="oc-short" onclick="ir(\'ia\')"><span>✨</span><b>IA</b></button><button class="oc-short" onclick="ir(\'listas\')"><span>📋</span><b>Listas</b></button></div>')); topRow('oc-profile-favs',t); activity('oc-profile-act',3); renderLibrary();}
-  window.rinicio=rinicio=renderHome; window.rperfil=rperfil=renderProfile;
-  setTimeout(function(){try{if((window.vistaActual||'inicio')==='perfil')renderProfile();else renderHome();}catch(e){console.error(e)}},50);
-})();
-</script>
-
-
-<style id="ollada-v17-css">
-/* ═══════════════════════════════════════════
-   OLLADA v17 — visual upgrade: logo, montañas,
-   avatar circular, actividad social
-   Solo afecta app-mode móvil (max-width 900px)
-   ═══════════════════════════════════════════ */
+<style id="v17-css">
+/* ══════════════════════════════════════════════
+   OLLADA v17 — UN solo bloque visual limpio
+   Solo app-mode móvil. Reemplaza rinicio/rperfil.
+   ══════════════════════════════════════════════ */
 @media(max-width:900px){
   html.app-mode body{background:#030512!important;overflow-x:hidden!important;}
   html.app-mode .hdr{display:none!important;}
@@ -3723,622 +3574,405 @@ setTimeout(aplicarModoOlladaFinal,0);
   html.app-mode .view{min-height:100vh!important;background:#030512!important;}
   html.app-mode .bnav{
     position:fixed!important;left:0!important;right:0!important;bottom:0!important;
-    height:88px!important;background:rgba(5,6,16,.94)!important;
-    backdrop-filter:blur(24px)!important;-webkit-backdrop-filter:blur(24px)!important;
-    border-top:1px solid rgba(255,255,255,.09)!important;z-index:100!important;
+    height:82px!important;background:rgba(5,6,16,.95)!important;
+    backdrop-filter:blur(24px)!important;border-top:1px solid rgba(255,255,255,.08)!important;
+    z-index:100!important;
   }
-  html.app-mode .bnav-inner{height:88px!important;padding:8px 4px 14px!important;}
-  html.app-mode .bnb{font-size:10px!important;color:rgba(255,255,255,.46)!important;font-weight:700!important;gap:3px!important;}
-  html.app-mode .bnb svg{width:23px!important;height:23px!important;}
-  html.app-mode .bnb.on{color:#e040ff!important;text-shadow:0 0 16px rgba(224,64,255,.5)!important;}
+  html.app-mode .bnav-inner{height:82px!important;padding:6px 2px 12px!important;}
+  html.app-mode .bnb{font-size:10px!important;color:rgba(255,255,255,.44)!important;font-weight:700!important;gap:3px!important;}
+  html.app-mode .bnb svg{width:22px!important;height:22px!important;}
+  html.app-mode .bnb.on{color:#e040ff!important;}
 
-  /* ── BASE SCREEN ── */
-  .od-screen{
-    min-height:100vh;
-    padding:0 0 100px;
-    background:#030512;
-    color:#fff;
-    font-family:Inter,system-ui,sans-serif;
-  }
+  /* pantalla base */
+  .v17{min-height:100vh;padding:0 0 95px;background:#030512;color:#fff;font-family:Inter,system-ui,sans-serif;}
 
-  /* ── HERO CON MONTAÑAS CINEMATOGRÁFICAS ── */
-  .od-hero{
-    position:relative;
-    min-height:640px;
-    padding:48px 22px 0;
-    overflow:hidden;
+  /* ── hero: montañas cinematográficas ── */
+  .v17-hero{
+    position:relative;min-height:610px;padding:46px 20px 0;overflow:hidden;
   }
-  /* Fondo SVG: cielo nocturno + glow + montañas orgánicas en capas */
-  .od-hero-bg{
-    position:absolute;
-    inset:0;
-    z-index:0;
-    background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20900%20520%22%20preserveAspectRatio%3D%22xMidYMax%20slice%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22sky%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%2302030c%22/%3E%3Cstop%20offset%3D%22.38%22%20stop-color%3D%22%221a0630%22/%3E%3Cstop%20offset%3D%22.65%22%20stop-color%3D%22%233a0e55%22/%3E%3Cstop%20offset%3D%22.82%22%20stop-color%3D%22%221e0830%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2303050f%22/%3E%3C/linearGradient%3E%3CradialGradient%20id%3D%22glow1%22%20cx%3D%2250%25%22%20cy%3D%2250%25%22%20r%3D%2248%25%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ff38cc%22%20stop-opacity%3D%22.52%22/%3E%3Cstop%20offset%3D%22.4%22%20stop-color%3D%22%239933ff%22%20stop-opacity%3D%22.22%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23000%22%20stop-opacity%3D%220%22/%3E%3C/radialGradient%3E%3CradialGradient%20id%3D%22glow2%22%20cx%3D%2228%25%22%20cy%3D%2260%25%22%20r%3D%2234%25%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23a020ff%22%20stop-opacity%3D%22.28%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23000%22%20stop-opacity%3D%220%22/%3E%3C/radialGradient%3E%3ClinearGradient%20id%3D%22m1%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%234a1680%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23260850%22/%3E%3C/linearGradient%3E%3ClinearGradient%20id%3D%22m2%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%232a0940%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2312041e%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%22900%22%20height%3D%22520%22%20fill%3D%22url(%23sky)%22/%3E%3Crect%20width%3D%22900%22%20height%3D%22520%22%20fill%3D%22url(%23glow1)%22/%3E%3Crect%20width%3D%22900%22%20height%3D%22520%22%20fill%3D%22url(%23glow2)%22/%3E%3C!--%20capa%201:%20montañas%20lejanas%20--%3E%3Cpath%20d%3D%22M0%20310%20C30%20280%2060%20240%2090%20255%20C110%20264%20130%20220%20160%20210%20C185%20200%20210%20245%20240%20232%20C270%20218%20295%20175%20330%20180%20C365%20185%20385%20160%20420%20148%20C455%20136%20475%20170%20510%20158%20C545%20145%20570%20120%20610%20130%20C650%20140%20670%20175%20710%20168%20C750%20160%20775%20130%20810%20140%20C845%20150%20875%20185%20900%20192%20L900%20520%20L0%20520Z%22%20fill%3D%22url(%23m1)%22%20opacity%3D%22.88%22/%3E%3C!--%20capa%202:%20montañas%20medias%20--%3E%3Cpath%20d%3D%22M0%20360%20C40%20330%2080%20300%20115%20318%20C140%20330%20165%20285%20200%20275%20C230%20265%20255%20305%20290%20295%20C325%20285%20350%20250%20390%20255%20C430%20260%20450%20230%20490%20220%20C530%20210%20555%20250%20595%20245%20C635%20240%20658%20210%20698%20218%20C738%20226%20762%20260%20800%20255%20C838%20250%20870%20278%20900%20290%20L900%20520%20L0%20520Z%22%20fill%3D%22%231a0530%22%20opacity%3D%22.94%22/%3E%3C!--%20capa%203:%20montañas%20cercanas%20--%3E%3Cpath%20d%3D%22M0%20400%20C35%20375%2070%20348%20105%20362%20C132%20373%20158%20340%20190%20335%20C218%20330%20242%20358%20275%20352%20C308%20346%20330%20318%20365%20322%20C400%20326%20422%20300%20460%20295%20C498%20290%20520%20320%20558%20315%20C596%20310%20618%20285%20658%20290%20C698%20295%20720%20328%20758%20322%20C796%20316%20830%20340%20865%20348%20C890%20354%20900%20362%20900%20362%20L900%20520%20L0%20520Z%22%20fill%3D%22%230d0520%22%20opacity%3D%22.97%22/%3E%3C/svg%3E");
-    background-size:cover;
-    background-position:center top;
+  .v17-mountains{
+    position:absolute;inset:0;z-index:0;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 520' preserveAspectRatio='xMidYMax slice'%3E%3Cdefs%3E%3ClinearGradient id='sky' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%2302030d'/%3E%3Cstop offset='.35' stop-color='%23190530'/%3E%3Cstop offset='.62' stop-color='%23380c55'/%3E%3Cstop offset='.82' stop-color='%231c072e'/%3E%3Cstop offset='1' stop-color='%2303050f'/%3E%3C/linearGradient%3E%3CradialGradient id='g1' cx='50%25' cy='48%25' r='50%25'%3E%3Cstop offset='0' stop-color='%23ff38cc' stop-opacity='.50'/%3E%3Cstop offset='.45' stop-color='%239533ff' stop-opacity='.22'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='g2' cx='22%25' cy='62%25' r='32%25'%3E%3Cstop offset='0' stop-color='%239020ee' stop-opacity='.30'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='0'/%3E%3C/radialGradient%3E%3ClinearGradient id='ma' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234a1478'/%3E%3Cstop offset='1' stop-color='%23240848'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='900' height='520' fill='url(%23sky)'/%3E%3Crect width='900' height='520' fill='url(%23g1)'/%3E%3Crect width='900' height='520' fill='url(%23g2)'/%3E%3Cpath d='M0 300C30 274 62 240 94 255 114 263 134 218 164 208 188 199 213 243 244 230 274 216 298 172 334 178 368 184 388 158 424 146 458 134 478 168 514 156 548 143 574 116 614 128 654 140 674 173 714 166 754 158 778 128 814 139 850 150 878 184 900 191L900 520 0 520Z' fill='url(%23ma)' opacity='.86'/%3E%3Cpath d='M0 352C42 324 84 296 118 314 142 327 168 281 204 271 232 262 258 302 294 292 328 282 352 246 392 252 432 258 454 226 494 216 534 206 558 246 598 241 638 236 662 206 702 214 742 222 766 256 804 250 842 244 874 272 900 284L900 520 0 520Z' fill='%231a0530' opacity='.93'/%3E%3Cpath d='M0 396C36 372 72 344 108 358 134 369 160 336 194 330 220 324 246 354 280 348 314 342 336 314 372 318 408 322 430 294 470 288 510 282 532 316 570 310 608 304 632 278 672 284 712 290 734 324 772 318 810 312 844 336 880 344 900 350L900 520 0 520Z' fill='%230d0520' opacity='.97'/%3E%3C/svg%3E");
+    background-size:cover;background-position:center top;
   }
-  /* Fade inferior para mezclar con fondo negro */
-  .od-hero-bg:after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(180deg,
-      transparent 0%,
-      rgba(3,5,18,.10) 42%,
-      rgba(3,5,18,.70) 72%,
-      #030512 100%
-    );
+  .v17-mountains:after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(3,5,18,0) 0%,rgba(3,5,18,.12) 50%,rgba(3,5,18,.78) 75%,#030512 100%);
   }
 
-  /* ── LOGO SUPERIOR (dentro del hero) ── */
-  .od-top{
-    position:relative;z-index:2;
-    display:flex;align-items:center;justify-content:space-between;
-    margin-bottom:46px;
+  /* ── top bar (logo + iconos) ── */
+  .v17-topbar{
+    position:relative;z-index:3;
+    display:flex;align-items:center;justify-content:space-between;margin-bottom:44px;
   }
-  .od-brand{
-    display:flex;align-items:center;gap:9px;
-    font-weight:900;font-size:22px;letter-spacing:-.04em;color:#fff;
-    text-shadow:0 2px 14px rgba(0,0,0,.6);
-  }
-  /* Logo SVG fino: ojo con play, 34x22px */
-  .od-logo-svg{
-    width:34px;height:22px;
-    filter:drop-shadow(0 0 10px rgba(217,70,239,.65));
-    flex-shrink:0;
-  }
-  .od-icons{display:flex;gap:10px;}
-  .od-icon{
-    width:42px;height:42px;border-radius:50%;
-    border:1px solid rgba(255,255,255,.14);
-    background:rgba(8,10,24,.50);
-    backdrop-filter:blur(12px);
-    color:#fff;font-size:20px;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
+  .v17-brand{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:900;letter-spacing:-.04em;color:#fff;}
+  .v17-logo{width:30px;height:20px;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(217,70,239,.7));}
+  .v17-icons{display:flex;gap:9px;}
+  .v17-icon{
+    width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.14);
+    background:rgba(8,10,22,.55);backdrop-filter:blur(10px);
+    color:#fff;font-size:19px;display:flex;align-items:center;justify-content:center;
     position:relative;
   }
-  .od-dot{
-    position:absolute;right:5px;top:5px;
-    width:10px;height:10px;
-    background:#ff3c66;border-radius:50%;
-    border:2px solid #030512;
-  }
+  .v17-dot{position:absolute;right:4px;top:4px;width:9px;height:9px;background:#ff3c66;border-radius:50%;border:2px solid #030512;}
 
-  /* ── AVATAR CIRCULAR ── */
-  .od-avatar-wrap{
-    position:relative;z-index:2;
-    width:126px;margin:0 auto 15px;
-  }
-  .od-avatar{
-    width:126px;height:126px;border-radius:50%;
-    padding:3px;
+  /* ── avatar circular ── */
+  .v17-avwrap{position:relative;z-index:3;width:120px;margin:0 auto 14px;}
+  .v17-av{
+    width:120px;height:120px;border-radius:50%;padding:3px;
     background:linear-gradient(135deg,#ff4bd8,#9b5cff,#6155ff);
-    box-shadow:
-      0 0 0 5px rgba(217,70,239,.10),
-      0 0 38px rgba(217,70,239,.45),
-      0 20px 50px rgba(0,0,0,.55);
+    box-shadow:0 0 0 5px rgba(217,70,239,.10),0 0 34px rgba(217,70,239,.48),0 18px 44px rgba(0,0,0,.55);
   }
-  .od-avatar-in{
-    width:100%;height:100%;border-radius:50%;
-    background:#07090f;
-    display:flex;align-items:center;justify-content:center;
-    overflow:hidden;font-size:52px;color:#fff;
+  .v17-av-in{
+    width:100%;height:100%;border-radius:50%;background:#07090f;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:48px;color:#fff;
   }
-  .od-avatar-in img{width:100%;height:100%;object-fit:cover;}
-  /* Botón lápiz editar avatar */
-  .od-edit{
-    position:absolute;right:-6px;bottom:10px;
-    width:38px;height:38px;border-radius:50%;border:0;
-    background:linear-gradient(135deg,#c026d3,#7c3aed);
-    color:#fff;font-size:18px;
+  .v17-av-in img{width:100%;height:100%;object-fit:cover;}
+  .v17-pencil{
+    position:absolute;right:-4px;bottom:8px;width:36px;height:36px;border-radius:50%;border:0;
+    background:linear-gradient(135deg,#c026d3,#7c3aed);color:#fff;font-size:16px;
     display:flex;align-items:center;justify-content:center;
-    box-shadow:0 8px 22px rgba(124,58,237,.42);
-    cursor:pointer;
+    box-shadow:0 6px 18px rgba(124,58,237,.45);cursor:pointer;
   }
 
-  /* ── NOMBRE / HANDLE / BIO ── */
-  .od-name{
-    position:relative;z-index:2;
-    text-align:center;font-size:30px;font-weight:900;
-    letter-spacing:-.04em;line-height:1.06;
-    text-shadow:0 4px 20px rgba(0,0,0,.55);
-  }
-  .od-handle{
-    position:relative;z-index:2;
-    text-align:center;color:rgba(255,255,255,.65);
-    font-size:16px;font-weight:600;margin-top:5px;
-  }
-  .od-bio{
-    position:relative;z-index:2;
-    margin:14px auto 0;max-width:300px;
-    text-align:center;font-size:14px;line-height:1.5;
-    color:rgba(255,255,255,.72);
-  }
+  /* ── nombre, handle, bio ── */
+  .v17-name{position:relative;z-index:3;text-align:center;font-size:28px;font-weight:900;letter-spacing:-.04em;line-height:1.06;}
+  .v17-handle{position:relative;z-index:3;text-align:center;color:rgba(255,255,255,.62);font-size:15px;font-weight:600;margin-top:4px;}
+  .v17-bio{position:relative;z-index:3;margin:12px auto 0;max-width:290px;text-align:center;font-size:13px;line-height:1.5;color:rgba(255,255,255,.70);}
 
-  /* ── STATS CARD ── */
-  .od-stats{
-    position:relative;z-index:2;
-    margin:18px auto 0;max-width:calc(100vw - 44px);
+  /* ── stats card ── */
+  .v17-stats{
+    position:relative;z-index:3;margin:16px auto 0;max-width:calc(100vw - 40px);
     display:grid;grid-template-columns:repeat(4,1fr);
-    border-radius:18px;
-    background:rgba(14,12,32,.62);
-    border:1px solid rgba(200,100,255,.22);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 16px 36px rgba(0,0,0,.28);
-    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-    overflow:hidden;
+    border-radius:16px;background:rgba(14,12,32,.64);
+    border:1px solid rgba(195,90,255,.20);
+    backdrop-filter:blur(14px);overflow:hidden;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 14px 30px rgba(0,0,0,.25);
   }
-  .od-stat{text-align:center;padding:14px 4px 13px;position:relative;}
-  .od-stat+.od-stat:before{
-    content:"";position:absolute;left:0;top:18%;bottom:18%;
-    width:1px;background:rgba(255,255,255,.10);
-  }
-  .od-stat b{display:block;font-size:24px;line-height:1;font-weight:900;color:#fff;}
-  .od-stat span{display:block;margin-top:6px;font-size:11px;font-weight:600;color:rgba(255,255,255,.66);}
+  .v17-stat{text-align:center;padding:13px 4px 12px;position:relative;}
+  .v17-stat+.v17-stat:before{content:"";position:absolute;left:0;top:20%;bottom:20%;width:1px;background:rgba(255,255,255,.09);}
+  .v17-stat b{display:block;font-size:22px;line-height:1;font-weight:900;color:#fff;}
+  .v17-stat span{display:block;margin-top:5px;font-size:10px;font-weight:600;color:rgba(255,255,255,.62);}
 
-  /* ── CONTENIDO BAJO EL HERO ── */
-  .od-content{
-    position:relative;z-index:4;
-    margin-top:-38px;
-    padding:0 16px;
-  }
-  .od-section{margin-top:22px;}
-  .od-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;}
-  .od-head h2{margin:0;font-size:20px;line-height:1.1;letter-spacing:-.03em;font-weight:900;color:#fff;}
-  .od-link{border:0;background:transparent;color:#d94cff;font-weight:900;font-size:14px;padding:0;}
+  /* ── contenido bajo hero ── */
+  .v17-body{position:relative;z-index:4;margin-top:-30px;padding:0 16px;}
+  .v17-sec{margin-top:20px;}
+  .v17-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px;}
+  .v17-head h2{margin:0;font-size:19px;font-weight:900;letter-spacing:-.03em;color:#fff;}
+  .v17-link{border:0;background:transparent;color:#d04cff;font-weight:800;font-size:13px;padding:0;}
 
-  /* ── FILA HORIZONTAL DE POSTERS ── */
-  .od-row{display:flex;gap:11px;overflow-x:auto;padding-bottom:4px;}
-  .od-row::-webkit-scrollbar{display:none;}
-  .od-poster{
-    flex:0 0 92px;width:92px;
-    border:0;background:transparent;padding:0;
-    text-align:left;color:#fff;
-  }
-  .od-poster-img{
-    width:92px;aspect-ratio:.68;border-radius:12px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.10);
-    overflow:hidden;display:flex;align-items:center;justify-content:center;
-    font-size:28px;
-    box-shadow:0 10px 22px rgba(0,0,0,.28);
-  }
-  .od-poster-img img{width:100%;height:100%;object-fit:cover;}
-  .od-poster-title{
-    margin-top:6px;font-size:11px;font-weight:700;line-height:1.2;
-    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
-    color:#fff;
-  }
-  .od-poster-score{margin-top:3px;color:#facc15;font-size:11px;font-weight:700;}
+  /* ── posters fila horizontal ── */
+  .v17-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;}
+  .v17-row::-webkit-scrollbar{display:none;}
+  .v17-poster{flex:0 0 88px;width:88px;border:0;background:transparent;padding:0;text-align:left;color:#fff;}
+  .v17-poster-img{width:88px;aspect-ratio:.68;border-radius:11px;overflow:hidden;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 18px rgba(0,0,0,.28);}
+  .v17-poster-img img{width:100%;height:100%;object-fit:cover;}
+  .v17-poster-title{margin-top:5px;font-size:11px;font-weight:700;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#fff;}
+  .v17-poster-score{margin-top:2px;color:#facc15;font-size:11px;font-weight:700;}
 
-  /* ── CARD GENÉRICA ── */
-  .od-card{
-    border-radius:18px;
-    background:rgba(8,10,22,.75);
-    border:1px solid rgba(255,255,255,.09);
-    box-shadow:0 14px 32px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.04);
-    backdrop-filter:blur(14px);
-  }
+  /* ── card contenedor ── */
+  .v17-card{border-radius:16px;background:rgba(8,10,22,.78);border:1px solid rgba(255,255,255,.08);box-shadow:0 12px 28px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.04);}
 
-  /* ── ACTIVIDAD RECIENTE ── */
-  .od-activity{
-    display:grid;grid-template-columns:46px 1fr auto auto;
-    gap:11px;align-items:center;padding:14px 16px;
-    cursor:pointer;
-  }
-  .od-activity+.od-activity{border-top:1px solid rgba(255,255,255,.06);}
-  .od-act-av{
-    width:46px;height:46px;border-radius:50%;
-    background:linear-gradient(135deg,#d946ef,#7c3aed);
-    display:flex;align-items:center;justify-content:center;
-    overflow:hidden;font-size:22px;color:#fff;
-    box-shadow:0 0 16px rgba(217,70,239,.22);
-    flex-shrink:0;
-  }
-  .od-act-av img{width:100%;height:100%;object-fit:cover;}
-  .od-act-copy b{display:block;color:#fff;font-size:13px;line-height:1.25;font-weight:800;}
-  .od-act-copy span{display:block;color:rgba(255,255,255,.62);font-size:12px;line-height:1.35;margin-top:3px;}
-  .od-heart{font-size:22px;color:#ff386f;}
-  .od-chevron{font-size:26px;color:rgba(255,255,255,.36);}
-  /* Empty state actividad */
-  .od-act-empty{
-    padding:22px 16px;text-align:center;
-    color:rgba(255,255,255,.52);font-size:13px;line-height:1.5;
-  }
-  .od-act-empty .ico{font-size:32px;display:block;margin-bottom:8px;}
+  /* ── actividad ── */
+  .v17-act{display:grid;grid-template-columns:42px 1fr auto auto;gap:10px;align-items:center;padding:13px 14px;cursor:pointer;}
+  .v17-act+.v17-act{border-top:1px solid rgba(255,255,255,.06);}
+  .v17-act-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:20px;color:#fff;flex-shrink:0;}
+  .v17-act-av img{width:100%;height:100%;object-fit:cover;}
+  .v17-act-copy b{display:block;color:#fff;font-size:13px;font-weight:800;line-height:1.25;}
+  .v17-act-copy span{display:block;color:rgba(255,255,255,.60);font-size:11px;margin-top:3px;line-height:1.35;}
+  .v17-heart{font-size:20px;color:#ff386f;}
+  .v17-chev{font-size:24px;color:rgba(255,255,255,.34);}
+  .v17-empty{padding:20px 14px;text-align:center;color:rgba(255,255,255,.50);font-size:13px;line-height:1.6;}
+  .v17-empty .ico{font-size:30px;display:block;margin-bottom:7px;}
 
-  /* ── JUNTOS ── */
-  .od-tonight{
-    display:grid;grid-template-columns:52px 1fr auto;
-    gap:11px;align-items:center;padding:14px 16px;
-    border-color:rgba(217,70,239,.4)!important;
-    cursor:pointer;
-  }
-  .od-couch{
-    width:52px;height:52px;border-radius:14px;
-    background:linear-gradient(135deg,rgba(124,58,237,.75),rgba(76,29,149,.65));
-    display:flex;align-items:center;justify-content:center;
-    font-size:24px;color:#fff;flex-shrink:0;
-  }
-  .od-tonight h3{margin:0;color:#fff;font-size:15px;font-weight:900;}
-  .od-tonight p{margin:3px 0 0;color:rgba(255,255,255,.58);font-size:12px;line-height:1.3;}
-  .od-tonight-chevron{font-size:26px;color:rgba(255,255,255,.36);}
+  /* ── juntos ── */
+  .v17-tonight{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center;padding:13px 14px;cursor:pointer;border:1px solid rgba(217,70,239,.35)!important;}
+  .v17-couch{width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,rgba(124,58,237,.78),rgba(76,29,149,.65));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+  .v17-tonight h3{margin:0;color:#fff;font-size:14px;font-weight:900;}
+  .v17-tonight p{margin:3px 0 0;color:rgba(255,255,255,.56);font-size:12px;line-height:1.3;}
 
-  /* ── BOTONES PERFIL ── */
-  .od-actions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:18px;}
-  .od-pill{
-    border:1px solid rgba(255,255,255,.12);
-    background:rgba(255,255,255,.06);
-    border-radius:999px;color:#fff;
-    padding:12px 10px;font-weight:800;font-size:13px;
-  }
-  .od-pill.primary{
-    border:0;
-    background:linear-gradient(135deg,#d946ef,#7c3aed);
-    box-shadow:0 10px 24px rgba(168,85,247,.28);
-  }
+  /* ── botones perfil ── */
+  .v17-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;}
+  .v17-btn{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);border-radius:999px;color:#fff;padding:11px 8px;font-weight:800;font-size:12px;}
+  .v17-btn.pri{border:0;background:linear-gradient(135deg,#d946ef,#7c3aed);box-shadow:0 8px 20px rgba(168,85,247,.28);}
 
-  /* ── BIBLIOTECA (tabs + grid) ── */
-  .od-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;}
-  .od-tabs::-webkit-scrollbar{display:none;}
-  .od-tab{
-    white-space:nowrap;border:1px solid rgba(255,255,255,.10);
-    background:rgba(255,255,255,.05);border-radius:999px;
-    color:rgba(255,255,255,.68);padding:9px 13px;
-    font-weight:800;font-size:12px;
-  }
-  .od-tab.on{background:linear-gradient(135deg,#d946ef,#7c3aed);color:#fff;border-color:transparent;}
-  .od-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;}
-  .od-lib{
-    border:0;background:rgba(255,255,255,.04);
-    border-radius:14px;overflow:hidden;color:#fff;text-align:left;padding:0;
-  }
-  .od-lib-img{
-    width:100%;aspect-ratio:.72;background:rgba(255,255,255,.05);
-    display:flex;align-items:center;justify-content:center;font-size:28px;
-  }
-  .od-lib-img img{width:100%;height:100%;object-fit:cover;}
-  .od-lib-body{padding:9px;}
-  .od-lib-title{
-    font-size:12px;font-weight:800;line-height:1.25;
-    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:30px;
-  }
-  .od-lib-meta{display:flex;justify-content:space-between;color:rgba(255,255,255,.6);font-size:11px;margin-top:7px;}
+  /* ── tabs biblioteca ── */
+  .v17-tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:8px;}
+  .v17-tabs::-webkit-scrollbar{display:none;}
+  .v17-tab{white-space:nowrap;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.05);border-radius:999px;color:rgba(255,255,255,.66);padding:8px 12px;font-weight:800;font-size:11px;}
+  .v17-tab.on{background:linear-gradient(135deg,#d946ef,#7c3aed);color:#fff;border-color:transparent;}
+  .v17-libgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;}
+  .v17-lib{border:0;background:rgba(255,255,255,.04);border-radius:13px;overflow:hidden;color:#fff;text-align:left;padding:0;}
+  .v17-lib-img{width:100%;aspect-ratio:.72;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:26px;}
+  .v17-lib-img img{width:100%;height:100%;object-fit:cover;}
+  .v17-lib-body{padding:8px 9px;}
+  .v17-lib-title{font-size:12px;font-weight:800;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:28px;}
+  .v17-lib-meta{display:flex;justify-content:space-between;color:rgba(255,255,255,.58);font-size:11px;margin-top:6px;}
 
-  /* ── ACCESOS RÁPIDOS ── */
-  .od-shortcuts{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
-  .od-short{
-    border:0;border-radius:16px;
-    background:rgba(12,14,28,.82);
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);
-    padding:13px 9px;color:#fff;
-    min-height:80px;text-align:left;
-  }
-  .od-short span{display:block;font-size:22px;margin-bottom:7px;}
-  .od-short b{font-size:13px;font-weight:800;}
+  /* ── accesos rápidos ── */
+  .v17-shorts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .v17-short{border:0;border-radius:14px;background:rgba(12,14,28,.85);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);padding:12px 8px;color:#fff;min-height:75px;text-align:left;}
+  .v17-short span{display:block;font-size:20px;margin-bottom:6px;}
+  .v17-short b{font-size:12px;font-weight:800;}
 
-  /* ── RESEÑAS ── */
-  .od-review{
-    padding:12px 16px;
-    border-top:1px solid rgba(255,255,255,.06);
-  }
-  .od-review:first-child{border-top:0;}
-  .od-review b{font-size:13px;font-weight:800;color:#fff;}
-  .od-review p{margin:5px 0 0;font-size:12px;line-height:1.5;color:rgba(255,255,255,.62);}
-
-  /* ── EMPTY / UTIL ── */
-  .od-empty{
-    padding:16px;color:rgba(255,255,255,.52);
-    font-size:13px;text-align:center;
-  }
-
-  /* Responsive mínimo */
-  @media(max-width:375px){
-    .od-hero{padding-left:18px;padding-right:18px;min-height:620px;}
-    .od-content{padding:0 13px;}
-    .od-name{font-size:27px;}
-    .od-stat b{font-size:21px;}
-    .od-poster{flex-basis:82px;width:82px;}
-    .od-poster-img{width:82px;}
-  }
+  /* ── reseñas ── */
+  .v17-rev{padding:12px 14px;border-top:1px solid rgba(255,255,255,.06);}
+  .v17-rev:first-child{border-top:0;}
+  .v17-rev b{font-size:13px;font-weight:800;}
+  .v17-rev p{margin:4px 0 0;font-size:12px;line-height:1.5;color:rgba(255,255,255,.60);}
 }
 </style>
-<script id="ollada-v17-js">
-/* ═══════════════════════════════════════════════════════
-   OLLADA v17 — Inicio + Perfil app visual upgrade
-   Logo fino, montañas, avatar circular, actividad social
-   ═══════════════════════════════════════════════════════ */
+
+<script id="v17-js">
+/* OLLADA v17 — render limpio, sin capas previas */
 (function(){
-  /* ── helpers ── */
   function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function list(){try{return Object.values(S&&S.titulos||{});}catch(e){return [];}}
-  function viewed(){return list().filter(x=>x.estado==='visto');}
-  function avg(){var n=list().filter(x=>Number(x.puntuacion)>0).map(x=>Number(x.puntuacion));return n.length?(n.reduce((a,b)=>a+b,0)/n.length).toFixed(1):'—';}
-  function st(){var v=viewed(),a=list();return{movies:v.filter(x=>x.media_type==='movie').length,series:v.filter(x=>x.media_type==='tv').length,lists:(S&&S.listas||[]).length,avg:avg(),friends:(typeof AMG!=='undefined'&&Array.isArray(AMG)?AMG.length:0),all:a};}
-  function uname(){var u=(S&&S.perfil&&S.perfil.usuario)||'Cinéfilo';u=String(u).replace(/^@+/,'');return u?u.charAt(0).toUpperCase()+u.slice(1):'Cinéfilo';}
-  function handle(){var u=(S&&S.perfil&&S.perfil.usuario)||'cinefilo';return '@'+String(u).replace(/^@+/,'');}
-  function bio(){return esc((S&&S.perfil&&S.perfil.bio)||'Viviendo fotograma a fotograma.');}
+  function lst(){try{return Object.values(S&&S.titulos||{});}catch(e){return[];}}
+  function viewed(){return lst().filter(x=>x.estado==='visto');}
+  function calcAvg(){var n=lst().filter(x=>Number(x.puntuacion)>0).map(x=>Number(x.puntuacion));return n.length?(n.reduce((a,b)=>a+b,0)/n.length).toFixed(1):'—';}
+  function stats(){var v=viewed();return{m:v.filter(x=>x.media_type==='movie').length,s:v.filter(x=>x.media_type==='tv').length,l:(S&&S.listas||[]).length,avg:calcAvg()};}
+  function uname(){var u=(S&&S.perfil&&S.perfil.usuario)||'Cinéfilo';u=String(u).replace(/^@+/,'');return u?u[0].toUpperCase()+u.slice(1):'Cinéfilo';}
+  function uhandle(){return '@'+String((S&&S.perfil&&S.perfil.usuario)||'cinefilo').replace(/^@+/,'');}
+  function ubio(){return esc((S&&S.perfil&&S.perfil.bio)||'Viviendo fotograma a fotograma.');}
   function reify(e){return{id:e.tmdb_id,media_type:e.media_type||'movie',title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average};}
-  function openStr(e){return JSON.stringify(JSON.stringify(reify(e))).replace(/'/g,"&#39;");}
+  function os(e){return JSON.stringify(JSON.stringify(reify(e))).replace(/'/g,"&#39;");}
 
-  /* ── avatar HTML ── */
-  function avatarHTML(cls){
+  /* ── avatar ── */
+  function av(){
     var p=S&&S.perfil||{};
-    if(p.avatar_url) return '<div class="'+cls+'"><img src="'+esc(p.avatar_url)+'" alt="avatar" onerror="this.style.display=\'none\'"></div>';
-    return '<div class="'+cls+'"><span>'+esc(p.avatar||'🎬')+'</span></div>';
+    if(p.avatar_url) return '<img src="'+esc(p.avatar_url)+'" alt="avatar" onerror="this.style.display=\'none\'">';
+    return '<span>'+esc(p.avatar||'🎬')+'</span>';
   }
 
-  /* ── logo SVG fino ── */
-  function logoSVG(){
-    return '<svg class="od-logo-svg" viewBox="0 0 68 44" xmlns="http://www.w3.org/2000/svg">'
-      +'<defs>'
-      +'<linearGradient id="odlg" x1="0" y1="0" x2="1" y2="1">'
-      +'<stop offset="0" stop-color="#ff47d6"/>'
-      +'<stop offset=".5" stop-color="#a855f7"/>'
-      +'<stop offset="1" stop-color="#6366f1"/>'
-      +'</linearGradient>'
-      +'</defs>'
-      +'<path d="M3 22C10.5 9 21.5 3.5 34 3.5S57.5 9 65 22C57.5 35 46.5 40.5 34 40.5S10.5 35 3 22Z" fill="url(#odlg)"/>'
-      +'<path d="M12 22C17.5 14 24.8 10.5 34 10.5S50.5 14 56 22C50.5 30 43.2 33.5 34 33.5S17.5 30 12 22Z" fill="#070814" fill-opacity=".88"/>'
-      +'<circle cx="34" cy="22" r="8" fill="url(#odlg)"/>'
-      +'<circle cx="34" cy="22" r="5.5" fill="#060710"/>'
-      +'<path d="M32 18L41 22L32 26Z" fill="#fff"/>'
-      +'<circle cx="26" cy="15" r="2" fill="#fff" fill-opacity=".4"/>'
-      +'</svg>';
-  }
+  /* ── logo SVG compacto ── */
+  var LOGO='<svg class="v17-logo" viewBox="0 0 60 38" xmlns="http://www.w3.org/2000/svg">'
+    +'<defs><linearGradient id="vlg" x1="0" y1="0" x2="1" y2="1">'
+    +'<stop offset="0" stop-color="#ff47d6"/><stop offset=".5" stop-color="#a855f7"/><stop offset="1" stop-color="#6366f1"/>'
+    +'</linearGradient></defs>'
+    +'<path d="M2 19C9 7.5 19 2.5 30 2.5S51 7.5 58 19C51 30.5 41 35.5 30 35.5S9 30.5 2 19Z" fill="url(#vlg)"/>'
+    +'<path d="M10 19C15 11.5 22 8.5 30 8.5S45 11.5 50 19C45 26.5 38 29.5 30 29.5S15 26.5 10 19Z" fill="#07080f" fill-opacity=".87"/>'
+    +'<circle cx="30" cy="19" r="7.5" fill="url(#vlg)"/>'
+    +'<circle cx="30" cy="19" r="5" fill="#060710"/>'
+    +'<path d="M28 15.5L37.5 19L28 22.5Z" fill="#fff"/>'
+    +'<circle cx="23" cy="13.5" r="1.8" fill="#fff" fill-opacity=".38"/>'
+    +'</svg>';
 
-  /* ── top favoritos (rellena con trending si faltan) ── */
-  function top(n){
-    return list().slice().sort(function(a,b){
+  /* ── top favoritos ── */
+  function topItems(){
+    return lst().slice().sort(function(a,b){
       var af=a.favorito?1:0,bf=b.favorito?1:0;
       if(bf-af)return bf-af;
       return Number(b.puntuacion||0)-Number(a.puntuacion||0);
-    }).filter(x=>x.poster_path||x.titulo).slice(0,n||4);
+    }).filter(x=>x.poster_path||x.titulo).slice(0,8);
   }
-  async function topWithTrending(n){
-    var items=top(n);
-    if(items.length>=n) return items;
+  async function topWithTrend(n){
+    var it=topItems().slice(0,n);
+    if(it.length>=n) return it;
     try{
       var d=await tmdb('/trending/all/week');
       (d.results||[]).filter(r=>r.media_type!=='person').forEach(function(r){
-        if(items.length<n) items.push({tmdb_id:r.id,media_type:r.media_type||(r.title?'movie':'tv'),titulo:r.title||r.name,poster_path:r.poster_path,backdrop_path:r.backdrop_path,fecha:r.release_date||r.first_air_date,descripcion:r.overview,genre_ids:r.genre_ids,vote_average:r.vote_average,puntuacion:r.vote_average?(Number(r.vote_average)/2).toFixed(1):'—'});
+        if(it.length<n) it.push({tmdb_id:r.id,media_type:r.media_type||(r.title?'movie':'tv'),titulo:r.title||r.name,poster_path:r.poster_path,backdrop_path:r.backdrop_path,fecha:r.release_date||r.first_air_date,descripcion:r.overview,genre_ids:r.genre_ids,vote_average:r.vote_average,puntuacion:r.vote_average?(Number(r.vote_average)/2).toFixed(1):'—'});
       });
     }catch(e){}
-    return items.slice(0,n);
+    return it.slice(0,n);
   }
 
-  /* ── fila de posters horizontal ── */
+  /* ── fila horizontal posters ── */
   function posterRow(items){
-    if(!items||!items.length) return '<div class="od-empty">Añade favoritos para verlos aquí.</div>';
+    if(!items||!items.length) return '<div class="v17-empty">Añade favoritos para verlos aquí.</div>';
     return items.map(function(e){
-      var src=e&&e.poster_path?IMG(e.poster_path,'w342'):'';
+      var src=e.poster_path?IMG(e.poster_path,'w342'):'';
       var sc=Number(e.puntuacion||0)>0?e.puntuacion:(e.vote_average?(Number(e.vote_average)/2).toFixed(1):'—');
-      return '<button class="od-poster" onclick=\'abrir('+openStr(e)+')\'>'
-        +'<div class="od-poster-img">'+(src?'<img src="'+src+'" alt="'+esc(e.titulo||'')+'">':(e.titulo?'🎬':'🎬'))+'</div>'
-        +'<div class="od-poster-title">'+esc(e.titulo||'Sin título')+'</div>'
-        +'<div class="od-poster-score">⭐ '+esc(sc)+'</div>'
+      return '<button class="v17-poster" onclick=\'abrir('+os(e)+')\'>'
+        +'<div class="v17-poster-img">'+(src?'<img src="'+src+'" alt="'+esc(e.titulo||'')+'">':(e.titulo?'🎬':'🎬'))+'</div>'
+        +'<div class="v17-poster-title">'+esc(e.titulo||'Sin título')+'</div>'
+        +'<div class="v17-poster-score">⭐ '+esc(sc)+'</div>'
         +'</button>';
     }).join('');
   }
 
-  /* ── stats card ── */
-  function statsCard(mode){
-    var x=st();
-    var cols=mode==='profile'
-      ?[{v:x.movies,l:'Películas'},{v:x.series,l:'Series'},{v:x.lists,l:'Listas'},{v:x.avg,l:'Media'}]
-      :[{v:x.movies,l:'Películas'},{v:x.series,l:'Series'},{v:x.lists,l:'Listas'},{v:x.avg,l:'Media'}];
-    return cols.map(function(c){return '<div class="od-stat"><b>'+esc(c.v)+'</b><span>'+esc(c.l)+'</span></div>';}).join('');
+  /* ── stats HTML ── */
+  function statsHTML(){
+    var x=stats();
+    return [{v:x.m,l:'Películas'},{v:x.s,l:'Series'},{v:x.l,l:'Listas'},{v:x.avg,l:'Media'}]
+      .map(function(c){return '<div class="v17-stat"><b>'+esc(c.v)+'</b><span>'+c.l+'</span></div>';}).join('');
   }
 
-  /* ── hero HTML (compartido inicio + perfil) ── */
-  function heroHTML(mode){
-    var editBtn=mode==='profile'
-      ? '<button class="od-edit" onclick="oedit()" title="Editar perfil">✎</button>'
-      : '<button class="od-edit" onclick="oedit()" title="Editar">✎</button>';
-    return '<section class="od-hero">'
-      +'<div class="od-hero-bg"></div>'
-      +'<div class="od-top">'
-        +'<div class="od-brand">'+logoSVG()+'<span>Ollada</span></div>'
-        +'<div class="od-icons">'
-          +'<button class="od-icon" onclick="abrirNotificaciones()" aria-label="Notificaciones">🔔<i class="od-dot"></i></button>'
-          +'<button class="od-icon" onclick="oedit()" aria-label="Ajustes">⚙️</button>'
+  /* ── hero compartido ── */
+  function heroHTML(editBtn){
+    return '<section class="v17-hero">'
+      +'<div class="v17-mountains"></div>'
+      +'<div class="v17-topbar">'
+        +'<div class="v17-brand">'+LOGO+'<span>Ollada</span></div>'
+        +'<div class="v17-icons">'
+          +'<button class="v17-icon" onclick="abrirNotificaciones()">🔔<i class="v17-dot"></i></button>'
+          +'<button class="v17-icon" onclick="oedit()">⚙️</button>'
         +'</div>'
       +'</div>'
-      +'<div class="od-avatar-wrap">'
-        +'<div class="od-avatar">'+avatarHTML('od-avatar-in')+'</div>'
+      +'<div class="v17-avwrap">'
+        +'<div class="v17-av"><div class="v17-av-in">'+av()+'</div></div>'
         +editBtn
       +'</div>'
-      +'<div class="od-name">'+esc(uname())+'</div>'
-      +'<div class="od-handle">'+esc(handle())+'</div>'
-      +'<div class="od-stats">'+statsCard(mode)+'</div>'
-      +'<div class="od-bio">'+bio()+'</div>'
+      +'<div class="v17-name">'+esc(uname())+'</div>'
+      +'<div class="v17-handle">'+esc(uhandle())+'</div>'
+      +'<div class="v17-stats">'+statsHTML()+'</div>'
+      +'<div class="v17-bio">'+ubio()+'</div>'
       +'</section>';
   }
 
-  /* ── actividad reciente: propia o de amigos via activity_feed ── */
-  function recentOwn(){
-    var e=list().slice().sort(function(a,b){
-      return new Date(b.updated_at||b.visto_en||b.created_at||0)-new Date(a.updated_at||a.visto_en||a.created_at||0);
-    })[0];
-    if(!e) return '';
-    var txt=e.resena?'reseñó':Number(e.puntuacion)>0?'puntuó':e.favorito?'añadió a favoritos':e.estado?'marcó '+esc(e.estado):'guardó';
-    return '<div class="od-card od-activity" onclick=\'abrir('+openStr(e)+')\'>'
-      +'<div class="od-act-av">'+avatarHTML('od-avatar-in')+'</div>'
-      +'<div class="od-act-copy"><b>'+esc(uname())+' '+txt+'</b><span>'+esc(e.titulo||'Título')+' · Hace poco</span></div>'
-      +'<div class="od-heart">❤️</div>'
-      +'<div class="od-chevron">›</div>'
-      +'</div>';
-  }
-
-  async function loadActivity(containerId){
+  /* ── actividad: amigos → propia → vacío ── */
+  async function renderActivity(containerId){
     var el=document.getElementById(containerId); if(!el) return;
-    /* Si Supabase disponible, intentar activity_feed de amigos */
+    /* Intentar activity_feed de otros usuarios */
     if(typeof supabaseClient!=='undefined'&&supabaseClient&&typeof usuarioActual!=='undefined'&&usuarioActual){
       try{
-        var acts=await sb('activity.v17',supabaseClient.from('activity_feed').select('*').neq('user_id',usuarioActual.id).order('created_at',{ascending:false}).limit(5));
-        if(acts&&acts.length){
-          el.innerHTML='<div class="od-card">'+acts.map(function(a){
+        var rows=await sb('v17.act',supabaseClient.from('activity_feed').select('*').neq('user_id',usuarioActual.id).order('created_at',{ascending:false}).limit(4));
+        if(rows&&rows.length){
+          el.innerHTML='<div class="v17-card">'+rows.map(function(a){
             var d=a.data||{};
             var txt=typeof textoActividad==='function'?textoActividad(a).replace(/<[^>]+>/g,''):'actualizó algo';
-            var timeAgo=typeof haceTiempo==='function'?haceTiempo(a.created_at):'Hace un momento';
-            return '<div class="od-activity">'
-              +'<div class="od-act-av">'+(d.avatar||'🎬')+'</div>'
-              +'<div class="od-act-copy"><b>@'+esc(d.username||'usuario')+' '+esc(txt)+'</b>'
-              +'<span>'+(d.title?esc(d.title)+' · ':'')+timeAgo+'</span></div>'
-              +'<div class="od-heart">❤️</div>'
-              +'<div class="od-chevron">›</div>'
+            var t=typeof haceTiempo==='function'?haceTiempo(a.created_at):'Hace un momento';
+            return '<div class="v17-act">'
+              +'<div class="v17-act-av">'+(d.avatar||'🎬')+'</div>'
+              +'<div class="v17-act-copy"><b>@'+esc(d.username||'usuario')+' '+esc(txt)+'</b>'
+              +'<span>'+(d.title?esc(d.title)+' · ':'')+t+'</span></div>'
+              +'<div class="v17-heart">❤️</div><div class="v17-chev">›</div>'
               +'</div>';
           }).join('')+'</div>';
           return;
         }
       }catch(e){}
     }
-    /* Fallback: actividad propia o empty state */
-    var own=recentOwn();
+    /* Fallback: actividad propia */
+    var own=lst().slice().sort(function(a,b){return new Date(b.updated_at||b.visto_en||b.created_at||0)-new Date(a.updated_at||a.visto_en||a.created_at||0);})[0];
     if(own){
-      el.innerHTML=own;
-    } else {
-      el.innerHTML='<div class="od-card"><div class="od-act-empty">'
-        +'<span class="ico">👥</span>'
-        +'Sigue a amigos para ver su actividad aquí.<br>'
-        +'<span style="color:rgba(255,255,255,.38);font-size:11px;margin-top:4px;display:block">O puntúa algo para ver tu propia actividad.</span>'
-        +'</div></div>';
+      var txt2=own.resena?'reseñó':Number(own.puntuacion)>0?'puntuó':own.favorito?'añadió a favoritos':own.estado?'marcó '+esc(own.estado):'guardó';
+      el.innerHTML='<div class="v17-card v17-act" onclick=\'abrir('+os(own)+')\'>'
+        +'<div class="v17-act-av">'+av()+'</div>'
+        +'<div class="v17-act-copy"><b>'+esc(uname())+' '+txt2+'</b><span>'+esc(own.titulo||'Título')+' · Hace poco</span></div>'
+        +'<div class="v17-heart">❤️</div><div class="v17-chev">›</div>'
+        +'</div>';
+      return;
     }
+    /* Vacío bonito */
+    el.innerHTML='<div class="v17-card"><div class="v17-empty">'
+      +'<span class="ico">👥</span>'
+      +'Sigue a amigos para ver su actividad aquí.<br>'
+      +'<span style="color:rgba(255,255,255,.36);font-size:11px;display:block;margin-top:4px">O puntúa algo para ver tu propia actividad.</span>'
+      +'</div></div>';
   }
 
-  /* ── biblioteca (perfil) ── */
-  var _odTab='todo';
-  function libraryHTML(){
-    var a=list(),items=_odTab==='todo'?a:a.filter(function(e){return e.estado===_odTab;});
-    if(!items.length) return '<div class="od-empty">Nada por aquí todavía.</div>';
-    return '<div class="od-grid">'+items.slice(0,8).map(function(e){
+  /* ══ INICIO ══ */
+  async function home(){
+    var root=document.getElementById('v-inicio'); if(!root) return;
+    var items=await topWithTrend(4);
+    root.innerHTML='<div class="v17">'
+      +heroHTML('<button class="v17-pencil" onclick="oedit()">✎</button>')
+      +'<div class="v17-body">'
+        +'<div class="v17-sec"><div class="v17-head"><h2>🏆 Top favoritos</h2><button class="v17-link" onclick="ir(\'perfil\')">Ver todos</button></div>'
+        +'<div class="v17-row">'+posterRow(items)+'</div></div>'
+        +'<div class="v17-sec"><div class="v17-head"><h2>📈 Actividad reciente</h2><button class="v17-link" onclick="ir(\'amigos\')">Ver feed</button></div>'
+        +'<div id="v17-act-home"></div></div>'
+        +'<div class="v17-sec"><div class="v17-head"><h2>🤝 Qué vemos esta noche</h2></div>'
+        +'<div class="v17-card v17-tonight" onclick="ir(\'conjunto\')">'
+          +'<div class="v17-couch">🛋️</div>'
+          +'<div><h3>Elegir algo para ver</h3><p>Recomendaciones para decidir juntos</p></div>'
+          +'<div class="v17-chev">›</div>'
+        +'</div></div>'
+      +'</div></div>';
+    renderActivity('v17-act-home');
+  }
+
+  /* ══ PERFIL ══ */
+  var _libTab='todo';
+  function libHTML(){
+    var a=lst(),it=_libTab==='todo'?a:a.filter(function(e){return e.estado===_libTab;});
+    if(!it.length) return '<div class="v17-empty">Nada por aquí todavía.</div>';
+    return '<div class="v17-libgrid">'+it.slice(0,8).map(function(e){
       var src=e.poster_path?IMG(e.poster_path,'w342'):'';
-      return '<button class="od-lib" onclick=\'abrir('+openStr(e)+')\'>'
-        +'<div class="od-lib-img">'+(src?'<img src="'+src+'" alt="'+esc(e.titulo||'')+'">':(e.titulo||'🎬'))+'</div>'
-        +'<div class="od-lib-body">'
-          +'<div class="od-lib-title">'+esc(e.titulo||'Sin título')+'</div>'
-          +'<div class="od-lib-meta"><span>'+esc((e.fecha||'').slice(0,4)||'—')+'</span><span>⭐ '+esc(e.puntuacion||'—')+'</span></div>'
+      return '<button class="v17-lib" onclick=\'abrir('+os(e)+')\'>'
+        +'<div class="v17-lib-img">'+(src?'<img src="'+src+'" alt="'+esc(e.titulo||'')+'">':(e.titulo||'🎬'))+'</div>'
+        +'<div class="v17-lib-body"><div class="v17-lib-title">'+esc(e.titulo||'Sin título')+'</div>'
+        +'<div class="v17-lib-meta"><span>'+esc((e.fecha||'').slice(0,4)||'—')+'</span><span>⭐ '+esc(e.puntuacion||'—')+'</span></div>'
         +'</div></button>';
     }).join('')+'</div>';
   }
-  window.odTab=function(t){
-    _odTab=t;
-    document.querySelectorAll('.od-tab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t);});
-    var el=document.getElementById('od-library'); if(el) el.innerHTML=libraryHTML();
+  window.v17Tab=function(t){
+    _libTab=t;
+    document.querySelectorAll('.v17-tab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t);});
+    var el=document.getElementById('v17-library'); if(el) el.innerHTML=libHTML();
   };
 
-  /* ══════════════════════
-     RENDER INICIO APP
-  ══════════════════════ */
-  async function home(){
-    var root=document.getElementById('v-inicio'); if(!root) return;
-    var items=await topWithTrending(4);
-    var x=st();
-    root.innerHTML='<div class="od-screen">'
-      +heroHTML('home')
-      +'<div class="od-content">'
-        /* Top favoritos */
-        +'<div class="od-section"><div class="od-head"><h2>🏆 Top favoritos</h2><button class="od-link" onclick="ir(\'perfil\')">Ver todos</button></div>'
-        +'<div class="od-row">'+posterRow(items)+'</div></div>'
-        /* Actividad reciente */
-        +'<div class="od-section"><div class="od-head"><h2>📈 Actividad reciente</h2><button class="od-link" onclick="ir(\'amigos\')">Ver feed</button></div>'
-        +'<div id="od-act-home"></div></div>'
-        /* Qué vemos esta noche */
-        +'<div class="od-section"><div class="od-head"><h2>🤝 Qué vemos esta noche</h2></div>'
-        +'<div class="od-card od-tonight" onclick="ir(\'conjunto\')">'
-          +'<div class="od-couch">🛋️</div>'
-          +'<div><h3>Elegir algo para ver</h3><p>Recomendaciones para decidir juntos</p></div>'
-          +'<div class="od-tonight-chevron">›</div>'
-        +'</div></div>'
-      +'</div>'
-    +'</div>';
-    loadActivity('od-act-home');
-  }
-
-  /* ══════════════════════
-     RENDER PERFIL APP
-  ══════════════════════ */
   async function profile(){
     var root=document.getElementById('v-perfil'); if(!root) return;
-    var items=await topWithTrending(4);
-    var reviews=list().filter(function(e){return (e.resena||'').trim();}).slice(0,4);
-    root.innerHTML='<div class="od-screen">'
-      +heroHTML('profile')
-      +'<div class="od-content">'
-        /* Botones de acción */
-        +'<div class="od-actions-grid">'
-          +'<button class="od-pill primary" onclick="copiarPerfilPublico()">📸 Compartir</button>'
-          +'<button class="od-pill" onclick="oedit()">✏️ Editar</button>'
-          +'<button class="od-pill" onclick="abrirMiPerfilPublico()">👁️ Público</button>'
-          +'<button class="od-pill" onclick="cerrarSesion()">🚪 Salir</button>'
+    var items=await topWithTrend(4);
+    var revs=lst().filter(function(e){return(e.resena||'').trim();}).slice(0,4);
+    _libTab='todo';
+    root.innerHTML='<div class="v17">'
+      +heroHTML('<button class="v17-pencil" onclick="oedit()">✎</button>')
+      +'<div class="v17-body">'
+        /* acciones */
+        +'<div class="v17-btns">'
+          +'<button class="v17-btn pri" onclick="copiarPerfilPublico()">📸 Compartir</button>'
+          +'<button class="v17-btn" onclick="oedit()">✏️ Editar</button>'
+          +'<button class="v17-btn" onclick="abrirMiPerfilPublico()">👁️ Público</button>'
+          +'<button class="v17-btn" onclick="cerrarSesion()">🚪 Salir</button>'
         +'</div>'
-        /* Top favoritos */
-        +'<div class="od-section"><div class="od-head"><h2>🏆 Top favoritos</h2><button class="od-link" onclick="ir(\'buscar\')">Añadir</button></div>'
-        +'<div class="od-row">'+posterRow(items)+'</div></div>'
-        /* Actividad reciente */
-        +'<div class="od-section"><div class="od-head"><h2>📈 Actividad reciente</h2></div>'
-        +'<div id="od-act-profile"></div></div>'
-        /* Biblioteca */
-        +'<div class="od-section"><div class="od-head"><h2>🎬 Biblioteca</h2><button class="od-link" onclick="ir(\'buscar\')">Buscar</button></div>'
-        +'<div class="od-tabs">'
-          +'<button class="od-tab on" data-tab="todo" onclick="odTab(\'todo\')">Todo</button>'
-          +'<button class="od-tab" data-tab="viendo" onclick="odTab(\'viendo\')">▶ Viendo</button>'
-          +'<button class="od-tab" data-tab="visto" onclick="odTab(\'visto\')">✅ Vistos</button>'
-          +'<button class="od-tab" data-tab="pendiente" onclick="odTab(\'pendiente\')">📌 Pend.</button>'
+        /* favoritos */
+        +'<div class="v17-sec"><div class="v17-head"><h2>🏆 Top favoritos</h2><button class="v17-link" onclick="ir(\'buscar\')">Añadir</button></div>'
+        +'<div class="v17-row">'+posterRow(items)+'</div></div>'
+        /* actividad */
+        +'<div class="v17-sec"><div class="v17-head"><h2>📈 Actividad reciente</h2></div><div id="v17-act-profile"></div></div>'
+        /* biblioteca */
+        +'<div class="v17-sec"><div class="v17-head"><h2>🎬 Biblioteca</h2><button class="v17-link" onclick="ir(\'buscar\')">Buscar</button></div>'
+        +'<div class="v17-tabs">'
+          +'<button class="v17-tab on" data-tab="todo" onclick="v17Tab(\'todo\')">Todo</button>'
+          +'<button class="v17-tab" data-tab="viendo" onclick="v17Tab(\'viendo\')">▶ Viendo</button>'
+          +'<button class="v17-tab" data-tab="visto" onclick="v17Tab(\'visto\')">✅ Vistos</button>'
+          +'<button class="v17-tab" data-tab="pendiente" onclick="v17Tab(\'pendiente\')">📌 Pend.</button>'
         +'</div>'
-        +'<div id="od-library">'+libraryHTML()+'</div></div>'
-        /* Accesos rápidos */
-        +'<div class="od-section"><div class="od-head"><h2>⚡ Accesos</h2></div>'
-        +'<div class="od-shortcuts">'
-          +'<button class="od-short" onclick="ir(\'conjunto\')"><span>🤝</span><b>Juntos</b></button>'
-          +'<button class="od-short" onclick="ir(\'ia\')"><span>✨</span><b>IA</b></button>'
-          +'<button class="od-short" onclick="ir(\'wrapped\')"><span>🏆</span><b>Wrapped</b></button>'
-          +'<button class="od-short" onclick="ir(\'listas\')"><span>📋</span><b>Listas</b></button>'
-          +'<button class="od-short" onclick="mostrarStatsAvanzadas()"><span>📊</span><b>Stats</b></button>'
-          +'<button class="od-short" onclick="abrirNotificaciones()"><span>🔔</span><b>Notifs</b></button>'
+        +'<div id="v17-library">'+libHTML()+'</div></div>'
+        /* accesos */
+        +'<div class="v17-sec"><div class="v17-head"><h2>⚡ Accesos</h2></div>'
+        +'<div class="v17-shorts">'
+          +'<button class="v17-short" onclick="ir(\'conjunto\')"><span>🤝</span><b>Juntos</b></button>'
+          +'<button class="v17-short" onclick="ir(\'ia\')"><span>✨</span><b>IA</b></button>'
+          +'<button class="v17-short" onclick="ir(\'wrapped\')"><span>🏆</span><b>Wrapped</b></button>'
+          +'<button class="v17-short" onclick="ir(\'listas\')"><span>📋</span><b>Listas</b></button>'
+          +'<button class="v17-short" onclick="mostrarStatsAvanzadas()"><span>📊</span><b>Stats</b></button>'
+          +'<button class="v17-short" onclick="abrirNotificaciones()"><span>🔔</span><b>Notifs</b></button>'
         +'</div></div>'
-        /* Reseñas recientes */
-        +'<div class="od-section"><div class="od-head"><h2>💬 Reseñas recientes</h2></div>'
-        +'<div class="od-card">'
-        +(reviews.length
-          ? reviews.map(function(r){return '<div class="od-review"><b>'+esc(r.titulo)+'</b><p>'+esc(String(r.resena).slice(0,140))+(String(r.resena).length>140?'…':'')+'</p></div>';}).join('')
-          : '<div class="od-act-empty"><span class="ico">✍️</span>Escribe una reseña y aparecerá aquí.</div>'
+        /* reseñas */
+        +'<div class="v17-sec"><div class="v17-head"><h2>💬 Reseñas recientes</h2></div>'
+        +'<div class="v17-card">'
+        +(revs.length
+          ?revs.map(function(r){return '<div class="v17-rev"><b>'+esc(r.titulo)+'</b><p>'+esc(String(r.resena).slice(0,130))+(String(r.resena).length>130?'…':'')+'</p></div>';}).join('')
+          :'<div class="v17-empty"><span class="ico">✍️</span>Escribe una reseña y aparecerá aquí.</div>'
         )
         +'</div></div>'
-      +'</div>'
-    +'</div>';
-    loadActivity('od-act-profile');
-    _odTab='todo'; /* reset tab state */
+      +'</div></div>';
+    renderActivity('v17-act-profile');
   }
 
-  /* ── Sobrescribir rinicio y rperfil como capa final ── */
+  /* ── Sobrescribir como capa ÚNICA final ── */
   window.rinicio=rinicio=home;
   window.rperfil=rperfil=profile;
 
-  /* ── Activar en primera carga ── */
+  /* ── Interceptar ir() ── */
+  var _oldIr=window.ir;
+  if(_oldIr) window.ir=function(v){
+    _oldIr(v);
+    setTimeout(function(){try{if(v==='inicio')home();if(v==='perfil')profile();}catch(e){}},20);
+  };
+
+  /* ── Primera carga ── */
   setTimeout(function(){
     try{
-      aplicarModoOllada&&aplicarModoOllada();
+      if(typeof aplicarModoOllada==='function') aplicarModoOllada();
       var v=(typeof vistaActual!=='undefined'?vistaActual:'inicio');
       if(v==='perfil') profile(); else home();
-    }catch(e){console.error('v17 init',e);}
-  },90);
-
-  /* ── Interceptar ir() para rerender correcto ── */
-  var _prevIr=window.ir;
-  if(_prevIr){
-    window.ir=function(v){
-      try{aplicarModoOllada&&aplicarModoOllada();}catch(e){}
-      _prevIr(v);
-      setTimeout(function(){
-        try{
-          aplicarModoOllada&&aplicarModoOllada();
-          if(v==='inicio') home();
-          if(v==='perfil') profile();
-        }catch(e){}
-      },25);
-    };
-  }
+    }catch(e){console.error('v17',e);}
+  },100);
 })();
 </script>
 
