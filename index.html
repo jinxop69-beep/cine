@@ -3141,14 +3141,45 @@ async function cargarEstadoCloud(){
     if(perfil){
       nuevo.perfil={usuario:perfil.username||nuevo.perfil.usuario,bio:perfil.bio||"",avatar:perfil.avatar||"🎬",banner:perfil.banner||BANNERS[0],onboarded:!!perfil.onboarded,favorite_genres:perfil.favorite_genres||[],public_profile:perfil.public_profile!==false};
     }
+    const titleIdToKey = {};
     (titulos||[]).forEach(t=>{
-      nuevo.titulos[t.item_key]={
-        tmdb_id:t.tmdb_id, media_type:t.media_type, titulo:t.titulo, poster_path:t.poster_path, backdrop_path:t.backdrop_path,
-        descripcion:t.descripcion, fecha:t.fecha, estado:t.estado, puntuacion:t.puntuacion, resena:t.resena, favorito:t.favorito,
-        visto_en:t.visto_en, genre_ids:t.genre_ids||[], vote_average:t.vote_average
+      const media = t.media_type || t.tipo || (t.first_air_date ? "tv" : "movie") || "movie";
+      const tmdb  = t.tmdb_id || t.id_tmdb || t.tmdb || t.id;
+      if(!tmdb) return;
+      const k = t.item_key || t.key || `${media}_${tmdb}`;
+      if(t.id) titleIdToKey[t.id] = k;
+      const rawRating = (t.puntuacion ?? t.rating ?? t.rate ?? null);
+      const rating = rawRating === null || rawRating === "" ? null : Number(rawRating);
+      let genres = t.genre_ids || t.generos || t.genres || [];
+      if(typeof genres === "string"){
+        try{ genres = JSON.parse(genres); }catch(_){ genres = genres.split(",").map(x=>x.trim()).filter(Boolean); }
+      }
+      if(!Array.isArray(genres)) genres = [];
+      nuevo.titulos[k]={
+        tmdb_id:tmdb,
+        media_type:media,
+        titulo:t.titulo || t.title || t.name || "Sin título",
+        poster_path:t.poster_path || t.poster || t.poster_url || null,
+        backdrop_path:t.backdrop_path || t.fondo || t.backdrop || null,
+        descripcion:t.descripcion || t.overview || t.description || "",
+        fecha:t.fecha || t.fecha_estreno || t.release_date || t.first_air_date || "",
+        estado:t.estado || t.status || null,
+        puntuacion:Number.isFinite(rating) ? rating : null,
+        resena:t.resena || t.review || t.body || "",
+        favorito:!!(t.favorito ?? t.favorite ?? t.is_favorite ?? false),
+        visto_en:t.visto_en || t.fecha_visto || t.watched_at || null,
+        genre_ids:genres,
+        vote_average:t.vote_average || null,
+        spoiler:!!t.spoiler
       };
     });
-    nuevo.listas=(listas||[]).map(l=>({id:l.id,nombre:l.nombre,emoji:l.emoji||"🎯",publica:l.publica!==false,items:(items||[]).filter(i=>i.list_id===l.id).map(i=>i.item_key)}));
+    nuevo.listas=(listas||[]).map(l=>({
+      id:l.id,
+      nombre:l.nombre || l.name || "Lista",
+      emoji:l.emoji||"🎯",
+      publica:l.publica!==false && l.is_public!==false,
+      items:(items||[]).filter(i=>i.list_id===l.id).map(i=>i.item_key || titleIdToKey[i.user_title_id] || i.title_key).filter(Boolean)
+    }));
     if(!nuevo.listas.length) nuevo.listas=[{id:"favs",nombre:"Todos mis favoritos",items:[],publica:true,emoji:"🏆"}];
 
     S=nuevo;
