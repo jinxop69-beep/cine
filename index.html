@@ -3492,7 +3492,7 @@ setTimeout(aplicarModoOlladaFinal,0);
   const esc = window.esc || function(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')};
   const safeOpen = window.openPayload || function(item){return JSON.stringify(JSON.stringify(item));};
   function st(){
-    const lst=Object.values((window.S&&S.titulos)||{});
+    const lst=Object.values(((typeof S!=="undefined"&&S&&S.titulos)||{}));
     const vst=lst.filter(e=>e.estado==='visto');
     const m=vst.filter(e=>e.media_type==='movie').length;
     const s=vst.filter(e=>e.media_type==='tv').length;
@@ -3502,7 +3502,7 @@ setTimeout(aplicarModoOlladaFinal,0);
     return {lst,vst,m,s,h,med};
   }
   function av(cls){
-    const p=(window.S&&S.perfil)||{};
+    const p=((typeof S!=="undefined"&&S&&S.perfil)||{});
     if(p.avatar_url) return `<div class="${cls}"><img src="${esc(p.avatar_url)}" alt="avatar"></div>`;
     return `<div class="${cls}"><span>${esc(p.avatar||'🎬')}</span></div>`;
   }
@@ -3515,7 +3515,7 @@ setTimeout(aplicarModoOlladaFinal,0);
 
   // Hard mode on first paint and after resize
   aplicarModoOllada();
-  window.addEventListener('resize', ()=>{clearTimeout(window.__olladaFinalResize); window.__olladaFinalResize=setTimeout(()=>{aplicarModoOllada(); try{ if(window.vistaActual==='inicio') rinicio(); if(window.vistaActual==='perfil') rperfil(); }catch(e){}},120)}, {passive:true});
+  window.addEventListener('resize', ()=>{clearTimeout(window.__olladaFinalResize); window.__olladaFinalResize=setTimeout(()=>{aplicarModoOllada(); try{ var _v=(typeof vistaActual!=="undefined"?vistaActual:window.vistaActual); if(_v==='inicio') rinicio(); if(_v==='perfil') rperfil(); }catch(e){}},120)}, {passive:true});
 
   const previousRinicio = window.rinicio;
   window.rinicio = async function(){
@@ -3544,7 +3544,7 @@ setTimeout(aplicarModoOlladaFinal,0);
   };
   async function loadMobileFeed(){
     const el=document.getElementById('om-feed'); if(!el) return;
-    if(!window.supabaseClient){el.innerHTML='<div class="of-empty">Conecta Supabase para ver actividad.</div>'; return;}
+    if(typeof supabaseClient==="undefined"||!supabaseClient){el.innerHTML='<div class="of-empty">Conecta Supabase para ver actividad.</div>'; return;}
     try{const acts=await sb('activity.mobile', supabaseClient.from('activity_feed').select('*').order('created_at',{ascending:false}).limit(4)); el.innerHTML=(acts||[]).length?(acts||[]).map(a=>{const d=a.data||{};return `<div class="om-feed-item"><div class="ofi-av">${d.avatar||'🎬'}</div><div><b>@${esc(d.username||'usuario')}</b><span>${textoActividad(a).replace(/<[^>]+>/g,'')}</span>${d.text?`<p>“${esc(String(d.text).slice(0,90))}”</p>`:''}</div></div>`}).join(''):'<div class="of-empty">Tu actividad y la de tus amigos aparecerá aquí.</div>'; }catch(e){el.innerHTML='<div class="of-empty">No se pudo cargar actividad.</div>';}
   }
 
