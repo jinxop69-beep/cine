@@ -3141,45 +3141,14 @@ async function cargarEstadoCloud(){
     if(perfil){
       nuevo.perfil={usuario:perfil.username||nuevo.perfil.usuario,bio:perfil.bio||"",avatar:perfil.avatar||"🎬",banner:perfil.banner||BANNERS[0],onboarded:!!perfil.onboarded,favorite_genres:perfil.favorite_genres||[],public_profile:perfil.public_profile!==false};
     }
-    const titleIdToKey = {};
     (titulos||[]).forEach(t=>{
-      const media = t.media_type || t.tipo || (t.first_air_date ? "tv" : "movie") || "movie";
-      const tmdb  = t.tmdb_id || t.id_tmdb || t.tmdb || t.id;
-      if(!tmdb) return;
-      const k = t.item_key || t.key || `${media}_${tmdb}`;
-      if(t.id) titleIdToKey[t.id] = k;
-      const rawRating = (t.puntuacion ?? t.rating ?? t.rate ?? null);
-      const rating = rawRating === null || rawRating === "" ? null : Number(rawRating);
-      let genres = t.genre_ids || t.generos || t.genres || [];
-      if(typeof genres === "string"){
-        try{ genres = JSON.parse(genres); }catch(_){ genres = genres.split(",").map(x=>x.trim()).filter(Boolean); }
-      }
-      if(!Array.isArray(genres)) genres = [];
-      nuevo.titulos[k]={
-        tmdb_id:tmdb,
-        media_type:media,
-        titulo:t.titulo || t.title || t.name || "Sin título",
-        poster_path:t.poster_path || t.poster || t.poster_url || null,
-        backdrop_path:t.backdrop_path || t.fondo || t.backdrop || null,
-        descripcion:t.descripcion || t.overview || t.description || "",
-        fecha:t.fecha || t.fecha_estreno || t.release_date || t.first_air_date || "",
-        estado:t.estado || t.status || null,
-        puntuacion:Number.isFinite(rating) ? rating : null,
-        resena:t.resena || t.review || t.body || "",
-        favorito:!!(t.favorito ?? t.favorite ?? t.is_favorite ?? false),
-        visto_en:t.visto_en || t.fecha_visto || t.watched_at || null,
-        genre_ids:genres,
-        vote_average:t.vote_average || null,
-        spoiler:!!t.spoiler
+      nuevo.titulos[t.item_key]={
+        tmdb_id:t.tmdb_id, media_type:t.media_type, titulo:t.titulo, poster_path:t.poster_path, backdrop_path:t.backdrop_path,
+        descripcion:t.descripcion, fecha:t.fecha, estado:t.estado, puntuacion:t.puntuacion, resena:t.resena, favorito:t.favorito,
+        visto_en:t.visto_en, genre_ids:t.genre_ids||[], vote_average:t.vote_average
       };
     });
-    nuevo.listas=(listas||[]).map(l=>({
-      id:l.id,
-      nombre:l.nombre || l.name || "Lista",
-      emoji:l.emoji||"🎯",
-      publica:l.publica!==false && l.is_public!==false,
-      items:(items||[]).filter(i=>i.list_id===l.id).map(i=>i.item_key || titleIdToKey[i.user_title_id] || i.title_key).filter(Boolean)
-    }));
+    nuevo.listas=(listas||[]).map(l=>({id:l.id,nombre:l.nombre,emoji:l.emoji||"🎯",publica:l.publica!==false,items:(items||[]).filter(i=>i.list_id===l.id).map(i=>i.item_key)}));
     if(!nuevo.listas.length) nuevo.listas=[{id:"favs",nombre:"Todos mis favoritos",items:[],publica:true,emoji:"🏆"}];
 
     S=nuevo;
@@ -3619,147 +3588,5 @@ setTimeout(aplicarModoOlladaFinal,0);
   setTimeout(()=>{try{aplicarModoOllada(); if((window.vistaActual||'inicio')==='inicio') rinicio();}catch(e){}},60);
 })();
 </script>
-
-<script>
-/* === OLLADA SYNC FIX: Supabase -> Inicio/Perfil/Biblioteca ===
-   El perfil público funcionaba porque leía directamente user_titles.
-   Inicio y Perfil usaban S.titulos local. Este parche sincroniza antes de pintar. */
-(function(){
-  let _olladaSyncing=false;
-  let _olladaLastSync=0;
-  function _esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function _normGenres(genres){
-    if(!genres) return [];
-    if(Array.isArray(genres)) return genres.map(Number).filter(Boolean);
-    if(typeof genres==='string'){
-      try{return JSON.parse(genres).map(Number).filter(Boolean);}catch(e){return genres.split(',').map(x=>Number(String(x).trim())).filter(Boolean);}
-    }
-    return [];
-  }
-  function _normTitle(t){
-    const media = t.media_type || t.tipo || t.type || (t.first_air_date && !t.release_date ? 'tv' : 'movie') || 'movie';
-    const tmdb = t.tmdb_id || t.id_tmdb || t.tmdb || t.tmdbId || (typeof t.id==='number'?t.id:null);
-    if(!tmdb) return null;
-    const k = t.item_key || t.key || `${media}_${tmdb}`;
-    const rawRating = t.puntuacion ?? t.rating ?? t.rate ?? t.score ?? null;
-    const rating = rawRating===null || rawRating==='' ? null : Number(rawRating);
-    return [k, {
-      tmdb_id: tmdb,
-      media_type: media,
-      titulo: t.titulo || t.title || t.name || t.nombre || 'Sin título',
-      poster_path: t.poster_path || t.poster || t.poster_url || t.posterPath || null,
-      backdrop_path: t.backdrop_path || t.fondo || t.backdrop || t.backdropPath || null,
-      descripcion: t.descripcion || t.overview || t.description || t.sinopsis || '',
-      fecha: t.fecha || t.fecha_estreno || t.release_date || t.first_air_date || t.year || '',
-      estado: t.estado || t.status || t.state || null,
-      puntuacion: Number.isFinite(rating) ? rating : null,
-      resena: t.resena || t.review || t.body || t.comentario || '',
-      favorito: !!(t.favorito ?? t.favorite ?? t.is_favorite ?? t.fav ?? false),
-      visto_en: t.visto_en || t.fecha_visto || t.watched_at || t.seen_at || null,
-      genre_ids: _normGenres(t.genre_ids || t.generos || t.genres),
-      vote_average: t.vote_average || t.tmdb_rating || null,
-      spoiler: !!t.spoiler
-    }];
-  }
-  window.olladaSyncFromSupabase = async function(force=false){
-    if(_olladaSyncing) return false;
-    if(!force && Date.now()-_olladaLastSync < 1200) return false;
-    if(!window.supabaseClient || !window.usuarioActual || !window.S) return false;
-    _olladaSyncing=true;
-    try{
-      const uid=usuarioActual.id;
-      const res=await supabaseClient.from('user_titles').select('*').eq('user_id',uid).limit(1000);
-      if(res.error) throw res.error;
-      const rows=res.data||[];
-      if(rows.length){
-        const next={};
-        const titleIdToKey={};
-        rows.forEach(function(t){
-          const n=_normTitle(t); if(!n) return;
-          const k=n[0], v=n[1]; next[k]=v; if(t.id) titleIdToKey[t.id]=k;
-        });
-        // Fusiona: prioriza Supabase, conserva cualquier título temporal no subido aún.
-        S.titulos = Object.assign({}, S.titulos||{}, next);
-        // Sincroniza listas si existen, para que abrir lista siga encontrando sus items.
-        try{
-          const lr=await supabaseClient.from('lists').select('*').eq('user_id',uid).order('created_at',{ascending:true});
-          const ir=await supabaseClient.from('list_items').select('*').eq('user_id',uid).order('position',{ascending:true});
-          const lists=lr.data||[], items=ir.data||[];
-          if(lists.length){
-            S.listas = lists.map(l=>({
-              id:l.id,
-              nombre:l.nombre || l.name || 'Lista',
-              emoji:l.emoji || '🎯',
-              publica:l.publica!==false && l.is_public!==false,
-              items:items.filter(i=>i.list_id===l.id).map(i=>i.item_key || titleIdToKey[i.user_title_id] || i.title_key).filter(Boolean)
-            }));
-          }
-        }catch(e){console.warn('List sync skipped', e);}
-      }
-      _olladaLastSync=Date.now();
-      return true;
-    }catch(e){
-      console.warn('Ollada sync títulos falló:', e);
-      try{ toast('No pude sincronizar tus títulos: '+(e.message||'Supabase')); }catch(_){}
-      return false;
-    }finally{ _olladaSyncing=false; }
-  };
-
-  function _refreshCountsDOM(){
-    try{
-      const lst=Object.values(S.titulos||{});
-      const vistos=lst.filter(e=>e.estado==='visto');
-      const m=vistos.filter(e=>e.media_type==='movie').length;
-      const s=vistos.filter(e=>e.media_type==='tv').length;
-      const h=Math.round(m*2+s*8);
-      const pns=lst.filter(e=>e.puntuacion>0).map(e=>Number(e.puntuacion));
-      const med=pns.length?(pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1):'—';
-      // Actualiza contadores comunes si existen en la pantalla actual.
-      document.querySelectorAll('.hsc-val,.dash-stat b,.op-stat b,.om-stats b').forEach(()=>{});
-      const tabs={todo:lst.length, viendo:lst.filter(e=>e.estado==='viendo').length, visto:vistos.length, pendiente:lst.filter(e=>e.estado==='pendiente').length, abandonado:lst.filter(e=>e.estado==='abandonado').length};
-      Object.entries(tabs).forEach(([k,v])=>{const el=document.getElementById('tc-'+k); if(el) el.textContent=v;});
-    }catch(e){}
-  }
-
-  const _rinicio = window.rinicio;
-  window.rinicio = async function(){
-    await window.olladaSyncFromSupabase(false);
-    const out = _rinicio ? await _rinicio.apply(this, arguments) : undefined;
-    _refreshCountsDOM();
-    return out;
-  };
-
-  const _rperfil = window.rperfil;
-  window.rperfil = async function(){
-    await window.olladaSyncFromSupabase(false);
-    const out = _rperfil ? await _rperfil.apply(this, arguments) : undefined;
-    _refreshCountsDOM();
-    return out;
-  };
-
-  const _renderTabPerfil = window.renderTabPerfil;
-  window.renderTabPerfil = function(){
-    // No async aquí para no romper onclicks; confía en que rperfil ya sincronizó.
-    const out = _renderTabPerfil ? _renderTabPerfil.apply(this, arguments) : undefined;
-    _refreshCountsDOM();
-    return out;
-  };
-
-  // Después de login/carga inicial, fuerza una sincronización y repinta la vista actual.
-  async function _kick(){
-    if(!window.supabaseClient || !window.usuarioActual) return;
-    const changed = await window.olladaSyncFromSupabase(true);
-    try{
-      if(window.vistaActual==='perfil') await window.rperfil();
-      else if(window.vistaActual==='inicio') await window.rinicio();
-      else if(window.vistaActual==='listas' && typeof rlistas==='function') rlistas();
-    }catch(e){console.warn(e);}
-  }
-  window.addEventListener('focus', _kick);
-  setTimeout(_kick, 1200);
-  setTimeout(_kick, 3000);
-})();
-</script>
-
 </body>
 </html>
