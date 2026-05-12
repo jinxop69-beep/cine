@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CineCircle — Tu universo cinematográfico</title>
-<meta name="description" content="Red social de películas y series. Registra, puntúa y comparte con tus amigos.">
-<meta property="og:title" content="CineCircle — Tu universo cinematográfico">
+<title>Ollada — Tu mirada al cine y las series</title>
+<meta name="description" content="Ollada es tu app social para películas y series: registra, puntúa, crea listas y comparte con amigos.">
+<meta property="og:title" content="Ollada — Tu mirada al cine y las series">
 <meta property="og:description" content="Red social de películas y series.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#08080a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="CineCircle">
+<meta name="apple-mobile-web-app-title" content="Ollada">
 
 
 <link rel="manifest" href="/manifest.webmanifest">
@@ -20,7 +20,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="CineCircle">
+<meta name="apple-mobile-web-app-title" content="Ollada">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
@@ -724,17 +724,56 @@ html.app-mode .hero{padding-top:46px;padding-bottom:34px}
   html.web-mode body{background:var(--bg)!important;}
 }
 
+
+/* ===================== OLLADA FINAL PRODUCT PATCH ===================== */
+.logo{gap:10px}.logo-ico{width:43px;height:28px;border-radius:0;background:none;color:inherit;box-shadow:none;overflow:visible}.logo-ico:hover{transform:none}.logo-eye{width:100%;height:100%;display:block;filter:drop-shadow(0 8px 18px rgba(168,85,247,.42))}.logo-txt{font-family:'Inter',system-ui,sans-serif;font-weight:950;font-size:17px;letter-spacing:-.04em}.logo-em{display:none}.auth-logo .logo-ico{width:62px;height:39px;border-radius:0}.auth-logo .logo-txt{font-size:25px!important}.live-badge{background:rgba(168,85,247,.10);border-color:rgba(168,85,247,.28);color:#ddd6fe}.install-ico{background:linear-gradient(135deg,#ec4899,#7c3aed)!important}.hdr{box-shadow:0 12px 40px rgba(0,0,0,.18)}
+
+/* Desktop dashboard */
+.ollada-dash{max-width:1440px;margin:0 auto;padding:22px 20px 34px;display:grid;grid-template-columns:305px minmax(0,1fr) 318px;gap:16px;align-items:start}.dash-card{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.095);border-radius:24px;box-shadow:0 24px 70px rgba(0,0,0,.25);backdrop-filter:blur(18px)}.dash-profile{padding:20px;position:sticky;top:76px}.dash-pban{height:92px;border-radius:18px;margin:-6px -6px 0;position:relative;overflow:hidden;background:radial-gradient(circle at 20% 20%,rgba(236,72,153,.36),transparent 42%),linear-gradient(135deg,#1e1038,#09111f)}.dash-pav{width:96px;height:96px;border-radius:28px;margin:-45px auto 13px;border:4px solid #0b0b10;background:#111;display:flex;align-items:center;justify-content:center;font-size:42px;overflow:hidden;position:relative;box-shadow:0 16px 40px rgba(0,0,0,.45)}.dash-pav img{width:100%;height:100%;object-fit:cover}.dash-profile h3{text-align:center;font-size:20px;line-height:1.1;margin:0 0 3px;font-weight:950}.dash-profile .handle{text-align:center;color:var(--text2);font-size:12px;margin-bottom:11px}.dash-profile .bio{text-align:center;color:var(--text2);font-size:12px;line-height:1.55;margin:0 auto 16px;max-width:220px}.dash-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border);border-radius:18px;overflow:hidden;background:rgba(255,255,255,.03);margin-bottom:13px}.dash-stat{padding:12px 8px;text-align:center;border-right:1px solid var(--border)}.dash-stat:last-child{border-right:0}.dash-stat b{display:block;font-size:22px;color:#fff}.dash-stat span{font-size:10px;text-transform:uppercase;color:var(--text3);letter-spacing:.06em}.dash-profile-actions{display:grid;gap:8px}.dash-profile-actions button{border:1px solid var(--border);background:rgba(255,255,255,.05);color:#fff;border-radius:14px;padding:10px 12px;font-weight:850;font-size:12px;text-align:left}.dash-profile-actions .primary{background:linear-gradient(135deg,#d946ef,#7c3aed);border-color:transparent;text-align:center}.dash-center{min-width:0}.dash-search{display:flex;align-items:center;gap:8px;padding:9px 10px 9px 14px;border:1px solid rgba(255,255,255,.11);background:rgba(0,0,0,.22);border-radius:999px;margin-bottom:14px}.dash-search input{flex:1;background:transparent;border:0;outline:0;color:#fff;font-size:14px}.dash-search button{border:0;border-radius:999px;background:linear-gradient(135deg,#d946ef,#7c3aed);color:#fff;font-weight:850;padding:9px 16px}.dash-hero{position:relative;min-height:430px;overflow:hidden;border-radius:28px;border:1px solid rgba(255,255,255,.10);background:#090910;box-shadow:0 28px 90px rgba(0,0,0,.34);cursor:pointer}.dash-hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.62}.dash-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,8,10,.95) 0%,rgba(8,8,10,.58) 42%,rgba(8,8,10,.12) 100%),linear-gradient(0deg,rgba(8,8,10,.85),transparent 45%)}.dash-hero-content{position:absolute;inset:0;z-index:1;padding:28px;display:flex;flex-direction:column;justify-content:flex-end;max-width:590px}.dash-kicker{display:inline-flex;width:max-content;align-items:center;gap:8px;border:1px solid rgba(168,85,247,.26);background:rgba(168,85,247,.13);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:850;color:#ddd6fe;margin-bottom:auto}.dash-hero-title{font-family:'Playfair Display',serif;font-size:clamp(38px,5vw,70px);line-height:.92;font-weight:950;letter-spacing:-.05em;margin:24px 0 11px}.dash-hero-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.dash-hero-meta span{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:999px;padding:6px 10px;font-size:12px;color:var(--text)}.dash-hero-desc{color:rgba(255,255,255,.68);line-height:1.55;font-size:13px;max-width:500px;margin-bottom:18px}.dash-hero-actions{display:flex;gap:10px;flex-wrap:wrap}.dash-hero-actions button{border:0;border-radius:999px;padding:11px 16px;color:#fff;font-weight:900}.dash-hero-actions .primary{background:linear-gradient(135deg,#d946ef,#7c3aed)}.dash-hero-actions .ghost{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07)}.dash-section{margin-top:16px}.dash-section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.dash-section-head h3{font-size:17px;font-weight:950}.dash-section-head button,.dash-section-head a{background:transparent;border:0;color:#c084fc;font-size:12px;font-weight:850}.dash-posters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.dash-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.dash-side{display:grid;gap:14px;position:sticky;top:76px}.dash-side .dash-card{padding:16px}.dash-watch-title{font-size:18px;font-weight:950;margin-bottom:4px}.dash-watch-sub{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:14px}.dash-watch-movie{display:grid;grid-template-columns:88px 1fr;gap:12px;align-items:center;padding:10px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid var(--border);margin-bottom:12px}.dash-watch-movie img{width:88px;aspect-ratio:2/3;object-fit:cover;border-radius:13px}.dash-watch-movie .t{font-weight:900;font-size:14px}.dash-watch-movie .m{font-size:11px;color:var(--text2);margin-top:3px}.dash-watch-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dash-watch-actions button{border-radius:14px;padding:10px;border:1px solid var(--border);font-weight:850;color:#fff;background:rgba(255,255,255,.055)}.dash-watch-actions .primary{border:0;background:linear-gradient(135deg,#d946ef,#7c3aed)}.dash-next-list{display:grid;gap:9px}.dash-next{display:flex;gap:10px;align-items:center;cursor:pointer}.dash-next img{width:64px;height:42px;object-fit:cover;border-radius:10px}.dash-next b{font-size:12px}.dash-next span{display:block;color:var(--text3);font-size:10px;margin-top:2px}.dash-feed-list{display:grid;gap:10px}.dash-feed-item{display:grid;grid-template-columns:36px 1fr;gap:10px;align-items:start;padding:10px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid var(--border)}.dash-feed-av{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center}.dash-feed-t{font-size:12px;line-height:1.45}.dash-feed-t strong{color:#fff}.dash-feed-time{font-size:10px;color:var(--text3);margin-top:3px}.dash-empty{padding:20px;border:1px dashed rgba(255,255,255,.12);border-radius:18px;text-align:center;color:var(--text3);font-size:12px}.dash-quote{margin-top:14px;padding:18px;border-radius:20px;text-align:center;color:rgba(255,255,255,.7);font-family:'Playfair Display',serif;font-style:italic;background:linear-gradient(135deg,rgba(217,70,239,.12),rgba(99,102,241,.08));border:1px solid rgba(217,70,239,.20)}
+
+/* Mobile home shell */
+.ollada-mobile-home .hero{padding-top:44px}.ollada-home-cta{margin:12px 18px 0;padding:16px;border-radius:22px;background:linear-gradient(135deg,rgba(217,70,239,.17),rgba(99,102,241,.10));border:1px solid rgba(217,70,239,.25);display:flex;align-items:center;justify-content:space-between;gap:12px}.ollada-home-cta b{display:block;font-size:15px;margin-bottom:4px}.ollada-home-cta span{display:block;font-size:12px;color:var(--text2);line-height:1.45}.ollada-home-cta button{border:0;border-radius:999px;padding:10px 13px;background:linear-gradient(135deg,#d946ef,#7c3aed);color:#fff;font-weight:900;white-space:nowrap}
+
+/* Profile redesign */
+.ollada-profile{max-width:1180px;margin:0 auto;padding:0 16px 34px}.op-hero{position:relative;min-height:330px;border-radius:0 0 34px 34px;overflow:hidden;margin:0 -16px 20px;background:radial-gradient(circle at 25% 10%,rgba(236,72,153,.38),transparent 36%),linear-gradient(135deg,#21103f,#0b111e 55%,#09090d)}.op-hero-img{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.35}.op-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#08080a 0%,rgba(8,8,10,.55) 48%,rgba(8,8,10,.10) 100%)}.op-hero-inner{position:relative;z-index:1;min-height:330px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;text-align:center;padding:28px 18px}.op-avatar{width:122px;height:122px;border-radius:34px;border:4px solid rgba(8,8,10,.88);display:flex;align-items:center;justify-content:center;background:#111;font-size:52px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.10)}.op-avatar img{width:100%;height:100%;object-fit:cover}.op-name{font-family:'Playfair Display',serif;font-weight:950;font-size:clamp(30px,6vw,52px);letter-spacing:-.04em;margin-top:14px}.op-bio{max-width:560px;color:rgba(255,255,255,.66);font-size:14px;line-height:1.55;margin:5px auto 0}.op-actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-top:18px}.op-actions button{border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.075);color:#fff;padding:10px 14px;font-weight:900;font-size:12px}.op-actions .primary{border:0;background:linear-gradient(135deg,#d946ef,#7c3aed);box-shadow:0 12px 30px rgba(217,70,239,.24)}.op-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:-42px auto 20px;position:relative;z-index:3;max-width:850px}.op-stat{border-radius:22px;background:rgba(14,14,18,.86);border:1px solid rgba(255,255,255,.10);backdrop-filter:blur(18px);padding:16px 12px;text-align:center;box-shadow:0 18px 48px rgba(0,0,0,.28)}.op-stat b{display:block;font-size:clamp(24px,4vw,34px);line-height:1;color:#fff}.op-stat span{display:block;margin-top:7px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-weight:800}.op-grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px}.op-card{border-radius:24px;background:rgba(255,255,255,.035);border:1px solid var(--border);padding:16px}.op-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.op-title h3{font-size:17px;font-weight:950}.op-title button{background:transparent;border:0;color:#c084fc;font-size:12px;font-weight:900}.op-fav-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.op-small-posters{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.op-menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.op-menu{border:1px solid var(--border);background:rgba(255,255,255,.045);color:#fff;border-radius:18px;padding:14px;text-align:left;font-weight:900;font-size:13px}.op-menu span{display:block;font-size:24px;margin-bottom:7px}.op-review-list{display:grid;gap:10px}.op-review-item{padding:12px;border-radius:16px;background:rgba(255,255,255,.035);border:1px solid var(--border)}.op-review-item b{font-size:13px}.op-review-item p{font-size:12px;line-height:1.5;color:var(--text2);margin-top:5px}.op-tabs{display:flex;gap:7px;overflow-x:auto;margin:16px 0 12px}.op-tabs .ptab{white-space:nowrap}.op-library{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:13px}.op-badges{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}.op-badge{padding:12px;border-radius:16px;background:rgba(255,255,255,.035);border:1px solid var(--border);font-size:12px}.op-badge.lck{opacity:.45}.op-badge .be{font-size:24px;margin-bottom:5px}.op-badge .bn{font-weight:900}.op-badge .bs{font-size:10px;color:var(--text3);margin-top:3px}
+
+/* Juntos clarity */
+.joint-intro{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0 16px}.joint-step{border-radius:18px;background:rgba(255,255,255,.035);border:1px solid var(--border);padding:14px}.joint-step .n{display:inline-flex;width:25px;height:25px;border-radius:999px;background:linear-gradient(135deg,#d946ef,#7c3aed);align-items:center;justify-content:center;font-weight:950;font-size:12px;margin-bottom:8px}.joint-step b{display:block;font-size:13px;margin-bottom:5px}.joint-step span{font-size:11px;line-height:1.45;color:var(--text2)}.joint-highlight{padding:16px;border-radius:22px;background:linear-gradient(135deg,rgba(217,70,239,.12),rgba(14,165,233,.08));border:1px solid rgba(217,70,239,.20);margin-bottom:14px;display:flex;justify-content:space-between;gap:12px;align-items:center}.joint-highlight b{display:block;margin-bottom:4px}.joint-highlight span{font-size:12px;color:var(--text2)}.joint-highlight button{border:0;border-radius:999px;padding:10px 14px;background:linear-gradient(135deg,#d946ef,#7c3aed);color:#fff;font-weight:900;white-space:nowrap}
+
+/* List detail */
+.ld-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:14px;flex-wrap:wrap}.ld-title{display:flex;align-items:center;gap:12px}.ld-title .emoji{font-size:32px}.ld-meta{font-size:12px;color:var(--text2);margin-top:4px}.ld-actions{display:flex;gap:8px;flex-wrap:wrap}.ld-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(142px,1fr));gap:14px}.ld-empty{padding:24px;border-radius:18px;border:1px dashed rgba(255,255,255,.14);text-align:center;color:var(--text2);font-size:13px}
+
+/* Search discovery */
+.search-section-title{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;margin:6px 0 0;padding:8px 2px 0}.search-section-title strong{font-size:14px}.search-section-title span{font-size:11px;color:var(--text3);font-weight:700}.search-gap{grid-column:1/-1;height:10px}.comment-chip{display:inline-flex;margin-top:6px;border-radius:999px;background:rgba(217,70,239,.10);border:1px solid rgba(217,70,239,.18);color:#f0abfc;padding:5px 8px;font-size:10px;font-weight:800}
+
+@media(max-width:1120px){.ollada-dash{grid-template-columns:280px minmax(0,1fr)}.dash-side{grid-column:1/-1;position:static;grid-template-columns:1fr 1fr}.dash-posters{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:880px){.ollada-dash{display:block;padding:0}.dash-side,.dash-profile{position:static}.op-grid{grid-template-columns:1fr}.op-stats{grid-template-columns:repeat(4,1fr);gap:7px;margin:-34px 8px 16px}.op-stat{padding:12px 6px;border-radius:17px}.op-fav-row{display:flex;overflow-x:auto;padding-bottom:4px}.op-fav-row .pi{min-width:118px}.op-library{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.op-menu-grid{grid-template-columns:repeat(3,1fr)}.joint-intro{grid-template-columns:1fr}.joint-highlight{align-items:flex-start;flex-direction:column}.ld-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-mini-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.op-hero{min-height:285px}.op-hero-inner{min-height:285px;padding-bottom:38px}.op-avatar{width:106px;height:106px;border-radius:30px}.op-stats{grid-template-columns:repeat(4,1fr)}.op-stat b{font-size:22px}.op-stat span{font-size:8px}.op-menu-grid{grid-template-columns:repeat(2,1fr)}.op-library{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 </style>
 </head>
 <body>
 <div id="toast-root"></div>
-<div class="install-banner" id="install-banner"><div class="install-ico">📱</div><div class="install-txt"><div class="install-t">Instala CineCircle</div><div class="install-s">Añádela a tu pantalla de inicio como una app real.</div></div><div class="install-actions"><button onclick="cerrarInstallBanner()">Luego</button><button class="primary" onclick="instalarPWA()">Instalar</button></div></div>
+<div class="install-banner" id="install-banner"><div class="install-ico">📱</div><div class="install-txt"><div class="install-t">Instala Ollada</div><div class="install-s">Añádela a tu pantalla de inicio como una app real.</div></div><div class="install-actions"><button onclick="cerrarInstallBanner()">Luego</button><button class="primary" onclick="instalarPWA()">Instalar</button></div></div>
 
 <!-- HEADER -->
 <header class="hdr">
   <a class="logo" onclick="ir('inicio')">
-    <div class="logo-ico">C</div>
-    <span class="logo-txt">Cine<em class="logo-em">Circle</em></span>
+    <div class="logo-ico" aria-hidden="true"><svg class="logo-eye" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ollada">
+  <defs>
+    <linearGradient id="oll-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ec4899"/>
+      <stop offset="52%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <path d="M3 20C10 8.5 20.2 3.2 32 3.2S54 8.5 61 20C54 31.5 43.8 36.8 32 36.8S10 31.5 3 20Z" fill="url(#oll-grad)"/>
+  <path d="M11 20C16.5 12.8 23.2 9.4 32 9.4S47.5 12.8 53 20C47.5 27.2 40.8 30.6 32 30.6S16.5 27.2 11 20Z" fill="#08080f" fill-opacity=".76"/>
+  <circle cx="32" cy="20" r="10.6" fill="#0a0a11"/>
+  <path d="M29.2 13.9 41 20l-11.8 6.1Z" fill="url(#oll-grad)"/>
+  <circle cx="24.3" cy="13.3" r="2.2" fill="#fff" fill-opacity=".35"/>
+</svg></div>
+    <span class="logo-txt">Ollada</span>
   </a>
   <nav class="nav">
     <button class="nb on" data-v="inicio" onclick="ir('inicio')">🏠 Inicio</button>
@@ -758,10 +797,23 @@ html.app-mode .hero{padding-top:46px;padding-bottom:34px}
 
 
 <!-- LOGIN / REGISTRO SUPABASE -->
-<section class="auth-screen" id="auth-screen" aria-label="Acceso a CineCircle">
+<section class="auth-screen" id="auth-screen" aria-label="Acceso a Ollada">
   <div class="auth-shell">
     <div class="auth-copy">
-      <div class="auth-logo"><div class="logo-ico">C</div><span class="logo-txt" style="font-size:22px">Cine<em class="logo-em">Circle</em></span></div>
+      <div class="auth-logo"><div class="logo-ico" aria-hidden="true"><svg class="logo-eye" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ollada">
+  <defs>
+    <linearGradient id="oll-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ec4899"/>
+      <stop offset="52%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <path d="M3 20C10 8.5 20.2 3.2 32 3.2S54 8.5 61 20C54 31.5 43.8 36.8 32 36.8S10 31.5 3 20Z" fill="url(#oll-grad)"/>
+  <path d="M11 20C16.5 12.8 23.2 9.4 32 9.4S47.5 12.8 53 20C47.5 27.2 40.8 30.6 32 30.6S16.5 27.2 11 20Z" fill="#08080f" fill-opacity=".76"/>
+  <circle cx="32" cy="20" r="10.6" fill="#0a0a11"/>
+  <path d="M29.2 13.9 41 20l-11.8 6.1Z" fill="url(#oll-grad)"/>
+  <circle cx="24.3" cy="13.3" r="2.2" fill="#fff" fill-opacity=".35"/>
+</svg></div><span class="logo-txt" style="font-size:22px">Ollada</span></div>
       <h2 class="auth-big"><span class="ht1">Tu perfil</span><br><span class="ht2">cinéfilo vivo.</span></h2>
       <p class="auth-sub">Registra lo que ves, crea listas, comparte reseñas, compara gustos con amigos y guarda todo online con Supabase.</p>
       <div class="auth-pill-row">
@@ -808,11 +860,11 @@ html.app-mode .hero{padding-top:46px;padding-bottom:34px}
 </section>
 
 <!-- ONBOARDING INICIAL -->
-<section class="onboard-screen" id="onboard-screen" aria-label="Primeros pasos CineCircle">
+<section class="onboard-screen" id="onboard-screen" aria-label="Primeros pasos Ollada">
   <div class="onboard-card">
     <div class="hbadge">🚀 Primeros pasos</div>
     <h2 class="onboard-title"><span class="ht1">Construye tu</span><br><span class="ht2">perfil cinéfilo.</span></h2>
-    <p class="onboard-sub">Elige tus géneros favoritos para que CineCircle pueda recomendarte mejor y para que tu perfil público empiece con personalidad.</p>
+    <p class="onboard-sub">Elige tus géneros favoritos para que Ollada pueda recomendarte mejor y para que tu perfil público empiece con personalidad.</p>
     <label class="elbl">Nombre de usuario</label>
     <input class="einp" id="ob-username" placeholder="kennethcine">
     <label class="elbl">Bio corta</label>
@@ -1006,7 +1058,7 @@ html.app-mode .hero{padding-top:46px;padding-bottom:34px}
         <h2 class="stit serif">Tu año en <em style="background:linear-gradient(90deg,#d946ef,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent">el cine</em></h2>
       </div>
       <div id="wcard"></div>
-      <button class="shrbtn" onclick="alert('¡Comparte tu CineCircle Wrapped! 🎬')">🔗 Compartir mi Wrapped</button>
+      <button class="shrbtn" onclick="alert('¡Comparte tu Ollada Wrapped! 🎬')">🔗 Compartir mi Wrapped</button>
     </div>
   </div>
 
@@ -1159,7 +1211,7 @@ html.app-mode .hero{padding-top:46px;padding-bottom:34px}
     <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px">
       <div>
         <div class="hbadge" style="margin-bottom:8px">💎 Preparado para monetizar</div>
-        <div class="etit" style="font-family:'Playfair Display',serif;font-size:34px;line-height:1;margin:0">CineCircle Premium</div>
+        <div class="etit" style="font-family:'Playfair Display',serif;font-size:34px;line-height:1;margin:0">Ollada Premium</div>
       </div>
       <button class="canbtn" style="width:auto;margin:0;border-radius:999px;padding:8px 12px" onclick="document.getElementById('premium-modal').classList.remove('on')">✕</button>
     </div>
@@ -1209,7 +1261,7 @@ html.app-mode .hero{padding-top:46px;padding-bottom:34px}
 
 <script>
 /* ================================================================
-   CINECIRCLE · JS puro · Español · TMDb v3
+   OLLADA · JS puro · Español · TMDb v3
    ================================================================ */
 const TKEY = "29910c929cac671627bda115be551a96";
 const BASE = "https://api.themoviedb.org/3";
@@ -1952,7 +2004,7 @@ function textoActividad(a){
   if(a.type==="reviewed") return `reseñó <span class="fdtarget">${d.title}</span>`;
   if(a.type==="list_created") return `creó la lista <span class="fdtarget">${d.list_name}</span>`;
   if(a.type==="joint_added") return `añadió <span class="fdtarget">${d.title}</span> a un perfil conjunto`;
-  return `actualizó <span class="fdtarget">${d.title||"CineCircle"}</span>`;
+  return `actualizó <span class="fdtarget">${d.title||"Ollada"}</span>`;
 }
 function haceTiempo(iso){
   const s=Math.max(1,Math.floor((Date.now()-new Date(iso).getTime())/1000));
@@ -2358,7 +2410,7 @@ function rwrapped(){
       <div style="position:relative">
         <div class="wusr">
           <div class="wav">${p.avatar}</div>
-          <div><div class="wuname">@${p.usuario}</div><div class="wulbl">CineCircle Wrapped 2026</div></div>
+          <div><div class="wuname">@${p.usuario}</div><div class="wulbl">Ollada Wrapped 2026</div></div>
         </div>
         <div class="wstats">
           <div class="wst"><div class="wsti">⏱️</div><div class="wstv">${h}</div><div class="wstl">Horas vistas</div></div>
@@ -2370,7 +2422,7 @@ function rwrapped(){
         ${ts.length?`<div class="wslbl">Tus mejores series</div><div class="wprow">${ts.map(e=>{const src=IMG(e.poster_path,"w200");return`<div class="wpp">${src?`<img src="${src}" alt="" onerror="this.style.display=\'none\'">`:""}</div>`;}).join("")}</div>`:""}
         <div class="wfoot">
           <div class="wavg">Puntuación media <span>${med}/10</span></div>
-          <div class="wbrand">CINECIRCLE</div>
+          <div class="wbrand">OLLADA</div>
         </div>
       </div>
     </div>`;
@@ -2620,7 +2672,7 @@ function compartirPerfil(){
     +'<div class="share-card-blob" style="width:200px;height:200px;background:rgba(217,70,239,.35);top:-60px;right:-60px"></div>'
     +'<div class="share-card-blob" style="width:180px;height:180px;background:rgba(99,102,241,.25);bottom:-50px;left:-50px"></div>'
     +'<div class="share-card-content">'
-      +'<div class="share-card-brand">CINECIRCLE</div>'
+      +'<div class="share-card-brand">OLLADA</div>'
       +'<div class="share-card-av">'+avHtml+'</div>'
       +'<div class="share-card-user">@'+p.usuario+'</div>'
       +'<div class="share-card-bio">'+(p.bio||"Viviendo fotograma a fotograma.")+'</div>'
@@ -2633,7 +2685,7 @@ function compartirPerfil(){
       +'<div style="font-size:10px;color:rgba(255,255,255,.4);margin-bottom:7px;text-transform:uppercase;letter-spacing:.06em">Top favoritos</div>'
       +'<div class="share-card-posters">'+postersHtml+'</div>'
       +'<div class="share-card-footer">'
-        +'<div class="share-card-footer-brand">CINECIRCLE</div>'
+        +'<div class="share-card-footer-brand">OLLADA</div>'
         +'<div class="share-card-footer-date">'+new Date().getFullYear()+'</div>'
       +'</div>'
     +'</div>'
@@ -2697,7 +2749,7 @@ async function descargarTarjeta(){
     canvas.toBlob(async function(blob){
       var file = new File([blob], "cinecircle-"+S.perfil.usuario+".png", {type:"image/png"});
       if(navigator.canShare && navigator.canShare({files:[file]})){
-        await navigator.share({files:[file],title:"Mi perfil en CineCircle"});
+        await navigator.share({files:[file],title:"Mi perfil en Ollada"});
         toast("Imagen compartida");
       }else{
         var a=document.createElement("a");
@@ -2895,7 +2947,7 @@ async function cerrarSesion(){
 async function sb(paso, promise){
   const res = await promise;
   if(res?.error){
-    console.error("[CineCircle Supabase]", paso, res.error);
+    console.error("[Ollada Supabase]", paso, res.error);
     toast("Supabase: " + paso + " → " + res.error.message);
     throw res.error;
   }
@@ -3042,7 +3094,7 @@ function mostrarPremium(){
     if("serviceWorker" in navigator){
       window.addEventListener("load", function(){
         navigator.serviceWorker.register("/service-worker.js")
-          .then(function(){ console.log("CineCircle PWA lista"); })
+          .then(function(){ console.log("Ollada PWA lista"); })
           .catch(function(e){ console.warn("Service Worker no registrado", e); });
       });
     }
@@ -3076,8 +3128,163 @@ function alternarModoApp(){
   toast(app?'Modo app activado':'Modo web activado');
 }
 
+/* ===================== OLLADA FINAL PRODUCT PATCH ===================== */
+(function(){
+  const BRAND = 'Ollada';
+  const _origAplicarModo = typeof aplicarModoCineCircle === 'function' ? aplicarModoCineCircle : null;
+  window.aplicarModoCineCircle = function(){ if(_origAplicarModo) _origAplicarModo(); };
+  window.aplicarModoOllada = window.aplicarModoCineCircle;
+
+  function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function openPayload(it){return JSON.stringify(JSON.stringify(it));}
+  function reifySaved(e){return {id:e.tmdb_id,media_type:e.media_type||'movie',title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average};}
+  function isDesktopWeb(){return window.innerWidth>=881 && !document.documentElement.classList.contains('app-mode');}
+  function profileAvatarHTML(cls){const p=S.perfil||{}; return p.avatar_url?`<div class="${cls}"><img src="${esc(p.avatar_url)}" onerror="this.remove()"></div>`:`<div class="${cls}">${esc(p.avatar||'🎬')}</div>`;}
+  function setHeaderAvatar(){try{const p=S.perfil||{}; const h=document.getElementById('hdr-av'); if(!h)return; if(p.avatar_url) h.innerHTML='<img src="'+esc(p.avatar_url)+'" style="width:100%;height:100%;object-fit:cover;border-radius:8px" onerror="this.remove()">'; else h.textContent=p.avatar||'🎬';}catch(e){}}
+  function statsData(){const lst=Object.values(S.titulos||{}); const vst=lst.filter(e=>e.estado==='visto'); const m=vst.filter(e=>e.media_type==='movie').length; const s=vst.filter(e=>e.media_type==='tv').length; const h=Math.round(m*2+s*8); const pns=lst.filter(e=>e.puntuacion>0).map(e=>e.puntuacion); const med=pns.length?(pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1):'—'; return {lst,vst,m,s,h,med};}
+  function posterGrid(items, limit=5){return (items||[]).slice(0,limit).map(e=>`<div class="pi">${tarjeta(e, true)}</div>`).join('') || '<div class="dash-empty">Añade títulos para verlos aquí.</div>';}
+  function savedPosterGrid(items, limit=5){return (items||[]).slice(0,limit).map(e=>`<div class="pi">${tarjeta(reifySaved(e), true)}</div>`).join('') || '<div class="dash-empty">Añade favoritos para verlos aquí.</div>';}
+
+  const _origAbrir = typeof abrir === 'function' ? abrir : null;
+  window.abrir = function(js){
+    try{
+      let item = typeof js === 'string' ? JSON.parse(js) : js;
+      if(typeof item === 'string') item = JSON.parse(item);
+      item = item || {};
+      if(!item.media_type || item.media_type === 'multi') item.media_type = (item.first_air_date && !item.release_date) ? 'tv' : 'movie';
+      if(!item.title && item.name) item.title = item.name;
+      if(!item.name && item.title) item.name = item.title;
+      if(!_origAbrir) return;
+      return _origAbrir(JSON.stringify(item));
+    }catch(e){console.warn('Error abriendo título', e); toast('No se pudo abrir este título. Inténtalo otra vez.');}
+  };
+
+  window.hbuscarFinal = function(id){const q=(document.getElementById(id)?.value||'').trim(); if(q){ir('buscar'); const sinp=document.getElementById('sinp'); if(sinp) sinp.value=q; ultq=q; dosearch(q);}};
+
+  const _oldRinicio = typeof rinicio==='function' ? rinicio : null;
+  window.rinicio = async function(){
+    setHeaderAvatar();
+    const root=document.getElementById('v-inicio'); if(!root) return;
+    if(!isDesktopWeb()){
+      root.innerHTML = `<section class="hero ollada-mobile-home"><div class="blobs"><div class="blob bl1"></div><div class="blob bl2"></div><div class="blob bl3"></div></div><div class="hcon"><div class="hbadge">👁️ Tu mirada al cine y las series</div><h1 class="htit"><span class="ht1">Cada historia</span><br><span class="ht2">que has amado.</span></h1><p class="hsub">Registra, puntúa, crea listas, comenta con amigos y decide qué ver juntos.</p><div class="sbwrap"><div class="sbglow"></div><div class="sb"><span>🔍</span><input id="h-sinp" placeholder="Busca Inception, Hamnet, Cumbre borrascosa…" onkeydown="if(event.key==='Enter')hbuscarFinal('h-sinp')"><button class="sb-btn" onclick="hbuscarFinal('h-sinp')">Buscar</button></div></div><div class="hstats" id="hstats"></div></div><div class="ollada-home-cta"><div><b>🤝 Juntos ahora es directo</b><span>Entra rápido al perfil conjunto para decidir qué ver esta noche.</span></div><button onclick="ir('conjunto')">Abrir</button></div></section><div class="sec" style="padding-top:18px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span>🔥</span><span style="font-size:16px;font-weight:700">Tendencias esta semana</span></div><div class="prow" id="trend-row"></div><p style="font-size:10px;color:var(--text3);text-align:center;padding:16px 0">Desarrollado con TMDb. No está avalado ni certificado por TMDb.</p></div>`;
+      rstats();
+      const row=document.getElementById('trend-row');
+      if(row){row.innerHTML=Array(8).fill(`<div class="pi"><div class="skel"></div></div>`).join(''); try{const d=await tmdb('/trending/all/week'); row.innerHTML=(d.results||[]).slice(0,16).map(i=>`<div class="pi">${tarjeta({...i,media_type:i.media_type||'movie'})}</div>`).join('');}catch(e){row.innerHTML='<p style="color:var(--text3);padding:18px;font-size:13px">No se pudieron cargar tendencias.</p>';}}
+      return;
+    }
+    const st=statsData(), p=S.perfil||{};
+    root.innerHTML = `<div class="ollada-dash"><aside class="dash-card dash-profile"><div class="dash-pban" style="${p.banner_url?`background-image:url('${esc(p.banner_url)}');background-size:cover;background-position:center`:''}"></div>${profileAvatarHTML('dash-pav')}<h3>@${esc(p.usuario||'cinephile')}</h3><div class="handle">Perfil en Ollada</div><div class="bio">${esc(p.bio||'Viviendo fotograma a fotograma.')}</div><div class="dash-stat-grid"><div class="dash-stat"><b>${st.m}</b><span>Películas</span></div><div class="dash-stat"><b>${st.s}</b><span>Series</span></div><div class="dash-stat"><b>${st.med}</b><span>Media</span></div></div><div class="dash-profile-actions"><button class="primary" onclick="ir('perfil')">Ver mi perfil</button><button onclick="compartirPerfil()">📸 Compartir tarjeta</button><button onclick="ir('conjunto')">🤝 Abrir Juntos</button></div></aside><main class="dash-center"><div class="dash-search"><span>🔍</span><input id="h-sinp" placeholder="Busca Hamnet, Cumbre borrascosa, Breaking Bad…" onkeydown="if(event.key==='Enter')hbuscarFinal('h-sinp')"><button onclick="hbuscarFinal('h-sinp')">Buscar</button></div><div id="dash-hero-mount"><div class="dash-hero"><div class="skel" style="position:absolute;inset:0"></div></div></div><section class="dash-section"><div class="dash-section-head"><h3>🏆 Top favoritos</h3><button onclick="ir('perfil')">Ver perfil</button></div><div class="dash-posters" id="dash-favs"></div></section><div class="dash-quote">“Las mejores historias no solo se ven, se comparten.”</div></main><aside class="dash-side"><div class="dash-card"><div class="dash-watch-title">🤝 Qué vemos esta noche</div><div class="dash-watch-sub">Juntos está ahora en Inicio para que nadie se pierda.</div><div id="dash-tonight"></div><div class="dash-watch-actions"><button class="primary" onclick="ir('conjunto')">Abrir Juntos</button><button onclick="ir('ia')">IA</button></div></div><div class="dash-card"><div class="dash-section-head"><h3>📈 Actividad</h3><button onclick="ir('amigos')">Ver todo</button></div><div class="dash-feed-list" id="dash-feed-mini"></div></div><div class="dash-card"><div class="dash-section-head"><h3>🍿 Próximos</h3><button onclick="ir('buscar')">Buscar</button></div><div class="dash-next-list" id="dash-next-list"></div></div></aside></div>`;
+    document.getElementById('dash-favs').innerHTML = savedPosterGrid(st.lst.filter(e=>e.favorito).sort((a,b)=>(b.puntuacion||0)-(a.puntuacion||0)),5);
+    try{
+      const d=await tmdb('/trending/all/week'); const items=(d.results||[]).map(i=>({...i,media_type:i.media_type||'movie'})); const hero=items[0];
+      if(hero){const bg=IMG(hero.backdrop_path||hero.poster_path,'w1280'); document.getElementById('dash-hero-mount').innerHTML=`<div class="dash-hero" onclick='abrir(${openPayload(hero)})'>${bg?`<img class="dash-hero-bg" src="${bg}" alt="">`:''}<div class="dash-hero-content"><div class="dash-kicker">👁️ Destacado en Ollada</div><div class="dash-hero-title">${esc(nomDe(hero))}</div><div class="dash-hero-meta"><span>⭐ ${hero.vote_average?hero.vote_average.toFixed(1):'—'} TMDb</span><span>${anyoDe(hero)||'Nuevo'}</span><span>${hero.media_type==='tv'?'Serie':'Película'}</span></div><div class="dash-hero-desc">${esc(hero.overview||'Abre el detalle para ver sinopsis, reparto, tráiler, plataformas y guardarla en tus listas.')}</div><div class="dash-hero-actions"><button class="primary" onclick="event.stopPropagation();abrir(${openPayload(hero)})">Ver detalle</button><button class="ghost" onclick="event.stopPropagation();ir('conjunto')">Añadir a Juntos</button></div></div></div>`;}
+      const rec=items[3]||items[1]; const rp=rec&&IMG(rec.poster_path,'w185'); document.getElementById('dash-tonight').innerHTML = rec?`<div class="dash-watch-movie" onclick='abrir(${openPayload(rec)})'>${rp?`<img src="${rp}" alt="">`:'<div class="cph">🎬</div>'}<div><div class="t">${esc(nomDe(rec))}</div><div class="m">${anyoDe(rec)} · ${rec.media_type==='tv'?'Serie':'Película'}</div><div class="m">Recomendada para decidir juntos</div></div></div>`:'<div class="dash-empty">Crea un perfil conjunto para recibir propuestas.</div>';
+      document.getElementById('dash-next-list').innerHTML = items.slice(1,5).map(it=>{const b=IMG(it.backdrop_path||it.poster_path,'w300'); return `<div class="dash-next" onclick='abrir(${openPayload(it)})'>${b?`<img src="${b}" alt="">`:''}<div><b>${esc(nomDe(it))}</b><span>${anyoDe(it)} · ${it.media_type==='tv'?'Serie':'Película'}</span></div></div>`}).join('');
+    }catch(e){console.warn(e)}
+    loadDashActivity();
+  };
+
+  async function loadDashActivity(){
+    const el=document.getElementById('dash-feed-mini'); if(!el) return;
+    if(!supabaseClient){el.innerHTML='<div class="dash-empty">Conecta Supabase para ver actividad.</div>';return;}
+    try{const acts=await sb('activity.dashboard', supabaseClient.from('activity_feed').select('*').order('created_at',{ascending:false}).limit(5)); el.innerHTML=(acts||[]).length?(acts||[]).map(a=>{const d=a.data||{}; return `<div class="dash-feed-item"><div class="dash-feed-av">${d.avatar||'🎬'}</div><div><div class="dash-feed-t"><strong>@${esc(d.username||'usuario')}</strong> ${textoActividad(a)}</div>${d.text?`<div class="comment-chip">“${esc(String(d.text).slice(0,80))}”</div>`:''}<div class="dash-feed-time">${haceTiempo(a.created_at)}</div></div></div>`}).join(''):'<div class="dash-empty">Cuando tus amigos puntúen o comenten aparecerán aquí.</div>'; }catch(e){el.innerHTML='<div class="dash-empty">No se pudo cargar la actividad.</div>';}
+  }
+
+  const _origRsr = typeof rsr==='function' ? rsr : null;
+  window.rsr = async function(){
+    const g=document.getElementById('sres'); if(!g) return;
+    if((ultq||'').trim()){ if(_origRsr) return _origRsr(); return; }
+    g.innerHTML=Array(12).fill(`<div class="skel"></div>`).join('');
+    try{
+      const [trend,upcoming,topm,toptv]=await Promise.all([tmdb('/trending/all/week'),tmdb('/movie/upcoming'),tmdb('/movie/top_rated'),tmdb('/tv/top_rated')]);
+      function sec(icon,title,sub,items,type){return `<div class="search-section-title"><strong>${icon} ${title}</strong><span>${sub}</span></div>`+(items||[]).slice(0,12).map(it=>tarjeta({...it,media_type:it.media_type||type||'movie'})).join('')+'<div class="search-gap"></div>';}
+      g.innerHTML=sec('🔥','Tendencias','Lo más movido ahora',trend.results,'movie')+sec('📅','Próximamente','Estrenos y próximos títulos',upcoming.results,'movie')+sec('🏆','Películas mejor valoradas','Clásicos y favoritas',topm.results,'movie')+sec('📺','Series mejor valoradas','Para maratonear',toptv.results,'tv');
+    }catch(e){g.innerHTML=`<div class="empty"><div class="empty-ico">🔍</div><p>Escribe algo para buscar.</p></div>`;}
+  };
+
+  window.clld = function(){const ldet=document.getElementById('ldet'), lmain=document.getElementById('listas-main'); if(ldet) ldet.style.display='none'; if(lmain) lmain.style.display=''; window.scrollTo({top:0,behavior:'smooth'});};
+  window.old = function(id){
+    const list=(S.listas||[]).find(x=>String(x.id)===String(id)); if(!list){toast('No se encontró la lista');return;}
+    const ldet=document.getElementById('ldet'), lmain=document.getElementById('listas-main'), cont=document.getElementById('ldcont'); if(ldet)ldet.style.display=''; if(lmain)lmain.style.display='none'; if(!cont)return;
+    const items=(list.items||[]).map(k=>S.titulos[k]).filter(Boolean);
+    cont.innerHTML=`<div class="ld-head"><div><div class="ld-title"><span class="emoji">${list.emoji||'🎯'}</span><div><h2 class="stit serif" style="margin:0">${esc(list.nombre)}</h2><div class="ld-meta">${items.length} título${items.length!==1?'s':''} · ${list.publica?'Lista pública':'Lista privada'}</div></div></div></div><div class="ld-actions"><button class="probtn" onclick="clld()">← Volver</button></div></div>`+(items.length?`<div class="ld-grid">${items.map(e=>tarjeta(reifySaved(e),true)).join('')}</div>`:`<div class="ld-empty">Esta lista todavía está vacía. Abre una película y pulsa “Añadir a lista”.</div>`);
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  const _origTextoActividad = typeof textoActividad==='function' ? textoActividad : null;
+  window.textoActividad = function(a){const d=a.data||{}; if(a.type==='review_commented') return `comentó una reseña sobre <span class="fdtarget">${esc(d.title||'una película')}</span>`; return _origTextoActividad?_origTextoActividad(a):`actualizó <span class="fdtarget">${esc(d.title||BRAND)}</span>`;};
+
+  const _origAbrirComentarios = typeof abrirComentarios==='function' ? abrirComentarios : null;
+  window.abrirComentarios = function(btn){
+    window.cmt_itemTitle=''; window.cmt_targetUsername='';
+    try{const k=decodeURIComponent(btn.dataset.k||''); if(S.titulos && S.titulos[k]) window.cmt_itemTitle=S.titulos[k].titulo||''; if(typeof pubPerfil!=='undefined'&&pubPerfil) window.cmt_targetUsername=pubPerfil.username||'';}catch(e){}
+    if(_origAbrirComentarios) return _origAbrirComentarios(btn);
+  };
+  const _origEnviarComentario = typeof enviarComentario==='function' ? enviarComentario : null;
+  window.enviarComentario = async function(){
+    const inp=document.getElementById('cmt-input'); const body=(inp?.value||'').trim();
+    const itemTitle=window.cmt_itemTitle || (S.titulos && S.titulos[cmt_itemKey] && S.titulos[cmt_itemKey].titulo) || 'una reseña';
+    const targetUsername=window.cmt_targetUsername || '';
+    if(!body || !supabaseClient || !usuarioActual){ if(_origEnviarComentario) return _origEnviarComentario(); return; }
+    try{
+      const res=await supabaseClient.from('review_comments').insert({user_id:usuarioActual.id,item_key:cmt_itemKey,target_user_id:cmt_targetId,body:body,username:S.perfil.usuario});
+      if(res.error) throw res.error;
+      try{await logActivity('review_commented', null, {title:itemTitle, text:body, target_username:targetUsername});}catch(e){}
+      try{if(cmt_targetId && String(cmt_targetId)!==String(usuarioActual.id)){await supabaseClient.from('notificaciones').insert({user_id:cmt_targetId,tipo:'comment',mensaje:'@'+(S.perfil.usuario||'usuario')+' comentó tu reseña sobre '+itemTitle+'.',leida:false});}}catch(e){}
+      inp.value=''; cargarComentarios(); if(typeof cargarNotificaciones==='function') cargarNotificaciones(); toast('Comentario enviado ✓');
+    }catch(e){toast('Error: '+e.message);}
+  };
+
+  const _origRamigos = typeof ramigos==='function' ? ramigos : null;
+  window.ramigos = async function(){
+    if(_origRamigos) await _origRamigos();
+    try{const fd=document.getElementById('fdl'); if(!fd) return; fd.querySelectorAll('.fdc').forEach(card=>{ if(card.textContent.includes('comentó una reseña') && !card.querySelector('.comment-chip')){ const d=document.createElement('div'); d.className='comment-chip'; d.textContent='Nuevo comentario visible en actividad'; card.querySelector('.fdtxt')?.after(d); }});}catch(e){}
+  };
+
+  const _origRconjunto = typeof rconjunto==='function' ? rconjunto : null;
+  window.rconjunto = function(){
+    if(_origRconjunto) _origRconjunto();
+    const sec=document.querySelector('#v-conjunto .sec'); if(!sec || sec.dataset.olladaJoint==='1') return; sec.dataset.olladaJoint='1';
+    const h=sec.querySelector('h2'); if(h) h.textContent='Juntos';
+    const sub=sec.querySelector('.ssub'); if(sub) sub.textContent='Tu espacio compartido para decidir qué ver con pareja, amigos o grupo. Crea un código, invita y guardad títulos juntos.';
+    const intro=document.createElement('div'); intro.innerHTML=`<div class="joint-highlight"><div><b>👁️ Nuevo: más fácil de encontrar</b><span>Juntos aparece en Inicio, Perfil y menú web. Ya no queda escondido.</span></div><button onclick="document.getElementById('joint-name')?.focus()">Crear ahora</button></div><div class="joint-intro"><div class="joint-step"><div class="n">1</div><b>Crea</b><span>Pon nombre al espacio compartido.</span></div><div class="joint-step"><div class="n">2</div><b>Invita</b><span>Comparte el código con otra persona.</span></div><div class="joint-step"><div class="n">3</div><b>Elegid</b><span>Añadid títulos y decidid qué ver.</span></div></div>`;
+    sub?.after(intro);
+  };
+
+  window.rperfil = function(){
+    const root=document.getElementById('v-perfil'); if(!root) return;
+    const p=S.perfil||{}; const st=statsData(); const favs=st.lst.filter(e=>e.favorito).sort((a,b)=>(b.puntuacion||0)-(a.puntuacion||0)); const reviews=st.lst.filter(e=>(e.resena||'').trim()).slice(0,4);
+    const heroBg=p.banner_url?`<div class="op-hero-img" style="background-image:url('${esc(p.banner_url)}')"></div>`:`<div class="op-hero-img"></div>`;
+    root.innerHTML=`<div class="ollada-profile"><section class="op-hero">${heroBg}<div class="op-hero-inner">${profileAvatarHTML('op-avatar')}<div class="op-name">@${esc(p.usuario||'cinephile')}</div><div class="op-bio">${esc(p.bio||'Viviendo fotograma a fotograma.')}</div><div class="op-actions"><button class="primary" onclick="compartirPerfil()">📸 Compartir perfil</button><button onclick="oedit()">✏️ Editar</button><button onclick="abrirMiPerfilPublico()">👁️ Ver público</button><button onclick="cerrarSesion()">🚪 Salir</button></div></div></section><div class="op-stats" id="pstats"><div class="op-stat"><b>${st.m}</b><span>Películas</span></div><div class="op-stat"><b>${st.s}</b><span>Series</span></div><div class="op-stat"><b>${st.h}h</b><span>Horas</span></div><div class="op-stat"><b>${st.med}</b><span>Media</span></div></div><div class="op-grid"><main><div class="op-card"><div class="op-title"><h3>🏆 Top favoritos</h3><button onclick="setTabPerfil('todo')">Ver biblioteca</button></div><div class="op-fav-row">${savedPosterGrid(favs,4)}</div></div><div class="op-card" style="margin-top:16px"><div class="op-title"><h3>🎬 Biblioteca</h3><button onclick="ir('buscar')">Añadir más</button></div><div class="op-tabs"><button class="ptab on" data-tab="todo" onclick="setTabPerfil('todo')">Todo <span id="tc-todo">${st.lst.length}</span></button><button class="ptab" data-tab="viendo" onclick="setTabPerfil('viendo')">▶️ Viendo <span id="tc-viendo">${st.lst.filter(e=>e.estado==='viendo').length}</span></button><button class="ptab" data-tab="visto" onclick="setTabPerfil('visto')">✅ Vistos <span id="tc-visto">${st.vst.length}</span></button><button class="ptab" data-tab="pendiente" onclick="setTabPerfil('pendiente')">📌 Pendientes <span id="tc-pendiente">${st.lst.filter(e=>e.estado==='pendiente').length}</span></button><button class="ptab" data-tab="abandonado" onclick="setTabPerfil('abandonado')">❌ Abandon. <span id="tc-abandonado">${st.lst.filter(e=>e.estado==='abandonado').length}</span></button></div><div class="op-library" id="wgrd"></div></div></main><aside><div class="op-card"><div class="op-title"><h3>⚡ Accesos</h3></div><div class="op-menu-grid"><button class="op-menu" onclick="ir('conjunto')"><span>🤝</span>Juntos</button><button class="op-menu" onclick="ir('ia')"><span>✨</span>IA</button><button class="op-menu" onclick="ir('wrapped')"><span>🏆</span>Wrapped</button><button class="op-menu" onclick="ir('listas')"><span>📋</span>Listas</button><button class="op-menu" onclick="mostrarStatsAvanzadas()"><span>📊</span>Stats</button><button class="op-menu" onclick="abrirNotificaciones()"><span>🔔</span>Notifs</button></div></div><div class="op-card" style="margin-top:16px"><div class="op-title"><h3>💬 Reseñas recientes</h3></div><div class="op-review-list">${reviews.length?reviews.map(r=>`<div class="op-review-item"><b>${esc(r.titulo)}</b><p>${esc(String(r.resena).slice(0,130))}${String(r.resena).length>130?'…':''}</p></div>`).join(''):'<div class="dash-empty">Escribe una reseña y aparecerá aquí.</div>'}</div></div><div class="op-card" style="margin-top:16px"><div class="op-title"><h3>🏅 Logros</h3></div><div class="op-badges" id="bgrd"></div></div></aside></div></div>`;
+    setHeaderAvatar();
+    const logros=[{i:'🎬',n:'Primera vez',e:st.lst.length>=1},{i:'🔟',n:'Diez títulos',e:st.lst.length>=10},{i:'✍️',n:'Crítico/a',e:st.lst.filter(e=>e.resena).length>=3},{i:'📺',n:'Maratonista',e:st.s>=5},{i:'🎞️',n:'Cinéfilo/a',e:st.m>=10},{i:'🗂️',n:'Curador/a',e:favs.length>=4}];
+    const bgrd=document.getElementById('bgrd'); if(bgrd) bgrd.innerHTML=logros.map(b=>`<div class="op-badge ${b.e?'':'lck'}"><div class="be">${b.i}</div><div class="bn">${b.n}</div><div class="bs">${b.e?'Obtenido ✓':'Bloqueado'}</div></div>`).join('');
+    tabPerfilActual=tabPerfilActual||'todo'; setTabPerfil(tabPerfilActual);
+  };
+
+  window.renderTabPerfil = function(){
+    const st=statsData(); const items=tabPerfilActual==='todo'?st.lst:st.lst.filter(e=>e.estado===tabPerfilActual); const grid=document.getElementById('wgrd'); if(!grid) return;
+    document.querySelectorAll('.ptab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tabPerfilActual));
+    if(!items.length){const msgs={todo:'Aún no has añadido nada.',viendo:'No estás viendo nada ahora.',visto:'Nada marcado como visto aún.',pendiente:'Tu watchlist está vacía.',abandonado:'No has abandonado nada.'}; grid.innerHTML=`<p style="color:var(--text3);font-size:12px;grid-column:1/-1;padding:10px 0">${msgs[tabPerfilActual]||''}</p>`; return;}
+    grid.innerHTML=items.slice(0,30).map(e=>tarjeta(reifySaved(e),true)).join('');
+  };
+
+  const _origCompartirPerfil = typeof compartirPerfil==='function' ? compartirPerfil : null;
+  window.compartirPerfil = function(){ if(_origCompartirPerfil) return _origCompartirPerfil(); };
+
+  // Brand in dynamic share cards / wrapped generated later
+  const _origRenderShareCard = typeof renderShareCard==='function' ? renderShareCard : null;
+  if(_origRenderShareCard){window.renderShareCard=function(){_origRenderShareCard(); document.querySelectorAll('.share-card-brand,.share-card-footer-brand').forEach(e=>e.textContent='OLLADA');};}
+
+  // First paint polish
+  window.addEventListener('resize', function(){try{aplicarModoCineCircle(); if(vistaActual==='inicio') rinicio();}catch(e){}},{passive:true});
+})();
+
+
 aplicarModoCineCircle();
 initSupabaseAuth().then(()=>{const u=new URLSearchParams(location.search).get("u"); if(u) abrirPerfilPublico(u);});
+
+
 
 </script>
 </body>

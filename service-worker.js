@@ -1,26 +1,23 @@
-const CACHE_NAME = "cinecircle-pwa-v2";
+const CACHE_NAME = "ollada-pwa-v4-appfix";
 const APP_SHELL = [
   "/",
-  "/?modo=app",
+  "/index.html",
   "/app.html",
   "/manifest.webmanifest",
   "/icons/icon-192.png",
   "/icons/icon-512.png",
-  "/icons/maskable-512.png"
+  "/icons/maskable-512.png",
+  "/icons/apple-touch-icon.png"
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).catch(() => null)
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).catch(() => null));
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))
-    )
+    caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
   );
   self.clients.claim();
 });
@@ -28,13 +25,9 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const request = event.request;
   if (request.method !== "GET") return;
-
   const url = new URL(request.url);
-
-  // No cachear llamadas externas/API para evitar datos antiguos de Supabase/TMDb/CDN.
   if (url.origin !== self.location.origin) return;
 
-  // Navegación: network first, fallback a caché.
   if (request.mode === "navigate") {
     event.respondWith(
       fetch(request)
@@ -43,12 +36,14 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
           return response;
         })
-        .catch(() => caches.match(request).then((cached) => cached || caches.match("/")))
+        .catch(() => {
+          const appLike = url.pathname.endsWith('/app.html') || url.searchParams.get('modo') === 'app';
+          return caches.match(appLike ? '/app.html' : '/index.html').then((cached) => cached || caches.match('/'));
+        })
     );
     return;
   }
 
-  // Recursos locales: cache first con actualización silenciosa.
   event.respondWith(
     caches.match(request).then((cached) => {
       const fetched = fetch(request).then((response) => {

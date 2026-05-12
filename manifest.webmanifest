@@ -1,9 +1,9 @@
 {
-  "name": "CineCircle — Tu universo cinematográfico",
-  "short_name": "CineCircle",
-  "description": "Red social de películas y series. Registra, puntúa y comparte con tus amigos.",
-  "id": "/",
-  "start_url": "/?modo=app",
+  "name": "Ollada — Tu mirada al cine y las series",
+  "short_name": "Ollada",
+  "description": "App social de películas y series: registra, puntúa, crea listas y decide qué ver con amigos.",
+  "id": "/app.html",
+  "start_url": "/app.html",
   "scope": "/",
   "display": "standalone",
   "display_override": [
