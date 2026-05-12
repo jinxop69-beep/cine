@@ -1,4 +1,4 @@
-const CACHE_NAME = "ollada-pwa-v6-responsive-fix";
+const CACHE_NAME = "ollada-pwa-v7-headerfix";
 const APP_SHELL = [
   "/",
   "/index.html",

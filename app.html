@@ -25,8 +25,58 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <!-- Supabase client: necesario para login real y guardado online -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+/* === FIX DEFINITIVO MODO WEB/APP === */
+function aplicarModoOlladaFinal(){
+  try{
+    var qs=new URLSearchParams(location.search);
+    var standalone=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone;
+    var path=(location.pathname||'').toLowerCase();
+    var forceApp = path.endsWith('/app.html') || qs.get('modo')==='app' || standalone;
+    var forceWeb = qs.get('modo')==='web';
+    var app = forceWeb ? false : forceApp;
+    document.documentElement.classList.toggle('app-mode', app);
+    document.documentElement.classList.toggle('web-mode', !app);
+    document.documentElement.setAttribute('data-mode', app?'app':'web');
+    var btn=document.getElementById('mode-toggle');
+    if(btn) btn.textContent=app?'🌐 Web':'📱 App';
+  }catch(e){}
+}
+aplicarModoCineCircle = aplicarModoOlladaFinal;
+aplicarModoOllada = aplicarModoOlladaFinal;
+window.addEventListener('resize', function(){
+  clearTimeout(window.__olladaResizeFix);
+  window.__olladaResizeFix=setTimeout(aplicarModoOlladaFinal,120);
+});
+setTimeout(aplicarModoOlladaFinal,0);
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js">
+/* === FIX DEFINITIVO MODO WEB/APP === */
+function aplicarModoOlladaFinal(){
+  try{
+    var qs=new URLSearchParams(location.search);
+    var standalone=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone;
+    var path=(location.pathname||'').toLowerCase();
+    var forceApp = path.endsWith('/app.html') || qs.get('modo')==='app' || standalone;
+    var forceWeb = qs.get('modo')==='web';
+    var app = forceWeb ? false : forceApp;
+    document.documentElement.classList.toggle('app-mode', app);
+    document.documentElement.classList.toggle('web-mode', !app);
+    document.documentElement.setAttribute('data-mode', app?'app':'web');
+    var btn=document.getElementById('mode-toggle');
+    if(btn) btn.textContent=app?'🌐 Web':'📱 App';
+  }catch(e){}
+}
+aplicarModoCineCircle = aplicarModoOlladaFinal;
+aplicarModoOllada = aplicarModoOlladaFinal;
+window.addEventListener('resize', function(){
+  clearTimeout(window.__olladaResizeFix);
+  window.__olladaResizeFix=setTimeout(aplicarModoOlladaFinal,120);
+});
+setTimeout(aplicarModoOlladaFinal,0);
+
+</script>
 <script>
   // Rellena estos valores con Project Settings → API en Supabase.
   // En un proyecto Next/Vercel se usan variables NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY.
@@ -34,6 +84,31 @@
     SUPABASE_URL: "https://gjahvbaecnavzphlwwbn.supabase.co",
     SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqYWh2YmFlY25hdnpwaGx3d2JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MzI2MTMsImV4cCI6MjA5NDAwODYxM30.TYAO7tQ_fC7h8E2A_N6h-9fCbAmH6YRY0Dn1Fg5ifgU"
   };
+
+/* === FIX DEFINITIVO MODO WEB/APP === */
+function aplicarModoOlladaFinal(){
+  try{
+    var qs=new URLSearchParams(location.search);
+    var standalone=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone;
+    var path=(location.pathname||'').toLowerCase();
+    var forceApp = path.endsWith('/app.html') || qs.get('modo')==='app' || standalone;
+    var forceWeb = qs.get('modo')==='web';
+    var app = forceWeb ? false : forceApp;
+    document.documentElement.classList.toggle('app-mode', app);
+    document.documentElement.classList.toggle('web-mode', !app);
+    document.documentElement.setAttribute('data-mode', app?'app':'web');
+    var btn=document.getElementById('mode-toggle');
+    if(btn) btn.textContent=app?'🌐 Web':'📱 App';
+  }catch(e){}
+}
+aplicarModoCineCircle = aplicarModoOlladaFinal;
+aplicarModoOllada = aplicarModoOlladaFinal;
+window.addEventListener('resize', function(){
+  clearTimeout(window.__olladaResizeFix);
+  window.__olladaResizeFix=setTimeout(aplicarModoOlladaFinal,120);
+});
+setTimeout(aplicarModoOlladaFinal,0);
+
 </script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -773,6 +848,42 @@ html.app-mode .ollada-dash{display:block!important;padding:0!important}
 @media(min-width:881px){
   html.app-mode .hdr,html.app-mode .main,html.app-mode .bnav{max-width:520px!important;margin-left:auto!important;margin-right:auto!important}
   html.app-mode .bnav{left:50%!important;right:auto!important;width:520px!important;transform:translateX(-50%)!important}
+}
+
+
+/* === FIX DEFINITIVO HEADER MÓVIL / APP === */
+@media(max-width:880px){
+  html.web-mode .nav{display:none!important;}
+  html.web-mode .bnav{display:block!important;}
+  html.web-mode .hdr{height:58px!important;padding:0 12px!important;gap:8px!important;overflow:hidden!important;max-width:none!important;width:100%!important;margin:0!important;border-left:0!important;border-right:0!important;}
+  html.web-mode .main{max-width:none!important;width:100%!important;margin:0!important;border-left:0!important;border-right:0!important;padding-bottom:calc(78px + env(safe-area-inset-bottom))!important;}
+  html.web-mode .bnav{left:0!important;right:0!important;width:100%!important;transform:none!important;max-width:none!important;border-left:0!important;border-right:0!important;}
+  html.web-mode .logo{gap:8px!important;min-width:0!important;flex:0 0 auto!important;}
+  html.web-mode .logo-ico{width:46px!important;height:30px!important;flex:0 0 auto!important;}
+  html.web-mode .logo-txt{font-size:20px!important;max-width:130px!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+  html.web-mode .hdr-right{margin-left:auto!important;gap:6px!important;flex:0 0 auto!important;}
+  html.web-mode .live-badge,html.web-mode .mode-toggle{display:none!important;}
+  html.web-mode .auth-hbtn{padding:8px 13px!important;font-size:12px!important;max-width:76px!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+  html.web-mode .hdr-av{width:34px!important;height:34px!important;border-radius:10px!important;}
+}
+html.app-mode .nav{display:none!important;}
+html.app-mode .bnav{display:block!important;}
+html.app-mode .live-badge,html.app-mode .mode-toggle{display:none!important;}
+html.app-mode .hdr{height:58px!important;padding:0 12px!important;gap:8px!important;overflow:hidden!important;}
+html.app-mode .logo{gap:8px!important;min-width:0!important;flex:0 0 auto!important;}
+html.app-mode .logo-ico{width:46px!important;height:30px!important;flex:0 0 auto!important;}
+html.app-mode .logo-txt{font-size:20px!important;max-width:130px!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+html.app-mode .hdr-right{margin-left:auto!important;gap:6px!important;flex:0 0 auto!important;}
+html.app-mode .auth-hbtn{padding:8px 13px!important;font-size:12px!important;max-width:76px!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:10px!important;}
+@media(max-width:560px){
+  html.app-mode .hdr,html.app-mode .main,html.app-mode .bnav{max-width:none!important;width:100%!important;margin-left:0!important;margin-right:0!important;border-left:0!important;border-right:0!important;}
+  html.app-mode .bnav{left:0!important;right:0!important;transform:none!important;}
+  html.app-mode .hero{padding-top:42px!important;}
+}
+@media(min-width:881px){
+  html.web-mode .nav{display:flex!important;}
+  html.web-mode .bnav{display:none!important;}
 }
 
 </style>
@@ -3316,6 +3427,31 @@ aplicarModoCineCircle();
 initSupabaseAuth().then(()=>{const u=new URLSearchParams(location.search).get("u"); if(u) abrirPerfilPublico(u);});
 
 
+
+
+/* === FIX DEFINITIVO MODO WEB/APP === */
+function aplicarModoOlladaFinal(){
+  try{
+    var qs=new URLSearchParams(location.search);
+    var standalone=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone;
+    var path=(location.pathname||'').toLowerCase();
+    var forceApp = path.endsWith('/app.html') || qs.get('modo')==='app' || standalone;
+    var forceWeb = qs.get('modo')==='web';
+    var app = forceWeb ? false : forceApp;
+    document.documentElement.classList.toggle('app-mode', app);
+    document.documentElement.classList.toggle('web-mode', !app);
+    document.documentElement.setAttribute('data-mode', app?'app':'web');
+    var btn=document.getElementById('mode-toggle');
+    if(btn) btn.textContent=app?'🌐 Web':'📱 App';
+  }catch(e){}
+}
+aplicarModoCineCircle = aplicarModoOlladaFinal;
+aplicarModoOllada = aplicarModoOlladaFinal;
+window.addEventListener('resize', function(){
+  clearTimeout(window.__olladaResizeFix);
+  window.__olladaResizeFix=setTimeout(aplicarModoOlladaFinal,120);
+});
+setTimeout(aplicarModoOlladaFinal,0);
 
 </script>
 </body>
