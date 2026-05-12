@@ -906,65 +906,161 @@ html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:1
 @media(min-width:881px){.of-profile{max-width:1280px;margin:0 auto;padding:22px}.of-hero{border-radius:32px;min-height:310px}.of-stats{max-width:780px;margin:-22px auto 0}.of-card{margin:20px 0 0}.of-profile{display:block}.of-library{flex-wrap:wrap!important;overflow:visible!important}.of-grid{display:grid}.of-poster{width:136px;flex-basis:136px}.of-poster img,.of-poster .cph{width:136px;height:204px}}
 
 </style>
+<style>
 
-<style id="ollada-app-profile-compact-css">
-/* === SOLO APP: perfil móvil compacto estilo mockup === */
-html.app-mode #v-perfil{background:#07070a!important;min-height:100vh;overflow-x:hidden!important}
-html.app-mode .ollada-profile{padding:0 16px 96px!important;max-width:520px!important;margin:0 auto!important;overflow-x:hidden!important}
-html.app-mode .opm-hero{position:relative;margin:0 -16px 18px!important;min-height:405px;border-radius:0 0 28px 28px;overflow:hidden;background:radial-gradient(circle at 50% 18%,rgba(236,72,153,.36),transparent 34%),radial-gradient(circle at 50% 65%,rgba(124,58,237,.18),transparent 42%),linear-gradient(180deg,#1a0d2d 0%,#090a12 72%,#07070a 100%);border-bottom:1px solid rgba(255,255,255,.08)}
-html.app-mode .opm-hero:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent 24%),linear-gradient(0deg,#07070a 0%,rgba(7,7,10,.15) 50%,transparent 100%);pointer-events:none}
-html.app-mode .opm-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.34;filter:saturate(1.1) contrast(1.02)}
-html.app-mode .opm-inner{position:relative;z-index:1;min-height:405px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;text-align:center;padding:34px 18px 22px!important}
-html.app-mode .opm-avatar{width:104px;height:104px;border-radius:999px;border:3px solid rgba(217,70,239,.65);background:#111;display:flex;align-items:center;justify-content:center;font-size:46px;overflow:hidden;box-shadow:0 0 0 7px rgba(217,70,239,.10),0 14px 45px rgba(0,0,0,.55);position:relative}
-html.app-mode .opm-avatar img{width:100%;height:100%;object-fit:cover}
-html.app-mode .opm-edit-dot{position:absolute;right:calc(50% - 66px);bottom:184px;width:32px;height:32px;border-radius:999px;border:2px solid rgba(8,8,10,.82);background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 8px 22px rgba(0,0,0,.45)}
-html.app-mode .opm-name{font-weight:950;font-size:23px;line-height:1.05;margin-top:14px;color:#fff;letter-spacing:-.02em}
-html.app-mode .opm-handle{font-size:12px;color:rgba(255,255,255,.55);margin-top:4px;font-weight:700}
-html.app-mode .opm-glass{width:100%;max-width:372px;margin-top:14px;border:1px solid rgba(255,255,255,.10);background:rgba(12,13,20,.48);backdrop-filter:blur(18px);border-radius:16px;padding:12px 12px 13px;box-shadow:0 18px 46px rgba(0,0,0,.25)}
-html.app-mode .opm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:11px}
-html.app-mode .opm-stat{padding:0 6px;text-align:center;border-right:1px solid rgba(255,255,255,.10)}
-html.app-mode .opm-stat:last-child{border-right:0}
-html.app-mode .opm-stat b{display:block;font-size:18px;color:#fff;line-height:1;font-weight:950}
-html.app-mode .opm-stat span{display:block;margin-top:5px;font-size:9px;text-transform:uppercase;color:rgba(255,255,255,.48);font-weight:800;letter-spacing:.03em}
-html.app-mode .opm-bio{font-size:12px;line-height:1.4;color:rgba(255,255,255,.62);max-width:300px;margin:0 auto}
-html.app-mode .opm-actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin:12px 0 0}
-html.app-mode .opm-actions button{border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.065);color:#fff;padding:9px 12px;font-size:12px;font-weight:900}
-html.app-mode .opm-actions .primary{border:0;background:linear-gradient(135deg,#d946ef,#7c3aed);box-shadow:0 10px 30px rgba(217,70,239,.24)}
-html.app-mode .opm-section{margin:0 0 16px!important;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035);border-radius:20px;padding:14px!important;overflow:hidden}
-html.app-mode .opm-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-html.app-mode .opm-section-head h3{margin:0;font-size:16px;line-height:1.2;font-weight:950;color:#fff}
-html.app-mode .opm-section-head button{border:0;background:transparent;color:#c084fc;font-size:12px;font-weight:900;padding:4px 0}
-html.app-mode .opm-poster-row{display:flex;gap:10px;overflow-x:auto;padding:0 0 4px;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
-html.app-mode .opm-poster-row::-webkit-scrollbar{display:none}
-html.app-mode .opm-poster{min-width:96px;width:96px;scroll-snap-align:start}
-html.app-mode .opm-poster .poster{aspect-ratio:2/3;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
-html.app-mode .opm-poster img{width:100%;height:100%;object-fit:cover}
-html.app-mode .opm-poster .pt{font-size:10px;font-weight:800;color:#fff;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0!important}
-html.app-mode .opm-poster .rt{font-size:10px;color:#fbbf24;margin-top:2px;font-weight:800}
-html.app-mode .opm-empty{border:1px dashed rgba(255,255,255,.12);border-radius:14px;padding:22px 14px;text-align:center;color:rgba(255,255,255,.35);font-size:12px}
-html.app-mode .opm-activity{display:grid;gap:9px}
-html.app-mode .opm-activity-item{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;padding:9px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06)}
-html.app-mode .opm-activity-item img{width:42px;height:56px;border-radius:8px;object-fit:cover;background:#17171c}
-html.app-mode .opm-activity-item b{display:block;font-size:12px;color:#fff;line-height:1.2;margin-bottom:3px}
-html.app-mode .opm-activity-item span{display:block;font-size:10px;color:rgba(255,255,255,.48);line-height:1.25}
-html.app-mode .opm-activity-item .heart{color:#f43f5e;font-size:18px;padding-right:4px}
-html.app-mode .opm-tabs{display:flex;gap:7px;overflow-x:auto;margin:0 0 12px!important;padding:0!important;-webkit-overflow-scrolling:touch}
-html.app-mode .opm-tabs::-webkit-scrollbar{display:none}
-html.app-mode .opm-tabs .ptab{padding:8px 12px!important;font-size:12px!important}
-html.app-mode .opm-library{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px!important;overflow:visible!important}
-html.app-mode .opm-library .card{border-radius:10px!important}
-html.app-mode .opm-menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-html.app-mode .opm-menu{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#fff;border-radius:15px;padding:12px 7px;text-align:center;font-size:11px;font-weight:900;min-height:68px}
-html.app-mode .opm-menu span{display:block;font-size:22px;margin-bottom:6px}
-html.app-mode .opm-badges{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-html.app-mode .opm-badge{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035);border-radius:15px;padding:11px;font-size:11px}
-html.app-mode .opm-badge.lck{opacity:.42;filter:grayscale(1)}
-html.app-mode .opm-badge .be{font-size:22px;margin-bottom:5px}
-html.app-mode .opm-badge .bn{font-weight:950;color:#fff}
-html.app-mode .opm-badge .bs{font-size:10px;color:rgba(255,255,255,.35);margin-top:3px}
-@media(max-width:380px){html.app-mode .opm-avatar{width:92px;height:92px}html.app-mode .opm-name{font-size:21px}html.app-mode .opm-glass{max-width:340px}html.app-mode .opm-poster{min-width:86px;width:86px}html.app-mode .opm-library{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+/* === OLLADA APP MOCKUP V2: perfil móvil estilo mockup, SOLO CSS === */
+@media(max-width:880px){
+  html.app-mode, html.app-mode body{background:#050509!important;}
+  html.app-mode body.ollada-mobile-ui .hdr{
+    height:72px!important;
+    padding:0 18px!important;
+    background:linear-gradient(180deg,rgba(5,5,9,.98),rgba(8,8,12,.88))!important;
+    border-bottom:1px solid rgba(255,255,255,.07)!important;
+    box-shadow:0 16px 32px rgba(0,0,0,.22)!important;
+  }
+  html.app-mode body.ollada-mobile-ui .logo{gap:12px!important;}
+  html.app-mode body.ollada-mobile-ui .logo-ico{
+    width:54px!important;height:34px!important;border-radius:0!important;background:none!important;box-shadow:none!important;
+  }
+  html.app-mode body.ollada-mobile-ui .logo-eye{width:54px!important;height:34px!important;filter:drop-shadow(0 0 16px rgba(217,70,239,.45))!important;}
+  html.app-mode body.ollada-mobile-ui .logo-txt{font-size:23px!important;font-family:'Inter',system-ui,sans-serif!important;font-weight:950!important;letter-spacing:-.05em!important;}
+  html.app-mode body.ollada-mobile-ui .auth-hbtn{padding:11px 16px!important;border-radius:999px!important;font-size:13px!important;background:rgba(255,255,255,.06)!important;}
+  html.app-mode body.ollada-mobile-ui .hdr-av{width:44px!important;height:44px!important;border-radius:14px!important;background:rgba(255,255,255,.08)!important;font-size:22px!important;}
+  html.app-mode body.ollada-mobile-ui .main{padding-bottom:86px!important;}
+  html.app-mode body.ollada-mobile-ui .bnav{height:72px!important;background:rgba(5,5,8,.92)!important;border-top:1px solid rgba(255,255,255,.08)!important;box-shadow:0 -18px 42px rgba(0,0,0,.45)!important;}
+  html.app-mode body.ollada-mobile-ui .bnb{font-size:10px!important;font-weight:700!important;gap:4px!important;}
+  html.app-mode body.ollada-mobile-ui .bnb svg{width:24px!important;height:24px!important;}
+
+  /* INICIO APP: menos landing y más app */
+  html.app-mode body.ollada-mobile-ui .om-home{padding:16px 14px 22px!important;}
+  html.app-mode body.ollada-mobile-ui .om-hero-card{
+    border-radius:28px!important;
+    min-height:0!important;
+    padding:22px 18px 18px!important;
+    background:
+      radial-gradient(circle at 18% 12%,rgba(217,70,239,.24),transparent 34%),
+      radial-gradient(circle at 82% 8%,rgba(99,102,241,.22),transparent 36%),
+      linear-gradient(180deg,#15101e 0%,#09090d 100%)!important;
+    box-shadow:0 18px 48px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06)!important;
+  }
+  html.app-mode body.ollada-mobile-ui .om-hero-card h1{font-size:46px!important;margin:16px 0 8px!important;line-height:.92!important;}
+  html.app-mode body.ollada-mobile-ui .om-hero-card p{font-size:13px!important;line-height:1.45!important;margin-bottom:15px!important;}
+  html.app-mode body.ollada-mobile-ui .om-kicker{font-size:11px!important;padding:6px 11px!important;}
+  html.app-mode body.ollada-mobile-ui .om-search{height:54px!important;border-radius:999px!important;background:rgba(0,0,0,.56)!important;}
+  html.app-mode body.ollada-mobile-ui .om-search button{height:44px!important;padding:0 16px!important;font-size:14px!important;}
+  html.app-mode body.ollada-mobile-ui .om-stats{gap:8px!important;margin-top:14px!important;}
+  html.app-mode body.ollada-mobile-ui .om-stats div{border-radius:16px!important;padding:11px 6px!important;}
+  html.app-mode body.ollada-mobile-ui .om-stats b{font-size:21px!important;}
+  html.app-mode body.ollada-mobile-ui .om-card,html.app-mode body.ollada-mobile-ui .om-section{border-radius:26px!important;margin-top:14px!important;padding:16px!important;background:rgba(255,255,255,.035)!important;}
+  html.app-mode body.ollada-mobile-ui .om-title{font-size:18px!important;line-height:1.15!important;}
+  html.app-mode body.ollada-mobile-ui .om-section h2{font-size:22px!important;}
+  html.app-mode body.ollada-mobile-ui .om-poster-wrap{flex-basis:126px!important;}
+  html.app-mode body.ollada-mobile-ui .om-poster-wrap .card{border-radius:16px!important;}
+
+  /* PERFIL APP ESTILO MOCKUP */
+  html.app-mode body.ollada-mobile-ui .of-profile{
+    background:
+      radial-gradient(circle at 50% -90px,rgba(217,70,239,.18),transparent 42%),
+      linear-gradient(180deg,#09090d,#050507 42%,#050507)!important;
+    padding-bottom:88px!important;
+  }
+  html.app-mode body.ollada-mobile-ui .of-hero{
+    min-height:0!important;
+    padding:18px 16px 14px!important;
+    margin:0 0 0!important;
+    text-align:center!important;
+    border-radius:0 0 32px 32px!important;
+    background:
+      linear-gradient(180deg,rgba(0,0,0,.04),rgba(5,5,9,.10) 52%,#050507 100%),
+      radial-gradient(circle at 50% 4%,rgba(217,70,239,.36),transparent 38%),
+      radial-gradient(circle at 10% 0%,rgba(99,102,241,.20),transparent 42%),
+      linear-gradient(180deg,#21112d 0%,#0a0a10 100%)!important;
+    box-shadow:0 26px 50px rgba(0,0,0,.30)!important;
+  }
+  html.app-mode body.ollada-mobile-ui .of-hero:before{
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.02),transparent 52%),
+      radial-gradient(circle at 50% 10%,rgba(236,72,153,.30),transparent 26%)!important;
+    opacity:.95!important;
+  }
+  html.app-mode body.ollada-mobile-ui .of-avatar{
+    width:96px!important;height:96px!important;
+    border-radius:50%!important;
+    margin:2px auto 10px!important;
+    border:3px solid rgba(217,70,239,.65)!important;
+    box-shadow:0 0 0 5px rgba(217,70,239,.13),0 14px 34px rgba(0,0,0,.55),0 0 34px rgba(217,70,239,.22)!important;
+    font-size:42px!important;
+  }
+  html.app-mode body.ollada-mobile-ui .of-hero h1{
+    font-family:'Inter',system-ui,sans-serif!important;
+    font-size:24px!important;line-height:1.05!important;margin:0 0 2px!important;font-weight:950!important;letter-spacing:-.04em!important;
+  }
+  html.app-mode body.ollada-mobile-ui .of-hero p{
+    font-size:12px!important;line-height:1.35!important;margin:0 auto 10px!important;max-width:270px!important;color:rgba(255,255,255,.64)!important;
+  }
+  html.app-mode body.ollada-mobile-ui .of-actions{
+    display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;max-width:330px!important;margin:0 auto!important;
+  }
+  html.app-mode body.ollada-mobile-ui .of-actions button{
+    padding:9px 10px!important;border-radius:999px!important;font-size:12px!important;min-height:38px!important;
+    background:rgba(255,255,255,.055)!important;border:1px solid rgba(255,255,255,.12)!important;box-shadow:none!important;
+  }
+  html.app-mode body.ollada-mobile-ui .of-actions .primary{background:linear-gradient(135deg,#d946ef,#7c3aed)!important;border:0!important;box-shadow:0 10px 26px rgba(217,70,239,.26)!important;}
+  html.app-mode body.ollada-mobile-ui .of-actions button:nth-child(3),
+  html.app-mode body.ollada-mobile-ui .of-actions button:nth-child(4){font-size:11px!important;opacity:.92!important;}
+
+  html.app-mode body.ollada-mobile-ui .of-stats{
+    display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:0!important;
+    margin:12px 16px 0!important;padding:0!important;
+    background:rgba(255,255,255,.045)!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:18px!important;
+    backdrop-filter:blur(14px)!important;overflow:hidden!important;box-shadow:0 16px 34px rgba(0,0,0,.20)!important;
+  }
+  html.app-mode body.ollada-mobile-ui .of-stats div{
+    padding:13px 5px 12px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;position:relative!important;
+  }
+  html.app-mode body.ollada-mobile-ui .of-stats div:not(:last-child):after{content:"";position:absolute;right:0;top:17%;bottom:17%;width:1px;background:rgba(255,255,255,.10)}
+  html.app-mode body.ollada-mobile-ui .of-stats b{font-size:19px!important;line-height:1.05!important;}
+  html.app-mode body.ollada-mobile-ui .of-stats span{font-size:8px!important;text-transform:none!important;color:rgba(255,255,255,.58)!important;font-weight:700!important;letter-spacing:0!important;}
+
+  html.app-mode body.ollada-mobile-ui .of-card{
+    margin:14px 14px 0!important;padding:14px!important;border-radius:22px!important;
+    background:rgba(255,255,255,.035)!important;border:1px solid rgba(255,255,255,.09)!important;
+    box-shadow:0 14px 36px rgba(0,0,0,.18)!important;
+  }
+  html.app-mode body.ollada-mobile-ui .of-head{margin-bottom:10px!important;}
+  html.app-mode body.ollada-mobile-ui .of-head h2{font-size:18px!important;letter-spacing:-.03em!important;}
+  html.app-mode body.ollada-mobile-ui .of-head button{font-size:11px!important;padding:8px 12px!important;}
+  html.app-mode body.ollada-mobile-ui .of-posters{gap:10px!important;padding-bottom:5px!important;}
+  html.app-mode body.ollada-mobile-ui .of-poster{width:94px!important;flex-basis:94px!important;}
+  html.app-mode body.ollada-mobile-ui .of-poster img,html.app-mode body.ollada-mobile-ui .of-poster .cph{width:94px!important;height:141px!important;border-radius:13px!important;}
+  html.app-mode body.ollada-mobile-ui .of-poster b{font-size:10px!important;margin-top:5px!important;}
+  html.app-mode body.ollada-mobile-ui .of-poster span{font-size:10px!important;}
+
+  html.app-mode body.ollada-mobile-ui .of-tabs{gap:7px!important;padding-bottom:8px!important;}
+  html.app-mode body.ollada-mobile-ui .of-tabs .ptab{padding:9px 12px!important;font-size:11px!important;}
+  html.app-mode body.ollada-mobile-ui .of-library{gap:10px!important;padding-bottom:4px!important;}
+  html.app-mode body.ollada-mobile-ui .of-library-item{flex-basis:108px!important;width:108px!important;}
+  html.app-mode body.ollada-mobile-ui .of-library-item .card{width:108px!important;min-width:108px!important;border-radius:14px!important;}
+  html.app-mode body.ollada-mobile-ui .of-menu{grid-template-columns:repeat(3,1fr)!important;gap:8px!important;}
+  html.app-mode body.ollada-mobile-ui .of-menu button{min-height:70px!important;border-radius:17px!important;padding:10px 8px!important;font-size:12px!important;text-align:center!important;}
+  html.app-mode body.ollada-mobile-ui .of-menu span{font-size:21px!important;margin-bottom:5px!important;}
+  html.app-mode body.ollada-mobile-ui .of-review{padding:11px!important;border-radius:14px!important;}
+  html.app-mode body.ollada-mobile-ui .of-review p{font-size:12px!important;}
+  html.app-mode body.ollada-mobile-ui .of-badges div{min-width:112px!important;border-radius:16px!important;padding:12px!important;}
+  html.app-mode body.ollada-mobile-ui .of-empty{padding:14px!important;border-radius:16px!important;font-size:12px!important;}
+
+  /* Detalle de peli en app: controles más proporcionados */
+  html.app-mode body.ollada-mobile-ui .mbox{background:#08080a!important;}
+  html.app-mode body.ollada-mobile-ui .mbody{padding:16px!important;}
+  html.app-mode body.ollada-mobile-ui .mtit{font-size:34px!important;}
+  html.app-mode body.ollada-mobile-ui .movw{font-size:14px!important;line-height:1.55!important;}
+  html.app-mode body.ollada-mobile-ui .sgrid{grid-template-columns:repeat(2,1fr)!important;gap:8px!important;}
+  html.app-mode body.ollada-mobile-ui .stbtn{min-height:72px!important;border-radius:16px!important;font-size:13px!important;}
+  html.app-mode body.ollada-mobile-ui .arow{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;}
+  html.app-mode body.ollada-mobile-ui .abtn{min-height:54px!important;border-radius:15px!important;font-size:13px!important;}
+  html.app-mode body.ollada-mobile-ui .rnum{width:44px!important;height:44px!important;border-radius:13px!important;font-size:14px!important;}
+}
 </style>
-
 </head>
 <body>
 <div id="toast-root"></div>
@@ -3499,76 +3595,6 @@ function alternarModoApp(){
     _olladaResizeTimer=setTimeout(function(){try{aplicarModoOllada(); if(vistaActual==='inicio') rinicio(); if(vistaActual==='perfil') rperfil();}catch(e){}},120);
   },{passive:true});
 })();
-
-
-
-<script id="ollada-app-profile-compact-js">
-(function(){
-  if(!document.documentElement.classList.contains('app-mode')) return;
-  const esc2 = (v)=>String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  const posterUrl=(e,w='w342')=>{try{return e&&e.poster_path?IMG(e.poster_path,w):''}catch(_){return e&&e.poster_path?'https://image.tmdb.org/t/p/'+w+e.poster_path:''}};
-  const itemYear=(e)=>String((e&&e.fecha)||'').slice(0,4)||'';
-  function profileAvatarCompact(cls){
-    const p=S.perfil||{};
-    if(p.avatar_url) return '<div class="'+cls+'"><img src="'+esc2(p.avatar_url)+'" alt="avatar" onerror="this.remove();this.parentNode.textContent=\''+esc2(p.avatar||'🎬')+'\'"></div>';
-    return '<div class="'+cls+'">'+esc2(p.avatar||'🎬')+'</div>';
-  }
-  function posterMini(e){
-    const src=posterUrl(e,'w342');
-    const title=esc2(e.titulo||e.title||'Título');
-    const rt=e.puntuacion>0?'⭐ '+esc2(e.puntuacion):'';
-    return '<div class="opm-poster" onclick="abrir(JSON.stringify(reifySaved(S.titulos[\''+esc2(e.item_key||'')+'\']||{})))"><div class="poster">'+(src?'<img src="'+src+'" alt="'+title+'" loading="lazy">':'')+'</div><div class="pt">'+title+'</div>'+(rt?'<div class="rt">'+rt+'</div>':'')+'</div>';
-  }
-  function posterMiniSafe(e){
-    const src=posterUrl(e,'w342');
-    const title=esc2(e.titulo||e.title||'Título');
-    const rt=e.puntuacion>0?'⭐ '+esc2(e.puntuacion):'';
-    const k=esc2(Object.keys(S.titulos||{}).find(key=>S.titulos[key]===e)||e.item_key||'');
-    return '<div class="opm-poster" onclick="abrir(JSON.stringify(reifySaved(S.titulos[\''+k+'\']||{})))"><div class="poster">'+(src?'<img src="'+src+'" alt="'+title+'" loading="lazy">':'<div class="cph">🎬</div>')+'</div><div class="pt">'+title+'</div>'+(rt?'<div class="rt">'+rt+'</div>':'')+'</div>';
-  }
-  function activityItem(e){
-    const src=posterUrl(e,'w185');
-    const title=esc2(e.titulo||'Título');
-    const meta=[itemYear(e), e.estado==='visto'?'Visto':e.estado==='viendo'?'Viendo':e.estado==='pendiente'?'Pendiente':'Guardado'].filter(Boolean).join(' · ');
-    return '<div class="opm-activity-item" onclick="abrir(JSON.stringify(reifySaved(S.titulos[\''+esc2(Object.keys(S.titulos||{}).find(k=>S.titulos[k]===e)||e.item_key||'')+'\']||{})))">'+(src?'<img src="'+src+'" alt="">':'<div style="width:42px;height:56px;border-radius:8px;background:#17171c;display:flex;align-items:center;justify-content:center">🎬</div>')+'<div><b>'+title+'</b><span>'+meta+'</span></div><div class="heart">'+(e.favorito?'♥':'›')+'</div></div>';
-  }
-  window.rperfil=function(){
-    const root=document.getElementById('v-perfil'); if(!root) return;
-    const p=S.perfil||{}; const st=statsData();
-    const favs=st.lst.filter(e=>e.favorito).sort((a,b)=>(b.puntuacion||0)-(a.puntuacion||0));
-    const top=(favs.length?favs:st.lst.slice().sort((a,b)=>(b.puntuacion||0)-(a.puntuacion||0))).slice(0,8);
-    const recent=st.lst.slice().sort((a,b)=>String(b.updated_at||b.created_at||'').localeCompare(String(a.updated_at||a.created_at||''))).slice(0,4);
-    const reviews=st.lst.filter(e=>(e.resena||'').trim()).slice(0,3);
-    const bg=p.banner_url?'<div class="opm-hero-bg" style="background-image:url(\''+esc2(p.banner_url)+'\')"></div>':'<div class="opm-hero-bg"></div>';
-    root.innerHTML='<div class="ollada-profile">'
-      +'<section class="opm-hero">'+bg+'<div class="opm-inner">'+profileAvatarCompact('opm-avatar')+'<button class="opm-edit-dot" onclick="oedit()">✎</button><div class="opm-name">'+esc2(p.nombre||p.usuario||'Kenneth')+'</div><div class="opm-handle">@'+esc2(p.usuario||'cinephile')+'</div><div class="opm-glass"><div class="opm-stats" id="pstats"><div class="opm-stat"><b>'+st.m+'</b><span>Películas</span></div><div class="opm-stat"><b>'+st.s+'</b><span>Series</span></div><div class="opm-stat"><b>'+(S.listas||[]).length+'</b><span>Listas</span></div><div class="opm-stat"><b>'+st.med+'</b><span>Media</span></div></div><div class="opm-bio">'+esc2(p.bio||'Viviendo fotograma a fotograma.')+'</div><div class="opm-actions"><button class="primary" onclick="compartirPerfil()">Compartir</button><button onclick="abrirMiPerfilPublico()">Público</button><button onclick="oedit()">Editar</button></div></div></div></section>'
-      +'<section class="opm-section"><div class="opm-section-head"><h3>Top favoritos</h3><button onclick="setTabPerfil(\'todo\')">Ver todos</button></div>'+(top.length?'<div class="opm-poster-row">'+top.map(posterMiniSafe).join('')+'</div>':'<div class="opm-empty">Añade favoritos para verlos aquí.</div>')+'</section>'
-      +'<section class="opm-section"><div class="opm-section-head"><h3>Actividad reciente</h3><button onclick="ir(\'amigos\')">Ver feed</button></div><div class="opm-activity">'+(recent.length?recent.map(activityItem).join(''):'<div class="opm-empty">Cuando guardes o puntúes títulos aparecerán aquí.</div>')+'</div></section>'
-      +'<section class="opm-section"><div class="opm-section-head"><h3>Biblioteca</h3><button onclick="ir(\'buscar\')">Buscar</button></div><div class="opm-tabs"><button class="ptab on" data-tab="todo" onclick="setTabPerfil(\'todo\')">Todo <span id="tc-todo">'+st.lst.length+'</span></button><button class="ptab" data-tab="viendo" onclick="setTabPerfil(\'viendo\')">▶️ Viendo <span id="tc-viendo">'+st.lst.filter(e=>e.estado==='viendo').length+'</span></button><button class="ptab" data-tab="visto" onclick="setTabPerfil(\'visto\')">✅ Vistos <span id="tc-visto">'+st.vst.length+'</span></button><button class="ptab" data-tab="pendiente" onclick="setTabPerfil(\'pendiente\')">📌 Pendientes <span id="tc-pendiente">'+st.lst.filter(e=>e.estado==='pendiente').length+'</span></button><button class="ptab" data-tab="abandonado" onclick="setTabPerfil(\'abandonado\')">❌ Abandon. <span id="tc-abandonado">'+st.lst.filter(e=>e.estado==='abandonado').length+'</span></button></div><div class="opm-library" id="wgrd"></div></section>'
-      +'<section class="opm-section"><div class="opm-section-head"><h3>Accesos</h3></div><div class="opm-menu-grid"><button class="opm-menu" onclick="ir(\'conjunto\')"><span>🤝</span>Juntos</button><button class="opm-menu" onclick="ir(\'ia\')"><span>✨</span>IA</button><button class="opm-menu" onclick="ir(\'wrapped\')"><span>🏆</span>Wrapped</button><button class="opm-menu" onclick="ir(\'listas\')"><span>📋</span>Listas</button><button class="opm-menu" onclick="mostrarStatsAvanzadas()"><span>📊</span>Stats</button><button class="opm-menu" onclick="abrirNotificaciones()"><span>🔔</span>Notifs</button></div></section>'
-      +'<section class="opm-section"><div class="opm-section-head"><h3>Reseñas recientes</h3></div>'+(reviews.length?reviews.map(r=>'<div class="opm-activity-item"><div style="width:42px;height:56px;border-radius:8px;background:#17171c;display:flex;align-items:center;justify-content:center">💬</div><div><b>'+esc2(r.titulo)+'</b><span>'+esc2(String(r.resena).slice(0,90))+(String(r.resena).length>90?'…':'')+'</span></div><div class="heart">›</div></div>').join(''):'<div class="opm-empty">Escribe una reseña y aparecerá aquí.</div>')+'</section>'
-      +'<section class="opm-section"><div class="opm-section-head"><h3>Logros</h3></div><div class="opm-badges" id="bgrd"></div></section>'
-      +'</div>';
-    setHeaderAvatar();
-    const logros=[{i:'🎬',n:'Primera vez',e:st.lst.length>=1},{i:'🔟',n:'Diez títulos',e:st.lst.length>=10},{i:'✍️',n:'Crítico/a',e:st.lst.filter(e=>e.resena).length>=3},{i:'📺',n:'Maratonista',e:st.s>=5},{i:'🎞️',n:'Cinéfilo/a',e:st.m>=10},{i:'🗂️',n:'Curador/a',e:favs.length>=4}];
-    const bgrd=document.getElementById('bgrd'); if(bgrd) bgrd.innerHTML=logros.map(b=>'<div class="opm-badge '+(b.e?'':'lck')+'"><div class="be">'+b.i+'</div><div class="bn">'+b.n+'</div><div class="bs">'+(b.e?'Obtenido ✓':'Bloqueado')+'</div></div>').join('');
-    tabPerfilActual=tabPerfilActual||'todo'; setTabPerfil(tabPerfilActual);
-  };
-  const oldRenderTab=window.renderTabPerfil;
-  window.renderTabPerfil=function(){
-    const grid=document.getElementById('wgrd');
-    if(grid && grid.classList.contains('opm-library')){
-      const st=statsData(); const items=tabPerfilActual==='todo'?st.lst:st.lst.filter(e=>e.estado===tabPerfilActual);
-      document.querySelectorAll('.ptab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tabPerfilActual));
-      if(!items.length){grid.innerHTML='<div class="opm-empty" style="grid-column:1/-1">Nada por aquí todavía.</div>';return;}
-      grid.innerHTML=items.slice(0,18).map(e=>tarjeta(reifySaved(e),true)).join('');
-      return;
-    }
-    if(oldRenderTab) return oldRenderTab();
-  };
-  if(typeof vistaActual!=='undefined' && vistaActual==='perfil') setTimeout(()=>rperfil(),30);
-})();
-</script>
 
 
 aplicarModoCineCircle();
