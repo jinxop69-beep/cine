@@ -1756,15 +1756,8 @@ function tarjeta(item, pequena=false){
 
 /* ── INICIO ── */
 async function rinicio(){
-  rstats();
-  const row = document.getElementById("trend-row");
-  row.innerHTML = Array(8).fill(`<div class="pi"><div class="skel"></div></div>`).join("");
-  try{
-    const d = await tmdb("/trending/all/week");
-    row.innerHTML = (d.results||[]).slice(0,16).map(i=>`<div class="pi">${tarjeta(i)}</div>`).join("");
-  }catch{
-    row.innerHTML = `<p style="color:var(--text3);padding:18px;font-size:13px">No se pudieron cargar las tendencias. Comprueba tu conexión.</p>`;
-  }
+  /* stub — renderizado por v17 */
+  if(typeof v17home==='function') v17home();
 }
 
 function rstats(){
@@ -2432,68 +2425,8 @@ async function recomendarIA(){
 
 /* ── PERFIL ── */
 function rperfil(){
-  const p = S.perfil;
-  // Banner
-  const pbanEl = document.getElementById("pban");
-  if(p.banner_url){ pbanEl.style.backgroundImage="url('"+p.banner_url+"')"; pbanEl.style.background=""; }
-  else { pbanEl.style.backgroundImage=""; pbanEl.style.background=p.banner; }
-  // Avatar
-  const pavEl = document.getElementById("pav");
-  if(p.avatar_url) pavEl.innerHTML = '<img src="'+p.avatar_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:19px" onerror="this.style.display=\'none\'">';
-  else pavEl.textContent = p.avatar;
-  document.getElementById("pname").textContent = "@"+p.usuario;
-  document.getElementById("pbio").textContent   = p.bio;
-  document.getElementById("hdr-av").textContent = p.avatar;
-
-  const lst = Object.values(S.titulos);
-  const vst = lst.filter(e=>e.estado==="visto");
-  const m   = vst.filter(e=>e.media_type==="movie").length;
-  const s   = vst.filter(e=>e.media_type==="tv").length;
-  const h   = Math.round(m*2+s*8);
-  const pns = lst.filter(e=>e.puntuacion>0).map(e=>e.puntuacion);
-  const med = pns.length?(pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1):"—";
-
-  document.getElementById("pstats").innerHTML = [
-    {i:"🎬",v:m,    l:"Películas"},
-    {i:"📺",v:s,    l:"Series"},
-    {i:"⭐",v:med,  l:"Media"},
-    {i:"⏱️",v:h+"h",l:"Horas"},
-  ].map(x=>'<div class="pst"><div class="pst-i">'+x.i+'</div><div class="pst-v">'+x.v+'</div><div class="pst-l">'+x.l+'</div></div>').join("");
-
-  // Tab counters
-  const cnts = {
-    todo:       lst.length,
-    viendo:     lst.filter(e=>e.estado==="viendo").length,
-    visto:      vst.length,
-    pendiente:  lst.filter(e=>e.estado==="pendiente").length,
-    abandonado: lst.filter(e=>e.estado==="abandonado").length,
-  };
-  Object.entries(cnts).forEach(function(pair){
-    var el = document.getElementById("tc-"+pair[0]);
-    if(el) el.textContent = pair[1];
-  });
-
-  // Logros
-  const logros = [
-    {i:"🎬",n:"Primera vez",    e:lst.length>=1},
-    {i:"🔟",n:"Diez títulos",   e:lst.length>=10},
-    {i:"✍️",n:"Crítico/a",      e:lst.filter(function(e){return e.resena;}).length>=3},
-    {i:"📺",n:"Maratonista",    e:s>=5},
-    {i:"🎞️",n:"Cinéfilo/a",    e:m>=10},
-    {i:"🗂️",n:"Curador/a",     e:lst.filter(function(e){return e.favorito;}).length>=4},
-    {i:"💯",n:"Perfeccionista", e:lst.filter(function(e){return e.puntuacion===10;}).length>=3},
-    {i:"🌍",n:"Explorador/a",   e:lst.length>=25},
-  ];
-  document.getElementById("bgrd").innerHTML = logros.map(function(b){
-    return '<div class="bc'+(b.e?"":" lck")+'">'
-      +'<div class="be">'+b.i+'</div>'
-      +'<div class="bn">'+b.n+'</div>'
-      +'<div class="bs">'+(b.e?"Obtenido ✓":"Bloqueado")+'</div>'
-    +'</div>';
-  }).join("");
-
-  tabPerfilActual = tabPerfilActual||"todo";
-  renderTabPerfil();
+  /* stub — renderizado por v17 */
+  if(typeof v17profile==='function') v17profile();
 }
 
 var tabPerfilActual = "todo";
@@ -3892,6 +3825,8 @@ setTimeout(aplicarModoOlladaFinal,0);
 
   window.rinicio=rinicio=home;
   window.rperfil=rperfil=profile;
+  window.v17home=home;
+  window.v17profile=profile;
 
   var _oldIr=window.ir;
   if(_oldIr)window.ir=function(v){

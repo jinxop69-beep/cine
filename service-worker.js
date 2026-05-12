@@ -1,4 +1,4 @@
-const CACHE_NAME='ollada-pwa-v17d-no-flash';
+const CACHE_NAME='ollada-pwa-v17e-stubs';
 const SHELL=['/','/index.html','/app.html','/manifest.webmanifest','/icons/icon-192.png','/icons/icon-512.png','/icons/maskable-512.png','/icons/apple-touch-icon.png'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(SHELL).catch(()=>null)));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
