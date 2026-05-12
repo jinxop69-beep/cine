@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ollada — Tu mirada al cine y las series</title>
+<!-- build: v18-clean · index y app unificados para evitar flash del diseño anterior -->
 <meta name="description" content="Ollada es tu app social para películas y series: registra, puntúa, crea listas y comparte con amigos.">
 <meta property="og:title" content="Ollada — Tu mirada al cine y las series">
 <meta property="og:description" content="Red social de películas y series.">
@@ -25,58 +26,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <!-- Supabase client: necesario para login real y guardado online -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-/* === FIX DEFINITIVO MODO WEB/APP === */
-function aplicarModoOlladaFinal(){
-  try{
-    var qs=new URLSearchParams(location.search);
-    var standalone=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone;
-    var path=(location.pathname||'').toLowerCase();
-    var forceApp = path.endsWith('/app.html') || qs.get('modo')==='app' || standalone;
-    var forceWeb = qs.get('modo')==='web';
-    var app = forceWeb ? false : forceApp;
-    document.documentElement.classList.toggle('app-mode', app);
-    document.documentElement.classList.toggle('web-mode', !app);
-    document.documentElement.setAttribute('data-mode', app?'app':'web');
-    var btn=document.getElementById('mode-toggle');
-    if(btn) btn.textContent=app?'🌐 Web':'📱 App';
-  }catch(e){}
-}
-aplicarModoCineCircle = aplicarModoOlladaFinal;
-aplicarModoOllada = aplicarModoOlladaFinal;
-window.addEventListener('resize', function(){
-  clearTimeout(window.__olladaResizeFix);
-  window.__olladaResizeFix=setTimeout(aplicarModoOlladaFinal,120);
-});
-setTimeout(aplicarModoOlladaFinal,0);
-
-</script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js">
-/* === FIX DEFINITIVO MODO WEB/APP === */
-function aplicarModoOlladaFinal(){
-  try{
-    var qs=new URLSearchParams(location.search);
-    var standalone=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone;
-    var path=(location.pathname||'').toLowerCase();
-    var forceApp = path.endsWith('/app.html') || qs.get('modo')==='app' || standalone;
-    var forceWeb = qs.get('modo')==='web';
-    var app = forceWeb ? false : forceApp;
-    document.documentElement.classList.toggle('app-mode', app);
-    document.documentElement.classList.toggle('web-mode', !app);
-    document.documentElement.setAttribute('data-mode', app?'app':'web');
-    var btn=document.getElementById('mode-toggle');
-    if(btn) btn.textContent=app?'🌐 Web':'📱 App';
-  }catch(e){}
-}
-aplicarModoCineCircle = aplicarModoOlladaFinal;
-aplicarModoOllada = aplicarModoOlladaFinal;
-window.addEventListener('resize', function(){
-  clearTimeout(window.__olladaResizeFix);
-  window.__olladaResizeFix=setTimeout(aplicarModoOlladaFinal,120);
-});
-setTimeout(aplicarModoOlladaFinal,0);
-
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
   // Rellena estos valores con Project Settings → API en Supabase.
   // En un proyecto Next/Vercel se usan variables NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY.

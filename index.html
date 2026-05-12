@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" class="web-mode">
+<html lang="es" class="app-mode">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ollada — Tu mirada al cine y las series</title>
+<!-- build: v18-clean · index y app unificados para evitar flash del diseño anterior -->
 <meta name="description" content="Ollada es tu app social para películas y series: registra, puntúa, crea listas y comparte con amigos.">
 <meta property="og:title" content="Ollada — Tu mirada al cine y las series">
 <meta property="og:description" content="Red social de películas y series.">
@@ -25,58 +26,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <!-- Supabase client: necesario para login real y guardado online -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-/* === FIX DEFINITIVO MODO WEB/APP === */
-function aplicarModoOlladaFinal(){
-  try{
-    var qs=new URLSearchParams(location.search);
-    var standalone=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone;
-    var path=(location.pathname||'').toLowerCase();
-    var forceApp = path.endsWith('/app.html') || qs.get('modo')==='app' || standalone;
-    var forceWeb = qs.get('modo')==='web';
-    var app = forceWeb ? false : forceApp;
-    document.documentElement.classList.toggle('app-mode', app);
-    document.documentElement.classList.toggle('web-mode', !app);
-    document.documentElement.setAttribute('data-mode', app?'app':'web');
-    var btn=document.getElementById('mode-toggle');
-    if(btn) btn.textContent=app?'🌐 Web':'📱 App';
-  }catch(e){}
-}
-aplicarModoCineCircle = aplicarModoOlladaFinal;
-aplicarModoOllada = aplicarModoOlladaFinal;
-window.addEventListener('resize', function(){
-  clearTimeout(window.__olladaResizeFix);
-  window.__olladaResizeFix=setTimeout(aplicarModoOlladaFinal,120);
-});
-setTimeout(aplicarModoOlladaFinal,0);
-
-</script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js">
-/* === FIX DEFINITIVO MODO WEB/APP === */
-function aplicarModoOlladaFinal(){
-  try{
-    var qs=new URLSearchParams(location.search);
-    var standalone=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone;
-    var path=(location.pathname||'').toLowerCase();
-    var forceApp = path.endsWith('/app.html') || qs.get('modo')==='app' || standalone;
-    var forceWeb = qs.get('modo')==='web';
-    var app = forceWeb ? false : forceApp;
-    document.documentElement.classList.toggle('app-mode', app);
-    document.documentElement.classList.toggle('web-mode', !app);
-    document.documentElement.setAttribute('data-mode', app?'app':'web');
-    var btn=document.getElementById('mode-toggle');
-    if(btn) btn.textContent=app?'🌐 Web':'📱 App';
-  }catch(e){}
-}
-aplicarModoCineCircle = aplicarModoOlladaFinal;
-aplicarModoOllada = aplicarModoOlladaFinal;
-window.addEventListener('resize', function(){
-  clearTimeout(window.__olladaResizeFix);
-  window.__olladaResizeFix=setTimeout(aplicarModoOlladaFinal,120);
-});
-setTimeout(aplicarModoOlladaFinal,0);
-
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
   // Rellena estos valores con Project Settings → API en Supabase.
   // En un proyecto Next/Vercel se usan variables NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY.
@@ -905,6 +856,94 @@ html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:1
 .of-profile{background:#08080a;min-height:100vh}.of-hero{position:relative;min-height:360px;padding:46px 18px 28px;text-align:center;background:linear-gradient(180deg,rgba(217,70,239,.20),#08080a 86%);background-size:cover;background-position:center;overflow:hidden}.of-hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 25% 15%,rgba(217,70,239,.34),transparent 30%),radial-gradient(circle at 80% 8%,rgba(99,102,241,.24),transparent 34%);pointer-events:none}.of-hero>*{position:relative}.of-avatar{width:120px;height:120px;border-radius:34px;background:#111116;border:3px solid rgba(255,255,255,.1);box-shadow:0 18px 50px rgba(0,0,0,.55),0 0 0 6px rgba(217,70,239,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;overflow:hidden;font-size:58px}.of-avatar img{width:100%;height:100%;object-fit:cover}.of-hero h1{font-family:'Playfair Display',serif;font-size:42px;line-height:1;margin:0 0 10px}.of-hero p{color:var(--text2);font-size:15px;margin:0 auto 18px;max-width:360px}.of-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.of-actions button{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;padding:12px 16px;font-weight:900;font-size:13px}.of-actions .primary{border:0;background:linear-gradient(135deg,#d946ef,#7c3aed);box-shadow:0 12px 32px rgba(217,70,239,.25)}.of-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 18px;margin-top:-18px;position:relative;z-index:2}.of-stats div{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);border-radius:18px;text-align:center;padding:15px 8px;backdrop-filter:blur(14px)}.of-stats b{display:block;font-size:26px}.of-stats span{font-size:10px;color:var(--text3);text-transform:uppercase;font-weight:800}.of-card{margin:18px 16px 0}.of-posters{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px}.of-poster{width:118px;flex:0 0 118px;background:transparent;border:0;color:white;text-align:left}.of-poster img,.of-poster .cph{width:118px;height:177px;border-radius:15px;object-fit:cover;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04)}.of-poster b{font-size:12px;display:block;margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.of-poster span{font-size:11px;color:#fbbf24}.of-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px}.of-tabs .ptab{white-space:nowrap;border-radius:999px;padding:11px 15px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--text2);font-size:12px;font-weight:900}.of-tabs .ptab.on{color:white;background:linear-gradient(135deg,#d946ef,#7c3aed);border-color:transparent}.of-library{display:flex!important;gap:12px!important;overflow-x:auto!important;padding-bottom:8px!important}.of-library-item{flex:0 0 142px!important;width:142px!important}.of-library-item .card{width:142px!important;min-width:142px!important}.of-menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.of-menu button{min-height:82px;border-radius:20px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);color:#fff;text-align:left;padding:14px;font-weight:900;font-size:15px}.of-menu span{display:block;font-size:24px;margin-bottom:8px}.of-review{padding:14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);margin-bottom:10px}.of-review p{color:var(--text2);margin:6px 0 0;font-size:13px;line-height:1.5}.of-badges{display:flex;gap:10px;overflow-x:auto}.of-badges div{min-width:130px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:14px}.of-badges b{font-size:26px;display:block}.of-badges span{font-weight:900;display:block;margin-top:6px}.of-badges small{color:var(--text3)}
 @media(min-width:881px){.of-profile{max-width:1280px;margin:0 auto;padding:22px}.of-hero{border-radius:32px;min-height:310px}.of-stats{max-width:780px;margin:-22px auto 0}.of-card{margin:20px 0 0}.of-profile{display:block}.of-library{flex-wrap:wrap!important;overflow:visible!important}.of-grid{display:grid}.of-poster{width:136px;flex-basis:136px}.of-poster img,.of-poster .cph{width:136px;height:204px}}
 
+
+/* === OLLADA APP SAFE REBUILD v15: only Inicio + Perfil visual layer === */
+@media (max-width:900px){
+  html.app-mode body{background:#04050c!important;}
+  html.app-mode .nav, html.app-mode .live-badge, html.app-mode .mode-toggle{display:none!important;}
+  html.app-mode .hdr{height:78px!important;padding:16px 18px!important;position:sticky!important;top:0!important;z-index:80!important;background:rgba(5,6,14,.92)!important;backdrop-filter:blur(18px)!important;border-bottom:1px solid rgba(255,255,255,.08)!important;}
+  html.app-mode .logo{gap:12px!important;}
+  html.app-mode .logo-ico{width:68px!important;height:42px!important;border-radius:16px!important;background:linear-gradient(135deg,rgba(217,70,239,.35),rgba(99,102,241,.22))!important;display:flex!important;align-items:center!important;justify-content:center!important;box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 14px 40px rgba(168,85,247,.26)!important;}
+  html.app-mode .logo-eye{width:58px!important;height:34px!important;display:block!important;}
+  html.app-mode .logo-txt{font-size:25px!important;font-weight:900!important;letter-spacing:-.04em!important;font-family:Inter,system-ui,sans-serif!important;}
+  html.app-mode #auth-btn{padding:14px 22px!important;border-radius:22px!important;font-weight:850!important;font-size:15px!important;background:rgba(19,20,31,.92)!important;border:1px solid rgba(255,255,255,.10)!important;}
+  html.app-mode .hdr-av{width:50px!important;height:50px!important;border-radius:17px!important;background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.10)!important;font-size:23px!important;}
+  html.app-mode .main{padding-bottom:96px!important;}
+  .ollada-clean{padding:18px 16px 112px;background:radial-gradient(circle at 50% 0%,rgba(168,85,247,.10),transparent 38%),#04050c;min-height:calc(100vh - 78px);display:flex;flex-direction:column;gap:18px;}
+  .oc-hero{position:relative;overflow:hidden;border-radius:30px;padding:22px 18px 18px;min-height:520px;background:linear-gradient(180deg,rgba(12,12,24,.98),rgba(7,8,18,.98));box-shadow:0 20px 54px rgba(0,0,0,.44),inset 0 0 0 1px rgba(255,255,255,.08);}
+  .oc-bg{position:absolute;inset:0;background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20600%20320%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27sky%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%2310072a%27/%3E%3Cstop%20offset%3D%2745%25%27%20stop-color%3D%27%2332105b%27/%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%2307122c%27/%3E%3C/linearGradient%3E%3CradialGradient%20id%3D%27glow%27%20cx%3D%2750%25%27%20cy%3D%2712%25%27%20r%3D%2750%25%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%23ff71cf%27%20stop-opacity%3D%27.55%27/%3E%3Cstop%20offset%3D%2755%25%27%20stop-color%3D%27%23a855f7%27%20stop-opacity%3D%27.20%27/%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%23000%27%20stop-opacity%3D%270%27/%3E%3C/radialGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27600%27%20height%3D%27320%27%20fill%3D%27url%28%23sky%29%27/%3E%3Crect%20width%3D%27600%27%20height%3D%27320%27%20fill%3D%27url%28%23glow%29%27/%3E%0A%3Cpath%20d%3D%27M0%20207%2058%20155%20105%20180%20158%20131%20214%20184%20283%20113%20342%20178%20421%20101%20500%20180%20548%20150%20600%20184%20600%20320%200%20320Z%27%20fill%3D%27%2331104e%27%20opacity%3D%27.92%27/%3E%0A%3Cpath%20d%3D%27M0%20233%2075%20183%20124%20203%20194%20154%20255%20214%20330%20150%20404%20208%20474%20142%20548%20194%20600%20171%20600%20320%200%20320Z%27%20fill%3D%27%231b0930%27%20opacity%3D%27.96%27/%3E%0A%3Cpath%20d%3D%27M0%20258%2082%20225%20144%20247%20220%20207%20288%20245%20356%20203%20448%20250%20530%20217%20600%20241%20600%20320%200%20320Z%27%20fill%3D%27%230d071a%27%20opacity%3D%27.98%27/%3E%0A%3C/svg%3E");background-size:cover;background-position:center 28%;opacity:.98;pointer-events:none;}
+  .oc-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,8,16,.05) 0%,rgba(7,8,16,.12) 44%,rgba(4,5,12,.86) 100%);}
+  .oc-top{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;margin-bottom:58px;}
+  .oc-brand{display:flex;align-items:center;gap:12px;font-size:24px;font-weight:900;color:white;letter-spacing:-.04em;}
+  .oc-eye{width:64px;height:39px;border-radius:18px;background:linear-gradient(135deg,#e347eb,#7c3aed);position:relative;box-shadow:0 12px 30px rgba(168,85,247,.30);}
+  .oc-eye:before{content:"";position:absolute;left:10px;right:10px;top:11px;height:17px;border-radius:999px;border:3px solid #0a0a13;}
+  .oc-eye:after{content:"";position:absolute;left:31px;top:13px;border-left:12px solid #0a0a13;border-top:7px solid transparent;border-bottom:7px solid transparent;}
+  .oc-actions{display:flex;gap:10px;}
+  .oc-icon{width:48px;height:48px;border:0;border-radius:50%;background:rgba(9,12,25,.72);color:#fff;font-size:21px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.10),0 10px 24px rgba(0,0,0,.25);position:relative;}
+  .oc-dot{position:absolute;right:7px;top:7px;width:17px;height:17px;border-radius:50%;background:#ef4444;}
+  .oc-avatar-wrap{position:relative;z-index:2;width:max-content;margin:0 auto 14px;}
+  .oc-avatar{width:142px;height:142px;border-radius:50%;padding:5px;background:linear-gradient(135deg,#f472b6,#d946ef,#7c3aed);box-shadow:0 14px 38px rgba(168,85,247,.30);}
+  .oc-avatar-in{width:100%;height:100%;border-radius:50%;overflow:hidden;background:#090a12;display:flex;align-items:center;justify-content:center;font-size:64px;color:#fff;box-shadow:inset 0 0 0 5px rgba(5,6,14,.96);}
+  .oc-avatar-in img{width:100%;height:100%;object-fit:cover;}
+  .oc-edit{position:absolute;right:-5px;bottom:11px;width:43px;height:43px;border:0;border-radius:50%;background:linear-gradient(135deg,#d946ef,#8b5cf6);color:#fff;font-weight:900;box-shadow:0 10px 24px rgba(168,85,247,.32);}
+  .oc-name{position:relative;z-index:2;text-align:center;font-size:28px;line-height:1.05;font-weight:900;letter-spacing:-.04em;color:white;text-shadow:0 4px 18px rgba(0,0,0,.55);}
+  .oc-handle{position:relative;z-index:2;text-align:center;margin-top:7px;font-size:16px;font-weight:700;color:rgba(255,255,255,.68);}
+  .oc-stats{position:relative;z-index:2;margin:19px 10px 15px;display:grid;grid-template-columns:repeat(4,1fr);border-radius:22px;background:rgba(8,12,26,.74);border:1px solid rgba(255,255,255,.09);overflow:hidden;backdrop-filter:blur(14px);}
+  .oc-stat{position:relative;text-align:center;padding:15px 6px 13px;}
+  .oc-stat+.oc-stat:before{content:"";position:absolute;left:0;top:18%;bottom:18%;width:1px;background:rgba(255,255,255,.08);}
+  .oc-stat b{display:block;color:white;font-size:23px;line-height:1;font-weight:900;}
+  .oc-stat span{display:block;margin-top:7px;color:rgba(255,255,255,.70);font-size:12px;font-weight:700;}
+  .oc-bio{position:relative;z-index:2;text-align:center;color:rgba(255,255,255,.76);font-size:16px;line-height:1.45;padding-top:4px;}
+  .oc-card{border-radius:28px;background:linear-gradient(180deg,rgba(9,10,20,.98),rgba(6,7,16,.98));box-shadow:0 14px 42px rgba(0,0,0,.36),inset 0 0 0 1px rgba(255,255,255,.07);padding:17px 16px;}
+  .oc-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
+  .oc-head h2{font-size:20px;font-weight:900;letter-spacing:-.04em;color:white;margin:0;}
+  .oc-link{border:0;background:none;color:#e86bff;font-size:15px;font-weight:900;padding:0;}
+  .oc-row{display:flex;gap:13px;overflow-x:auto;padding-bottom:3px;}
+  .oc-row::-webkit-scrollbar{display:none;}
+  .oc-poster{min-width:98px;width:98px;border:0;background:none;padding:0;text-align:left;color:white;}
+  .oc-poster-img{width:98px;aspect-ratio:.68;border-radius:16px;overflow:hidden;background:#111320;box-shadow:0 10px 26px rgba(0,0,0,.32);display:flex;align-items:center;justify-content:center;font-size:34px;}
+  .oc-poster-img img{width:100%;height:100%;object-fit:cover;}
+  .oc-poster-title{margin-top:8px;font-size:13px;font-weight:800;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:white;}
+  .oc-poster-score{margin-top:5px;color:#facc15;font-size:13px;font-weight:800;}
+  .oc-empty{color:rgba(255,255,255,.58);font-size:14px;padding:10px 2px;}
+  .oc-activity{display:flex;align-items:center;gap:12px;padding:13px;border-radius:20px;background:rgba(14,17,31,.78);border:1px solid rgba(255,255,255,.06);}
+  .oc-activity+.oc-activity{margin-top:10px;}
+  .oc-act-av{width:42px;height:42px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:20px;}
+  .oc-act-av img{width:100%;height:100%;object-fit:cover;}
+  .oc-act-copy{flex:1;min-width:0;}
+  .oc-act-copy b{display:block;color:white;font-size:14px;line-height:1.25;}
+  .oc-act-copy span{display:block;color:rgba(255,255,255,.64);font-size:12px;line-height:1.35;margin-top:4px;}
+  .oc-act-side{font-size:21px;color:#ff5da8;}
+  .oc-juntos{display:grid;grid-template-columns:72px 1fr;gap:12px;align-items:center;border-radius:22px;background:linear-gradient(135deg,rgba(104,45,160,.35),rgba(11,15,28,.82));border:1px solid rgba(255,255,255,.07);padding:12px;}
+  .oc-mini{width:72px;aspect-ratio:.72;border-radius:16px;overflow:hidden;background:#111320;display:flex;align-items:center;justify-content:center;font-size:28px;}
+  .oc-mini img{width:100%;height:100%;object-fit:cover;}
+  .oc-juntos h3{margin:0;color:white;font-size:15px;font-weight:900;}
+  .oc-juntos p{margin:6px 0 0;color:rgba(255,255,255,.65);font-size:12px;line-height:1.4;}
+  .oc-actions-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .oc-pill{border:0;border-radius:999px;background:rgba(17,19,31,.88);box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);color:white;padding:14px 10px;font-size:15px;font-weight:900;}
+  .oc-pill.primary{background:linear-gradient(135deg,#d946ef,#8b5cf6);box-shadow:0 12px 28px rgba(168,85,247,.28);}
+  .oc-tabs{display:flex;gap:10px;overflow-x:auto;margin-bottom:14px;}
+  .oc-tabs::-webkit-scrollbar{display:none;}
+  .oc-tab{border:0;white-space:nowrap;border-radius:999px;background:rgba(18,20,31,.92);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);color:rgba(255,255,255,.72);padding:10px 16px;font-size:14px;font-weight:900;}
+  .oc-tab.on{background:linear-gradient(135deg,#d946ef,#8b5cf6);color:white;}
+  .oc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+  .oc-lib{border:0;padding:0;background:rgba(14,16,28,.84);border-radius:18px;overflow:hidden;text-align:left;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);}
+  .oc-lib-img{width:100%;aspect-ratio:.72;overflow:hidden;background:#111320;display:flex;align-items:center;justify-content:center;font-size:34px;color:white;}
+  .oc-lib-img img{width:100%;height:100%;object-fit:cover;}
+  .oc-lib-body{padding:11px;}
+  .oc-lib-title{color:white;font-size:13px;font-weight:900;line-height:1.25;min-height:33px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .oc-lib-meta{display:flex;justify-content:space-between;gap:8px;margin-top:9px;color:rgba(255,255,255,.67);font-size:12px;font-weight:700;}
+  .oc-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+  .oc-short{border:0;border-radius:20px;background:rgba(14,16,28,.86);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);padding:14px 10px;color:white;min-height:86px;text-align:left;}
+  .oc-short span{display:block;font-size:23px;margin-bottom:8px;}
+  .oc-short b{font-size:14px;}
+  .oc-ach{border-radius:20px;background:rgba(14,16,28,.86);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);padding:14px;color:white;}
+  .oc-ach.locked{opacity:.55;}
+  .oc-ach .ico{font-size:25px;margin-bottom:7px;}
+  .oc-ach .name{font-size:14px;font-weight:900;}
+  .oc-ach .status{margin-top:4px;font-size:12px;color:rgba(255,255,255,.62);}
+}
+
 </style>
 </head>
 <body>
@@ -1058,35 +1097,7 @@ html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:1
 <main class="main">
 
   <!-- ═══ INICIO ═══ -->
-  <div id="v-inicio" class="view on">
-    <section class="hero">
-      <div class="blobs"><div class="blob bl1"></div><div class="blob bl2"></div><div class="blob bl3"></div></div>
-      <div class="hcon">
-        <div class="hbadge">✨ Tu universo cinematográfico, en un solo lugar</div>
-        <h1 class="htit"><span class="ht1">Cada historia</span><br><span class="ht2">que has amado.</span></h1>
-        <p class="hsub">Registra películas y series, puntúalas, crea listas, sigue a tus amigos y descubre qué ver a continuación.</p>
-        <div class="sbwrap">
-          <div class="sbglow"></div>
-          <div class="sb">
-            <span>🔍</span>
-            <input id="h-sinp" placeholder="Busca Inception, Breaking Bad, El Señor de los Anillos…" onkeydown="if(event.key==='Enter'&&this.value.trim())hbuscar()">
-            <button class="sb-btn" onclick="hbuscar()">Buscar</button>
-          </div>
-        </div>
-        <div class="hstats" id="hstats"></div>
-      </div>
-    </section>
-    <div class="sec" style="padding-top:0">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span>🔥</span><span style="font-size:16px;font-weight:700">Tendencias esta semana</span></div>
-      <div class="prow" id="trend-row"></div>
-      <div class="feats">
-        <div class="fcard"><div class="ficon" style="background:linear-gradient(135deg,#34d399,#0d9488)">👁️</div><div class="ftit">Registra todo</div><div class="fdesc">Marca títulos como visto, viendo, pendiente o abandonado y obtén un perfil con estadísticas reales.</div></div>
-        <div class="fcard"><div class="ficon" style="background:linear-gradient(135deg,#d946ef,#7c3aed)">📋</div><div class="ftit">Curar la lista perfecta</div><div class="fdesc">Crea listas públicas o privadas. Tus pelis de atracos, comedias de sofá — tu gusto, organizado.</div></div>
-        <div class="fcard"><div class="ficon" style="background:linear-gradient(135deg,#fbbf24,#f97316)">👥</div><div class="ftit">Comparte con amigos</div><div class="fdesc">Compatibilidad de gustos, feed de actividad y un Wrapped compartible que realmente dice algo de ti.</div></div>
-      </div>
-      <p style="font-size:10px;color:var(--text3);text-align:center;padding:16px 0">Desarrollado con TMDb. No está avalado ni certificado por TMDb.</p>
-    </div>
-  </div>
+  <div id="v-inicio" class="view on"></div>
 
   <!-- ═══ DESCUBRIR ═══ -->
   <div id="v-descubrir" class="view">
@@ -1218,61 +1229,7 @@ html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:1
   </div>
 
   <!-- ═══ PERFIL ═══ -->
-  <div id="v-perfil" class="view">
-    <div id="pban" class="pban" style="background:linear-gradient(135deg,#d946ef,#7c3aed,#6366f1)">
-      <div class="pban-pat"></div>
-      <button class="edbtn" onclick="oedit()">✏️ Editar</button>
-    </div>
-    <div class="pinr">
-      <div class="ptop-new">
-        <div class="pav-new" id="pav">🎬</div>
-        <div class="ptop-info">
-          <div class="pname" id="pname">@cinephile_42</div>
-          <div class="pbio" id="pbio">Viviendo fotograma a fotograma.</div>
-        </div>
-      </div>
-      <div class="ppills">
-        <button class="ppill ppill-main" onclick="copiarPerfilPublico()">🔗 Compartir</button>
-        <button class="ppill" onclick="abrirMiPerfilPublico()">👁️ Ver perfil</button>
-        <button class="ppill" onclick="cerrarSesion()">🚪 Salir</button>
-      </div>
-      <div class="more-grid">
-        <button class="more-tile" onclick="ir('descubrir')"><span>🧭</span><span>Descubrir</span></button>
-        <button class="more-tile" onclick="ir('conjunto')"><span>🤝</span><span>Juntos</span></button>
-        <button class="more-tile" onclick="ir('ia')"><span>✨</span><span>Recomendar</span></button>
-        <button class="more-tile" onclick="ir('wrapped')"><span>🏆</span><span>Wrapped</span></button>
-        <button class="more-tile" onclick="mostrarStatsAvanzadas()"><span>📊</span><span>Stats</span></button>
-        <button class="more-tile" onclick="mostrarRetos()"><span>🎯</span><span>Retos</span></button>
-        <button class="more-tile" onclick="abrirNotificaciones()"><span>🔔</span><span id="notif-count"></span><span>Notifs</span></button>
-        <button class="more-tile" onclick="compartirPerfil()"><span>📸</span><span>Compartir</span></button>
-        <button class="more-tile" onclick="mostrarPremium()"><span>💎</span><span>Premium</span></button>
-      </div>
-      <div id="heatmap-section" style="padding:0 16px 18px;display:none">
-        <div class="ptit" style="padding:0 0 10px">🗓️ Tu actividad</div>
-        <div id="heatmap-grid"></div>
-        <div id="racha-info" style="margin-top:8px;font-size:12px;color:var(--text2)"></div>
-      </div>
-      <div id="stats-av-section" style="padding:0 16px 18px;display:none">
-        <div class="ptit" style="padding:0 0 10px">📊 Estadísticas avanzadas</div>
-        <div id="stats-av-content"></div>
-      </div>
-      <div id="retos-section" style="padding:0 16px 18px;display:none">
-        <div class="ptit" style="padding:0 0 10px">🎯 Retos semanales</div>
-        <div id="retos-content"></div>
-      </div>
-      <div class="pstats" id="pstats"></div>
-      <div class="ptabs-wrap">
-        <button class="ptab on" data-tab="todo"        onclick="setTabPerfil('todo')">Todo <span class="ptab-cnt" id="tc-todo">0</span></button>
-        <button class="ptab"    data-tab="viendo"      onclick="setTabPerfil('viendo')">▶️ Viendo <span class="ptab-cnt" id="tc-viendo">0</span></button>
-        <button class="ptab"    data-tab="visto"       onclick="setTabPerfil('visto')">✅ Vistos <span class="ptab-cnt" id="tc-visto">0</span></button>
-        <button class="ptab"    data-tab="pendiente"   onclick="setTabPerfil('pendiente')">📌 Pendientes <span class="ptab-cnt" id="tc-pendiente">0</span></button>
-        <button class="ptab"    data-tab="abandonado"  onclick="setTabPerfil('abandonado')">❌ Abandon. <span class="ptab-cnt" id="tc-abandonado">0</span></button>
-      </div>
-      <div class="wgrd padded" id="wgrd"></div>
-      <div class="ptit padded">🏅 Logros</div>
-      <div class="bgrd padded" id="bgrd"></div>
-    </div>
-  </div>
+  <div id="v-perfil" class="view"></div>
 
 </main>
 
@@ -1721,7 +1678,7 @@ function ir(v){
   window.scrollTo(0,0);
   if(v==="inicio")    rinicio();
   if(v==="descubrir") rdisc();
-  if(v==="buscar")  { document.getElementById("sinp").focus(); rsr(); }
+  if(v==="buscar")  { rsr(); }
   if(v==="listas")    rlistas();
   if(v==="amigos")    ramigos();
   if(v==="conjunto")  rconjunto();
@@ -1750,18 +1707,13 @@ function tarjeta(item, pequena=false){
 
 /* ── INICIO ── */
 async function rinicio(){
-  rstats();
-  const row = document.getElementById("trend-row");
-  row.innerHTML = Array(8).fill(`<div class="pi"><div class="skel"></div></div>`).join("");
-  try{
-    const d = await tmdb("/trending/all/week");
-    row.innerHTML = (d.results||[]).slice(0,16).map(i=>`<div class="pi">${tarjeta(i)}</div>`).join("");
-  }catch{
-    row.innerHTML = `<p style="color:var(--text3);padding:18px;font-size:13px">No se pudieron cargar las tendencias. Comprueba tu conexión.</p>`;
-  }
+  /* stub — renderizado por v17 */
+  if(typeof v17home==='function') v17home();
 }
 
 function rstats(){
+  const hstatsEl = document.getElementById("hstats");
+  if(!hstatsEl) return; /* v17 renderer maneja stats */
   const lst = Object.values(S.titulos);
   const vst = lst.filter(e=>e.estado==="visto");
   const m   = vst.filter(e=>e.media_type==="movie").length;
@@ -1769,7 +1721,7 @@ function rstats(){
   const h   = Math.round(m*2+s*8);
   const pns = lst.filter(e=>e.puntuacion>0).map(e=>e.puntuacion);
   const med = pns.length?(pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1):"—";
-  document.getElementById("hstats").innerHTML = [
+  hstatsEl.innerHTML = [
     {l:"Películas vistas",v:m,i:"🎬"},
     {l:"Series vistas",v:s,i:"📺"},
     {l:"Horas vistas",v:h,i:"⏱️"},
@@ -2424,68 +2376,8 @@ async function recomendarIA(){
 
 /* ── PERFIL ── */
 function rperfil(){
-  const p = S.perfil;
-  // Banner
-  const pbanEl = document.getElementById("pban");
-  if(p.banner_url){ pbanEl.style.backgroundImage="url('"+p.banner_url+"')"; pbanEl.style.background=""; }
-  else { pbanEl.style.backgroundImage=""; pbanEl.style.background=p.banner; }
-  // Avatar
-  const pavEl = document.getElementById("pav");
-  if(p.avatar_url) pavEl.innerHTML = '<img src="'+p.avatar_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:19px" onerror="this.style.display=\'none\'">';
-  else pavEl.textContent = p.avatar;
-  document.getElementById("pname").textContent = "@"+p.usuario;
-  document.getElementById("pbio").textContent   = p.bio;
-  document.getElementById("hdr-av").textContent = p.avatar;
-
-  const lst = Object.values(S.titulos);
-  const vst = lst.filter(e=>e.estado==="visto");
-  const m   = vst.filter(e=>e.media_type==="movie").length;
-  const s   = vst.filter(e=>e.media_type==="tv").length;
-  const h   = Math.round(m*2+s*8);
-  const pns = lst.filter(e=>e.puntuacion>0).map(e=>e.puntuacion);
-  const med = pns.length?(pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1):"—";
-
-  document.getElementById("pstats").innerHTML = [
-    {i:"🎬",v:m,    l:"Películas"},
-    {i:"📺",v:s,    l:"Series"},
-    {i:"⭐",v:med,  l:"Media"},
-    {i:"⏱️",v:h+"h",l:"Horas"},
-  ].map(x=>'<div class="pst"><div class="pst-i">'+x.i+'</div><div class="pst-v">'+x.v+'</div><div class="pst-l">'+x.l+'</div></div>').join("");
-
-  // Tab counters
-  const cnts = {
-    todo:       lst.length,
-    viendo:     lst.filter(e=>e.estado==="viendo").length,
-    visto:      vst.length,
-    pendiente:  lst.filter(e=>e.estado==="pendiente").length,
-    abandonado: lst.filter(e=>e.estado==="abandonado").length,
-  };
-  Object.entries(cnts).forEach(function(pair){
-    var el = document.getElementById("tc-"+pair[0]);
-    if(el) el.textContent = pair[1];
-  });
-
-  // Logros
-  const logros = [
-    {i:"🎬",n:"Primera vez",    e:lst.length>=1},
-    {i:"🔟",n:"Diez títulos",   e:lst.length>=10},
-    {i:"✍️",n:"Crítico/a",      e:lst.filter(function(e){return e.resena;}).length>=3},
-    {i:"📺",n:"Maratonista",    e:s>=5},
-    {i:"🎞️",n:"Cinéfilo/a",    e:m>=10},
-    {i:"🗂️",n:"Curador/a",     e:lst.filter(function(e){return e.favorito;}).length>=4},
-    {i:"💯",n:"Perfeccionista", e:lst.filter(function(e){return e.puntuacion===10;}).length>=3},
-    {i:"🌍",n:"Explorador/a",   e:lst.length>=25},
-  ];
-  document.getElementById("bgrd").innerHTML = logros.map(function(b){
-    return '<div class="bc'+(b.e?"":" lck")+'">'
-      +'<div class="be">'+b.i+'</div>'
-      +'<div class="bn">'+b.n+'</div>'
-      +'<div class="bs">'+(b.e?"Obtenido ✓":"Bloqueado")+'</div>'
-    +'</div>';
-  }).join("");
-
-  tabPerfilActual = tabPerfilActual||"todo";
-  renderTabPerfil();
+  /* stub — renderizado por v17 */
+  if(typeof v17profile==='function') v17profile();
 }
 
 var tabPerfilActual = "todo";
@@ -2943,7 +2835,7 @@ document.addEventListener("click", function(ev){
 
 
 /* ── INIT ── */
-rinicio();
+// rinicio() deferred to v17 renderer
 
 /* ── SUPABASE AUTH + SINCRONIZACIÓN ONLINE ── */
 let authMode = "login";
@@ -3283,310 +3175,632 @@ function alternarModoApp(){
   toast(app?'Modo app activado':'Modo web activado');
 }
 
-/* ===================== OLLADA FINAL PRODUCT PATCH ===================== */
-(function(){
-  const BRAND = 'Ollada';
-  // Alias de compatibilidad: mantener el modo real de Ollada, sin pisarlo.
-  window.aplicarModoCineCircle = window.aplicarModoOllada || aplicarModoOllada;
-
-  function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function openPayload(it){return JSON.stringify(JSON.stringify(it));}
-  function reifySaved(e){return {id:e.tmdb_id,media_type:e.media_type||'movie',title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average};}
-  function isDesktopWeb(){return !document.documentElement.classList.contains('app-mode') && window.innerWidth>=720;}
-  function profileAvatarHTML(cls){const p=S.perfil||{}; return p.avatar_url?`<div class="${cls}"><img src="${esc(p.avatar_url)}" onerror="this.remove()"></div>`:`<div class="${cls}">${esc(p.avatar||'🎬')}</div>`;}
-  function setHeaderAvatar(){try{const p=S.perfil||{}; const h=document.getElementById('hdr-av'); if(!h)return; if(p.avatar_url) h.innerHTML='<img src="'+esc(p.avatar_url)+'" style="width:100%;height:100%;object-fit:cover;border-radius:8px" onerror="this.remove()">'; else h.textContent=p.avatar||'🎬';}catch(e){}}
-  function statsData(){const lst=Object.values(S.titulos||{}); const vst=lst.filter(e=>e.estado==='visto'); const m=vst.filter(e=>e.media_type==='movie').length; const s=vst.filter(e=>e.media_type==='tv').length; const h=Math.round(m*2+s*8); const pns=lst.filter(e=>e.puntuacion>0).map(e=>e.puntuacion); const med=pns.length?(pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1):'—'; return {lst,vst,m,s,h,med};}
-  function posterGrid(items, limit=5){return (items||[]).slice(0,limit).map(e=>`<div class="pi">${tarjeta(e, true)}</div>`).join('') || '<div class="dash-empty">Añade títulos para verlos aquí.</div>';}
-  function savedPosterGrid(items, limit=5){return (items||[]).slice(0,limit).map(e=>`<div class="pi">${tarjeta(reifySaved(e), true)}</div>`).join('') || '<div class="dash-empty">Añade favoritos para verlos aquí.</div>';}
-
-  const _origAbrir = typeof abrir === 'function' ? abrir : null;
-  window.abrir = function(js){
-    try{
-      let item = typeof js === 'string' ? JSON.parse(js) : js;
-      if(typeof item === 'string') item = JSON.parse(item);
-      item = item || {};
-      if(!item.media_type || item.media_type === 'multi') item.media_type = (item.first_air_date && !item.release_date) ? 'tv' : 'movie';
-      if(!item.title && item.name) item.title = item.name;
-      if(!item.name && item.title) item.name = item.title;
-      if(!_origAbrir) return;
-      return _origAbrir(JSON.stringify(item));
-    }catch(e){console.warn('Error abriendo título', e); toast('No se pudo abrir este título. Inténtalo otra vez.');}
-  };
-
-  window.hbuscarFinal = function(id){const q=(document.getElementById(id)?.value||'').trim(); if(q){ir('buscar'); const sinp=document.getElementById('sinp'); if(sinp) sinp.value=q; ultq=q; dosearch(q);}};
-
-  const _oldRinicio = typeof rinicio==='function' ? rinicio : null;
-  window.rinicio = async function(){
-    setHeaderAvatar();
-    const root=document.getElementById('v-inicio'); if(!root) return;
-    if(!isDesktopWeb()){
-      root.innerHTML = `<section class="hero ollada-mobile-home"><div class="blobs"><div class="blob bl1"></div><div class="blob bl2"></div><div class="blob bl3"></div></div><div class="hcon"><div class="hbadge">👁️ Tu mirada al cine y las series</div><h1 class="htit"><span class="ht1">Cada historia</span><br><span class="ht2">que has amado.</span></h1><p class="hsub">Registra, puntúa, crea listas, comenta con amigos y decide qué ver juntos.</p><div class="sbwrap"><div class="sbglow"></div><div class="sb"><span>🔍</span><input id="h-sinp" placeholder="Busca Inception, Hamnet, Cumbre borrascosa…" onkeydown="if(event.key==='Enter')hbuscarFinal('h-sinp')"><button class="sb-btn" onclick="hbuscarFinal('h-sinp')">Buscar</button></div></div><div class="hstats" id="hstats"></div></div><div class="ollada-home-cta"><div><b>🤝 Juntos ahora es directo</b><span>Entra rápido al perfil conjunto para decidir qué ver esta noche.</span></div><button onclick="ir('conjunto')">Abrir</button></div></section><div class="sec" style="padding-top:18px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span>🔥</span><span style="font-size:16px;font-weight:700">Tendencias esta semana</span></div><div class="prow" id="trend-row"></div><p style="font-size:10px;color:var(--text3);text-align:center;padding:16px 0">Desarrollado con TMDb. No está avalado ni certificado por TMDb.</p></div>`;
-      rstats();
-      const row=document.getElementById('trend-row');
-      if(row){row.innerHTML=Array(8).fill(`<div class="pi"><div class="skel"></div></div>`).join(''); try{const d=await tmdb('/trending/all/week'); row.innerHTML=(d.results||[]).slice(0,16).map(i=>`<div class="pi">${tarjeta({...i,media_type:i.media_type||'movie'})}</div>`).join('');}catch(e){row.innerHTML='<p style="color:var(--text3);padding:18px;font-size:13px">No se pudieron cargar tendencias.</p>';}}
-      return;
-    }
-    const st=statsData(), p=S.perfil||{};
-    root.innerHTML = `<div class="ollada-dash"><aside class="dash-card dash-profile"><div class="dash-pban" style="${p.banner_url?`background-image:url('${esc(p.banner_url)}');background-size:cover;background-position:center`:''}"></div>${profileAvatarHTML('dash-pav')}<h3>@${esc(p.usuario||'cinephile')}</h3><div class="handle">Perfil en Ollada</div><div class="bio">${esc(p.bio||'Viviendo fotograma a fotograma.')}</div><div class="dash-stat-grid"><div class="dash-stat"><b>${st.m}</b><span>Películas</span></div><div class="dash-stat"><b>${st.s}</b><span>Series</span></div><div class="dash-stat"><b>${st.med}</b><span>Media</span></div></div><div class="dash-profile-actions"><button class="primary" onclick="ir('perfil')">Ver mi perfil</button><button onclick="compartirPerfil()">📸 Compartir tarjeta</button><button onclick="ir('conjunto')">🤝 Abrir Juntos</button></div></aside><main class="dash-center"><div class="dash-search"><span>🔍</span><input id="h-sinp" placeholder="Busca Hamnet, Cumbre borrascosa, Breaking Bad…" onkeydown="if(event.key==='Enter')hbuscarFinal('h-sinp')"><button onclick="hbuscarFinal('h-sinp')">Buscar</button></div><div id="dash-hero-mount"><div class="dash-hero"><div class="skel" style="position:absolute;inset:0"></div></div></div><section class="dash-section"><div class="dash-section-head"><h3>🏆 Top favoritos</h3><button onclick="ir('perfil')">Ver perfil</button></div><div class="dash-posters" id="dash-favs"></div></section><div class="dash-quote">“Las mejores historias no solo se ven, se comparten.”</div></main><aside class="dash-side"><div class="dash-card"><div class="dash-watch-title">🤝 Qué vemos esta noche</div><div class="dash-watch-sub">Juntos está ahora en Inicio para que nadie se pierda.</div><div id="dash-tonight"></div><div class="dash-watch-actions"><button class="primary" onclick="ir('conjunto')">Abrir Juntos</button><button onclick="ir('ia')">IA</button></div></div><div class="dash-card"><div class="dash-section-head"><h3>📈 Actividad</h3><button onclick="ir('amigos')">Ver todo</button></div><div class="dash-feed-list" id="dash-feed-mini"></div></div><div class="dash-card"><div class="dash-section-head"><h3>🍿 Próximos</h3><button onclick="ir('buscar')">Buscar</button></div><div class="dash-next-list" id="dash-next-list"></div></div></aside></div>`;
-    document.getElementById('dash-favs').innerHTML = savedPosterGrid(st.lst.filter(e=>e.favorito).sort((a,b)=>(b.puntuacion||0)-(a.puntuacion||0)),5);
-    try{
-      const d=await tmdb('/trending/all/week'); const items=(d.results||[]).map(i=>({...i,media_type:i.media_type||'movie'})); const hero=items[0];
-      if(hero){const bg=IMG(hero.backdrop_path||hero.poster_path,'w1280'); document.getElementById('dash-hero-mount').innerHTML=`<div class="dash-hero" onclick='abrir(${openPayload(hero)})'>${bg?`<img class="dash-hero-bg" src="${bg}" alt="">`:''}<div class="dash-hero-content"><div class="dash-kicker">👁️ Destacado en Ollada</div><div class="dash-hero-title">${esc(nomDe(hero))}</div><div class="dash-hero-meta"><span>⭐ ${hero.vote_average?hero.vote_average.toFixed(1):'—'} TMDb</span><span>${anyoDe(hero)||'Nuevo'}</span><span>${hero.media_type==='tv'?'Serie':'Película'}</span></div><div class="dash-hero-desc">${esc(hero.overview||'Abre el detalle para ver sinopsis, reparto, tráiler, plataformas y guardarla en tus listas.')}</div><div class="dash-hero-actions"><button class="primary" onclick="event.stopPropagation();abrir(${openPayload(hero)})">Ver detalle</button><button class="ghost" onclick="event.stopPropagation();ir('conjunto')">Añadir a Juntos</button></div></div></div>`;}
-      const rec=items[3]||items[1]; const rp=rec&&IMG(rec.poster_path,'w185'); document.getElementById('dash-tonight').innerHTML = rec?`<div class="dash-watch-movie" onclick='abrir(${openPayload(rec)})'>${rp?`<img src="${rp}" alt="">`:'<div class="cph">🎬</div>'}<div><div class="t">${esc(nomDe(rec))}</div><div class="m">${anyoDe(rec)} · ${rec.media_type==='tv'?'Serie':'Película'}</div><div class="m">Recomendada para decidir juntos</div></div></div>`:'<div class="dash-empty">Crea un perfil conjunto para recibir propuestas.</div>';
-      document.getElementById('dash-next-list').innerHTML = items.slice(1,5).map(it=>{const b=IMG(it.backdrop_path||it.poster_path,'w300'); return `<div class="dash-next" onclick='abrir(${openPayload(it)})'>${b?`<img src="${b}" alt="">`:''}<div><b>${esc(nomDe(it))}</b><span>${anyoDe(it)} · ${it.media_type==='tv'?'Serie':'Película'}</span></div></div>`}).join('');
-    }catch(e){console.warn(e)}
-    loadDashActivity();
-  };
-
-  async function loadDashActivity(){
-    const el=document.getElementById('dash-feed-mini'); if(!el) return;
-    if(!supabaseClient){el.innerHTML='<div class="dash-empty">Conecta Supabase para ver actividad.</div>';return;}
-    try{const acts=await sb('activity.dashboard', supabaseClient.from('activity_feed').select('*').order('created_at',{ascending:false}).limit(5)); el.innerHTML=(acts||[]).length?(acts||[]).map(a=>{const d=a.data||{}; return `<div class="dash-feed-item"><div class="dash-feed-av">${d.avatar||'🎬'}</div><div><div class="dash-feed-t"><strong>@${esc(d.username||'usuario')}</strong> ${textoActividad(a)}</div>${d.text?`<div class="comment-chip">“${esc(String(d.text).slice(0,80))}”</div>`:''}<div class="dash-feed-time">${haceTiempo(a.created_at)}</div></div></div>`}).join(''):'<div class="dash-empty">Cuando tus amigos puntúen o comenten aparecerán aquí.</div>'; }catch(e){el.innerHTML='<div class="dash-empty">No se pudo cargar la actividad.</div>';}
-  }
-
-  const _origRsr = typeof rsr==='function' ? rsr : null;
-  window.rsr = async function(){
-    const g=document.getElementById('sres'); if(!g) return;
-    if((ultq||'').trim()){ if(_origRsr) return _origRsr(); return; }
-    g.innerHTML=Array(12).fill(`<div class="skel"></div>`).join('');
-    try{
-      const [trend,upcoming,topm,toptv]=await Promise.all([tmdb('/trending/all/week'),tmdb('/movie/upcoming'),tmdb('/movie/top_rated'),tmdb('/tv/top_rated')]);
-      function sec(icon,title,sub,items,type){return `<div class="search-section-title"><strong>${icon} ${title}</strong><span>${sub}</span></div>`+(items||[]).slice(0,12).map(it=>tarjeta({...it,media_type:it.media_type||type||'movie'})).join('')+'<div class="search-gap"></div>';}
-      g.innerHTML=sec('🔥','Tendencias','Lo más movido ahora',trend.results,'movie')+sec('📅','Próximamente','Estrenos y próximos títulos',upcoming.results,'movie')+sec('🏆','Películas mejor valoradas','Clásicos y favoritas',topm.results,'movie')+sec('📺','Series mejor valoradas','Para maratonear',toptv.results,'tv');
-    }catch(e){g.innerHTML=`<div class="empty"><div class="empty-ico">🔍</div><p>Escribe algo para buscar.</p></div>`;}
-  };
-
-  window.clld = function(){const ldet=document.getElementById('ldet'), lmain=document.getElementById('listas-main'); if(ldet) ldet.style.display='none'; if(lmain) lmain.style.display=''; window.scrollTo({top:0,behavior:'smooth'});};
-  window.old = function(id){
-    const list=(S.listas||[]).find(x=>String(x.id)===String(id)); if(!list){toast('No se encontró la lista');return;}
-    const ldet=document.getElementById('ldet'), lmain=document.getElementById('listas-main'), cont=document.getElementById('ldcont'); if(ldet)ldet.style.display=''; if(lmain)lmain.style.display='none'; if(!cont)return;
-    const items=(list.items||[]).map(k=>S.titulos[k]).filter(Boolean);
-    cont.innerHTML=`<div class="ld-head"><div><div class="ld-title"><span class="emoji">${list.emoji||'🎯'}</span><div><h2 class="stit serif" style="margin:0">${esc(list.nombre)}</h2><div class="ld-meta">${items.length} título${items.length!==1?'s':''} · ${list.publica?'Lista pública':'Lista privada'}</div></div></div></div><div class="ld-actions"><button class="probtn" onclick="clld()">← Volver</button></div></div>`+(items.length?`<div class="ld-grid">${items.map(e=>tarjeta(reifySaved(e),true)).join('')}</div>`:`<div class="ld-empty">Esta lista todavía está vacía. Abre una película y pulsa “Añadir a lista”.</div>`);
-    window.scrollTo({top:0,behavior:'smooth'});
-  };
-
-  const _origTextoActividad = typeof textoActividad==='function' ? textoActividad : null;
-  window.textoActividad = function(a){const d=a.data||{}; if(a.type==='review_commented') return `comentó una reseña sobre <span class="fdtarget">${esc(d.title||'una película')}</span>`; return _origTextoActividad?_origTextoActividad(a):`actualizó <span class="fdtarget">${esc(d.title||BRAND)}</span>`;};
-
-  const _origAbrirComentarios = typeof abrirComentarios==='function' ? abrirComentarios : null;
-  window.abrirComentarios = function(btn){
-    window.cmt_itemTitle=''; window.cmt_targetUsername='';
-    try{const k=decodeURIComponent(btn.dataset.k||''); if(S.titulos && S.titulos[k]) window.cmt_itemTitle=S.titulos[k].titulo||''; if(typeof pubPerfil!=='undefined'&&pubPerfil) window.cmt_targetUsername=pubPerfil.username||'';}catch(e){}
-    if(_origAbrirComentarios) return _origAbrirComentarios(btn);
-  };
-  const _origEnviarComentario = typeof enviarComentario==='function' ? enviarComentario : null;
-  window.enviarComentario = async function(){
-    const inp=document.getElementById('cmt-input'); const body=(inp?.value||'').trim();
-    const itemTitle=window.cmt_itemTitle || (S.titulos && S.titulos[cmt_itemKey] && S.titulos[cmt_itemKey].titulo) || 'una reseña';
-    const targetUsername=window.cmt_targetUsername || '';
-    if(!body || !supabaseClient || !usuarioActual){ if(_origEnviarComentario) return _origEnviarComentario(); return; }
-    try{
-      const res=await supabaseClient.from('review_comments').insert({user_id:usuarioActual.id,item_key:cmt_itemKey,target_user_id:cmt_targetId,body:body,username:S.perfil.usuario});
-      if(res.error) throw res.error;
-      try{await logActivity('review_commented', null, {title:itemTitle, text:body, target_username:targetUsername});}catch(e){}
-      try{if(cmt_targetId && String(cmt_targetId)!==String(usuarioActual.id)){await supabaseClient.from('notificaciones').insert({user_id:cmt_targetId,tipo:'comment',mensaje:'@'+(S.perfil.usuario||'usuario')+' comentó tu reseña sobre '+itemTitle+'.',leida:false});}}catch(e){}
-      inp.value=''; cargarComentarios(); if(typeof cargarNotificaciones==='function') cargarNotificaciones(); toast('Comentario enviado ✓');
-    }catch(e){toast('Error: '+e.message);}
-  };
-
-  const _origRamigos = typeof ramigos==='function' ? ramigos : null;
-  window.ramigos = async function(){
-    if(_origRamigos) await _origRamigos();
-    try{const fd=document.getElementById('fdl'); if(!fd) return; fd.querySelectorAll('.fdc').forEach(card=>{ if(card.textContent.includes('comentó una reseña') && !card.querySelector('.comment-chip')){ const d=document.createElement('div'); d.className='comment-chip'; d.textContent='Nuevo comentario visible en actividad'; card.querySelector('.fdtxt')?.after(d); }});}catch(e){}
-  };
-
-  const _origRconjunto = typeof rconjunto==='function' ? rconjunto : null;
-  window.rconjunto = function(){
-    if(_origRconjunto) _origRconjunto();
-    const sec=document.querySelector('#v-conjunto .sec'); if(!sec || sec.dataset.olladaJoint==='1') return; sec.dataset.olladaJoint='1';
-    const h=sec.querySelector('h2'); if(h) h.textContent='Juntos';
-    const sub=sec.querySelector('.ssub'); if(sub) sub.textContent='Tu espacio compartido para decidir qué ver con pareja, amigos o grupo. Crea un código, invita y guardad títulos juntos.';
-    const intro=document.createElement('div'); intro.innerHTML=`<div class="joint-highlight"><div><b>👁️ Nuevo: más fácil de encontrar</b><span>Juntos aparece en Inicio, Perfil y menú web. Ya no queda escondido.</span></div><button onclick="document.getElementById('joint-name')?.focus()">Crear ahora</button></div><div class="joint-intro"><div class="joint-step"><div class="n">1</div><b>Crea</b><span>Pon nombre al espacio compartido.</span></div><div class="joint-step"><div class="n">2</div><b>Invita</b><span>Comparte el código con otra persona.</span></div><div class="joint-step"><div class="n">3</div><b>Elegid</b><span>Añadid títulos y decidid qué ver.</span></div></div>`;
-    sub?.after(intro);
-  };
-
-  window.rperfil = function(){
-    const root=document.getElementById('v-perfil'); if(!root) return;
-    const p=S.perfil||{}; const st=statsData(); const favs=st.lst.filter(e=>e.favorito).sort((a,b)=>(b.puntuacion||0)-(a.puntuacion||0)); const reviews=st.lst.filter(e=>(e.resena||'').trim()).slice(0,4);
-    const heroBg=p.banner_url?`<div class="op-hero-img" style="background-image:url('${esc(p.banner_url)}')"></div>`:`<div class="op-hero-img"></div>`;
-    root.innerHTML=`<div class="ollada-profile"><section class="op-hero">${heroBg}<div class="op-hero-inner">${profileAvatarHTML('op-avatar')}<div class="op-name">@${esc(p.usuario||'cinephile')}</div><div class="op-bio">${esc(p.bio||'Viviendo fotograma a fotograma.')}</div><div class="op-actions"><button class="primary" onclick="compartirPerfil()">📸 Compartir perfil</button><button onclick="oedit()">✏️ Editar</button><button onclick="abrirMiPerfilPublico()">👁️ Ver público</button><button onclick="cerrarSesion()">🚪 Salir</button></div></div></section><div class="op-stats" id="pstats"><div class="op-stat"><b>${st.m}</b><span>Películas</span></div><div class="op-stat"><b>${st.s}</b><span>Series</span></div><div class="op-stat"><b>${st.h}h</b><span>Horas</span></div><div class="op-stat"><b>${st.med}</b><span>Media</span></div></div><div class="op-grid"><main><div class="op-card"><div class="op-title"><h3>🏆 Top favoritos</h3><button onclick="setTabPerfil('todo')">Ver biblioteca</button></div><div class="op-fav-row">${savedPosterGrid(favs,4)}</div></div><div class="op-card" style="margin-top:16px"><div class="op-title"><h3>🎬 Biblioteca</h3><button onclick="ir('buscar')">Añadir más</button></div><div class="op-tabs"><button class="ptab on" data-tab="todo" onclick="setTabPerfil('todo')">Todo <span id="tc-todo">${st.lst.length}</span></button><button class="ptab" data-tab="viendo" onclick="setTabPerfil('viendo')">▶️ Viendo <span id="tc-viendo">${st.lst.filter(e=>e.estado==='viendo').length}</span></button><button class="ptab" data-tab="visto" onclick="setTabPerfil('visto')">✅ Vistos <span id="tc-visto">${st.vst.length}</span></button><button class="ptab" data-tab="pendiente" onclick="setTabPerfil('pendiente')">📌 Pendientes <span id="tc-pendiente">${st.lst.filter(e=>e.estado==='pendiente').length}</span></button><button class="ptab" data-tab="abandonado" onclick="setTabPerfil('abandonado')">❌ Abandon. <span id="tc-abandonado">${st.lst.filter(e=>e.estado==='abandonado').length}</span></button></div><div class="op-library" id="wgrd"></div></div></main><aside><div class="op-card"><div class="op-title"><h3>⚡ Accesos</h3></div><div class="op-menu-grid"><button class="op-menu" onclick="ir('conjunto')"><span>🤝</span>Juntos</button><button class="op-menu" onclick="ir('ia')"><span>✨</span>IA</button><button class="op-menu" onclick="ir('wrapped')"><span>🏆</span>Wrapped</button><button class="op-menu" onclick="ir('listas')"><span>📋</span>Listas</button><button class="op-menu" onclick="mostrarStatsAvanzadas()"><span>📊</span>Stats</button><button class="op-menu" onclick="abrirNotificaciones()"><span>🔔</span>Notifs</button></div></div><div class="op-card" style="margin-top:16px"><div class="op-title"><h3>💬 Reseñas recientes</h3></div><div class="op-review-list">${reviews.length?reviews.map(r=>`<div class="op-review-item"><b>${esc(r.titulo)}</b><p>${esc(String(r.resena).slice(0,130))}${String(r.resena).length>130?'…':''}</p></div>`).join(''):'<div class="dash-empty">Escribe una reseña y aparecerá aquí.</div>'}</div></div><div class="op-card" style="margin-top:16px"><div class="op-title"><h3>🏅 Logros</h3></div><div class="op-badges" id="bgrd"></div></div></aside></div></div>`;
-    setHeaderAvatar();
-    const logros=[{i:'🎬',n:'Primera vez',e:st.lst.length>=1},{i:'🔟',n:'Diez títulos',e:st.lst.length>=10},{i:'✍️',n:'Crítico/a',e:st.lst.filter(e=>e.resena).length>=3},{i:'📺',n:'Maratonista',e:st.s>=5},{i:'🎞️',n:'Cinéfilo/a',e:st.m>=10},{i:'🗂️',n:'Curador/a',e:favs.length>=4}];
-    const bgrd=document.getElementById('bgrd'); if(bgrd) bgrd.innerHTML=logros.map(b=>`<div class="op-badge ${b.e?'':'lck'}"><div class="be">${b.i}</div><div class="bn">${b.n}</div><div class="bs">${b.e?'Obtenido ✓':'Bloqueado'}</div></div>`).join('');
-    tabPerfilActual=tabPerfilActual||'todo'; setTabPerfil(tabPerfilActual);
-  };
-
-  window.renderTabPerfil = function(){
-    const st=statsData(); const items=tabPerfilActual==='todo'?st.lst:st.lst.filter(e=>e.estado===tabPerfilActual); const grid=document.getElementById('wgrd'); if(!grid) return;
-    document.querySelectorAll('.ptab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tabPerfilActual));
-    if(!items.length){const msgs={todo:'Aún no has añadido nada.',viendo:'No estás viendo nada ahora.',visto:'Nada marcado como visto aún.',pendiente:'Tu watchlist está vacía.',abandonado:'No has abandonado nada.'}; grid.innerHTML=`<p style="color:var(--text3);font-size:12px;grid-column:1/-1;padding:10px 0">${msgs[tabPerfilActual]||''}</p>`; return;}
-    grid.innerHTML=items.slice(0,30).map(e=>tarjeta(reifySaved(e),true)).join('');
-  };
-
-  const _origCompartirPerfil = typeof compartirPerfil==='function' ? compartirPerfil : null;
-  window.compartirPerfil = function(){ if(_origCompartirPerfil) return _origCompartirPerfil(); };
-
-  // Reaplicar modo después de cargar el parche final.
-  try{ aplicarModoOllada(); if(vistaActual==='inicio') setTimeout(rinicio, 30); }catch(e){}
-
-  // Brand in dynamic share cards / wrapped generated later
-  const _origRenderShareCard = typeof renderShareCard==='function' ? renderShareCard : null;
-  if(_origRenderShareCard){window.renderShareCard=function(){_origRenderShareCard(); document.querySelectorAll('.share-card-brand,.share-card-footer-brand').forEach(e=>e.textContent='OLLADA');};}
-
-  // First paint polish
-  let _olladaResizeTimer=null;
-  window.addEventListener('resize', function(){
-    clearTimeout(_olladaResizeTimer);
-    _olladaResizeTimer=setTimeout(function(){try{aplicarModoOllada(); if(vistaActual==='inicio') rinicio(); if(vistaActual==='perfil') rperfil();}catch(e){}},120);
-  },{passive:true});
-})();
-
 
 aplicarModoCineCircle();
-initSupabaseAuth().then(()=>{const u=new URLSearchParams(location.search).get("u"); if(u) abrirPerfilPublico(u);});
+initSupabaseAuth().then(function(){var u=new URLSearchParams(location.search).get("u"); if(u) abrirPerfilPublico(u);});
 
-
-
-
-/* === FIX DEFINITIVO MODO WEB/APP === */
 function aplicarModoOlladaFinal(){
   try{
     var qs=new URLSearchParams(location.search);
     var standalone=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone;
     var path=(location.pathname||'').toLowerCase();
-    var forceApp = path.endsWith('/app.html') || qs.get('modo')==='app' || standalone;
-    var forceWeb = qs.get('modo')==='web';
-    var app = forceWeb ? false : forceApp;
-    document.documentElement.classList.toggle('app-mode', app);
-    document.documentElement.classList.toggle('web-mode', !app);
-    document.documentElement.setAttribute('data-mode', app?'app':'web');
+    var forceApp=path.endsWith('/app.html')||qs.get('modo')==='app'||standalone||window.innerWidth<=880;
+    var forceWeb=qs.get('modo')==='web';
+    var app=forceWeb?false:forceApp;
+    document.documentElement.classList.toggle('app-mode',app);
+    document.documentElement.classList.toggle('web-mode',!app);
+    document.documentElement.setAttribute('data-mode',app?'app':'web');
     var btn=document.getElementById('mode-toggle');
     if(btn) btn.textContent=app?'🌐 Web':'📱 App';
   }catch(e){}
 }
-aplicarModoCineCircle = aplicarModoOlladaFinal;
-aplicarModoOllada = aplicarModoOlladaFinal;
-window.addEventListener('resize', function(){
-  clearTimeout(window.__olladaResizeFix);
-  window.__olladaResizeFix=setTimeout(aplicarModoOlladaFinal,120);
-});
+aplicarModoCineCircle=aplicarModoOllada=aplicarModoOlladaFinal;
+window.addEventListener('resize',function(){clearTimeout(window.__olladaResizeFix);window.__olladaResizeFix=setTimeout(aplicarModoOlladaFinal,120);});
 setTimeout(aplicarModoOlladaFinal,0);
-
 </script>
-<script>/* === OLLADA VISUAL FINAL PATCH: web/app split + mobile native polish === */
+<style id="v17-css">
+/*
+  OLLADA v17b — pixel-match del mockup
+  Hero: logo arriba, montañas con glow cálido, avatar centrado,
+  nombre, handle, stats card, bio — SIN espacio vacío entre bio y Top favoritos.
+*/
+@media(max-width:900px){
+  html.app-mode body{background:#0d0a1a!important;overflow-x:hidden!important;}
+  html.app-mode .hdr{display:none!important;}
+  html.app-mode .main{padding:0!important;margin:0!important;max-width:none!important;width:100%!important;}
+  html.app-mode .view{min-height:100vh!important;background:#0d0a1a!important;}
+  html.app-mode .bnav{
+    position:fixed!important;left:0!important;right:0!important;bottom:0!important;
+    height:80px!important;
+    background:rgba(10,8,22,.97)!important;
+    backdrop-filter:blur(20px)!important;
+    border-top:1px solid rgba(255,255,255,.07)!important;
+    z-index:100!important;
+  }
+  html.app-mode .bnav-inner{height:80px!important;padding:5px 0 10px!important;}
+  html.app-mode .bnb{font-size:10px!important;color:rgba(255,255,255,.40)!important;font-weight:600!important;gap:3px!important;}
+  html.app-mode .bnb svg{width:22px!important;height:22px!important;stroke-width:1.8!important;}
+  html.app-mode .bnb.on{color:#a855f7!important;}
+
+  /* ─── PANTALLA BASE ─── */
+  .v17{
+    min-height:100vh;
+    padding-bottom:90px;
+    background:#0d0a1a;
+    color:#fff;
+    font-family:Inter,system-ui,sans-serif;
+  }
+
+  /* ─── HERO ─── */
+  /* Altura exacta: solo lo que ocupa el contenido, sin min-height fija */
+  .v17-hero{
+    position:relative;
+    padding:0;
+    overflow:hidden;
+    /* fondo del cielo morado oscuro */
+    background:
+      radial-gradient(ellipse 80% 55% at 50% 38%, rgba(255,80,160,.28) 0%, rgba(130,40,200,.18) 38%, transparent 72%),
+      linear-gradient(180deg, #0e0820 0%, #1a0a2e 35%, #2a0d3e 55%, #1a0828 75%, #0d0a1a 100%);
+  }
+
+  /* Montañas SVG — misma silueta que el mockup: cordillera violeta con glow naranja-dorado */
+  .v17-mountains{
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:62%;
+    pointer-events:none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 240' preserveAspectRatio='xMidYMax slice'%3E%3Cdefs%3E%3ClinearGradient id='m1' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%234a1570'/%3E%3Cstop offset='1' stop-color='%23200840'/%3E%3C/linearGradient%3E%3ClinearGradient id='m2' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%232d0950'/%3E%3Cstop offset='1' stop-color='%2312051e'/%3E%3C/linearGradient%3E%3ClinearGradient id='m3' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%231a0630'/%3E%3Cstop offset='1' stop-color='%230a0318'/%3E%3C/linearGradient%3E%3CradialGradient id='glow' cx='50%25' cy='0%25' r='60%25'%3E%3Cstop offset='0' stop-color='%23ff8c42' stop-opacity='.55'/%3E%3Cstop offset='30%25' stop-color='%23d946ef' stop-opacity='.22'/%3E%3Cstop offset='100%25' stop-color='%23000' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3C!-- glow horizonte --%3E%3Cellipse cx='200' cy='6' rx='180' ry='38' fill='url(%23glow)'/%3E%3C!-- montaña lejana izq --%3E%3Cpath d='M-10 240 L40 110 L90 170 L130 90 L175 155 L220 70 L270 145 L320 85 L370 135 L410 100 L410 240Z' fill='url(%23m1)' opacity='.7'/%3E%3C!-- montaña media --%3E%3Cpath d='M-10 240 L20 155 L65 195 L110 130 L160 175 L210 105 L255 165 L305 120 L350 160 L410 130 L410 240Z' fill='url(%23m2)' opacity='.85'/%3E%3C!-- montaña delantera --%3E%3Cpath d='M-10 240 L0 195 L50 215 L95 175 L140 205 L185 168 L230 200 L275 172 L320 200 L365 180 L410 195 L410 240Z' fill='url(%23m3)' opacity='.95'/%3E%3C/svg%3E");
+    background-size:100% 100%;
+    background-position:bottom center;
+    background-repeat:no-repeat;
+  }
+
+  /* fade inferior de las montañas hacia el fondo de la página */
+  .v17-mountains:after{
+    content:"";
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:40%;
+    background:linear-gradient(to bottom, transparent, #0d0a1a);
+  }
+
+  /* ─── TOP BAR ─── */
+  .v17-topbar{
+    position:relative; z-index:10;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:52px 20px 0;
+  }
+  .v17-brand{
+    display:flex; align-items:center; gap:9px;
+    font-size:21px; font-weight:900; letter-spacing:-.03em; color:#fff;
+  }
+  .v17-logo{
+    width:32px; height:21px; flex-shrink:0;
+    filter:drop-shadow(0 0 10px rgba(168,85,247,.8));
+  }
+  .v17-icons{ display:flex; gap:10px; }
+  .v17-icon{
+    width:42px; height:42px; border-radius:50%;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.07);
+    backdrop-filter:blur(10px);
+    color:#fff; font-size:18px;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .v17-dot{
+    position:absolute; right:4px; top:4px;
+    width:9px; height:9px;
+    background:#ef4444; border-radius:50%;
+    border:2px solid #0d0a1a;
+  }
+
+  /* ─── AVATAR ─── */
+  .v17-avwrap{
+    position:relative; z-index:10;
+    width:130px; margin:32px auto 0;
+  }
+  .v17-av{
+    width:130px; height:130px; border-radius:50%;
+    padding:3px;
+    background:linear-gradient(135deg,#e879f9,#a855f7,#7c3aed);
+    box-shadow:
+      0 0 0 4px rgba(168,85,247,.12),
+      0 0 40px rgba(168,85,247,.50),
+      0 20px 50px rgba(0,0,0,.60);
+  }
+  .v17-av-in{
+    width:100%; height:100%; border-radius:50%;
+    background:#0d0916;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden; font-size:52px; color:#fff;
+  }
+  .v17-av-in img{ width:100%; height:100%; object-fit:cover; }
+  .v17-pencil{
+    position:absolute; right:-2px; bottom:6px;
+    width:38px; height:38px; border-radius:50%; border:0;
+    background:linear-gradient(135deg,#9333ea,#7c3aed);
+    color:#fff; font-size:17px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 16px rgba(124,58,237,.55);
+    cursor:pointer; z-index:2;
+  }
+
+  /* ─── NOMBRE / HANDLE ─── */
+  .v17-name{
+    position:relative; z-index:10;
+    text-align:center;
+    font-size:30px; font-weight:900; letter-spacing:-.03em; line-height:1.1;
+    margin-top:14px;
+    color:#fff;
+  }
+  .v17-handle{
+    position:relative; z-index:10;
+    text-align:center;
+    color:rgba(255,255,255,.60);
+    font-size:15px; font-weight:500;
+    margin-top:4px;
+  }
+
+  /* ─── STATS CARD ─── */
+  /* Igual al mockup: fondo oscuro, borde muy sutil, 4 columnas separadas por líneas */
+  .v17-statscard{
+    position:relative; z-index:10;
+    margin:18px 20px 0;
+    border-radius:14px;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.10);
+    display:grid; grid-template-columns:repeat(4,1fr);
+    overflow:hidden;
+  }
+  .v17-stat{
+    text-align:center; padding:14px 6px 12px;
+    position:relative;
+  }
+  .v17-stat+.v17-stat::before{
+    content:""; position:absolute; left:0; top:18%; bottom:18%;
+    width:1px; background:rgba(255,255,255,.10);
+  }
+  .v17-stat b{
+    display:block; font-size:26px; line-height:1;
+    font-weight:900; color:#fff;
+  }
+  .v17-stat span{
+    display:block; margin-top:5px;
+    font-size:11px; font-weight:500; color:rgba(255,255,255,.55);
+    letter-spacing:.01em;
+  }
+
+  /* ─── BIO ─── */
+  .v17-bio{
+    position:relative; z-index:10;
+    text-align:center;
+    font-size:14px; line-height:1.5; color:rgba(255,255,255,.65);
+    margin:14px 24px 0;
+  }
+
+  /* ─── CUERPO (secciones debajo del hero) ─── */
+  /* margin-top:0 — NO hay espacio extra, el hero ya termina donde termina */
+  .v17-body{
+    position:relative; z-index:5;
+    padding:22px 16px 0;
+  }
+
+  /* ─── SECCIONES ─── */
+  .v17-sec{ margin-bottom:24px; }
+  .v17-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .v17-head h2{
+    margin:0; font-size:18px; font-weight:800; color:#fff; letter-spacing:-.02em;
+  }
+  .v17-link{
+    border:0; background:transparent;
+    color:#a855f7; font-weight:700; font-size:13px; padding:0;
+  }
+
+  /* ─── FILA POSTERS ─── */
+  /* En el mockup los posters son bastante grandes: ~145px ancho */
+  .v17-row{
+    display:flex; gap:12px;
+    overflow-x:auto; padding-bottom:4px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .v17-row::-webkit-scrollbar{ display:none; }
+  .v17-poster{
+    flex:0 0 140px; width:140px;
+    border:0; background:transparent; padding:0;
+    text-align:left; color:#fff; cursor:pointer;
+  }
+  .v17-poster-img{
+    width:140px; height:210px; border-radius:12px;
+    overflow:hidden; background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.08);
+    display:flex; align-items:center; justify-content:center;
+    font-size:32px;
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
+  }
+  .v17-poster-img img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .v17-poster-title{
+    margin-top:7px; font-size:13px; font-weight:600; line-height:1.2;
+    color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .v17-poster-score{
+    margin-top:3px; color:#fbbf24;
+    font-size:13px; font-weight:700;
+    display:flex; align-items:center; gap:3px;
+  }
+
+  /* ─── CARD ─── */
+  .v17-card{
+    border-radius:14px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+  }
+
+  /* ─── ACTIVIDAD ─── */
+  .v17-act{
+    display:flex; align-items:center; gap:12px;
+    padding:14px 14px;
+    cursor:pointer;
+  }
+  .v17-act+.v17-act{ border-top:1px solid rgba(255,255,255,.06); }
+  .v17-act-av{
+    width:46px; height:46px; border-radius:50%;
+    background:linear-gradient(135deg,#d946ef,#7c3aed);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden; font-size:20px; color:#fff; flex-shrink:0;
+  }
+  .v17-act-av img{ width:100%; height:100%; object-fit:cover; }
+  .v17-act-body{ flex:1; min-width:0; }
+  .v17-act-body b{ display:block; font-size:14px; font-weight:700; color:#fff; line-height:1.3; }
+  .v17-act-body b span.hi{ color:#a855f7; font-weight:800; }
+  .v17-act-body .sub{ font-size:12px; color:rgba(255,255,255,.50); margin-top:3px; }
+  .v17-act-right{ display:flex; align-items:center; gap:8px; flex-shrink:0; }
+  .v17-heart{ font-size:22px; color:#f43f5e; }
+  .v17-chev{ font-size:22px; color:rgba(255,255,255,.30); }
+
+  .v17-empty{
+    padding:22px 16px; text-align:center;
+    color:rgba(255,255,255,.45); font-size:13px; line-height:1.6;
+  }
+  .v17-empty .ico{ font-size:28px; display:block; margin-bottom:8px; }
+
+  /* ─── JUNTOS ─── */
+  .v17-tonight{
+    display:flex; align-items:center; gap:12px;
+    padding:14px 14px; cursor:pointer;
+    border-color:rgba(168,85,247,.30)!important;
+  }
+  .v17-couch{
+    width:46px; height:46px; border-radius:12px; flex-shrink:0;
+    background:linear-gradient(135deg,rgba(124,58,237,.85),rgba(76,29,149,.70));
+    display:flex; align-items:center; justify-content:center; font-size:22px;
+  }
+  .v17-tonight-body{ flex:1; }
+  .v17-tonight-body h3{ margin:0; font-size:15px; font-weight:800; color:#fff; }
+  .v17-tonight-body p{ margin:3px 0 0; font-size:12px; color:rgba(255,255,255,.55); }
+
+  /* ─── PERFIL: botones ─── */
+  .v17-btns{ display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-bottom:22px; }
+  .v17-btn{
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.06);
+    border-radius:999px; color:#fff;
+    padding:12px 8px; font-weight:700; font-size:13px;
+  }
+  .v17-btn.pri{
+    border:0;
+    background:linear-gradient(135deg,#d946ef,#7c3aed);
+    box-shadow:0 8px 22px rgba(168,85,247,.30);
+  }
+
+  /* ─── TABS BIBLIOTECA ─── */
+  .v17-tabs{ display:flex; gap:8px; overflow-x:auto; padding-bottom:10px; }
+  .v17-tabs::-webkit-scrollbar{ display:none; }
+  .v17-tab{
+    white-space:nowrap; flex-shrink:0;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.05);
+    border-radius:999px; color:rgba(255,255,255,.65);
+    padding:8px 14px; font-weight:700; font-size:12px;
+  }
+  .v17-tab.on{ background:linear-gradient(135deg,#d946ef,#7c3aed); color:#fff; border-color:transparent; }
+  .v17-libgrid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:10px; }
+  .v17-lib{
+    border:0; background:rgba(255,255,255,.04);
+    border-radius:12px; overflow:hidden; color:#fff; text-align:left; padding:0; cursor:pointer;
+  }
+  .v17-lib-img{
+    width:100%; aspect-ratio:.72;
+    background:rgba(255,255,255,.05);
+    display:flex; align-items:center; justify-content:center; font-size:26px;
+  }
+  .v17-lib-img img{ width:100%; height:100%; object-fit:cover; }
+  .v17-lib-body{ padding:8px 9px; }
+  .v17-lib-title{ font-size:12px; font-weight:700; line-height:1.25; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:28px; }
+  .v17-lib-meta{ display:flex; justify-content:space-between; color:rgba(255,255,255,.55); font-size:11px; margin-top:6px; }
+
+  /* ─── ACCESOS ─── */
+  .v17-shorts{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .v17-short{
+    border:0; border-radius:14px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.07);
+    padding:13px 10px; color:#fff; min-height:76px; text-align:left; cursor:pointer;
+  }
+  .v17-short span{ display:block; font-size:20px; margin-bottom:6px; }
+  .v17-short b{ font-size:12px; font-weight:700; }
+
+  /* ─── RESEÑAS ─── */
+  .v17-rev{ padding:12px 14px; border-top:1px solid rgba(255,255,255,.06); }
+  .v17-rev:first-child{ border-top:0; }
+  .v17-rev b{ font-size:13px; font-weight:700; color:#fff; }
+  .v17-rev p{ margin:4px 0 0; font-size:12px; line-height:1.5; color:rgba(255,255,255,.58); }
+}
+</style>
+
+<script id="v17-js">
 (function(){
-  const mqMobile = () => window.innerWidth <= 880;
-  const pathIsApp = () => (location.pathname||'').toLowerCase().endsWith('/app.html');
-  const isStandalone = () => (window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone;
-  window.aplicarModoOllada = window.aplicarModoCineCircle = function(){
+  function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function lst(){try{return Object.values(S&&S.titulos||{});}catch(e){return[];}}
+  function viewed(){return lst().filter(x=>x.estado==='visto');}
+  function calcAvg(){var n=lst().filter(x=>Number(x.puntuacion)>0).map(x=>Number(x.puntuacion));return n.length?(n.reduce((a,b)=>a+b,0)/n.length).toFixed(1):'—';}
+  function stats(){var v=viewed();return{m:v.filter(x=>x.media_type==='movie').length,s:v.filter(x=>x.media_type==='tv').length,l:(S&&S.listas||[]).length,avg:calcAvg()};}
+  function uname(){var u=(S&&S.perfil&&S.perfil.usuario)||'Cinéfilo';u=String(u).replace(/^@+/,'');return u?u[0].toUpperCase()+u.slice(1):'Cinéfilo';}
+  function uhandle(){return '@'+String((S&&S.perfil&&S.perfil.usuario)||'cinefilo').replace(/^@+/,'');}
+  function ubio(){return esc((S&&S.perfil&&S.perfil.bio)||'Viviendo fotograma a fotograma.');}
+  function reify(e){return{id:e.tmdb_id,media_type:e.media_type||'movie',title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average};}
+  function os(e){return JSON.stringify(JSON.stringify(reify(e))).replace(/'/g,"&#39;");}
+
+  function avHTML(){
+    var p=S&&S.perfil||{};
+    if(p.avatar_url)return '<img src="'+esc(p.avatar_url)+'" alt="av" onerror="this.style.display=\'none\'">';
+    return '<span>'+esc(p.avatar||'🎬')+'</span>';
+  }
+
+  var LOGO='<svg class="v17-logo" viewBox="0 0 64 42" xmlns="http://www.w3.org/2000/svg">'
+    +'<defs><linearGradient id="vlg17" x1="0" y1="0" x2="1" y2="1">'
+    +'<stop offset="0" stop-color="#f472b6"/>'
+    +'<stop offset=".5" stop-color="#a855f7"/>'
+    +'<stop offset="1" stop-color="#6366f1"/>'
+    +'</linearGradient></defs>'
+    +'<path d="M3 21C10 8.5 20 3 32 3s22 5.5 29 18c-7 12.5-17 18-29 18S10 33.5 3 21Z" fill="url(#vlg17)"/>'
+    +'<path d="M11 21c5.5-7.5 12.5-11 21-11s15.5 3.5 21 11c-5.5 7.5-12.5 11-21 11S16.5 28.5 11 21Z" fill="#0d0916" fill-opacity=".88"/>'
+    +'<circle cx="32" cy="21" r="8.5" fill="url(#vlg17)"/>'
+    +'<circle cx="32" cy="21" r="6" fill="#0b0812"/>'
+    +'<path d="M30 17L39.5 21L30 25Z" fill="#fff"/>'
+    +'<circle cx="24" cy="14" r="2" fill="#fff" fill-opacity=".4"/>'
+    +'</svg>';
+
+  function statsHTML(){
+    var x=stats();
+    return [{v:x.m,l:'Películas'},{v:x.s,l:'Series'},{v:x.l,l:'Listas'},{v:x.avg,l:'Media'}]
+      .map(function(c){return '<div class="v17-stat"><b>'+esc(String(c.v))+'</b><span>'+c.l+'</span></div>';}).join('');
+  }
+
+  function heroHTML(editBtn){
+    return '<div class="v17-hero">'
+      +'<div class="v17-mountains"></div>'
+      +'<div class="v17-topbar">'
+        +'<div class="v17-brand">'+LOGO+'<span>Ollada</span></div>'
+        +'<div class="v17-icons">'
+          +'<button class="v17-icon" onclick="abrirNotificaciones()">🔔<i class="v17-dot"></i></button>'
+          +'<button class="v17-icon" onclick="oedit()">⚙️</button>'
+        +'</div>'
+      +'</div>'
+      +'<div class="v17-avwrap">'
+        +'<div class="v17-av"><div class="v17-av-in">'+avHTML()+'</div></div>'
+        +editBtn
+      +'</div>'
+      +'<div class="v17-name">'+esc(uname())+'</div>'
+      +'<div class="v17-handle">'+esc(uhandle())+'</div>'
+      +'<div class="v17-statscard">'+statsHTML()+'</div>'
+      +'<div class="v17-bio">'+ubio()+'</div>'
+      +'</div>';
+  }
+
+  function topItems(){
+    return lst().slice().sort(function(a,b){
+      var af=a.favorito?1:0,bf=b.favorito?1:0;
+      if(bf-af)return bf-af;
+      return Number(b.puntuacion||0)-Number(a.puntuacion||0);
+    }).filter(function(x){return x.poster_path||x.titulo;}).slice(0,8);
+  }
+  async function topWithTrend(n){
+    var it=topItems().slice(0,n);
+    if(it.length>=n)return it;
     try{
-      const qs=new URLSearchParams(location.search);
-      const app = qs.get('modo')==='web' ? false : (pathIsApp() || qs.get('modo')==='app' || isStandalone() || mqMobile());
-      document.documentElement.classList.toggle('app-mode', app);
-      document.documentElement.classList.toggle('web-mode', !app);
-      document.documentElement.setAttribute('data-mode', app?'app':'web');
-      document.body.classList.toggle('ollada-mobile-ui', app);
-      const btn=document.getElementById('mode-toggle'); if(btn) btn.textContent=app?'🌐 Web':'📱 App';
+      var d=await tmdb('/trending/all/week');
+      (d.results||[]).filter(function(r){return r.media_type!=='person';}).forEach(function(r){
+        if(it.length<n)it.push({tmdb_id:r.id,media_type:r.media_type||(r.title?'movie':'tv'),titulo:r.title||r.name,poster_path:r.poster_path,fecha:r.release_date||r.first_air_date,vote_average:r.vote_average,puntuacion:r.vote_average?(Number(r.vote_average)/2).toFixed(1):'—'});
+      });
     }catch(e){}
-  };
-  const esc = window.esc || function(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')};
-  const safeOpen = window.openPayload || function(item){return JSON.stringify(JSON.stringify(item));};
-  function st(){
-    const lst=Object.values(((typeof S!=="undefined"&&S&&S.titulos)||{}));
-    const vst=lst.filter(e=>e.estado==='visto');
-    const m=vst.filter(e=>e.media_type==='movie').length;
-    const s=vst.filter(e=>e.media_type==='tv').length;
-    const h=Math.max(0,Math.round(m*2+s*8));
-    const pns=lst.filter(e=>e.puntuacion>0).map(e=>Number(e.puntuacion));
-    const med=pns.length?(pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1):'—';
-    return {lst,vst,m,s,h,med};
-  }
-  function av(cls){
-    const p=((typeof S!=="undefined"&&S&&S.perfil)||{});
-    if(p.avatar_url) return `<div class="${cls}"><img src="${esc(p.avatar_url)}" alt="avatar"></div>`;
-    return `<div class="${cls}"><span>${esc(p.avatar||'🎬')}</span></div>`;
-  }
-  function reify(e){return {id:e.tmdb_id,media_type:e.media_type||'movie',title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average};}
-  function posterRow(items, max=6){
-    const arr=(items||[]).slice(0,max);
-    if(!arr.length) return '<div class="of-empty">Añade favoritos para verlos aquí.</div>';
-    return arr.map(e=>{const src=IMG(e.poster_path,'w342');return `<button class="of-poster" onclick='abrir(${safeOpen(reify(e))})'>${src?`<img src="${src}" alt="${esc(e.titulo)}">`:'<div class="cph">🎬</div>'}<b>${esc(e.titulo||'Título')}</b>${e.puntuacion?`<span>⭐ ${e.puntuacion}</span>`:''}</button>`}).join('');
+    return it.slice(0,n);
   }
 
-  // Hard mode on first paint and after resize
-  aplicarModoOllada();
-  window.addEventListener('resize', ()=>{clearTimeout(window.__olladaFinalResize); window.__olladaFinalResize=setTimeout(()=>{aplicarModoOllada(); try{ var _v=(typeof vistaActual!=="undefined"?vistaActual:window.vistaActual); if(_v==='inicio') rinicio(); if(_v==='perfil') rperfil(); }catch(e){}},120)}, {passive:true});
+  function posterRow(items){
+    if(!items||!items.length)return '<div class="v17-empty">Añade favoritos para verlos aquí.</div>';
+    return items.map(function(e){
+      var src=e.poster_path?IMG(e.poster_path,'w342'):'';
+      var sc=Number(e.puntuacion||0)>0?e.puntuacion:(e.vote_average?(Number(e.vote_average)/2).toFixed(1):'—');
+      return '<button class="v17-poster" onclick=\'abrir('+os(e)+')\'>'
+        +'<div class="v17-poster-img">'+(src?'<img src="'+src+'" alt="'+esc(e.titulo||'')+'">':(e.titulo||'🎬'))+'</div>'
+        +'<div class="v17-poster-title">'+esc(e.titulo||'Sin título')+'</div>'
+        +'<div class="v17-poster-score">⭐ '+esc(sc)+'</div>'
+        +'</button>';
+    }).join('');
+  }
 
-  const previousRinicio = window.rinicio;
-  window.rinicio = async function(){
-    aplicarModoOllada();
-    if(!document.documentElement.classList.contains('app-mode')){
-      if(previousRinicio) return previousRinicio();
+  async function renderActivity(id){
+    var el=document.getElementById(id); if(!el)return;
+    if(typeof supabaseClient!=='undefined'&&supabaseClient&&typeof usuarioActual!=='undefined'&&usuarioActual){
+      try{
+        var rows=await sb('v17.act',supabaseClient.from('activity_feed').select('*').neq('user_id',usuarioActual.id).order('created_at',{ascending:false}).limit(5));
+        if(rows&&rows.length){
+          el.innerHTML='<div class="v17-card">'+rows.map(function(a){
+            var d=a.data||{};
+            var txt=typeof textoActividad==='function'?textoActividad(a).replace(/<[^>]+>/g,''):'actualizó algo';
+            var t=typeof haceTiempo==='function'?haceTiempo(a.created_at):'Hace un momento';
+            return '<div class="v17-act">'
+              +'<div class="v17-act-av">'+(d.avatar||'🎬')+'</div>'
+              +'<div class="v17-act-body"><b><span class="hi">@'+esc(d.username||'usuario')+'</span> '+esc(txt)+'</b>'
+              +'<div class="sub">'+(d.title?esc(d.title)+' · ':'')+t+'</div></div>'
+              +'<div class="v17-act-right"><div class="v17-heart">❤️</div><div class="v17-chev">›</div></div>'
+              +'</div>';
+          }).join('')+'</div>';
+          return;
+        }
+      }catch(e){}
     }
-    const root=document.getElementById('v-inicio'); if(!root) return;
-    const p=(S&&S.perfil)||{}; const stats=st();
-    root.innerHTML = `<div class="om-home">
-      <section class="om-hero-card">
-        <div class="om-hero-glow"></div>
-        <div class="om-kicker">👁️ Tu mirada al cine y las series</div>
-        <h1>Ollada</h1>
-        <p>Registra lo que ves, comparte tu perfil y decide qué ver con amigos o pareja.</p>
-        <div class="om-search"><span>🔍</span><input id="h-sinp" placeholder="Busca Hamnet, Cumbre borrascosa…" onkeydown="if(event.key==='Enter')hbuscarFinal('h-sinp')"><button onclick="hbuscarFinal('h-sinp')">Buscar</button></div>
-        <div class="om-stats"><div><b>${stats.m}</b><span>Películas</span></div><div><b>${stats.s}</b><span>Series</span></div><div><b>${stats.h}h</b><span>Horas</span></div><div><b>${stats.med}</b><span>Media</span></div></div>
-      </section>
-      <section class="om-card om-tonight"><div><div class="om-title">🤝 Qué vemos esta noche</div><p>El acceso a Juntos está aquí para que nadie se pierda.</p></div><button onclick="ir('conjunto')">Abrir Juntos</button></section>
-      <section class="om-section"><div class="om-section-head"><h2>🔥 Tendencias</h2><button onclick="ir('buscar')">Ver más</button></div><div class="om-row" id="trend-row"></div></section>
-      <section class="om-section"><div class="om-section-head"><h2>📈 Actividad reciente</h2><button onclick="ir('amigos')">Ver feed</button></div><div id="om-feed" class="om-feed"><div class="of-empty">Cargando actividad…</div></div></section>
-    </div>`;
-    const row=document.getElementById('trend-row');
-    if(row){row.innerHTML=Array(6).fill('<div class="om-poster-skel"></div>').join(''); try{const d=await tmdb('/trending/all/week'); row.innerHTML=(d.results||[]).slice(0,10).map(i=>`<div class="om-poster-wrap">${tarjeta({...i,media_type:i.media_type||'movie'},true)}</div>`).join('');}catch(e){row.innerHTML='<div class="of-empty">No se pudieron cargar tendencias.</div>';}}
-    loadMobileFeed();
-  };
-  async function loadMobileFeed(){
-    const el=document.getElementById('om-feed'); if(!el) return;
-    if(typeof supabaseClient==="undefined"||!supabaseClient){el.innerHTML='<div class="of-empty">Conecta Supabase para ver actividad.</div>'; return;}
-    try{const acts=await sb('activity.mobile', supabaseClient.from('activity_feed').select('*').order('created_at',{ascending:false}).limit(4)); el.innerHTML=(acts||[]).length?(acts||[]).map(a=>{const d=a.data||{};return `<div class="om-feed-item"><div class="ofi-av">${d.avatar||'🎬'}</div><div><b>@${esc(d.username||'usuario')}</b><span>${textoActividad(a).replace(/<[^>]+>/g,'')}</span>${d.text?`<p>“${esc(String(d.text).slice(0,90))}”</p>`:''}</div></div>`}).join(''):'<div class="of-empty">Tu actividad y la de tus amigos aparecerá aquí.</div>'; }catch(e){el.innerHTML='<div class="of-empty">No se pudo cargar actividad.</div>';}
+    var own=lst().slice().sort(function(a,b){return new Date(b.updated_at||b.visto_en||b.created_at||0)-new Date(a.updated_at||a.visto_en||a.created_at||0);})[0];
+    if(own){
+      var txt2=own.resena?'reseñó':Number(own.puntuacion)>0?('puntuó con '+own.puntuacion):own.favorito?'añadió a favoritos':own.estado?'marcó como '+own.estado:'guardó';
+      el.innerHTML='<div class="v17-card v17-act" onclick=\'abrir('+os(own)+')\'>'
+        +'<div class="v17-act-av">'+avHTML()+'</div>'
+        +'<div class="v17-act-body"><b><span class="hi">'+esc(uname())+'</span> '+txt2+'</b>'
+        +'<div class="sub">'+esc(own.titulo||'Título')+' · Hace poco</div></div>'
+        +'<div class="v17-act-right"><div class="v17-heart">❤️</div><div class="v17-chev">›</div></div>'
+        +'</div>';
+      return;
+    }
+    el.innerHTML='<div class="v17-card"><div class="v17-empty">'
+      +'<span class="ico">👥</span>'
+      +'Sigue a amigos para ver su actividad aquí.'
+      +'</div></div>';
   }
 
-  const previousRperfil = window.rperfil;
-  window.rperfil = function(){
-    aplicarModoOllada();
-    const root=document.getElementById('v-perfil'); if(!root) return;
-    const p=(S&&S.perfil)||{}; const stats=st();
-    const favs=stats.lst.filter(e=>e.favorito).sort((a,b)=>(b.puntuacion||0)-(a.puntuacion||0));
-    const reviews=stats.lst.filter(e=>(e.resena||'').trim()).slice(0,4);
-    root.innerHTML = `<div class="of-profile">
-      <section class="of-hero" style="${p.banner_url?`background-image:linear-gradient(180deg,rgba(0,0,0,.08),#08080a 92%),url('${esc(p.banner_url)}')`:''}">
-        <div class="of-orb one"></div><div class="of-orb two"></div>
-        ${av('of-avatar')}
-        <h1>@${esc(p.usuario||'cinephile')}</h1>
-        <p>${esc(p.bio||'Viviendo fotograma a fotograma.')}</p>
-        <div class="of-actions"><button class="primary" onclick="compartirPerfil()">📸 Compartir perfil</button><button onclick="oedit()">✏️ Editar</button><button onclick="abrirMiPerfilPublico()">👁️ Público</button><button onclick="cerrarSesion()">🚪 Salir</button></div>
-      </section>
-      <section class="of-stats"><div><b>${stats.m}</b><span>Películas</span></div><div><b>${stats.s}</b><span>Series</span></div><div><b>${stats.h}h</b><span>Horas</span></div><div><b>${stats.med}</b><span>Media</span></div></section>
-      <section class="of-card"><div class="of-head"><h2>🏆 Top favoritos</h2><button onclick="ir('buscar')">Añadir</button></div><div class="of-posters">${posterRow(favs,6)}</div></section>
-      <section class="of-card"><div class="of-head"><h2>🎬 Biblioteca</h2><button onclick="ir('buscar')">Buscar</button></div><div class="of-tabs"><button class="ptab on" data-tab="todo" onclick="setTabPerfil('todo')">Todo <span id="tc-todo">${stats.lst.length}</span></button><button class="ptab" data-tab="viendo" onclick="setTabPerfil('viendo')">▶️ Viendo <span id="tc-viendo">${stats.lst.filter(e=>e.estado==='viendo').length}</span></button><button class="ptab" data-tab="visto" onclick="setTabPerfil('visto')">✅ Vistos <span id="tc-visto">${stats.vst.length}</span></button><button class="ptab" data-tab="pendiente" onclick="setTabPerfil('pendiente')">📌 Pend. <span id="tc-pendiente">${stats.lst.filter(e=>e.estado==='pendiente').length}</span></button><button class="ptab" data-tab="abandonado" onclick="setTabPerfil('abandonado')">❌ Aband. <span id="tc-abandonado">${stats.lst.filter(e=>e.estado==='abandonado').length}</span></button></div><div class="of-library" id="wgrd"></div></section>
-      <section class="of-card"><div class="of-head"><h2>⚡ Accesos</h2></div><div class="of-menu"><button onclick="ir('conjunto')"><span>🤝</span>Juntos</button><button onclick="ir('ia')"><span>✨</span>IA</button><button onclick="ir('wrapped')"><span>🏆</span>Wrapped</button><button onclick="ir('listas')"><span>📋</span>Listas</button><button onclick="mostrarStatsAvanzadas()"><span>📊</span>Stats</button><button onclick="abrirNotificaciones()"><span>🔔</span>Notifs</button></div></section>
-      <section class="of-card"><div class="of-head"><h2>💬 Reseñas recientes</h2></div>${reviews.length?reviews.map(r=>`<div class="of-review"><b>${esc(r.titulo)}</b><p>${esc(String(r.resena).slice(0,160))}${String(r.resena).length>160?'…':''}</p></div>`).join(''):'<div class="of-empty">Escribe una reseña y aparecerá aquí.</div>'}</section>
-      <section class="of-card"><div class="of-head"><h2>🏅 Logros</h2></div><div class="of-badges"><div><b>🎬</b><span>Primera vez</span><small>${stats.lst.length?'Obtenido ✓':'Bloqueado'}</small></div><div><b>🔟</b><span>Diez títulos</span><small>${stats.lst.length>=10?'Obtenido ✓':'Bloqueado'}</small></div><div><b>✍️</b><span>Crítico/a</span><small>${reviews.length>=3?'Obtenido ✓':'Bloqueado'}</small></div></div></section>
-    </div>`;
-    try{ tabPerfilActual=tabPerfilActual||'todo'; setTabPerfil(tabPerfilActual); }catch(e){}
-  };
-
-  window.renderTabPerfil = function(){
-    const stats=st(); const items=tabPerfilActual==='todo'?stats.lst:stats.lst.filter(e=>e.estado===tabPerfilActual); const grid=document.getElementById('wgrd'); if(!grid) return;
-    document.querySelectorAll('.ptab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tabPerfilActual));
-    if(!items.length){grid.innerHTML='<div class="of-empty">Nada por aquí todavía.</div>'; return;}
-    grid.innerHTML=items.slice(0,30).map(e=>`<div class="of-library-item">${tarjeta(reify(e),true)}</div>`).join('');
-  };
-
-  // Make view changes reapply final mode and renderers.
-  const oldIr = window.ir;
-  if(oldIr){
-    window.ir=function(v){ aplicarModoOllada(); oldIr(v); setTimeout(()=>{try{aplicarModoOllada(); if(v==='inicio') rinicio(); if(v==='perfil') rperfil(); if(v==='buscar') rsr&&rsr();}catch(e){}},20); };
+  /* ══ INICIO ══ */
+  async function home(){
+    var root=document.getElementById('v-inicio');if(!root)return;
+    var items=await topWithTrend(4);
+    root.innerHTML='<div class="v17">'
+      +heroHTML('<button class="v17-pencil" onclick="oedit()">✎</button>')
+      +'<div class="v17-body">'
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>🏆 Top favoritos</h2><button class="v17-link" onclick="ir(\'perfil\')">Ver todos</button></div>'
+          +'<div class="v17-row">'+posterRow(items)+'</div>'
+        +'</div>'
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>Actividad reciente</h2><button class="v17-link" onclick="ir(\'amigos\')">Ver feed</button></div>'
+          +'<div id="v17-act-home"></div>'
+        +'</div>'
+        +'<div class="v17-sec">'
+          +'<div class="v17-card v17-tonight" onclick="ir(\'conjunto\')">'
+            +'<div class="v17-couch">🛋️</div>'
+            +'<div class="v17-tonight-body"><h3>🤝 Qué vemos esta noche</h3><p>Decidir juntos qué poner</p></div>'
+            +'<div class="v17-chev">›</div>'
+          +'</div>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+    renderActivity('v17-act-home');
   }
-  setTimeout(()=>{try{aplicarModoOllada(); if((window.vistaActual||'inicio')==='inicio') rinicio();}catch(e){}},60);
+
+  /* ══ PERFIL ══ */
+  var _libTab='todo';
+  function libHTML(){
+    var a=lst(),it=_libTab==='todo'?a:a.filter(function(e){return e.estado===_libTab;});
+    if(!it.length)return '<div class="v17-empty">Nada por aquí todavía.</div>';
+    return '<div class="v17-libgrid">'+it.slice(0,8).map(function(e){
+      var src=e.poster_path?IMG(e.poster_path,'w342'):'';
+      return '<button class="v17-lib" onclick=\'abrir('+os(e)+')\'>'
+        +'<div class="v17-lib-img">'+(src?'<img src="'+src+'" alt="'+esc(e.titulo||'')+'">':(e.titulo||'🎬'))+'</div>'
+        +'<div class="v17-lib-body"><div class="v17-lib-title">'+esc(e.titulo||'Sin título')+'</div>'
+        +'<div class="v17-lib-meta"><span>'+esc((e.fecha||'').slice(0,4)||'—')+'</span><span>⭐ '+esc(e.puntuacion||'—')+'</span></div>'
+        +'</div></button>';
+    }).join('')+'</div>';
+  }
+  window.v17Tab=function(t){
+    _libTab=t;
+    document.querySelectorAll('.v17-tab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t);});
+    var el=document.getElementById('v17-library');if(el)el.innerHTML=libHTML();
+  };
+
+  async function profile(){
+    var root=document.getElementById('v-perfil');if(!root)return;
+    var items=await topWithTrend(4);
+    var revs=lst().filter(function(e){return(e.resena||'').trim();}).slice(0,4);
+    _libTab='todo';
+    root.innerHTML='<div class="v17">'
+      +heroHTML('<button class="v17-pencil" onclick="oedit()">✎</button>')
+      +'<div class="v17-body">'
+        +'<div class="v17-btns">'
+          +'<button class="v17-btn pri" onclick="copiarPerfilPublico()">📸 Compartir</button>'
+          +'<button class="v17-btn" onclick="oedit()">✏️ Editar</button>'
+          +'<button class="v17-btn" onclick="abrirMiPerfilPublico()">👁️ Público</button>'
+          +'<button class="v17-btn" onclick="cerrarSesion()">🚪 Salir</button>'
+        +'</div>'
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>🏆 Top favoritos</h2><button class="v17-link" onclick="ir(\'buscar\')">Añadir</button></div>'
+          +'<div class="v17-row">'+posterRow(items)+'</div>'
+        +'</div>'
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>Actividad reciente</h2></div>'
+          +'<div id="v17-act-profile"></div>'
+        +'</div>'
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>🎬 Biblioteca</h2><button class="v17-link" onclick="ir(\'buscar\')">Buscar</button></div>'
+          +'<div class="v17-tabs">'
+            +'<button class="v17-tab on" data-tab="todo" onclick="v17Tab(\'todo\')">Todo</button>'
+            +'<button class="v17-tab" data-tab="viendo" onclick="v17Tab(\'viendo\')">▶ Viendo</button>'
+            +'<button class="v17-tab" data-tab="visto" onclick="v17Tab(\'visto\')">✅ Vistos</button>'
+            +'<button class="v17-tab" data-tab="pendiente" onclick="v17Tab(\'pendiente\')">📌 Pend.</button>'
+          +'</div>'
+          +'<div id="v17-library">'+libHTML()+'</div>'
+        +'</div>'
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>⚡ Accesos</h2></div>'
+          +'<div class="v17-shorts">'
+            +'<button class="v17-short" onclick="ir(\'conjunto\')"><span>🤝</span><b>Juntos</b></button>'
+            +'<button class="v17-short" onclick="ir(\'ia\')"><span>✨</span><b>IA</b></button>'
+            +'<button class="v17-short" onclick="ir(\'wrapped\')"><span>🏆</span><b>Wrapped</b></button>'
+            +'<button class="v17-short" onclick="ir(\'listas\')"><span>📋</span><b>Listas</b></button>'
+            +'<button class="v17-short" onclick="mostrarStatsAvanzadas()"><span>📊</span><b>Stats</b></button>'
+            +'<button class="v17-short" onclick="abrirNotificaciones()"><span>🔔</span><b>Notifs</b></button>'
+          +'</div>'
+        +'</div>'
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>💬 Reseñas recientes</h2></div>'
+          +'<div class="v17-card">'
+          +(revs.length
+            ?revs.map(function(r){return '<div class="v17-rev"><b>'+esc(r.titulo)+'</b><p>'+esc(String(r.resena).slice(0,130))+(String(r.resena).length>130?'…':'')+'</p></div>';}).join('')
+            :'<div class="v17-empty"><span class="ico">✍️</span>Escribe una reseña y aparecerá aquí.</div>')
+          +'</div>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+    renderActivity('v17-act-profile');
+  }
+
+  window.rinicio=rinicio=home;
+  window.rperfil=rperfil=profile;
+  window.v17home=home;
+  window.v17profile=profile;
+
+  var _oldIr=window.ir;
+  if(_oldIr)window.ir=function(v){
+    _oldIr(v);
+    if(v==='inicio')home();else if(v==='perfil')profile();
+  };
+
+  function v17FirstRender(){
+    try{
+      if(typeof aplicarModoOllada==='function')aplicarModoOllada();
+      var v=typeof vistaActual!=='undefined'?vistaActual:'inicio';
+      if(v==='perfil')profile();else home();
+    }catch(e){console.error('v17',e);}
+  }
+  /* Render inmediato (sin esperar 100ms) — el bloque ya está después de todo el DOM */
+  v17FirstRender();
+  /* Re-render por si Supabase tarda y modifica S.perfil después */
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', v17FirstRender);
+  }
+  setTimeout(v17FirstRender, 300);
 })();
 </script>
+
 </body>
 </html>

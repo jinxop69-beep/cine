@@ -1,8 +1,8 @@
 {
   "name": "Ollada — Tu mirada al cine y las series",
   "short_name": "Ollada",
-  "description": "App social de películas y series: registra, puntúa, crea listas y comparte con amigos.",
-  "id": "/",
+  "description": "App social de películas y series: registra, puntúa, crea listas y comparte con amigos. Build v18-clean.",
+  "id": "/ollada-v18-clean",
   "start_url": "/app.html",
   "scope": "/",
   "display": "standalone",
