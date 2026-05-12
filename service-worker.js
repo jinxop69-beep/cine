@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ollada-app-mockup-v2';
+const CACHE_NAME = 'ollada-pwa-v9-home-mockup';
 const APP_SHELL = [
   '/',
   '/index.html',

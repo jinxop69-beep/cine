@@ -905,6 +905,63 @@ html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:1
 .of-profile{background:#08080a;min-height:100vh}.of-hero{position:relative;min-height:360px;padding:46px 18px 28px;text-align:center;background:linear-gradient(180deg,rgba(217,70,239,.20),#08080a 86%);background-size:cover;background-position:center;overflow:hidden}.of-hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 25% 15%,rgba(217,70,239,.34),transparent 30%),radial-gradient(circle at 80% 8%,rgba(99,102,241,.24),transparent 34%);pointer-events:none}.of-hero>*{position:relative}.of-avatar{width:120px;height:120px;border-radius:34px;background:#111116;border:3px solid rgba(255,255,255,.1);box-shadow:0 18px 50px rgba(0,0,0,.55),0 0 0 6px rgba(217,70,239,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;overflow:hidden;font-size:58px}.of-avatar img{width:100%;height:100%;object-fit:cover}.of-hero h1{font-family:'Playfair Display',serif;font-size:42px;line-height:1;margin:0 0 10px}.of-hero p{color:var(--text2);font-size:15px;margin:0 auto 18px;max-width:360px}.of-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.of-actions button{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;padding:12px 16px;font-weight:900;font-size:13px}.of-actions .primary{border:0;background:linear-gradient(135deg,#d946ef,#7c3aed);box-shadow:0 12px 32px rgba(217,70,239,.25)}.of-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 18px;margin-top:-18px;position:relative;z-index:2}.of-stats div{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);border-radius:18px;text-align:center;padding:15px 8px;backdrop-filter:blur(14px)}.of-stats b{display:block;font-size:26px}.of-stats span{font-size:10px;color:var(--text3);text-transform:uppercase;font-weight:800}.of-card{margin:18px 16px 0}.of-posters{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px}.of-poster{width:118px;flex:0 0 118px;background:transparent;border:0;color:white;text-align:left}.of-poster img,.of-poster .cph{width:118px;height:177px;border-radius:15px;object-fit:cover;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04)}.of-poster b{font-size:12px;display:block;margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.of-poster span{font-size:11px;color:#fbbf24}.of-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px}.of-tabs .ptab{white-space:nowrap;border-radius:999px;padding:11px 15px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--text2);font-size:12px;font-weight:900}.of-tabs .ptab.on{color:white;background:linear-gradient(135deg,#d946ef,#7c3aed);border-color:transparent}.of-library{display:flex!important;gap:12px!important;overflow-x:auto!important;padding-bottom:8px!important}.of-library-item{flex:0 0 142px!important;width:142px!important}.of-library-item .card{width:142px!important;min-width:142px!important}.of-menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.of-menu button{min-height:82px;border-radius:20px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);color:#fff;text-align:left;padding:14px;font-weight:900;font-size:15px}.of-menu span{display:block;font-size:24px;margin-bottom:8px}.of-review{padding:14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);margin-bottom:10px}.of-review p{color:var(--text2);margin:6px 0 0;font-size:13px;line-height:1.5}.of-badges{display:flex;gap:10px;overflow-x:auto}.of-badges div{min-width:130px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:14px}.of-badges b{font-size:26px;display:block}.of-badges span{font-weight:900;display:block;margin-top:6px}.of-badges small{color:var(--text3)}
 @media(min-width:881px){.of-profile{max-width:1280px;margin:0 auto;padding:22px}.of-hero{border-radius:32px;min-height:310px}.of-stats{max-width:780px;margin:-22px auto 0}.of-card{margin:20px 0 0}.of-profile{display:block}.of-library{flex-wrap:wrap!important;overflow:visible!important}.of-grid{display:grid}.of-poster{width:136px;flex-basis:136px}.of-poster img,.of-poster .cph{width:136px;height:204px}}
 
+
+/* ==========================================================
+   OLLADA APP — HOME TIPO MOCKUP PERFIL NATIVO
+   Solo visual en app.html. No toca Supabase ni lógica.
+========================================================== */
+html.app-mode body{background:#050507;}
+html.app-mode .main{padding-bottom:78px;background:radial-gradient(circle at 50% 0%,rgba(168,85,247,.08),transparent 34%),#050507;}
+html.app-mode #v-inicio{padding:16px 14px 22px;}
+.oll-app-shell{max-width:520px;margin:0 auto;padding-bottom:10px;}
+.oll-hero-profile{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.10);border-radius:26px;background:linear-gradient(180deg,rgba(26,11,45,.92),rgba(6,8,18,.88));box-shadow:0 24px 70px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.07);margin-bottom:16px;}
+.oll-hero-bg{height:138px;background:radial-gradient(circle at 50% 20%,rgba(236,72,153,.24),transparent 38%),linear-gradient(135deg,#35134d,#0b1330 60%,#050507);position:relative;}
+.oll-hero-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 20%,rgba(5,5,7,.84));}
+.oll-profile-center{position:relative;margin-top:-72px;padding:0 16px 16px;text-align:center;}
+.oll-avatar{width:104px;height:104px;margin:0 auto 10px;border-radius:999px;background:#121217;border:3px solid rgba(217,70,239,.75);box-shadow:0 0 0 6px rgba(217,70,239,.13),0 12px 36px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:44px;overflow:hidden;}
+.oll-avatar img{width:100%;height:100%;object-fit:cover;}
+.oll-edit-dot{position:absolute;left:calc(50% + 32px);top:31px;width:34px;height:34px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 10px 26px rgba(124,58,237,.35);}
+.oll-user{font-size:23px;font-weight:900;letter-spacing:-.03em;color:#fff;margin-bottom:2px;}
+.oll-handle{font-size:12px;color:rgba(255,255,255,.48);font-weight:700;margin-bottom:12px;}
+.oll-stat-panel{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid rgba(255,255,255,.09);border-radius:17px;background:rgba(8,9,18,.55);backdrop-filter:blur(14px);overflow:hidden;margin-bottom:12px;}
+.oll-stat{padding:12px 5px 10px;min-width:0;}
+.oll-stat:not(:last-child){border-right:1px solid rgba(255,255,255,.08);}
+.oll-stat strong{display:block;font-size:19px;line-height:1;font-weight:900;color:#fff;margin-bottom:5px;}
+.oll-stat span{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.04em;color:rgba(255,255,255,.52);font-weight:800;white-space:nowrap;}
+.oll-bio{font-size:12px;line-height:1.45;color:rgba(255,255,255,.62);padding:0 6px;max-width:330px;margin:0 auto;}
+.oll-section{border:1px solid rgba(255,255,255,.09);border-radius:21px;background:rgba(255,255,255,.035);box-shadow:inset 0 1px 0 rgba(255,255,255,.035);padding:14px;margin-bottom:14px;overflow:hidden;}
+.oll-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
+.oll-section-title{font-size:16px;font-weight:900;letter-spacing:-.02em;color:#fff;display:flex;align-items:center;gap:8px;}
+.oll-see{background:transparent;border:0;color:#d946ef;font-size:12px;font-weight:800;padding:6px 0;}
+.oll-posters{display:flex;gap:10px;overflow-x:auto;padding-bottom:3px;scroll-snap-type:x proximity;}
+.oll-posters::-webkit-scrollbar{display:none;}
+.oll-poster{width:92px;flex:0 0 92px;scroll-snap-align:start;}
+.oll-poster-box{aspect-ratio:2/3;border-radius:11px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);box-shadow:0 12px 28px rgba(0,0,0,.3);}
+.oll-poster-box img{width:100%;height:100%;object-fit:cover;}
+.oll-poster-title{font-size:10px;font-weight:800;color:#fff;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.oll-poster-rating{font-size:10px;color:#fbbf24;margin-top:2px;font-weight:800;}
+.oll-empty-mini{border:1px dashed rgba(255,255,255,.13);border-radius:15px;padding:16px;text-align:center;color:rgba(255,255,255,.42);font-size:12px;width:100%;}
+.oll-activity-list{display:grid;gap:9px;}
+.oll-activity-card{display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;background:rgba(7,10,18,.58);border:1px solid rgba(255,255,255,.07);}
+.oll-act-av{width:38px;height:38px;border-radius:999px;background:linear-gradient(135deg,#d946ef,#6366f1);display:flex;align-items:center;justify-content:center;flex:0 0 38px;overflow:hidden;font-size:17px;}
+.oll-act-av img{width:100%;height:100%;object-fit:cover;}
+.oll-act-text{min-width:0;flex:1;}
+.oll-act-text strong{font-size:12px;color:#fff;display:block;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.oll-act-text span{font-size:11px;color:rgba(255,255,255,.55);line-height:1.35;display:block;}
+.oll-heart{font-size:20px;color:#f43f5e;}
+.oll-night{display:flex;align-items:center;gap:12px;padding:13px;border-radius:18px;background:linear-gradient(135deg,rgba(124,58,237,.17),rgba(217,70,239,.08));border:1px solid rgba(217,70,239,.16);}
+.oll-night-poster{width:62px;aspect-ratio:2/3;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);flex:0 0 62px;}
+.oll-night-poster img{width:100%;height:100%;object-fit:cover;}
+.oll-night-info{flex:1;min-width:0;}
+.oll-night-info strong{display:block;font-size:13px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+.oll-night-info span{display:block;font-size:11px;line-height:1.35;color:rgba(255,255,255,.55);}
+.oll-night-btn{border:0;border-radius:999px;background:linear-gradient(135deg,#d946ef,#7c3aed);color:#fff;font-size:12px;font-weight:900;padding:9px 12px;white-space:nowrap;}
+html.app-mode #v-inicio .hero, html.app-mode #v-inicio>.sec{display:none!important;}
+html.app-mode .bnav{height:64px;background:rgba(5,5,7,.88);border-top:1px solid rgba(255,255,255,.08);box-shadow:0 -12px 40px rgba(0,0,0,.5);}
+html.app-mode .bnb{font-size:10px;gap:4px;}
+html.app-mode .bnb svg{width:21px;height:21px;}
+@media(max-width:380px){.oll-avatar{width:92px;height:92px}.oll-user{font-size:21px}.oll-stat strong{font-size:17px}.oll-poster{width:84px;flex-basis:84px}.oll-section{padding:12px;border-radius:19px}}
+
 </style>
 <style>
 
@@ -3742,6 +3799,80 @@ setTimeout(aplicarModoOlladaFinal,0);
   }
   setTimeout(()=>{try{aplicarModoOllada(); if((window.vistaActual||'inicio')==='inicio') rinicio();}catch(e){}},60);
 })();
+
+/* ==========================================================
+   OLLADA APP — HOME COMO MOCKUP PERFIL
+   Sobrescribe SOLO rinicio en app.html. No toca Supabase ni guardado.
+========================================================== */
+(function(){
+  function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function reifySaved(e){return {id:e.tmdb_id,media_type:e.media_type||'movie',title:e.titulo||e.title||'',name:e.titulo||e.title||'',poster_path:e.poster_path||e.poster||'',backdrop_path:e.backdrop_path||'',overview:e.descripcion||e.overview||'',release_date:e.fecha||'',first_air_date:e.fecha||'',genre_ids:e.genre_ids||[],vote_average:e.vote_average||0};}
+  function itemClickAttr(item){return "abrir("+JSON.stringify(JSON.stringify(item)).replace(/'/g,"&#39;")+")";}
+  function imgUrl(path,size){return path?(path.indexOf('http')===0?path:'https://image.tmdb.org/t/p/'+(size||'w342')+path):'';}
+  function posterCard(e){
+    var item=reifySaved(e), src=imgUrl(item.poster_path,'w342');
+    return '<div class="oll-poster" onclick=\''+itemClickAttr(item)+'\'>'
+      +'<div class="oll-poster-box">'+(src?'<img src="'+src+'" alt="'+esc(item.title||item.name)+'" loading="lazy" onerror="this.outerHTML=\'<div class=cph>🎬</div>\'">':'<div class="cph">🎬</div>')+'</div>'
+      +'<div class="oll-poster-title">'+esc(item.title||item.name||'Sin título')+'</div>'
+      +'<div class="oll-poster-rating">⭐ '+(e.puntuacion||e.rating||'—')+'</div>'
+    +'</div>';
+  }
+  function activityCard(e, p){
+    var src = p && p.avatar_url ? '<img src="'+esc(p.avatar_url)+'" onerror="this.style.display=\'none\'">' : esc((p&&p.avatar)||'🎬');
+    var title = esc(e.titulo||e.title||'un título');
+    var action = e.favorito ? 'añadió a Favoritas' : (e.resena ? 'reseñó' : (e.estado==='visto'?'marcó como vista':'guardó'));
+    return '<div class="oll-activity-card" onclick=\''+itemClickAttr(reifySaved(e))+'\'>'
+      +'<div class="oll-act-av">'+src+'</div>'
+      +'<div class="oll-act-text"><strong>@'+esc((p&&p.usuario)||'usuario')+'</strong><span>'+action+' <b>'+title+'</b></span></div>'
+      +'<div class="oll-heart">'+(e.favorito?'❤️':'›')+'</div>'
+    +'</div>';
+  }
+  window.rinicio = async function(){
+    var root=document.getElementById('v-inicio'); if(!root) return;
+    var p=S.perfil||{};
+    var lst=Object.values(S.titulos||{});
+    var vistos=lst.filter(function(e){return e.estado==='visto';});
+    var m=vistos.filter(function(e){return (e.media_type||'movie')==='movie';}).length;
+    var s=vistos.filter(function(e){return e.media_type==='tv';}).length;
+    var mediaVals=lst.filter(function(e){return Number(e.puntuacion)>0;}).map(function(e){return Number(e.puntuacion);});
+    var med=mediaVals.length?(mediaVals.reduce(function(a,b){return a+b;},0)/mediaVals.length).toFixed(1):'—';
+    var favs=lst.filter(function(e){return e.favorito;});
+    var tops=(favs.length?favs:lst.filter(function(e){return Number(e.puntuacion)>0;}).sort(function(a,b){return (b.puntuacion||0)-(a.puntuacion||0);})).slice(0,8);
+    var recent=lst.slice().sort(function(a,b){return String(b.updated_at||b.created_at||'').localeCompare(String(a.updated_at||a.created_at||''));}).slice(0,3);
+    var night=tops[0]||lst[0]||null;
+    var av = p.avatar_url ? '<img src="'+esc(p.avatar_url)+'" onerror="this.style.display=\'none\'">' : esc(p.avatar||'🎬');
+    root.innerHTML = '<div class="oll-app-shell">'
+      +'<section class="oll-hero-profile">'
+        +'<div class="oll-hero-bg"></div>'
+        +'<div class="oll-profile-center">'
+          +'<div class="oll-avatar">'+av+'</div><button class="oll-edit-dot" onclick="oedit()">✎</button>'
+          +'<div class="oll-user">'+esc(p.nombre||p.name||p.usuario||'Kenneth')+'</div>'
+          +'<div class="oll-handle">@'+esc(p.usuario||'usuario')+'</div>'
+          +'<div class="oll-stat-panel">'
+            +'<div class="oll-stat"><strong>'+m+'</strong><span>Películas</span></div>'
+            +'<div class="oll-stat"><strong>'+s+'</strong><span>Series</span></div>'
+            +'<div class="oll-stat"><strong>'+((S.listas||[]).length)+'</strong><span>Listas</span></div>'
+            +'<div class="oll-stat"><strong>'+med+'</strong><span>Media</span></div>'
+          +'</div>'
+          +'<div class="oll-bio">'+esc(p.bio||'Viviendo fotograma a fotograma.')+'</div>'
+        +'</div>'
+      +'</section>'
+      +'<section class="oll-section">'
+        +'<div class="oll-section-head"><div class="oll-section-title">🏆 Top favoritos</div><button class="oll-see" onclick="ir(\'perfil\')">Ver todos</button></div>'
+        +'<div class="oll-posters">'+(tops.length?tops.map(posterCard).join(''):'<div class="oll-empty-mini">Añade favoritos para verlos aquí.</div>')+'</div>'
+      +'</section>'
+      +'<section class="oll-section">'
+        +'<div class="oll-section-head"><div class="oll-section-title">🤝 Qué vemos esta noche</div><button class="oll-see" onclick="ir(\'conjunto\')">Abrir</button></div>'
+        +(night?'<div class="oll-night"><div class="oll-night-poster">'+(imgUrl(night.poster_path||night.poster,'w185')?'<img src="'+imgUrl(night.poster_path||night.poster,'w185')+'">':'')+'</div><div class="oll-night-info"><strong>'+esc(night.titulo||night.title)+'</strong><span>Recomendación basada en tu perfil. Añádela a Juntos para decidir.</span></div><button class="oll-night-btn" onclick="ir(\'conjunto\')">Juntos</button></div>':'<div class="oll-empty-mini">Cuando guardes títulos aparecerán recomendaciones.</div>')
+      +'</section>'
+      +'<section class="oll-section">'
+        +'<div class="oll-section-head"><div class="oll-section-title">Actividad reciente</div><button class="oll-see" onclick="ir(\'amigos\')">Ver todo</button></div>'
+        +'<div class="oll-activity-list">'+(recent.length?recent.map(function(e){return activityCard(e,p);}).join(''):'<div class="oll-empty-mini">Tu actividad aparecerá aquí.</div>')+'</div>'
+      +'</section>'
+    +'</div>';
+  };
+})();
+
 </script>
 </body>
 </html>
