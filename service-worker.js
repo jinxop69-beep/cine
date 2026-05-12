@@ -1,5 +1,5 @@
-const CACHE_NAME = 'ollada-pwa-v17-logo-montanas-avatar-social';
-const APP_SHELL = ['/','/index.html','/app.html','/manifest.webmanifest','/icons/icon-192.png','/icons/icon-512.png','/icons/maskable-512.png','/icons/apple-touch-icon.png'];
-self.addEventListener('install', e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(APP_SHELL).catch(()=>null)));});
-self.addEventListener('activate', e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
-self.addEventListener('fetch', e=>{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);if(u.origin===location.origin&&(u.pathname.endsWith('.html')||u.pathname==='/')){e.respondWith(fetch(r).then(res=>{caches.open(CACHE_NAME).then(c=>c.put(r,res.clone()));return res;}).catch(()=>caches.match(r).then(c=>c||caches.match('/index.html'))));return;}e.respondWith(caches.match(r).then(c=>c||fetch(r).then(res=>{if(u.origin===location.origin)caches.open(CACHE_NAME).then(c=>c.put(r,res.clone()));return res;})));});
+const CACHE_NAME='ollada-pwa-v17b';
+const SHELL=['/','/index.html','/app.html','/manifest.webmanifest','/icons/icon-192.png','/icons/icon-512.png','/icons/maskable-512.png','/icons/apple-touch-icon.png'];
+self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(SHELL).catch(()=>null)));});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
+self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);if(u.origin===location.origin&&(u.pathname.endsWith('.html')||u.pathname==='/')){e.respondWith(fetch(r).then(res=>{caches.open(CACHE_NAME).then(c=>c.put(r,res.clone()));return res;}).catch(()=>caches.match(r).then(c=>c||caches.match('/index.html'))));return;}e.respondWith(caches.match(r).then(c=>c||fetch(r).then(res=>{if(u.origin===location.origin)caches.open(CACHE_NAME).then(c=>c.put(r,res.clone()));return res;})));});

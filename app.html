@@ -3563,168 +3563,349 @@ setTimeout(aplicarModoOlladaFinal,0);
 </script>
 
 <style id="v17-css">
-/* ══════════════════════════════════════════════
-   OLLADA v17 — UN solo bloque visual limpio
-   Solo app-mode móvil. Reemplaza rinicio/rperfil.
-   ══════════════════════════════════════════════ */
+/*
+  OLLADA v17b — pixel-match del mockup
+  Hero: logo arriba, montañas con glow cálido, avatar centrado,
+  nombre, handle, stats card, bio — SIN espacio vacío entre bio y Top favoritos.
+*/
 @media(max-width:900px){
-  html.app-mode body{background:#030512!important;overflow-x:hidden!important;}
+  html.app-mode body{background:#0d0a1a!important;overflow-x:hidden!important;}
   html.app-mode .hdr{display:none!important;}
   html.app-mode .main{padding:0!important;margin:0!important;max-width:none!important;width:100%!important;}
-  html.app-mode .view{min-height:100vh!important;background:#030512!important;}
+  html.app-mode .view{min-height:100vh!important;background:#0d0a1a!important;}
   html.app-mode .bnav{
     position:fixed!important;left:0!important;right:0!important;bottom:0!important;
-    height:82px!important;background:rgba(5,6,16,.95)!important;
-    backdrop-filter:blur(24px)!important;border-top:1px solid rgba(255,255,255,.08)!important;
+    height:80px!important;
+    background:rgba(10,8,22,.97)!important;
+    backdrop-filter:blur(20px)!important;
+    border-top:1px solid rgba(255,255,255,.07)!important;
     z-index:100!important;
   }
-  html.app-mode .bnav-inner{height:82px!important;padding:6px 2px 12px!important;}
-  html.app-mode .bnb{font-size:10px!important;color:rgba(255,255,255,.44)!important;font-weight:700!important;gap:3px!important;}
-  html.app-mode .bnb svg{width:22px!important;height:22px!important;}
-  html.app-mode .bnb.on{color:#e040ff!important;}
+  html.app-mode .bnav-inner{height:80px!important;padding:5px 0 10px!important;}
+  html.app-mode .bnb{font-size:10px!important;color:rgba(255,255,255,.40)!important;font-weight:600!important;gap:3px!important;}
+  html.app-mode .bnb svg{width:22px!important;height:22px!important;stroke-width:1.8!important;}
+  html.app-mode .bnb.on{color:#a855f7!important;}
 
-  /* pantalla base */
-  .v17{min-height:100vh;padding:0 0 95px;background:#030512;color:#fff;font-family:Inter,system-ui,sans-serif;}
+  /* ─── PANTALLA BASE ─── */
+  .v17{
+    min-height:100vh;
+    padding-bottom:90px;
+    background:#0d0a1a;
+    color:#fff;
+    font-family:Inter,system-ui,sans-serif;
+  }
 
-  /* ── hero: montañas cinematográficas ── */
+  /* ─── HERO ─── */
+  /* Altura exacta: solo lo que ocupa el contenido, sin min-height fija */
   .v17-hero{
-    position:relative;min-height:610px;padding:46px 20px 0;overflow:hidden;
-  }
-  .v17-mountains{
-    position:absolute;inset:0;z-index:0;pointer-events:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 520' preserveAspectRatio='xMidYMax slice'%3E%3Cdefs%3E%3ClinearGradient id='sky' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%2302030d'/%3E%3Cstop offset='.35' stop-color='%23190530'/%3E%3Cstop offset='.62' stop-color='%23380c55'/%3E%3Cstop offset='.82' stop-color='%231c072e'/%3E%3Cstop offset='1' stop-color='%2303050f'/%3E%3C/linearGradient%3E%3CradialGradient id='g1' cx='50%25' cy='48%25' r='50%25'%3E%3Cstop offset='0' stop-color='%23ff38cc' stop-opacity='.50'/%3E%3Cstop offset='.45' stop-color='%239533ff' stop-opacity='.22'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='g2' cx='22%25' cy='62%25' r='32%25'%3E%3Cstop offset='0' stop-color='%239020ee' stop-opacity='.30'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='0'/%3E%3C/radialGradient%3E%3ClinearGradient id='ma' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234a1478'/%3E%3Cstop offset='1' stop-color='%23240848'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='900' height='520' fill='url(%23sky)'/%3E%3Crect width='900' height='520' fill='url(%23g1)'/%3E%3Crect width='900' height='520' fill='url(%23g2)'/%3E%3Cpath d='M0 300C30 274 62 240 94 255 114 263 134 218 164 208 188 199 213 243 244 230 274 216 298 172 334 178 368 184 388 158 424 146 458 134 478 168 514 156 548 143 574 116 614 128 654 140 674 173 714 166 754 158 778 128 814 139 850 150 878 184 900 191L900 520 0 520Z' fill='url(%23ma)' opacity='.86'/%3E%3Cpath d='M0 352C42 324 84 296 118 314 142 327 168 281 204 271 232 262 258 302 294 292 328 282 352 246 392 252 432 258 454 226 494 216 534 206 558 246 598 241 638 236 662 206 702 214 742 222 766 256 804 250 842 244 874 272 900 284L900 520 0 520Z' fill='%231a0530' opacity='.93'/%3E%3Cpath d='M0 396C36 372 72 344 108 358 134 369 160 336 194 330 220 324 246 354 280 348 314 342 336 314 372 318 408 322 430 294 470 288 510 282 532 316 570 310 608 304 632 278 672 284 712 290 734 324 772 318 810 312 844 336 880 344 900 350L900 520 0 520Z' fill='%230d0520' opacity='.97'/%3E%3C/svg%3E");
-    background-size:cover;background-position:center top;
-  }
-  .v17-mountains:after{
-    content:"";position:absolute;inset:0;
-    background:linear-gradient(180deg,rgba(3,5,18,0) 0%,rgba(3,5,18,.12) 50%,rgba(3,5,18,.78) 75%,#030512 100%);
+    position:relative;
+    padding:0;
+    overflow:hidden;
+    /* fondo del cielo morado oscuro */
+    background:
+      radial-gradient(ellipse 80% 55% at 50% 38%, rgba(255,80,160,.28) 0%, rgba(130,40,200,.18) 38%, transparent 72%),
+      linear-gradient(180deg, #0e0820 0%, #1a0a2e 35%, #2a0d3e 55%, #1a0828 75%, #0d0a1a 100%);
   }
 
-  /* ── top bar (logo + iconos) ── */
-  .v17-topbar{
-    position:relative;z-index:3;
-    display:flex;align-items:center;justify-content:space-between;margin-bottom:44px;
+  /* Montañas SVG — misma silueta que el mockup: cordillera violeta con glow naranja-dorado */
+  .v17-mountains{
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:62%;
+    pointer-events:none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 240' preserveAspectRatio='xMidYMax slice'%3E%3Cdefs%3E%3ClinearGradient id='m1' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%234a1570'/%3E%3Cstop offset='1' stop-color='%23200840'/%3E%3C/linearGradient%3E%3ClinearGradient id='m2' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%232d0950'/%3E%3Cstop offset='1' stop-color='%2312051e'/%3E%3C/linearGradient%3E%3ClinearGradient id='m3' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%231a0630'/%3E%3Cstop offset='1' stop-color='%230a0318'/%3E%3C/linearGradient%3E%3CradialGradient id='glow' cx='50%25' cy='0%25' r='60%25'%3E%3Cstop offset='0' stop-color='%23ff8c42' stop-opacity='.55'/%3E%3Cstop offset='30%25' stop-color='%23d946ef' stop-opacity='.22'/%3E%3Cstop offset='100%25' stop-color='%23000' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3C!-- glow horizonte --%3E%3Cellipse cx='200' cy='6' rx='180' ry='38' fill='url(%23glow)'/%3E%3C!-- montaña lejana izq --%3E%3Cpath d='M-10 240 L40 110 L90 170 L130 90 L175 155 L220 70 L270 145 L320 85 L370 135 L410 100 L410 240Z' fill='url(%23m1)' opacity='.7'/%3E%3C!-- montaña media --%3E%3Cpath d='M-10 240 L20 155 L65 195 L110 130 L160 175 L210 105 L255 165 L305 120 L350 160 L410 130 L410 240Z' fill='url(%23m2)' opacity='.85'/%3E%3C!-- montaña delantera --%3E%3Cpath d='M-10 240 L0 195 L50 215 L95 175 L140 205 L185 168 L230 200 L275 172 L320 200 L365 180 L410 195 L410 240Z' fill='url(%23m3)' opacity='.95'/%3E%3C/svg%3E");
+    background-size:100% 100%;
+    background-position:bottom center;
+    background-repeat:no-repeat;
   }
-  .v17-brand{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:900;letter-spacing:-.04em;color:#fff;}
-  .v17-logo{width:30px;height:20px;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(217,70,239,.7));}
-  .v17-icons{display:flex;gap:9px;}
+
+  /* fade inferior de las montañas hacia el fondo de la página */
+  .v17-mountains:after{
+    content:"";
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:40%;
+    background:linear-gradient(to bottom, transparent, #0d0a1a);
+  }
+
+  /* ─── TOP BAR ─── */
+  .v17-topbar{
+    position:relative; z-index:10;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:52px 20px 0;
+  }
+  .v17-brand{
+    display:flex; align-items:center; gap:9px;
+    font-size:21px; font-weight:900; letter-spacing:-.03em; color:#fff;
+  }
+  .v17-logo{
+    width:32px; height:21px; flex-shrink:0;
+    filter:drop-shadow(0 0 10px rgba(168,85,247,.8));
+  }
+  .v17-icons{ display:flex; gap:10px; }
   .v17-icon{
-    width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.14);
-    background:rgba(8,10,22,.55);backdrop-filter:blur(10px);
-    color:#fff;font-size:19px;display:flex;align-items:center;justify-content:center;
+    width:42px; height:42px; border-radius:50%;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.07);
+    backdrop-filter:blur(10px);
+    color:#fff; font-size:18px;
+    display:flex; align-items:center; justify-content:center;
     position:relative;
   }
-  .v17-dot{position:absolute;right:4px;top:4px;width:9px;height:9px;background:#ff3c66;border-radius:50%;border:2px solid #030512;}
+  .v17-dot{
+    position:absolute; right:4px; top:4px;
+    width:9px; height:9px;
+    background:#ef4444; border-radius:50%;
+    border:2px solid #0d0a1a;
+  }
 
-  /* ── avatar circular ── */
-  .v17-avwrap{position:relative;z-index:3;width:120px;margin:0 auto 14px;}
+  /* ─── AVATAR ─── */
+  .v17-avwrap{
+    position:relative; z-index:10;
+    width:130px; margin:32px auto 0;
+  }
   .v17-av{
-    width:120px;height:120px;border-radius:50%;padding:3px;
-    background:linear-gradient(135deg,#ff4bd8,#9b5cff,#6155ff);
-    box-shadow:0 0 0 5px rgba(217,70,239,.10),0 0 34px rgba(217,70,239,.48),0 18px 44px rgba(0,0,0,.55);
+    width:130px; height:130px; border-radius:50%;
+    padding:3px;
+    background:linear-gradient(135deg,#e879f9,#a855f7,#7c3aed);
+    box-shadow:
+      0 0 0 4px rgba(168,85,247,.12),
+      0 0 40px rgba(168,85,247,.50),
+      0 20px 50px rgba(0,0,0,.60);
   }
   .v17-av-in{
-    width:100%;height:100%;border-radius:50%;background:#07090f;
-    display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:48px;color:#fff;
+    width:100%; height:100%; border-radius:50%;
+    background:#0d0916;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden; font-size:52px; color:#fff;
   }
-  .v17-av-in img{width:100%;height:100%;object-fit:cover;}
+  .v17-av-in img{ width:100%; height:100%; object-fit:cover; }
   .v17-pencil{
-    position:absolute;right:-4px;bottom:8px;width:36px;height:36px;border-radius:50%;border:0;
-    background:linear-gradient(135deg,#c026d3,#7c3aed);color:#fff;font-size:16px;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 6px 18px rgba(124,58,237,.45);cursor:pointer;
+    position:absolute; right:-2px; bottom:6px;
+    width:38px; height:38px; border-radius:50%; border:0;
+    background:linear-gradient(135deg,#9333ea,#7c3aed);
+    color:#fff; font-size:17px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 16px rgba(124,58,237,.55);
+    cursor:pointer; z-index:2;
   }
 
-  /* ── nombre, handle, bio ── */
-  .v17-name{position:relative;z-index:3;text-align:center;font-size:28px;font-weight:900;letter-spacing:-.04em;line-height:1.06;}
-  .v17-handle{position:relative;z-index:3;text-align:center;color:rgba(255,255,255,.62);font-size:15px;font-weight:600;margin-top:4px;}
-  .v17-bio{position:relative;z-index:3;margin:12px auto 0;max-width:290px;text-align:center;font-size:13px;line-height:1.5;color:rgba(255,255,255,.70);}
-
-  /* ── stats card ── */
-  .v17-stats{
-    position:relative;z-index:3;margin:16px auto 0;max-width:calc(100vw - 40px);
-    display:grid;grid-template-columns:repeat(4,1fr);
-    border-radius:16px;background:rgba(14,12,32,.64);
-    border:1px solid rgba(195,90,255,.20);
-    backdrop-filter:blur(14px);overflow:hidden;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 14px 30px rgba(0,0,0,.25);
+  /* ─── NOMBRE / HANDLE ─── */
+  .v17-name{
+    position:relative; z-index:10;
+    text-align:center;
+    font-size:30px; font-weight:900; letter-spacing:-.03em; line-height:1.1;
+    margin-top:14px;
+    color:#fff;
   }
-  .v17-stat{text-align:center;padding:13px 4px 12px;position:relative;}
-  .v17-stat+.v17-stat:before{content:"";position:absolute;left:0;top:20%;bottom:20%;width:1px;background:rgba(255,255,255,.09);}
-  .v17-stat b{display:block;font-size:22px;line-height:1;font-weight:900;color:#fff;}
-  .v17-stat span{display:block;margin-top:5px;font-size:10px;font-weight:600;color:rgba(255,255,255,.62);}
+  .v17-handle{
+    position:relative; z-index:10;
+    text-align:center;
+    color:rgba(255,255,255,.60);
+    font-size:15px; font-weight:500;
+    margin-top:4px;
+  }
 
-  /* ── contenido bajo hero ── */
-  .v17-body{position:relative;z-index:4;margin-top:-30px;padding:0 16px;}
-  .v17-sec{margin-top:20px;}
-  .v17-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px;}
-  .v17-head h2{margin:0;font-size:19px;font-weight:900;letter-spacing:-.03em;color:#fff;}
-  .v17-link{border:0;background:transparent;color:#d04cff;font-weight:800;font-size:13px;padding:0;}
+  /* ─── STATS CARD ─── */
+  /* Igual al mockup: fondo oscuro, borde muy sutil, 4 columnas separadas por líneas */
+  .v17-statscard{
+    position:relative; z-index:10;
+    margin:18px 20px 0;
+    border-radius:14px;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.10);
+    display:grid; grid-template-columns:repeat(4,1fr);
+    overflow:hidden;
+  }
+  .v17-stat{
+    text-align:center; padding:14px 6px 12px;
+    position:relative;
+  }
+  .v17-stat+.v17-stat::before{
+    content:""; position:absolute; left:0; top:18%; bottom:18%;
+    width:1px; background:rgba(255,255,255,.10);
+  }
+  .v17-stat b{
+    display:block; font-size:26px; line-height:1;
+    font-weight:900; color:#fff;
+  }
+  .v17-stat span{
+    display:block; margin-top:5px;
+    font-size:11px; font-weight:500; color:rgba(255,255,255,.55);
+    letter-spacing:.01em;
+  }
 
-  /* ── posters fila horizontal ── */
-  .v17-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;}
-  .v17-row::-webkit-scrollbar{display:none;}
-  .v17-poster{flex:0 0 88px;width:88px;border:0;background:transparent;padding:0;text-align:left;color:#fff;}
-  .v17-poster-img{width:88px;aspect-ratio:.68;border-radius:11px;overflow:hidden;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 18px rgba(0,0,0,.28);}
-  .v17-poster-img img{width:100%;height:100%;object-fit:cover;}
-  .v17-poster-title{margin-top:5px;font-size:11px;font-weight:700;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#fff;}
-  .v17-poster-score{margin-top:2px;color:#facc15;font-size:11px;font-weight:700;}
+  /* ─── BIO ─── */
+  .v17-bio{
+    position:relative; z-index:10;
+    text-align:center;
+    font-size:14px; line-height:1.5; color:rgba(255,255,255,.65);
+    margin:14px 24px 0;
+  }
 
-  /* ── card contenedor ── */
-  .v17-card{border-radius:16px;background:rgba(8,10,22,.78);border:1px solid rgba(255,255,255,.08);box-shadow:0 12px 28px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.04);}
+  /* ─── CUERPO (secciones debajo del hero) ─── */
+  /* margin-top:0 — NO hay espacio extra, el hero ya termina donde termina */
+  .v17-body{
+    position:relative; z-index:5;
+    padding:22px 16px 0;
+  }
 
-  /* ── actividad ── */
-  .v17-act{display:grid;grid-template-columns:42px 1fr auto auto;gap:10px;align-items:center;padding:13px 14px;cursor:pointer;}
-  .v17-act+.v17-act{border-top:1px solid rgba(255,255,255,.06);}
-  .v17-act-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#d946ef,#7c3aed);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:20px;color:#fff;flex-shrink:0;}
-  .v17-act-av img{width:100%;height:100%;object-fit:cover;}
-  .v17-act-copy b{display:block;color:#fff;font-size:13px;font-weight:800;line-height:1.25;}
-  .v17-act-copy span{display:block;color:rgba(255,255,255,.60);font-size:11px;margin-top:3px;line-height:1.35;}
-  .v17-heart{font-size:20px;color:#ff386f;}
-  .v17-chev{font-size:24px;color:rgba(255,255,255,.34);}
-  .v17-empty{padding:20px 14px;text-align:center;color:rgba(255,255,255,.50);font-size:13px;line-height:1.6;}
-  .v17-empty .ico{font-size:30px;display:block;margin-bottom:7px;}
+  /* ─── SECCIONES ─── */
+  .v17-sec{ margin-bottom:24px; }
+  .v17-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .v17-head h2{
+    margin:0; font-size:18px; font-weight:800; color:#fff; letter-spacing:-.02em;
+  }
+  .v17-link{
+    border:0; background:transparent;
+    color:#a855f7; font-weight:700; font-size:13px; padding:0;
+  }
 
-  /* ── juntos ── */
-  .v17-tonight{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center;padding:13px 14px;cursor:pointer;border:1px solid rgba(217,70,239,.35)!important;}
-  .v17-couch{width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,rgba(124,58,237,.78),rgba(76,29,149,.65));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-  .v17-tonight h3{margin:0;color:#fff;font-size:14px;font-weight:900;}
-  .v17-tonight p{margin:3px 0 0;color:rgba(255,255,255,.56);font-size:12px;line-height:1.3;}
+  /* ─── FILA POSTERS ─── */
+  /* En el mockup los posters son bastante grandes: ~145px ancho */
+  .v17-row{
+    display:flex; gap:12px;
+    overflow-x:auto; padding-bottom:4px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .v17-row::-webkit-scrollbar{ display:none; }
+  .v17-poster{
+    flex:0 0 140px; width:140px;
+    border:0; background:transparent; padding:0;
+    text-align:left; color:#fff; cursor:pointer;
+  }
+  .v17-poster-img{
+    width:140px; height:210px; border-radius:12px;
+    overflow:hidden; background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.08);
+    display:flex; align-items:center; justify-content:center;
+    font-size:32px;
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
+  }
+  .v17-poster-img img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .v17-poster-title{
+    margin-top:7px; font-size:13px; font-weight:600; line-height:1.2;
+    color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .v17-poster-score{
+    margin-top:3px; color:#fbbf24;
+    font-size:13px; font-weight:700;
+    display:flex; align-items:center; gap:3px;
+  }
 
-  /* ── botones perfil ── */
-  .v17-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;}
-  .v17-btn{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);border-radius:999px;color:#fff;padding:11px 8px;font-weight:800;font-size:12px;}
-  .v17-btn.pri{border:0;background:linear-gradient(135deg,#d946ef,#7c3aed);box-shadow:0 8px 20px rgba(168,85,247,.28);}
+  /* ─── CARD ─── */
+  .v17-card{
+    border-radius:14px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+  }
 
-  /* ── tabs biblioteca ── */
-  .v17-tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:8px;}
-  .v17-tabs::-webkit-scrollbar{display:none;}
-  .v17-tab{white-space:nowrap;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.05);border-radius:999px;color:rgba(255,255,255,.66);padding:8px 12px;font-weight:800;font-size:11px;}
-  .v17-tab.on{background:linear-gradient(135deg,#d946ef,#7c3aed);color:#fff;border-color:transparent;}
-  .v17-libgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;}
-  .v17-lib{border:0;background:rgba(255,255,255,.04);border-radius:13px;overflow:hidden;color:#fff;text-align:left;padding:0;}
-  .v17-lib-img{width:100%;aspect-ratio:.72;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:26px;}
-  .v17-lib-img img{width:100%;height:100%;object-fit:cover;}
-  .v17-lib-body{padding:8px 9px;}
-  .v17-lib-title{font-size:12px;font-weight:800;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:28px;}
-  .v17-lib-meta{display:flex;justify-content:space-between;color:rgba(255,255,255,.58);font-size:11px;margin-top:6px;}
+  /* ─── ACTIVIDAD ─── */
+  .v17-act{
+    display:flex; align-items:center; gap:12px;
+    padding:14px 14px;
+    cursor:pointer;
+  }
+  .v17-act+.v17-act{ border-top:1px solid rgba(255,255,255,.06); }
+  .v17-act-av{
+    width:46px; height:46px; border-radius:50%;
+    background:linear-gradient(135deg,#d946ef,#7c3aed);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden; font-size:20px; color:#fff; flex-shrink:0;
+  }
+  .v17-act-av img{ width:100%; height:100%; object-fit:cover; }
+  .v17-act-body{ flex:1; min-width:0; }
+  .v17-act-body b{ display:block; font-size:14px; font-weight:700; color:#fff; line-height:1.3; }
+  .v17-act-body b span.hi{ color:#a855f7; font-weight:800; }
+  .v17-act-body .sub{ font-size:12px; color:rgba(255,255,255,.50); margin-top:3px; }
+  .v17-act-right{ display:flex; align-items:center; gap:8px; flex-shrink:0; }
+  .v17-heart{ font-size:22px; color:#f43f5e; }
+  .v17-chev{ font-size:22px; color:rgba(255,255,255,.30); }
 
-  /* ── accesos rápidos ── */
-  .v17-shorts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-  .v17-short{border:0;border-radius:14px;background:rgba(12,14,28,.85);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);padding:12px 8px;color:#fff;min-height:75px;text-align:left;}
-  .v17-short span{display:block;font-size:20px;margin-bottom:6px;}
-  .v17-short b{font-size:12px;font-weight:800;}
+  .v17-empty{
+    padding:22px 16px; text-align:center;
+    color:rgba(255,255,255,.45); font-size:13px; line-height:1.6;
+  }
+  .v17-empty .ico{ font-size:28px; display:block; margin-bottom:8px; }
 
-  /* ── reseñas ── */
-  .v17-rev{padding:12px 14px;border-top:1px solid rgba(255,255,255,.06);}
-  .v17-rev:first-child{border-top:0;}
-  .v17-rev b{font-size:13px;font-weight:800;}
-  .v17-rev p{margin:4px 0 0;font-size:12px;line-height:1.5;color:rgba(255,255,255,.60);}
+  /* ─── JUNTOS ─── */
+  .v17-tonight{
+    display:flex; align-items:center; gap:12px;
+    padding:14px 14px; cursor:pointer;
+    border-color:rgba(168,85,247,.30)!important;
+  }
+  .v17-couch{
+    width:46px; height:46px; border-radius:12px; flex-shrink:0;
+    background:linear-gradient(135deg,rgba(124,58,237,.85),rgba(76,29,149,.70));
+    display:flex; align-items:center; justify-content:center; font-size:22px;
+  }
+  .v17-tonight-body{ flex:1; }
+  .v17-tonight-body h3{ margin:0; font-size:15px; font-weight:800; color:#fff; }
+  .v17-tonight-body p{ margin:3px 0 0; font-size:12px; color:rgba(255,255,255,.55); }
+
+  /* ─── PERFIL: botones ─── */
+  .v17-btns{ display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-bottom:22px; }
+  .v17-btn{
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.06);
+    border-radius:999px; color:#fff;
+    padding:12px 8px; font-weight:700; font-size:13px;
+  }
+  .v17-btn.pri{
+    border:0;
+    background:linear-gradient(135deg,#d946ef,#7c3aed);
+    box-shadow:0 8px 22px rgba(168,85,247,.30);
+  }
+
+  /* ─── TABS BIBLIOTECA ─── */
+  .v17-tabs{ display:flex; gap:8px; overflow-x:auto; padding-bottom:10px; }
+  .v17-tabs::-webkit-scrollbar{ display:none; }
+  .v17-tab{
+    white-space:nowrap; flex-shrink:0;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.05);
+    border-radius:999px; color:rgba(255,255,255,.65);
+    padding:8px 14px; font-weight:700; font-size:12px;
+  }
+  .v17-tab.on{ background:linear-gradient(135deg,#d946ef,#7c3aed); color:#fff; border-color:transparent; }
+  .v17-libgrid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:10px; }
+  .v17-lib{
+    border:0; background:rgba(255,255,255,.04);
+    border-radius:12px; overflow:hidden; color:#fff; text-align:left; padding:0; cursor:pointer;
+  }
+  .v17-lib-img{
+    width:100%; aspect-ratio:.72;
+    background:rgba(255,255,255,.05);
+    display:flex; align-items:center; justify-content:center; font-size:26px;
+  }
+  .v17-lib-img img{ width:100%; height:100%; object-fit:cover; }
+  .v17-lib-body{ padding:8px 9px; }
+  .v17-lib-title{ font-size:12px; font-weight:700; line-height:1.25; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:28px; }
+  .v17-lib-meta{ display:flex; justify-content:space-between; color:rgba(255,255,255,.55); font-size:11px; margin-top:6px; }
+
+  /* ─── ACCESOS ─── */
+  .v17-shorts{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .v17-short{
+    border:0; border-radius:14px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.07);
+    padding:13px 10px; color:#fff; min-height:76px; text-align:left; cursor:pointer;
+  }
+  .v17-short span{ display:block; font-size:20px; margin-bottom:6px; }
+  .v17-short b{ font-size:12px; font-weight:700; }
+
+  /* ─── RESEÑAS ─── */
+  .v17-rev{ padding:12px 14px; border-top:1px solid rgba(255,255,255,.06); }
+  .v17-rev:first-child{ border-top:0; }
+  .v17-rev b{ font-size:13px; font-weight:700; color:#fff; }
+  .v17-rev p{ margin:4px 0 0; font-size:12px; line-height:1.5; color:rgba(255,255,255,.58); }
 }
 </style>
 
 <script id="v17-js">
-/* OLLADA v17 — render limpio, sin capas previas */
 (function(){
   function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
   function lst(){try{return Object.values(S&&S.titulos||{});}catch(e){return[];}}
@@ -3737,70 +3918,34 @@ setTimeout(aplicarModoOlladaFinal,0);
   function reify(e){return{id:e.tmdb_id,media_type:e.media_type||'movie',title:e.titulo,name:e.titulo,poster_path:e.poster_path,backdrop_path:e.backdrop_path,overview:e.descripcion,release_date:e.fecha,first_air_date:e.fecha,genre_ids:e.genre_ids,vote_average:e.vote_average};}
   function os(e){return JSON.stringify(JSON.stringify(reify(e))).replace(/'/g,"&#39;");}
 
-  /* ── avatar ── */
-  function av(){
+  function avHTML(){
     var p=S&&S.perfil||{};
-    if(p.avatar_url) return '<img src="'+esc(p.avatar_url)+'" alt="avatar" onerror="this.style.display=\'none\'">';
+    if(p.avatar_url)return '<img src="'+esc(p.avatar_url)+'" alt="av" onerror="this.style.display=\'none\'">';
     return '<span>'+esc(p.avatar||'🎬')+'</span>';
   }
 
-  /* ── logo SVG compacto ── */
-  var LOGO='<svg class="v17-logo" viewBox="0 0 60 38" xmlns="http://www.w3.org/2000/svg">'
-    +'<defs><linearGradient id="vlg" x1="0" y1="0" x2="1" y2="1">'
-    +'<stop offset="0" stop-color="#ff47d6"/><stop offset=".5" stop-color="#a855f7"/><stop offset="1" stop-color="#6366f1"/>'
+  var LOGO='<svg class="v17-logo" viewBox="0 0 64 42" xmlns="http://www.w3.org/2000/svg">'
+    +'<defs><linearGradient id="vlg17" x1="0" y1="0" x2="1" y2="1">'
+    +'<stop offset="0" stop-color="#f472b6"/>'
+    +'<stop offset=".5" stop-color="#a855f7"/>'
+    +'<stop offset="1" stop-color="#6366f1"/>'
     +'</linearGradient></defs>'
-    +'<path d="M2 19C9 7.5 19 2.5 30 2.5S51 7.5 58 19C51 30.5 41 35.5 30 35.5S9 30.5 2 19Z" fill="url(#vlg)"/>'
-    +'<path d="M10 19C15 11.5 22 8.5 30 8.5S45 11.5 50 19C45 26.5 38 29.5 30 29.5S15 26.5 10 19Z" fill="#07080f" fill-opacity=".87"/>'
-    +'<circle cx="30" cy="19" r="7.5" fill="url(#vlg)"/>'
-    +'<circle cx="30" cy="19" r="5" fill="#060710"/>'
-    +'<path d="M28 15.5L37.5 19L28 22.5Z" fill="#fff"/>'
-    +'<circle cx="23" cy="13.5" r="1.8" fill="#fff" fill-opacity=".38"/>'
+    +'<path d="M3 21C10 8.5 20 3 32 3s22 5.5 29 18c-7 12.5-17 18-29 18S10 33.5 3 21Z" fill="url(#vlg17)"/>'
+    +'<path d="M11 21c5.5-7.5 12.5-11 21-11s15.5 3.5 21 11c-5.5 7.5-12.5 11-21 11S16.5 28.5 11 21Z" fill="#0d0916" fill-opacity=".88"/>'
+    +'<circle cx="32" cy="21" r="8.5" fill="url(#vlg17)"/>'
+    +'<circle cx="32" cy="21" r="6" fill="#0b0812"/>'
+    +'<path d="M30 17L39.5 21L30 25Z" fill="#fff"/>'
+    +'<circle cx="24" cy="14" r="2" fill="#fff" fill-opacity=".4"/>'
     +'</svg>';
 
-  /* ── top favoritos ── */
-  function topItems(){
-    return lst().slice().sort(function(a,b){
-      var af=a.favorito?1:0,bf=b.favorito?1:0;
-      if(bf-af)return bf-af;
-      return Number(b.puntuacion||0)-Number(a.puntuacion||0);
-    }).filter(x=>x.poster_path||x.titulo).slice(0,8);
-  }
-  async function topWithTrend(n){
-    var it=topItems().slice(0,n);
-    if(it.length>=n) return it;
-    try{
-      var d=await tmdb('/trending/all/week');
-      (d.results||[]).filter(r=>r.media_type!=='person').forEach(function(r){
-        if(it.length<n) it.push({tmdb_id:r.id,media_type:r.media_type||(r.title?'movie':'tv'),titulo:r.title||r.name,poster_path:r.poster_path,backdrop_path:r.backdrop_path,fecha:r.release_date||r.first_air_date,descripcion:r.overview,genre_ids:r.genre_ids,vote_average:r.vote_average,puntuacion:r.vote_average?(Number(r.vote_average)/2).toFixed(1):'—'});
-      });
-    }catch(e){}
-    return it.slice(0,n);
-  }
-
-  /* ── fila horizontal posters ── */
-  function posterRow(items){
-    if(!items||!items.length) return '<div class="v17-empty">Añade favoritos para verlos aquí.</div>';
-    return items.map(function(e){
-      var src=e.poster_path?IMG(e.poster_path,'w342'):'';
-      var sc=Number(e.puntuacion||0)>0?e.puntuacion:(e.vote_average?(Number(e.vote_average)/2).toFixed(1):'—');
-      return '<button class="v17-poster" onclick=\'abrir('+os(e)+')\'>'
-        +'<div class="v17-poster-img">'+(src?'<img src="'+src+'" alt="'+esc(e.titulo||'')+'">':(e.titulo?'🎬':'🎬'))+'</div>'
-        +'<div class="v17-poster-title">'+esc(e.titulo||'Sin título')+'</div>'
-        +'<div class="v17-poster-score">⭐ '+esc(sc)+'</div>'
-        +'</button>';
-    }).join('');
-  }
-
-  /* ── stats HTML ── */
   function statsHTML(){
     var x=stats();
     return [{v:x.m,l:'Películas'},{v:x.s,l:'Series'},{v:x.l,l:'Listas'},{v:x.avg,l:'Media'}]
-      .map(function(c){return '<div class="v17-stat"><b>'+esc(c.v)+'</b><span>'+c.l+'</span></div>';}).join('');
+      .map(function(c){return '<div class="v17-stat"><b>'+esc(String(c.v))+'</b><span>'+c.l+'</span></div>';}).join('');
   }
 
-  /* ── hero compartido ── */
   function heroHTML(editBtn){
-    return '<section class="v17-hero">'
+    return '<div class="v17-hero">'
       +'<div class="v17-mountains"></div>'
       +'<div class="v17-topbar">'
         +'<div class="v17-brand">'+LOGO+'<span>Ollada</span></div>'
@@ -3810,23 +3955,53 @@ setTimeout(aplicarModoOlladaFinal,0);
         +'</div>'
       +'</div>'
       +'<div class="v17-avwrap">'
-        +'<div class="v17-av"><div class="v17-av-in">'+av()+'</div></div>'
+        +'<div class="v17-av"><div class="v17-av-in">'+avHTML()+'</div></div>'
         +editBtn
       +'</div>'
       +'<div class="v17-name">'+esc(uname())+'</div>'
       +'<div class="v17-handle">'+esc(uhandle())+'</div>'
-      +'<div class="v17-stats">'+statsHTML()+'</div>'
+      +'<div class="v17-statscard">'+statsHTML()+'</div>'
       +'<div class="v17-bio">'+ubio()+'</div>'
-      +'</section>';
+      +'</div>';
   }
 
-  /* ── actividad: amigos → propia → vacío ── */
-  async function renderActivity(containerId){
-    var el=document.getElementById(containerId); if(!el) return;
-    /* Intentar activity_feed de otros usuarios */
+  function topItems(){
+    return lst().slice().sort(function(a,b){
+      var af=a.favorito?1:0,bf=b.favorito?1:0;
+      if(bf-af)return bf-af;
+      return Number(b.puntuacion||0)-Number(a.puntuacion||0);
+    }).filter(function(x){return x.poster_path||x.titulo;}).slice(0,8);
+  }
+  async function topWithTrend(n){
+    var it=topItems().slice(0,n);
+    if(it.length>=n)return it;
+    try{
+      var d=await tmdb('/trending/all/week');
+      (d.results||[]).filter(function(r){return r.media_type!=='person';}).forEach(function(r){
+        if(it.length<n)it.push({tmdb_id:r.id,media_type:r.media_type||(r.title?'movie':'tv'),titulo:r.title||r.name,poster_path:r.poster_path,fecha:r.release_date||r.first_air_date,vote_average:r.vote_average,puntuacion:r.vote_average?(Number(r.vote_average)/2).toFixed(1):'—'});
+      });
+    }catch(e){}
+    return it.slice(0,n);
+  }
+
+  function posterRow(items){
+    if(!items||!items.length)return '<div class="v17-empty">Añade favoritos para verlos aquí.</div>';
+    return items.map(function(e){
+      var src=e.poster_path?IMG(e.poster_path,'w342'):'';
+      var sc=Number(e.puntuacion||0)>0?e.puntuacion:(e.vote_average?(Number(e.vote_average)/2).toFixed(1):'—');
+      return '<button class="v17-poster" onclick=\'abrir('+os(e)+')\'>'
+        +'<div class="v17-poster-img">'+(src?'<img src="'+src+'" alt="'+esc(e.titulo||'')+'">':(e.titulo||'🎬'))+'</div>'
+        +'<div class="v17-poster-title">'+esc(e.titulo||'Sin título')+'</div>'
+        +'<div class="v17-poster-score">⭐ '+esc(sc)+'</div>'
+        +'</button>';
+    }).join('');
+  }
+
+  async function renderActivity(id){
+    var el=document.getElementById(id); if(!el)return;
     if(typeof supabaseClient!=='undefined'&&supabaseClient&&typeof usuarioActual!=='undefined'&&usuarioActual){
       try{
-        var rows=await sb('v17.act',supabaseClient.from('activity_feed').select('*').neq('user_id',usuarioActual.id).order('created_at',{ascending:false}).limit(4));
+        var rows=await sb('v17.act',supabaseClient.from('activity_feed').select('*').neq('user_id',usuarioActual.id).order('created_at',{ascending:false}).limit(5));
         if(rows&&rows.length){
           el.innerHTML='<div class="v17-card">'+rows.map(function(a){
             var d=a.data||{};
@@ -3834,52 +4009,56 @@ setTimeout(aplicarModoOlladaFinal,0);
             var t=typeof haceTiempo==='function'?haceTiempo(a.created_at):'Hace un momento';
             return '<div class="v17-act">'
               +'<div class="v17-act-av">'+(d.avatar||'🎬')+'</div>'
-              +'<div class="v17-act-copy"><b>@'+esc(d.username||'usuario')+' '+esc(txt)+'</b>'
-              +'<span>'+(d.title?esc(d.title)+' · ':'')+t+'</span></div>'
-              +'<div class="v17-heart">❤️</div><div class="v17-chev">›</div>'
+              +'<div class="v17-act-body"><b><span class="hi">@'+esc(d.username||'usuario')+'</span> '+esc(txt)+'</b>'
+              +'<div class="sub">'+(d.title?esc(d.title)+' · ':'')+t+'</div></div>'
+              +'<div class="v17-act-right"><div class="v17-heart">❤️</div><div class="v17-chev">›</div></div>'
               +'</div>';
           }).join('')+'</div>';
           return;
         }
       }catch(e){}
     }
-    /* Fallback: actividad propia */
     var own=lst().slice().sort(function(a,b){return new Date(b.updated_at||b.visto_en||b.created_at||0)-new Date(a.updated_at||a.visto_en||a.created_at||0);})[0];
     if(own){
-      var txt2=own.resena?'reseñó':Number(own.puntuacion)>0?'puntuó':own.favorito?'añadió a favoritos':own.estado?'marcó '+esc(own.estado):'guardó';
+      var txt2=own.resena?'reseñó':Number(own.puntuacion)>0?('puntuó con '+own.puntuacion):own.favorito?'añadió a favoritos':own.estado?'marcó como '+own.estado:'guardó';
       el.innerHTML='<div class="v17-card v17-act" onclick=\'abrir('+os(own)+')\'>'
-        +'<div class="v17-act-av">'+av()+'</div>'
-        +'<div class="v17-act-copy"><b>'+esc(uname())+' '+txt2+'</b><span>'+esc(own.titulo||'Título')+' · Hace poco</span></div>'
-        +'<div class="v17-heart">❤️</div><div class="v17-chev">›</div>'
+        +'<div class="v17-act-av">'+avHTML()+'</div>'
+        +'<div class="v17-act-body"><b><span class="hi">'+esc(uname())+'</span> '+txt2+'</b>'
+        +'<div class="sub">'+esc(own.titulo||'Título')+' · Hace poco</div></div>'
+        +'<div class="v17-act-right"><div class="v17-heart">❤️</div><div class="v17-chev">›</div></div>'
         +'</div>';
       return;
     }
-    /* Vacío bonito */
     el.innerHTML='<div class="v17-card"><div class="v17-empty">'
       +'<span class="ico">👥</span>'
-      +'Sigue a amigos para ver su actividad aquí.<br>'
-      +'<span style="color:rgba(255,255,255,.36);font-size:11px;display:block;margin-top:4px">O puntúa algo para ver tu propia actividad.</span>'
+      +'Sigue a amigos para ver su actividad aquí.'
       +'</div></div>';
   }
 
   /* ══ INICIO ══ */
   async function home(){
-    var root=document.getElementById('v-inicio'); if(!root) return;
+    var root=document.getElementById('v-inicio');if(!root)return;
     var items=await topWithTrend(4);
     root.innerHTML='<div class="v17">'
       +heroHTML('<button class="v17-pencil" onclick="oedit()">✎</button>')
       +'<div class="v17-body">'
-        +'<div class="v17-sec"><div class="v17-head"><h2>🏆 Top favoritos</h2><button class="v17-link" onclick="ir(\'perfil\')">Ver todos</button></div>'
-        +'<div class="v17-row">'+posterRow(items)+'</div></div>'
-        +'<div class="v17-sec"><div class="v17-head"><h2>📈 Actividad reciente</h2><button class="v17-link" onclick="ir(\'amigos\')">Ver feed</button></div>'
-        +'<div id="v17-act-home"></div></div>'
-        +'<div class="v17-sec"><div class="v17-head"><h2>🤝 Qué vemos esta noche</h2></div>'
-        +'<div class="v17-card v17-tonight" onclick="ir(\'conjunto\')">'
-          +'<div class="v17-couch">🛋️</div>'
-          +'<div><h3>Elegir algo para ver</h3><p>Recomendaciones para decidir juntos</p></div>'
-          +'<div class="v17-chev">›</div>'
-        +'</div></div>'
-      +'</div></div>';
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>🏆 Top favoritos</h2><button class="v17-link" onclick="ir(\'perfil\')">Ver todos</button></div>'
+          +'<div class="v17-row">'+posterRow(items)+'</div>'
+        +'</div>'
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>Actividad reciente</h2><button class="v17-link" onclick="ir(\'amigos\')">Ver feed</button></div>'
+          +'<div id="v17-act-home"></div>'
+        +'</div>'
+        +'<div class="v17-sec">'
+          +'<div class="v17-card v17-tonight" onclick="ir(\'conjunto\')">'
+            +'<div class="v17-couch">🛋️</div>'
+            +'<div class="v17-tonight-body"><h3>🤝 Qué vemos esta noche</h3><p>Decidir juntos qué poner</p></div>'
+            +'<div class="v17-chev">›</div>'
+          +'</div>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
     renderActivity('v17-act-home');
   }
 
@@ -3887,7 +4066,7 @@ setTimeout(aplicarModoOlladaFinal,0);
   var _libTab='todo';
   function libHTML(){
     var a=lst(),it=_libTab==='todo'?a:a.filter(function(e){return e.estado===_libTab;});
-    if(!it.length) return '<div class="v17-empty">Nada por aquí todavía.</div>';
+    if(!it.length)return '<div class="v17-empty">Nada por aquí todavía.</div>';
     return '<div class="v17-libgrid">'+it.slice(0,8).map(function(e){
       var src=e.poster_path?IMG(e.poster_path,'w342'):'';
       return '<button class="v17-lib" onclick=\'abrir('+os(e)+')\'>'
@@ -3900,78 +4079,80 @@ setTimeout(aplicarModoOlladaFinal,0);
   window.v17Tab=function(t){
     _libTab=t;
     document.querySelectorAll('.v17-tab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t);});
-    var el=document.getElementById('v17-library'); if(el) el.innerHTML=libHTML();
+    var el=document.getElementById('v17-library');if(el)el.innerHTML=libHTML();
   };
 
   async function profile(){
-    var root=document.getElementById('v-perfil'); if(!root) return;
+    var root=document.getElementById('v-perfil');if(!root)return;
     var items=await topWithTrend(4);
     var revs=lst().filter(function(e){return(e.resena||'').trim();}).slice(0,4);
     _libTab='todo';
     root.innerHTML='<div class="v17">'
       +heroHTML('<button class="v17-pencil" onclick="oedit()">✎</button>')
       +'<div class="v17-body">'
-        /* acciones */
         +'<div class="v17-btns">'
           +'<button class="v17-btn pri" onclick="copiarPerfilPublico()">📸 Compartir</button>'
           +'<button class="v17-btn" onclick="oedit()">✏️ Editar</button>'
           +'<button class="v17-btn" onclick="abrirMiPerfilPublico()">👁️ Público</button>'
           +'<button class="v17-btn" onclick="cerrarSesion()">🚪 Salir</button>'
         +'</div>'
-        /* favoritos */
-        +'<div class="v17-sec"><div class="v17-head"><h2>🏆 Top favoritos</h2><button class="v17-link" onclick="ir(\'buscar\')">Añadir</button></div>'
-        +'<div class="v17-row">'+posterRow(items)+'</div></div>'
-        /* actividad */
-        +'<div class="v17-sec"><div class="v17-head"><h2>📈 Actividad reciente</h2></div><div id="v17-act-profile"></div></div>'
-        /* biblioteca */
-        +'<div class="v17-sec"><div class="v17-head"><h2>🎬 Biblioteca</h2><button class="v17-link" onclick="ir(\'buscar\')">Buscar</button></div>'
-        +'<div class="v17-tabs">'
-          +'<button class="v17-tab on" data-tab="todo" onclick="v17Tab(\'todo\')">Todo</button>'
-          +'<button class="v17-tab" data-tab="viendo" onclick="v17Tab(\'viendo\')">▶ Viendo</button>'
-          +'<button class="v17-tab" data-tab="visto" onclick="v17Tab(\'visto\')">✅ Vistos</button>'
-          +'<button class="v17-tab" data-tab="pendiente" onclick="v17Tab(\'pendiente\')">📌 Pend.</button>'
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>🏆 Top favoritos</h2><button class="v17-link" onclick="ir(\'buscar\')">Añadir</button></div>'
+          +'<div class="v17-row">'+posterRow(items)+'</div>'
         +'</div>'
-        +'<div id="v17-library">'+libHTML()+'</div></div>'
-        /* accesos */
-        +'<div class="v17-sec"><div class="v17-head"><h2>⚡ Accesos</h2></div>'
-        +'<div class="v17-shorts">'
-          +'<button class="v17-short" onclick="ir(\'conjunto\')"><span>🤝</span><b>Juntos</b></button>'
-          +'<button class="v17-short" onclick="ir(\'ia\')"><span>✨</span><b>IA</b></button>'
-          +'<button class="v17-short" onclick="ir(\'wrapped\')"><span>🏆</span><b>Wrapped</b></button>'
-          +'<button class="v17-short" onclick="ir(\'listas\')"><span>📋</span><b>Listas</b></button>'
-          +'<button class="v17-short" onclick="mostrarStatsAvanzadas()"><span>📊</span><b>Stats</b></button>'
-          +'<button class="v17-short" onclick="abrirNotificaciones()"><span>🔔</span><b>Notifs</b></button>'
-        +'</div></div>'
-        /* reseñas */
-        +'<div class="v17-sec"><div class="v17-head"><h2>💬 Reseñas recientes</h2></div>'
-        +'<div class="v17-card">'
-        +(revs.length
-          ?revs.map(function(r){return '<div class="v17-rev"><b>'+esc(r.titulo)+'</b><p>'+esc(String(r.resena).slice(0,130))+(String(r.resena).length>130?'…':'')+'</p></div>';}).join('')
-          :'<div class="v17-empty"><span class="ico">✍️</span>Escribe una reseña y aparecerá aquí.</div>'
-        )
-        +'</div></div>'
-      +'</div></div>';
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>Actividad reciente</h2></div>'
+          +'<div id="v17-act-profile"></div>'
+        +'</div>'
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>🎬 Biblioteca</h2><button class="v17-link" onclick="ir(\'buscar\')">Buscar</button></div>'
+          +'<div class="v17-tabs">'
+            +'<button class="v17-tab on" data-tab="todo" onclick="v17Tab(\'todo\')">Todo</button>'
+            +'<button class="v17-tab" data-tab="viendo" onclick="v17Tab(\'viendo\')">▶ Viendo</button>'
+            +'<button class="v17-tab" data-tab="visto" onclick="v17Tab(\'visto\')">✅ Vistos</button>'
+            +'<button class="v17-tab" data-tab="pendiente" onclick="v17Tab(\'pendiente\')">📌 Pend.</button>'
+          +'</div>'
+          +'<div id="v17-library">'+libHTML()+'</div>'
+        +'</div>'
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>⚡ Accesos</h2></div>'
+          +'<div class="v17-shorts">'
+            +'<button class="v17-short" onclick="ir(\'conjunto\')"><span>🤝</span><b>Juntos</b></button>'
+            +'<button class="v17-short" onclick="ir(\'ia\')"><span>✨</span><b>IA</b></button>'
+            +'<button class="v17-short" onclick="ir(\'wrapped\')"><span>🏆</span><b>Wrapped</b></button>'
+            +'<button class="v17-short" onclick="ir(\'listas\')"><span>📋</span><b>Listas</b></button>'
+            +'<button class="v17-short" onclick="mostrarStatsAvanzadas()"><span>📊</span><b>Stats</b></button>'
+            +'<button class="v17-short" onclick="abrirNotificaciones()"><span>🔔</span><b>Notifs</b></button>'
+          +'</div>'
+        +'</div>'
+        +'<div class="v17-sec">'
+          +'<div class="v17-head"><h2>💬 Reseñas recientes</h2></div>'
+          +'<div class="v17-card">'
+          +(revs.length
+            ?revs.map(function(r){return '<div class="v17-rev"><b>'+esc(r.titulo)+'</b><p>'+esc(String(r.resena).slice(0,130))+(String(r.resena).length>130?'…':'')+'</p></div>';}).join('')
+            :'<div class="v17-empty"><span class="ico">✍️</span>Escribe una reseña y aparecerá aquí.</div>')
+          +'</div>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
     renderActivity('v17-act-profile');
   }
 
-  /* ── Sobrescribir como capa ÚNICA final ── */
   window.rinicio=rinicio=home;
   window.rperfil=rperfil=profile;
 
-  /* ── Interceptar ir() ── */
   var _oldIr=window.ir;
-  if(_oldIr) window.ir=function(v){
+  if(_oldIr)window.ir=function(v){
     _oldIr(v);
     setTimeout(function(){try{if(v==='inicio')home();if(v==='perfil')profile();}catch(e){}},20);
   };
 
-  /* ── Primera carga ── */
   setTimeout(function(){
     try{
-      if(typeof aplicarModoOllada==='function') aplicarModoOllada();
-      var v=(typeof vistaActual!=='undefined'?vistaActual:'inicio');
-      if(v==='perfil') profile(); else home();
-    }catch(e){console.error('v17',e);}
+      if(typeof aplicarModoOllada==='function')aplicarModoOllada();
+      var v=typeof vistaActual!=='undefined'?vistaActual:'inicio';
+      if(v==='perfil')profile();else home();
+    }catch(e){console.error('v17b',e);}
   },100);
 })();
 </script>
