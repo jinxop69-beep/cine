@@ -1146,35 +1146,7 @@ html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:1
 <main class="main">
 
   <!-- ═══ INICIO ═══ -->
-  <div id="v-inicio" class="view on">
-    <section class="hero">
-      <div class="blobs"><div class="blob bl1"></div><div class="blob bl2"></div><div class="blob bl3"></div></div>
-      <div class="hcon">
-        <div class="hbadge">✨ Tu universo cinematográfico, en un solo lugar</div>
-        <h1 class="htit"><span class="ht1">Cada historia</span><br><span class="ht2">que has amado.</span></h1>
-        <p class="hsub">Registra películas y series, puntúalas, crea listas, sigue a tus amigos y descubre qué ver a continuación.</p>
-        <div class="sbwrap">
-          <div class="sbglow"></div>
-          <div class="sb">
-            <span>🔍</span>
-            <input id="h-sinp" placeholder="Busca Inception, Breaking Bad, El Señor de los Anillos…" onkeydown="if(event.key==='Enter'&&this.value.trim())hbuscar()">
-            <button class="sb-btn" onclick="hbuscar()">Buscar</button>
-          </div>
-        </div>
-        <div class="hstats" id="hstats"></div>
-      </div>
-    </section>
-    <div class="sec" style="padding-top:0">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span>🔥</span><span style="font-size:16px;font-weight:700">Tendencias esta semana</span></div>
-      <div class="prow" id="trend-row"></div>
-      <div class="feats">
-        <div class="fcard"><div class="ficon" style="background:linear-gradient(135deg,#34d399,#0d9488)">👁️</div><div class="ftit">Registra todo</div><div class="fdesc">Marca títulos como visto, viendo, pendiente o abandonado y obtén un perfil con estadísticas reales.</div></div>
-        <div class="fcard"><div class="ficon" style="background:linear-gradient(135deg,#d946ef,#7c3aed)">📋</div><div class="ftit">Curar la lista perfecta</div><div class="fdesc">Crea listas públicas o privadas. Tus pelis de atracos, comedias de sofá — tu gusto, organizado.</div></div>
-        <div class="fcard"><div class="ficon" style="background:linear-gradient(135deg,#fbbf24,#f97316)">👥</div><div class="ftit">Comparte con amigos</div><div class="fdesc">Compatibilidad de gustos, feed de actividad y un Wrapped compartible que realmente dice algo de ti.</div></div>
-      </div>
-      <p style="font-size:10px;color:var(--text3);text-align:center;padding:16px 0">Desarrollado con TMDb. No está avalado ni certificado por TMDb.</p>
-    </div>
-  </div>
+  <div id="v-inicio" class="view on"></div>
 
   <!-- ═══ DESCUBRIR ═══ -->
   <div id="v-descubrir" class="view">
@@ -1306,61 +1278,7 @@ html.app-mode .hdr-av{width:34px!important;height:34px!important;border-radius:1
   </div>
 
   <!-- ═══ PERFIL ═══ -->
-  <div id="v-perfil" class="view">
-    <div id="pban" class="pban" style="background:linear-gradient(135deg,#d946ef,#7c3aed,#6366f1)">
-      <div class="pban-pat"></div>
-      <button class="edbtn" onclick="oedit()">✏️ Editar</button>
-    </div>
-    <div class="pinr">
-      <div class="ptop-new">
-        <div class="pav-new" id="pav">🎬</div>
-        <div class="ptop-info">
-          <div class="pname" id="pname">@cinephile_42</div>
-          <div class="pbio" id="pbio">Viviendo fotograma a fotograma.</div>
-        </div>
-      </div>
-      <div class="ppills">
-        <button class="ppill ppill-main" onclick="copiarPerfilPublico()">🔗 Compartir</button>
-        <button class="ppill" onclick="abrirMiPerfilPublico()">👁️ Ver perfil</button>
-        <button class="ppill" onclick="cerrarSesion()">🚪 Salir</button>
-      </div>
-      <div class="more-grid">
-        <button class="more-tile" onclick="ir('descubrir')"><span>🧭</span><span>Descubrir</span></button>
-        <button class="more-tile" onclick="ir('conjunto')"><span>🤝</span><span>Juntos</span></button>
-        <button class="more-tile" onclick="ir('ia')"><span>✨</span><span>Recomendar</span></button>
-        <button class="more-tile" onclick="ir('wrapped')"><span>🏆</span><span>Wrapped</span></button>
-        <button class="more-tile" onclick="mostrarStatsAvanzadas()"><span>📊</span><span>Stats</span></button>
-        <button class="more-tile" onclick="mostrarRetos()"><span>🎯</span><span>Retos</span></button>
-        <button class="more-tile" onclick="abrirNotificaciones()"><span>🔔</span><span id="notif-count"></span><span>Notifs</span></button>
-        <button class="more-tile" onclick="compartirPerfil()"><span>📸</span><span>Compartir</span></button>
-        <button class="more-tile" onclick="mostrarPremium()"><span>💎</span><span>Premium</span></button>
-      </div>
-      <div id="heatmap-section" style="padding:0 16px 18px;display:none">
-        <div class="ptit" style="padding:0 0 10px">🗓️ Tu actividad</div>
-        <div id="heatmap-grid"></div>
-        <div id="racha-info" style="margin-top:8px;font-size:12px;color:var(--text2)"></div>
-      </div>
-      <div id="stats-av-section" style="padding:0 16px 18px;display:none">
-        <div class="ptit" style="padding:0 0 10px">📊 Estadísticas avanzadas</div>
-        <div id="stats-av-content"></div>
-      </div>
-      <div id="retos-section" style="padding:0 16px 18px;display:none">
-        <div class="ptit" style="padding:0 0 10px">🎯 Retos semanales</div>
-        <div id="retos-content"></div>
-      </div>
-      <div class="pstats" id="pstats"></div>
-      <div class="ptabs-wrap">
-        <button class="ptab on" data-tab="todo"        onclick="setTabPerfil('todo')">Todo <span class="ptab-cnt" id="tc-todo">0</span></button>
-        <button class="ptab"    data-tab="viendo"      onclick="setTabPerfil('viendo')">▶️ Viendo <span class="ptab-cnt" id="tc-viendo">0</span></button>
-        <button class="ptab"    data-tab="visto"       onclick="setTabPerfil('visto')">✅ Vistos <span class="ptab-cnt" id="tc-visto">0</span></button>
-        <button class="ptab"    data-tab="pendiente"   onclick="setTabPerfil('pendiente')">📌 Pendientes <span class="ptab-cnt" id="tc-pendiente">0</span></button>
-        <button class="ptab"    data-tab="abandonado"  onclick="setTabPerfil('abandonado')">❌ Abandon. <span class="ptab-cnt" id="tc-abandonado">0</span></button>
-      </div>
-      <div class="wgrd padded" id="wgrd"></div>
-      <div class="ptit padded">🏅 Logros</div>
-      <div class="bgrd padded" id="bgrd"></div>
-    </div>
-  </div>
+  <div id="v-perfil" class="view"></div>
 
 </main>
 
@@ -1850,6 +1768,8 @@ async function rinicio(){
 }
 
 function rstats(){
+  const hstatsEl = document.getElementById("hstats");
+  if(!hstatsEl) return; /* v17 renderer maneja stats */
   const lst = Object.values(S.titulos);
   const vst = lst.filter(e=>e.estado==="visto");
   const m   = vst.filter(e=>e.media_type==="movie").length;
@@ -1857,7 +1777,7 @@ function rstats(){
   const h   = Math.round(m*2+s*8);
   const pns = lst.filter(e=>e.puntuacion>0).map(e=>e.puntuacion);
   const med = pns.length?(pns.reduce((a,b)=>a+b,0)/pns.length).toFixed(1):"—";
-  document.getElementById("hstats").innerHTML = [
+  hstatsEl.innerHTML = [
     {l:"Películas vistas",v:m,i:"🎬"},
     {l:"Series vistas",v:s,i:"📺"},
     {l:"Horas vistas",v:h,i:"⏱️"},
@@ -3976,16 +3896,23 @@ setTimeout(aplicarModoOlladaFinal,0);
   var _oldIr=window.ir;
   if(_oldIr)window.ir=function(v){
     _oldIr(v);
-    setTimeout(function(){try{if(v==='inicio')home();if(v==='perfil')profile();}catch(e){}},20);
+    if(v==='inicio')home();else if(v==='perfil')profile();
   };
 
-  setTimeout(function(){
+  function v17FirstRender(){
     try{
       if(typeof aplicarModoOllada==='function')aplicarModoOllada();
       var v=typeof vistaActual!=='undefined'?vistaActual:'inicio';
       if(v==='perfil')profile();else home();
-    }catch(e){console.error('v17b',e);}
-  },100);
+    }catch(e){console.error('v17',e);}
+  }
+  /* Render inmediato (sin esperar 100ms) — el bloque ya está después de todo el DOM */
+  v17FirstRender();
+  /* Re-render por si Supabase tarda y modifica S.perfil después */
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', v17FirstRender);
+  }
+  setTimeout(v17FirstRender, 300);
 })();
 </script>
 
