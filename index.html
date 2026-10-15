@@ -108,13 +108,156 @@ body.film-open{overflow:hidden}#detail{width:min(780px,calc(100vw - 40px));heigh
 @media(max-width:700px){#detail.plano-detail-enter{animation:plano-detail-in 240ms var(--motion-ease)}.plano-detail-ghost{position:fixed;inset:0;z-index:100;pointer-events:none;background:var(--bg);color:var(--text);overflow:hidden;animation:plano-detail-out 160ms var(--motion-ease) both}.plano-detail-ghost .film-screen{height:100dvh}}
 @media(prefers-reduced-motion:reduce){.plano-perforation-reveal,.plano-pop,.plano-unpop,.plano-particle,.plano-roll-old,.plano-roll-new,.plano-stamp,.toast.plano-toast-in,.toast.plano-toast-out,.plano-emotion-on>span::before,.plano-emotion-off>span::before,.plano-emotion-on .emotion-dot,.plano-week-enter,.plano-poster-loaded,#detail.plano-detail-enter,.plano-detail-ghost,.film-rating-options .plano-note,.film-rating-options .plano-note::before,.plano-refresh-icon{animation:none!important;transition:none!important}.plano-detail-ghost,.plano-particles{display:none}.plano-perforation-reveal{stroke-dashoffset:0}.plano-emotion-on input:checked+span{background:var(--emotion)}.plano-emotion-off>span::before,.film-rating-options .plano-note::before{opacity:0}}
 
+
+
+/* Plano · v3 cuenta */
+.google-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:48px;padding:0 16px;border:1px solid #dadce0;border-radius:12px;background:#fff;color:#1f1f1f;font-weight:700;font-size:15px}
+.google-btn:disabled{opacity:.6}
+.google-btn .google-g{width:20px;height:20px;flex-shrink:0}
+.google-btn[hidden],.auth-or[hidden]{display:none}
+.auth-or{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--muted);font-size:13px}
+.auth-or::before,.auth-or::after{content:'';flex:1;height:1px;background:var(--line)}
+.sync-actions .google-btn{grid-column:1/-1}
+.sync-actions:has(.google-btn:not([hidden])){flex-wrap:wrap}
+.sync-actions:has(.google-btn:not([hidden])) .google-btn{flex-basis:100%}
+.backup-card{display:grid;grid-template-columns:auto 1fr;gap:12px 14px;align-items:center;margin:24px 0 8px;padding:16px;border:1px solid var(--line);border-radius:18px;background:var(--panel)}
+.backup-card strong{display:block;font-size:15px}
+.backup-card small{display:block;color:var(--muted);font-size:13px;line-height:1.45;margin-top:2px}
+.backup-card .sync-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:#6fe0b522;color:#6fe0b5}
+.backup-card .sync-icon svg{width:24px;height:24px}
+#nudge-dialog{width:min(420px,calc(100% - 24px));border-radius:24px;background:radial-gradient(ellipse at 50% -10%,#ffc34d26,transparent 60%),var(--panel)}
+.nudge{padding:28px 22px 16px;text-align:center;display:grid;gap:10px}
+.nudge h2{font-size:22px;letter-spacing:-.3px;margin:6px 0 0}
+.nudge p{color:var(--muted);font-size:14px;line-height:1.55;margin:0 0 8px}
+.nudge .button{width:100%;min-height:48px}
+.nudge-later{min-height:44px;color:var(--muted)}
+.nudge-stack{display:flex;justify-content:center;height:112px;margin-bottom:4px}
+.nudge-stack img{width:70px;height:105px;object-fit:cover;border-radius:10px;border:2px solid var(--panel);box-shadow:0 10px 24px #0008;margin:0 -10px}
+.nudge-stack img:nth-child(1){transform:rotate(-9deg) translateY(6px)}
+.nudge-stack img:nth-child(2){transform:translateY(-2px);z-index:1}
+.nudge-stack img:nth-child(3){transform:rotate(9deg) translateY(6px)}
+.social-gate{max-width:440px;margin:32px auto;text-align:center;padding:8px 4px}
+.social-gate h1{font-size:28px;letter-spacing:-.6px;margin:18px 0 8px}
+.social-gate p{color:var(--muted);font-size:15px;line-height:1.6;margin:0 0 20px}
+.social-gate small{display:block;color:var(--muted);font-size:13px;margin-top:14px}
+.gate-actions{display:grid;gap:10px}
+.gate-actions .button{min-height:48px}
+.gate-avatars{display:flex;justify-content:center}
+.gate-avatars span{width:68px;height:68px;border-radius:50%;overflow:hidden;border:3px solid var(--c);margin:0 -8px;background:var(--raised);box-shadow:0 8px 20px #0007}
+.gate-avatars span:nth-child(2){transform:translateY(-10px);z-index:1}
+.gate-avatars img{width:100%;height:100%;object-fit:cover}
+/* Plano · v2 */
+@property --perf{syntax:'<number>';inherits:true;initial-value:1}
+@property --punch{syntax:'<number>';inherits:true;initial-value:1}
+@keyframes plano-logo-intro{0%{--perf:0;--punch:0}65%{--perf:1;--punch:0}82%{--punch:1.35}100%{--perf:1;--punch:1}}
+.plano-logo.plano-logo-intro{animation:plano-logo-intro 700ms var(--motion-ease) both}
+@keyframes plano-choice{0%,100%{transform:scale(1)}45%{transform:scale(1.04)}}
+.memory-choice.plano-emotion-on>span{animation:plano-choice 280ms var(--motion-bounce)}
+.plano-particle{animation-duration:450ms;width:6px;height:6px}
+.plano-reaction-icon{display:inline-block}
+.plano-week-enter{animation-duration:200ms}
+
+.memory-hero.memory-empty{min-height:300px;max-height:none;height:auto;justify-content:flex-end}
+.hero-collage{position:absolute;inset:-30px -20px auto;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;transform:rotate(-7deg) scale(1.08);z-index:-3;opacity:.6}
+.hero-collage img{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:12px;box-shadow:0 8px 20px #0007}
+.memory-empty h2{margin-top:auto}
+
+.film-no-rating{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin-top:10px;padding:0 16px;border:1px dashed var(--line);border-radius:999px;font-size:13px;color:var(--muted);cursor:pointer}
+.film-no-rating input{position:absolute;opacity:0;width:1px;height:1px}
+.film-no-rating:has(input:checked){border-style:solid;border-color:#ffffff40;color:var(--text);background:#ffffff0a}
+.film-no-rating:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:3px}
+
+.memory-secondary summary{list-style:none;gap:10px;padding:0 14px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--text)}
+.memory-secondary summary::-webkit-details-marker{display:none}
+.memory-secondary summary b{font-weight:700}
+.memory-secondary .ms-icon{width:18px;height:18px;color:var(--accent);flex-shrink:0}
+.memory-secondary .ms-change{margin-left:auto;color:var(--accent);font-size:13px;font-weight:700}
+
+.sync-invite{display:grid;grid-template-columns:auto 1fr;gap:12px 14px;align-items:center;margin:24px 0 8px;padding:16px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,#2a1f1a,var(--panel))}
+.sync-invite .sync-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:#e5472f22;color:var(--accent)}
+.sync-invite .sync-icon svg{width:24px;height:24px}
+.sync-invite strong{display:block;font-size:15px}
+.sync-invite small{display:block;color:var(--muted);font-size:13px;line-height:1.45;margin-top:2px}
+.sync-actions{grid-column:1/-1;display:flex;gap:8px;align-items:center}
+.sync-actions .button{flex:1;min-height:44px}
+.sync-actions .text-button{min-height:44px;padding:0 12px;color:var(--muted)}
+
+#welcome-dialog{width:min(460px,calc(100% - 24px));max-height:92dvh;overflow:auto;border-radius:24px;background:radial-gradient(ellipse at 50% -10%,#e5472f30,transparent 60%),var(--panel)}
+.welcome{position:relative;padding:44px 22px 22px;text-align:center}
+.welcome h2{font-size:24px;letter-spacing:-.4px;margin:10px 0 8px}
+.welcome p{color:var(--muted);font-size:14px;line-height:1.55;margin:0 auto 18px;max-width:340px}
+.welcome .button{width:100%;min-height:52px;font-size:15px}
+.welcome .button:disabled{opacity:.45}
+.welcome-logo{width:72px;height:72px;color:var(--primary);--cut:var(--panel);margin-top:6px}
+.welcome-skip{position:absolute;top:10px;right:10px;min-height:44px;padding:0 12px;color:var(--muted)}
+.welcome-points{list-style:none;padding:0;margin:0 0 22px;display:grid;gap:10px;text-align:left}
+.welcome-points li{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:#ffffff06;font-size:14px}
+.welcome-points i{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.welcome .field{text-align:left;margin-bottom:16px}
+.welcome-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.welcome-film{position:relative;padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;background:var(--raised);aspect-ratio:2/3;min-height:0}
+.welcome-film img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .15s}
+.welcome-film[aria-pressed=true]{border-color:var(--accent)}
+.welcome-film[aria-pressed=true] img{opacity:.75}
+.welcome-check{position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:var(--accent);color:#14110f;opacity:0;transform:scale(.6);transition:opacity .15s,transform .15s}
+.welcome-film[aria-pressed=true] .welcome-check{opacity:1;transform:scale(1)}
+.welcome-dots{display:flex;justify-content:center;gap:6px;margin-top:16px}
+.welcome-dots i{width:6px;height:6px;border-radius:99px;background:var(--line);transition:width .2s,background .2s}
+.welcome-dots i.on{width:18px;background:var(--accent)}
+@media(max-width:380px){.welcome-grid{grid-template-columns:repeat(3,1fr)}}
+@media(prefers-reduced-motion:reduce){.plano-logo.plano-logo-intro,.memory-choice.plano-emotion-on>span{animation:none!important}.welcome-film img,.welcome-check,.welcome-dots i{transition:none}}
+/* Plano · pulido visual */
+.film-scroll{position:relative}
+#film-panel-info{position:relative}
+.film-backdrop{position:absolute;left:-26px;right:-26px;top:-12px;height:300px;overflow:hidden;pointer-events:none;z-index:0;-webkit-mask-image:linear-gradient(transparent,#000 18%,#000 38%,transparent);mask-image:linear-gradient(transparent,#000 18%,#000 38%,transparent)}
+.film-backdrop img{width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:blur(26px) saturate(1.25);transform:scale(1.3);opacity:.5}
+.film-hero{position:relative;z-index:1;align-items:flex-end;padding-top:12px}
+.film-poster{width:120px;height:180px;border-radius:14px;box-shadow:0 18px 40px #000a,0 0 0 1px #ffffff22}
+.film-hero h3{font-size:28px;letter-spacing:-.8px;margin:6px 0 12px}
+.film-type{font-size:12px;letter-spacing:1.6px}
+.film-hero .status-actions{max-width:380px;display:flex;gap:2px;flex-wrap:nowrap;margin:0 0 12px;padding:3px;border:1px solid #ffffff1f;border-radius:999px;background:#14110fb3;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.film-hero .status-actions button{flex:1;min-height:40px;border:0;border-radius:999px;background:transparent;color:var(--muted);font-weight:700;padding:6px 8px;transition:background .18s,color .18s}
+.film-hero .status-actions button[aria-pressed=true]{background:var(--accent);color:#14110f;box-shadow:0 2px 10px #e5472f55}
+.film-section-heading h3,.film-cast h3{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent);font-weight:800}
+.film-synopsis>p{font-size:15px;line-height:1.7}
+.film-cast{margin-top:20px;padding-top:16px}
+.film-cast p{font-size:14px}
+#detail-cast{display:flex;gap:8px;flex-wrap:wrap}
+.film-credit{font-size:12px;color:#8e8374}
+@media(max-width:700px){.film-poster{width:108px;height:162px}.film-hero{gap:14px}.film-hero h3{font-size:24px}.film-backdrop{left:-20px;right:-20px}}
+
+.profile-page .account-panel{margin:12px 16px 14px;padding:14px}
+.avatar-edit{overflow:visible}
+.avatar-edit svg{pointer-events:none}
+.profile-avatar{overflow:visible}
+.profile-avatar>img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+@media(max-width:700px){.avatar-edit{width:32px;height:32px;min-height:32px;right:-4px;bottom:0;background:#d35a42;border:2px solid var(--bg)}.avatar-edit::before{display:none}.avatar-edit::after{content:'';position:absolute;inset:-8px}.avatar-edit svg{width:15px;height:15px}}
+.profile-jump .text-button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);font-weight:700}
+.profile-jump .jump-icon{width:18px;height:18px;color:var(--accent)}
+.profile-tools .demo-badge svg{width:22px;height:22px}
+
+.movie-title{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:8px 0 0;min-height:0;line-height:1.35}
+.movie small,.movie>small{display:block;color:var(--muted);font-size:13px;line-height:1.4;margin-top:1px}
+.poster-quick{top:auto;bottom:6px;right:6px;width:30px;height:30px;min-height:30px}
+
+.week-fill{position:relative;display:grid;place-items:center}
+.week-fill:not(.filled)::after{content:'';width:4px;height:4px;border-radius:50%;background:var(--line)}
+.week-fill.filled{background:linear-gradient(160deg,var(--emotion),color-mix(in srgb,var(--emotion) 65%,#14110f));box-shadow:0 6px 16px color-mix(in srgb,var(--emotion) 35%,transparent)}
+.week-fill.filled::after{content:'';width:8px;height:8px;border-radius:50%;background:#14110f66}
+
+.diary-copy strong{font-size:16px;font-weight:700}
+.diary-card{gap:14px}
+.timeline-list{gap:16px}
+.diary-quote{display:block;font-style:italic;font-size:14px;color:#cdbfae;margin-top:4px}
+@media(prefers-reduced-motion:reduce){.film-hero .status-actions button{transition:none}}
+
 </style>
 </head>
 <body>
-<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;overflow:hidden"><symbol id="plano-mark" viewBox="0 0 100 100"><path d="M16 28H84a6 6 0 0 1 6 6V44a6 6 0 0 0 0 12V66a6 6 0 0 1-6 6H16a6 6 0 0 1-6-6V56a6 6 0 0 0 0-12V34a6 6 0 0 1 6-6Z" fill="currentColor"/><path d="M68 33V67" stroke="var(--cut,#14110f)" stroke-width="3" stroke-dasharray="3.5 4" stroke-linecap="round"/><circle cx="39" cy="50" r="7" fill="var(--cut,#14110f)"/></symbol></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;overflow:hidden"><symbol id="plano-mark" viewBox="0 0 100 100"><path d="M16 28H84a6 6 0 0 1 6 6V44a6 6 0 0 0 0 12V66a6 6 0 0 1-6 6H16a6 6 0 0 1-6-6V56a6 6 0 0 0 0-12V34a6 6 0 0 1 6-6Z" fill="currentColor"/><path d="M68 33V67" stroke="var(--cut,#14110f)" stroke-width="3" stroke-dasharray="3.5 4" stroke-linecap="round" style="transform-origin:68px 33px;transform:scaleY(var(--perf,1))"/><circle cx="39" cy="50" r="7" fill="var(--cut,#14110f)" style="transform-origin:39px 50px;transform:scale(var(--punch,1))"/></symbol></svg>
 <a href="#content" class="sr-only">Saltar al contenido</a>
 <div class="app"><aside class="sidebar"><div class="brand"><svg class="plano-logo" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><use href="#plano-mark"/></svg><span class="plano-wordmark">PLANO</span></div><div class="brand-tag">HISTORIAS QUE SE QUEDAN</div><nav class="nav" aria-label="Navegación principal" id="nav"></nav><div class="side-bottom"><span class="demo-badge"><span class="dot"></span> PLANO ONLINE</span><p>Un pequeño adelanto de todo lo que está por venir.</p><button class="user" data-page="profile"><span class="avatar" id="side-avatar">T</span><span><strong id="side-name">Tu perfil</strong><small>Tu colección</small></span></button></div></aside>
-<main class="main" id="content" tabindex="-1"><header class="topbar"><div class="brand mobile-brand"><svg class="plano-logo" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><use href="#plano-mark"/></svg><span class="plano-wordmark">PLANO</span></div><div class="date" id="today"></div><label class="search"><span class="sr-only">Buscar en el catálogo de demostración</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="search" type="search" placeholder="Busca tu próxima historia…" autocomplete="off"></label><div class="profile-tools"><button class="demo-badge" data-action="info" aria-label="Información de la demo y créditos">PLANO</button><button class="icon-button" data-action="share-card" aria-label="Guardar tarjeta PNG" title="Guardar tarjeta PNG"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg></button><button class="icon-button" data-action="edit-profile" aria-label="Editar perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m9 3-1 3-3 1-2 5 2 5 3 1 1 3h6l1-3 3-1 2-5-2-5-3-1-1-3Z"/><circle cx="12" cy="12" r="3"/></svg></button></div></header><div class="notice"><span class="notice-copy"><span class="notice-desktop">Entra desde Perfil para sincronizar tu colección.</span><span class="notice-mobile">Entra desde Perfil para sincronizar</span></span><button class="text-button" data-action="dismiss-notice" aria-label="Cerrar aviso">×</button></div><div id="view"></div><footer class="app-footer"><span>Datos de TMDB ·</span><button type="button" data-action="info" aria-label="Abrir Acerca de y créditos">Créditos</button></footer></main></div>
+<main class="main" id="content" tabindex="-1"><header class="topbar"><div class="brand mobile-brand"><svg class="plano-logo" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><use href="#plano-mark"/></svg><span class="plano-wordmark">PLANO</span></div><div class="date" id="today"></div><label class="search"><span class="sr-only">Buscar en el catálogo de demostración</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="search" type="search" placeholder="Busca tu próxima historia…" autocomplete="off"></label><div class="profile-tools"><button class="demo-badge" data-action="info" aria-label="Información de la demo y créditos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.1"/></svg></button><button class="icon-button" data-action="share-card" aria-label="Guardar tarjeta PNG" title="Guardar tarjeta PNG"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg></button><button class="icon-button" data-action="edit-profile" aria-label="Editar perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m9 3-1 3-3 1-2 5 2 5 3 1 1 3h6l1-3 3-1 2-5-2-5-3-1-1-3Z"/><circle cx="12" cy="12" r="3"/></svg></button></div></header><div class="notice"><span class="notice-copy"><span class="notice-desktop">Entra desde Perfil para sincronizar tu colección.</span><span class="notice-mobile">Entra desde Perfil para sincronizar</span></span><button class="text-button" data-action="dismiss-notice" aria-label="Cerrar aviso">×</button></div><div id="view"></div><footer class="app-footer"><span>Datos de TMDB ·</span><button type="button" data-action="info" aria-label="Abrir Acerca de y créditos">Créditos</button></footer></main></div>
 <dialog id="info-dialog" aria-labelledby="info-title"><div class="about-brand" role="img" aria-label="Plano, símbolo Entrada"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><use href="#plano-mark"/></svg></div><div class="dialog-head"><h2 id="info-title">Acerca de Plano</h2><button class="icon-button" data-close aria-label="Cerrar">×</button></div><div class="dialog-body"><p>Diseño de prueba de Plano. Tus cambios se guardan solo en este navegador. Los amigos y las publicaciones son ejemplos locales; este perfil no crea una cuenta pública.</p><p class="footnote">Desde ajustes puedes editar tu perfil e importar o exportar JSON. El botón de descarga guarda tu tarjeta con tres carteles favoritos.</p><section class="credits-section"><h3>Créditos</h3><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjczLjQyIDM1LjUyIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6dXJsKCNsaW5lYXItZ3JhZGllbnQpO308L3N0eWxlPjxsaW5lYXJHcmFkaWVudCBpZD0ibGluZWFyLWdyYWRpZW50IiB5MT0iMTcuNzYiIHgyPSIyNzMuNDIiIHkyPSIxNy43NiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzkwY2VhMSIvPjxzdG9wIG9mZnNldD0iMC41NiIgc3RvcC1jb2xvcj0iIzNjYmVjOSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwYjNlNSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjx0aXRsZT5Bc3NldCAzPC90aXRsZT48ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIj48ZyBpZD0iTGF5ZXJfMS0yIiBkYXRhLW5hbWU9IkxheWVyIDEiPjxwYXRoIGZpbGw9InVybCgjbGluZWFyLWdyYWRpZW50KSIgZD0iTTE5MS44NSwzNS4zN2g2My45QTE3LjY3LDE3LjY3LDAsMCwwLDI3My40MiwxNy43aDBBMTcuNjcsMTcuNjcsMCwwLDAsMjU1Ljc1LDBoLTYzLjlBMTcuNjcsMTcuNjcsMCwwLDAsMTc0LjE4LDE3LjdoMEExNy42NywxNy42NywwLDAsMCwxOTEuODUsMzUuMzdaTTEwLjEsMzUuNDJoNy44VjYuOTJIMjhWMEgwdjYuOUgxMC4xWm0yOC4xLDBINDZWOC4yNWguMUw1NS4wNSwzNS40aDZMNzAuMyw4LjI1aC4xVjM1LjRoNy44VjBINjYuNDVsLTguMiwyMy4xaC0uMUw1MCwwSDM4LjJaTTg5LjE0LjEyaDExLjdhMzMuNTYsMzMuNTYsMCwwLDEsOC4wOCwxLDE4LjUyLDE4LjUyLDAsMCwxLDYuNjcsMy4wOCwxNS4wOSwxNS4wOSwwLDAsMSw0LjUzLDUuNTIsMTguNSwxOC41LDAsMCwxLDEuNjcsOC4yNSwxNi45MSwxNi45MSwwLDAsMS0xLjYyLDcuNTgsMTYuMywxNi4zLDAsMCwxLTQuMzgsNS41LDE5LjI0LDE5LjI0LDAsMCwxLTYuMzUsMy4zNywyNC41MywyNC41MywwLDAsMS03LjU1LDEuMTVIODkuMTRabTcuOCwyOC4yaDRhMjEuNjYsMjEuNjYsMCwwLDAsNS0uNTVBMTAuNTgsMTAuNTgsMCwwLDAsMTEwLDI2YTguNzMsOC43MywwLDAsMCwyLjY4LTMuMzUsMTEuOSwxMS45LDAsMCwwLDEtNS4wOCw5Ljg3LDkuODcsMCwwLDAtMS00LjUyLDkuMTcsOS4xNywwLDAsMC0yLjYzLTMuMThBMTEuNjEsMTEuNjEsMCwwLDAsMTA2LjIyLDhhMTcuMDYsMTcuMDYsMCwwLDAtNC42OC0uNjNoLTQuNlpNMTMzLjA5LjEyaDEzLjJhMzIuODcsMzIuODcsMCwwLDEsNC42My4zMywxMi42NiwxMi42NiwwLDAsMSw0LjE3LDEuMyw3Ljk0LDcuOTQsMCwwLDEsMywyLjcyLDguMzQsOC4zNCwwLDAsMSwxLjE1LDQuNjUsNy40OCw3LjQ4LDAsMCwxLTEuNjcsNSw5LjEzLDkuMTMsMCwwLDEtNC40MywyLjgyVjE3YTEwLjI4LDEwLjI4LDAsMCwxLDMuMTgsMSw4LjUxLDguNTEsMCwwLDEsMi40NSwxLjg1LDcuNzksNy43OSwwLDAsMSwxLjU3LDIuNjIsOS4xNiw5LjE2LDAsMCwxLC41NSwzLjIsOC41Miw4LjUyLDAsMCwxLTEuMiw0LjY4LDkuMzIsOS4zMiwwLDAsMS0zLjEsM0ExMy4zOCwxMy4zOCwwLDAsMSwxNTIuMzIsMzVhMjIuNSwyMi41LDAsMCwxLTQuNzMuNWgtMTQuNVptNy44LDE0LjE1aDUuNjVhNy42NSw3LjY1LDAsMCwwLDEuNzgtLjIsNC43OCw0Ljc4LDAsMCwwLDEuNTctLjY1LDMuNDMsMy40MywwLDAsMCwxLjEzLTEuMiwzLjYzLDMuNjMsMCwwLDAsLjQyLTEuOEEzLjMsMy4zLDAsMCwwLDE1MSw4LjZhMy40MiwzLjQyLDAsMCwwLTEuMjMtMS4xM0E2LjA3LDYuMDcsMCwwLDAsMTQ4LDYuOWE5LjksOS45LDAsMCwwLTEuODUtLjE4aC01LjNabTAsMTQuNjVoN2E4LjI3LDguMjcsMCwwLDAsMS44My0uMiw0LjY3LDQuNjcsMCwwLDAsMS42Ny0uNywzLjkzLDMuOTMsMCwwLDAsMS4yMy0xLjMsMy44LDMuOCwwLDAsMCwuNDctMS45NSwzLjE2LDMuMTYsMCwwLDAtLjYyLTIsNCw0LDAsMCwwLTEuNTgtMS4xOCw4LjIzLDguMjMsMCwwLDAtMi0uNTUsMTUuMTIsMTUuMTIsMCwwLDAtMi4wNS0uMTVoLTUuOVoiLz48L2c+PC9nPjwvc3ZnPg==" alt="TMDB"><p>Este producto usa la API de TMDB pero no está respaldado ni certificado por TMDB.</p><p lang="en">This product uses the TMDB API but is not endorsed or certified by TMDB.</p></section></div></dialog>
 <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog" class="dialog-body"><h2 id="confirm-title">Confirmar cambios</h2><p id="confirm-message"></p><div class="form-row"><button class="button secondary" value="cancel">Cancelar</button><button class="button" value="accept">Continuar</button></div></form></dialog>
 <dialog id="detail" aria-labelledby="dialog-title"></dialog><dialog id="profile-dialog" aria-labelledby="profile-title"><div class="dialog-head"><h2 id="profile-title">Tu perfil de prueba</h2><button class="icon-button" data-close aria-label="Cerrar">×</button></div><form id="profile-form" class="dialog-body"><label class="field"><span>Nombre visible</span><input name="name" maxlength="35" required></label><label class="field"><span>Usuario (letras, números y guion bajo)</span><input name="handle" pattern="[a-zA-Z0-9_]{3,24}" minlength="3" maxlength="24" required></label><label class="field"><span>Bio</span><textarea name="bio" maxlength="140" rows="2" placeholder="Siempre buscando la próxima historia…"></textarea></label><button class="button secondary" type="button" data-action="avatar">Cambiar foto</button><p class="muted" style="font-size:13px;margin:18px 0">Este perfil solo existe en tu navegador. No crea una cuenta pública.</p><button class="button" type="submit">Guardar perfil</button></form><div class="panel profile-settings"><div class="panel-head"><h3>Tus historias, contigo</h3></div><p class="muted" style="font-size:13px">Importa o exporta tus recuerdos de esta demo.</p><div class="profile-actions"><button class="button secondary" data-action="export">↓ JSON</button><button class="button secondary" data-action="import">↑ Importar</button><button class="button ghost" data-action="reset">Reiniciar</button></div></div></dialog>
