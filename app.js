@@ -21398,7 +21398,7 @@ function memoryOfDay() {
 }
 function memoryHero() {
   const chosen = memoryOfDay();
-  if (!chosen) return `<section class="memory-hero"><span class="memory-date">LAS PEL\xCDCULAS QUE SE QUEDAN CONTIGO</span><h2>Guarda tu primer recuerdo</h2><p>Una emoci\xF3n, una compa\xF1\xEDa, unas palabras. Tu historia empieza aqu\xED.</p><button class="button" data-page="explore">Buscar una pel\xEDcula</button></section>`;
+  if (!chosen) return `<section class="memory-hero memory-empty"><div class="hero-collage" aria-hidden="true">${CATALOG.filter((m2) => m2.poster).slice(0, 9).map((m2) => `<img src="${esc(m2.poster)}" alt="" loading="lazy" referrerpolicy="no-referrer">`).join("")}</div><span class="memory-date">EMPIEZA TU DIARIO</span><h2>Guarda tu primer recuerdo</h2><p>Una emoci\xF3n, una compa\xF1\xEDa, unas palabras. Tu historia empieza aqu\xED.</p><button class="button" data-page="explore">Buscar una pel\xEDcula</button></section>`;
   const { e, label } = chosen, m = CATALOG.find((m2) => m2.id === e.id);
   if (!m) return "";
   return `<section class="memory-hero ${!e.review && !e.emotions?.length ? "memory-simple" : ""}" style="${emotionStyle(e)}" aria-label="Recuerdo del d\xEDa">${image(m)}<span class="memory-date">${label}${e.watchedAt ? " \xB7 " + shortDate(e.watchedAt).toUpperCase() : ""}</span><h2>${esc(m.title)}</h2>${e.review ? `<blockquote>\xAB${esc(e.review)}\xBB</blockquote>` : ""}<div class="memory-chips">${emotionLabel(e)}${e.companion ? `<span>con ${esc(e.companion)}</span>` : ""}${e.rating ? `<span class="score">\u2605 ${e.rating}</span>` : ""}</div><button class="button" data-memory-film="${e.id}">\xBFQu\xE9 sentir\xEDas hoy al verla?</button></section>`;
@@ -21412,7 +21412,7 @@ function weekStrip() {
     return dateISO(d);
   }), seen = state.entries.filter((e) => e.status === "watched" && days.includes(e.watchedAt));
   const names = /* @__PURE__ */ new Set();
-  return `<section class="week-strip"><div class="section-head"><h2>Tu semana</h2><small>${seen.length} recuerdos</small></div><div class="week-days">${days.map((d, i) => {
+  return `<section class="week-strip"><div class="section-head"><h2>Tu semana</h2><small>${seen.length} ${seen.length === 1 ? "recuerdo" : "recuerdos"}</small></div><div class="week-days">${days.map((d, i) => {
     const e = seen.filter((e2) => e2.watchedAt === d).at(-1), emotion = e?.emotions?.[0];
     if (emotion) names.add(emotion);
     return `<button class="week-day ${d === dateISO() ? "today" : ""}" data-page="collection" aria-label="${shortDate(d)}: ${emotion || (e ? "Recuerdo sin emoci\xF3n" : "Sin recuerdos")}" ${d === dateISO() ? 'aria-current="date"' : ""} style="${emotionStyle(e)}"><span class="week-fill ${emotion ? "filled" : ""}"></span><span>${["L", "M", "X", "J", "V", "S", "D"][i]}</span></button>`;
@@ -21426,14 +21426,14 @@ function diaryCard(e) {
 }
 function memoryEditor(m, e) {
   const companions = [...new Set([...state.entries].reverse().map((x) => x.companion).filter((x) => x && x !== "Solo/a"))].slice(0, 3);
-  return `<p class="film-kicker" id="editor-kicker">GUARDAR RECUERDO</p><fieldset class="sr-only" aria-hidden="true"><legend>Estado seleccionado</legend>${["planned", ...m.type === "series" ? ["watching"] : [], "watched"].map((key) => `<input type="radio" name="status" value="${key}" tabindex="-1" ${key === e.status ? "checked" : ""}>`).join("")}</fieldset><div class="editor-status"><span id="editor-state" aria-live="polite"></span><span aria-hidden="true">\xB7</span><button type="button" class="text-button" data-next-tab="info">Cambiar</button></div><p class="status-help" id="status-help" aria-live="polite"></p>${m.type === "series" ? `<div id="episode-fields" class="form-row" ${e.status !== "watching" ? "hidden" : ""}><label class="field"><span>Temporada actual</span><input name="season" type="number" min="1" max="999" value="${e.season || 1}"></label><label class="field"><span>Episodio actual</span><input name="episode" type="number" min="1" max="9999" value="${e.episode || 1}"></label></div>` : ""}<div id="memory-fields"><fieldset class="film-rating-field"><legend>Tu nota</legend><div class="film-rating-options">${Array.from({ length: 10 }, (_, i) => `<label><input type="radio" name="rating" value="${i + 1}" ${e.rating === i + 1 ? "checked" : ""}><span>${i + 1}</span></label>`).join("")}</div><label class="film-no-rating"><input type="radio" name="rating" value="" ${!e.rating ? "checked" : ""}> Sin puntuar</label></fieldset><fieldset class="film-emotion-field"><legend>\xBFQu\xE9 sentiste?</legend><div class="memory-emotions">${EMOTIONS.map((x) => `<label class="memory-choice" style="${emotionStyle(x)}"><input type="checkbox" name="emotions" value="${x}" ${e.emotions.includes(x) ? "checked" : ""}><span><i class="emotion-dot" aria-hidden="true"></i>${x}</span></label>`).join("")}</div><p class="footnote" id="principal-emotion">${e.emotions.length ? "Emoci\xF3n principal: " + esc(e.emotions[0]) : "La primera que marques ser\xE1 la emoci\xF3n principal."}</p></fieldset><p class="memory-section-label">\xBFCon qui\xE9n la viste?</p><div class="companion-chips">${["Solo/a", ...companions].map((x) => `<button type="button" class="filter ${e.companion === x ? "active" : ""}" aria-pressed="${e.companion === x}" data-companion="${esc(x)}">${esc(x)}</button>`).join("")}<button type="button" class="filter" data-other-companion>+ Otra persona</button></div><label class="field" id="companion-field" ${!e.companion || ["Solo/a", ...companions].includes(e.companion) ? "hidden" : ""}><span>Nombre o compa\xF1\xEDa \xB7 Privado</span><input name="companion" maxlength="100" value="${esc(e.companion)}" placeholder="\xBFCon qui\xE9n compartiste la historia?"></label><label class="field"><span>Unas palabras</span><textarea name="review" rows="2" maxlength="3000" placeholder="Lo que se queda contigo\u2026">${esc(e.review)}</textarea></label><details class="memory-secondary"><summary>Fecha de visionado${e.watchedAt ? " \xB7 " + shortDate(e.watchedAt) : ""} \xB7 Cambiar</summary><div class="form-row"><label class="field"><span>Fecha de visionado</span><input type="date" name="watchedAt" max="${dateISO()}" value="${esc(e.watchedAt)}"></label></div></details></div>`;
+  return `<p class="film-kicker" id="editor-kicker">GUARDAR RECUERDO</p><fieldset class="sr-only" aria-hidden="true"><legend>Estado seleccionado</legend>${["planned", ...m.type === "series" ? ["watching"] : [], "watched"].map((key) => `<input type="radio" name="status" value="${key}" tabindex="-1" ${key === e.status ? "checked" : ""}>`).join("")}</fieldset><div class="editor-status"><span id="editor-state" aria-live="polite"></span><span aria-hidden="true">\xB7</span><button type="button" class="text-button" data-next-tab="info">Cambiar</button></div><p class="status-help" id="status-help" aria-live="polite"></p>${m.type === "series" ? `<div id="episode-fields" class="form-row" ${e.status !== "watching" ? "hidden" : ""}><label class="field"><span>Temporada actual</span><input name="season" type="number" min="1" max="999" value="${e.season || 1}"></label><label class="field"><span>Episodio actual</span><input name="episode" type="number" min="1" max="9999" value="${e.episode || 1}"></label></div>` : ""}<div id="memory-fields"><fieldset class="film-rating-field"><legend>Tu nota</legend><div class="film-rating-options">${Array.from({ length: 10 }, (_, i) => `<label><input type="radio" name="rating" value="${i + 1}" ${e.rating === i + 1 ? "checked" : ""}><span>${i + 1}</span></label>`).join("")}</div><label class="film-no-rating"><input type="radio" name="rating" value="" ${!e.rating ? "checked" : ""}><span>Sin nota</span></label></fieldset><fieldset class="film-emotion-field"><legend>\xBFQu\xE9 sentiste?</legend><div class="memory-emotions">${EMOTIONS.map((x) => `<label class="memory-choice" style="${emotionStyle(x)}"><input type="checkbox" name="emotions" value="${x}" ${e.emotions.includes(x) ? "checked" : ""}><span><i class="emotion-dot" aria-hidden="true"></i>${x}</span></label>`).join("")}</div><p class="footnote" id="principal-emotion">${e.emotions.length ? "Emoci\xF3n principal: " + esc(e.emotions[0]) : "La primera que marques ser\xE1 la emoci\xF3n principal."}</p></fieldset><p class="memory-section-label">\xBFCon qui\xE9n la viste?</p><div class="companion-chips">${["Solo/a", ...companions].map((x) => `<button type="button" class="filter ${e.companion === x ? "active" : ""}" aria-pressed="${e.companion === x}" data-companion="${esc(x)}">${esc(x)}</button>`).join("")}<button type="button" class="filter" data-other-companion>+ Otra persona</button></div><label class="field" id="companion-field" ${!e.companion || ["Solo/a", ...companions].includes(e.companion) ? "hidden" : ""}><span>Nombre o compa\xF1\xEDa \xB7 Privado</span><input name="companion" maxlength="100" value="${esc(e.companion)}" placeholder="\xBFCon qui\xE9n compartiste la historia?"></label><label class="field"><span>Unas palabras</span><textarea name="review" rows="2" maxlength="3000" placeholder="Lo que se queda contigo\u2026">${esc(e.review)}</textarea></label><details class="memory-secondary"><summary><svg class="ms-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span>Fecha: <b>${e.watchedAt ? shortDate(e.watchedAt) : "hoy"}</b></span><span class="ms-change">Cambiar</span></summary><div class="form-row"><label class="field"><span>Fecha de visionado</span><input type="date" name="watchedAt" max="${dateISO()}" value="${esc(e.watchedAt)}"></label></div></details></div>`;
 }
 function memorySummary(m, e) {
   return `<div class="memory-summary"><span class="film-kicker">LO QUE SE QUEDA CONTIGO</span><h3>${esc(m.title)}</h3><small>${relativeDate(e.watchedAt)}</small>${emotionLabel(e)}${e.review ? `<blockquote>\xAB${esc(e.review)}\xBB</blockquote>` : "<p>A\xFAn no has guardado unas palabras sobre esta historia.</p>"}${e.companion ? `<p>Con ${esc(e.companion)}</p>` : ""}<button type="button" class="button" data-next-tab="rating">Guardar lo que sientes hoy</button></div>`;
 }
 function home() {
   const list = (status) => state.entries.filter((e) => e.status === status).map((e) => CATALOG.find((m) => m.id === e.id)).filter(Boolean);
-  return `<div class="page-heading home-memory-heading"><h1>Las pel\xEDculas que se quedan contigo</h1></div>${memoryHero()}${weekStrip()}${list("watching").length ? rail("Continuar viendo", list("watching")) : ""}${list("planned").length ? rail("Para ver", list("planned").slice(-12).reverse()) : ""}<div class="refresh-control"><button class="text-button" data-action="refresh-page">Actualizar Inicio \u21BB</button></div>${remoteRail("cinema", "En cines ahora")}${remoteRail("trending", "Tendencias de la semana")}${remoteRail("upcomingMovies", "Pr\xF3ximos estrenos \xB7 pel\xEDculas", true)}${remoteRail("upcomingTV", "Pr\xF3ximos estrenos \xB7 series", true)}<section class="panel home-challenge"><div class="panel-head"><h3>Reto semanal</h3><button class="text-button" data-page="stats">Mi a\xF1o \u2197</button></div>${challenge()}</section>`;
+  return `<div class="page-heading home-memory-heading"><h1>${homeGreeting()}</h1></div>${memoryHero()}${weekStrip()}${list("watching").length ? rail("Continuar viendo", list("watching")) : ""}${list("planned").length ? rail("Para ver", list("planned").slice(-12).reverse()) : ""}<div class="refresh-control"><button class="text-button" data-action="refresh-page">Actualizar Inicio \u21BB</button></div>${remoteRail("cinema", "En cines ahora")}${remoteRail("trending", "Tendencias de la semana")}${remoteRail("upcomingMovies", "Pr\xF3ximos estrenos \xB7 pel\xEDculas", true)}${remoteRail("upcomingTV", "Pr\xF3ximos estrenos \xB7 series", true)}<section class="panel home-challenge"><div class="panel-head"><h3>Reto semanal</h3><button class="text-button" data-page="stats">Mi a\xF1o \u2197</button></div>${challenge()}</section>${backupCard()}${syncInvite()}`;
 }
 function recentChips() {
   return recentSearches.length ? `<div class="search-chip-row" aria-label="B\xFAsquedas recientes">${recentSearches.map((q) => `<button class="filter" data-recent="${esc(q)}">${esc(q)}</button>`).join("")}</div>` : "";
@@ -21494,7 +21494,7 @@ function challenge() {
 }
 function collection() {
   const ids = new Set(catalogList().map((m) => m.id)), rows = state.entries.filter((e) => ids.has(e.id) && (diaryEmotion === "Todas" || e.emotions?.includes(diaryEmotion))), dated = rows.filter((e) => validDate(e.watchedAt)).sort((a, b) => b.watchedAt.localeCompare(a.watchedAt)), months = [...new Set(dated.map((e) => e.watchedAt.slice(0, 7)))];
-  return `<div class="diary"><div class="page-heading diary-heading"><div class="diary-heading-title"><h1>Tu diario</h1><small>${state.entries.filter((e) => e.status === "watched").length} recuerdos</small></div><div class="diary-controls"><select class="diary-state" id="diary-state" aria-label="Filtrar diario por estado">${[["all", "Todas"], ["watched", "Vistas"], ["watching", "Viendo"], ["planned", "Pendientes"]].map(([key, label]) => `<option value="${key}" ${filter === key ? "selected" : ""}>${label}</option>`).join("")}</select><button class="diary-add" data-page="explore" aria-label="A\xF1adir t\xEDtulo">+</button></div></div><div class="emotion-filters" aria-label="Filtrar por emoci\xF3n">${["Todas", ...EMOTIONS].map((x) => `<button class="filter ${diaryEmotion === x ? "active" : ""}" data-diary-emotion="${x}" aria-pressed="${diaryEmotion === x}">${x === "Todas" ? x : emotionLabel(x)}</button>`).join("")}</div>${months.map((month) => `<section><h2 class="timeline-month">${new Intl.DateTimeFormat("es", { month: "long", year: "numeric" }).format(/* @__PURE__ */ new Date(month + "-01T12:00:00")).toUpperCase()}</h2><div class="timeline-list">${dated.filter((e) => e.watchedAt.startsWith(month)).map(diaryCard).join("")}</div></section>`).join("")}${[["watched", "Recuerdos sin fecha"], ["watching", "En curso"], ["planned", "Por ver"]].map(([status, title]) => {
+  return `<div class="diary"><div class="page-heading diary-heading"><div class="diary-heading-title"><h1>Tu diario</h1><small>${(() => { const n = state.entries.filter((e) => e.status === "watched").length; return n + (n === 1 ? " recuerdo" : " recuerdos"); })()}</small></div><div class="diary-controls"><select class="diary-state" id="diary-state" aria-label="Filtrar diario por estado">${[["all", "Todas"], ["watched", "Vistas"], ["watching", "Viendo"], ["planned", "Pendientes"]].map(([key, label]) => `<option value="${key}" ${filter === key ? "selected" : ""}>${label}</option>`).join("")}</select><button class="diary-add" data-page="explore" aria-label="A\xF1adir t\xEDtulo">+</button></div></div><div class="emotion-filters" aria-label="Filtrar por emoci\xF3n">${["Todas", ...EMOTIONS].map((x) => `<button class="filter ${diaryEmotion === x ? "active" : ""}" data-diary-emotion="${x}" aria-pressed="${diaryEmotion === x}">${x === "Todas" ? x : emotionLabel(x)}</button>`).join("")}</div>${months.map((month) => `<section><h2 class="timeline-month">${new Intl.DateTimeFormat("es", { month: "long", year: "numeric" }).format(/* @__PURE__ */ new Date(month + "-01T12:00:00")).toUpperCase()}</h2><div class="timeline-list">${dated.filter((e) => e.watchedAt.startsWith(month)).map(diaryCard).join("")}</div></section>`).join("")}${[["watched", "Recuerdos sin fecha"], ["watching", "En curso"], ["planned", "Por ver"]].map(([status, title]) => {
     const es = rows.filter((e) => !validDate(e.watchedAt) && e.status === status);
     return es.length ? `<section><h2 class="timeline-month">${title}</h2><div class="undated-list">${es.map(diaryCard).join("")}</div></section>` : "";
   }).join("")}${!rows.length ? '<div class="empty"><h3>Aqu\xED empieza tu diario</h3><p>No hay recuerdos con estos filtros.</p><button class="button" data-page="explore">Buscar una historia</button></div>' : ""}</div>`;
@@ -21520,7 +21520,7 @@ function yearView() {
 }
 function profile() {
   const s = stats(), movies = s.watched.filter((e) => CATALOG.find((m) => m.id === e.id)?.type === "movie").length, series = s.watched.length - movies, planned = state.entries.filter((e) => e.status === "planned").length;
-  return `${accountMarkup()}<div class="profile-shell"><div class="profile-cover"><img class="cover-image" src="${PROFILE_COVER}" alt="Paisaje de monta\xF1as violetas bajo las estrellas"><span class="cover-label">Tu universo de historias</span></div><section class="profile-identity"><div class="profile-avatar">${state.profile.avatar ? `<img src="${esc(state.profile.avatar)}" alt="Tu avatar">` : esc(state.profile.name.slice(0, 2).toUpperCase())}<button class="avatar-edit" data-action="edit-profile" aria-label="Editar perfil">\u270E</button></div><h1>${esc(state.profile.name)}</h1><p class="handle">@${esc(state.profile.handle)}</p></section><section class="profile-summary" aria-label="Resumen de tu colecci\xF3n"><div class="profile-metrics"><div><strong>${movies}</strong><small>Pel\xEDculas</small></div><div><strong>${series}</strong><small>Series</small></div><div><strong>${planned}</strong><small>Pendientes</small></div><div><strong>${state.following.length}</strong><small>Siguiendo</small></div></div><p class="profile-bio">${esc(state.profile.bio || "Siempre buscando la pr\xF3xima historia.")}</p></section><div class="profile-jump"><button class="text-button" data-page="stats">\u25A5 Mi a\xF1o en cine \u2197</button><button class="text-button" data-page="collection">\u25A4 Mi diario \u2197</button></div><div class="profile-content"><section class="profile-section"><div class="section-head"><h2>Top favoritos</h2><button class="text-button" data-action="favorites" aria-label="Editar favoritos">Editar \u2197</button></div><div class="favorite-grid">${state.favorites.map((id) => {
+  return `${accountMarkup()}<div class="profile-shell"><div class="profile-cover"><img class="cover-image" src="${PROFILE_COVER}" alt="Paisaje de monta\xF1as violetas bajo las estrellas"><span class="cover-label">Tu universo de historias</span></div><section class="profile-identity"><div class="profile-avatar">${state.profile.avatar ? `<img src="${esc(state.profile.avatar)}" alt="Tu avatar">` : esc(state.profile.name.slice(0, 2).toUpperCase())}<button class="avatar-edit" data-action="edit-profile" aria-label="Editar perfil"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button></div><h1>${esc(state.profile.name)}</h1><p class="handle">@${esc(state.profile.handle)}</p></section><section class="profile-summary" aria-label="Resumen de tu colecci\xF3n"><div class="profile-metrics"><div><strong>${movies}</strong><small>Pel\xEDculas</small></div><div><strong>${series}</strong><small>Series</small></div><div><strong>${planned}</strong><small>Pendientes</small></div><div><strong>${state.following.length}</strong><small>Siguiendo</small></div></div><p class="profile-bio">${esc(state.profile.bio || "Siempre buscando la pr\xF3xima historia.")}</p></section><div class="profile-jump"><button class="text-button" data-page="stats"><svg class="jump-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg>Mi a\xF1o en cine</button><button class="text-button" data-page="collection"><svg class="jump-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Mi diario</button></div><div class="profile-content"><section class="profile-section"><div class="section-head"><h2>Top favoritos</h2><button class="text-button" data-action="favorites" aria-label="Editar favoritos">Editar \u2197</button></div><div class="favorite-grid">${state.favorites.map((id) => {
     const m = CATALOG.find((m2) => m2.id === id), e = entry(id);
     return `<article class="movie"><button class="poster" data-film="${id}" data-title="${esc(m.title)}" aria-label="Abrir ${esc(m.title)}">${image(m)}</button><button class="movie-title" data-film="${id}">${esc(m.title)}</button><span class="score">${e?.rating ? "\u2605 " + e.rating + " / 10" : "Sin puntuar"}</span></article>`;
   }).join("")}${state.favorites.length < 3 ? '<button class="button secondary" data-action="favorites">+ Elegir favoritos</button>' : ""}</div><div class="profile-actions"><button class="button" data-action="share-card">\u2193 Guardar tarjeta PNG</button><button class="button secondary" data-page="collection">Mi colecci\xF3n \u2197</button></div><p class="footnote" style="margin-top:12px">Tres historias para llevar contigo. La tarjeta incluye sus carteles.</p></section><section class="profile-section"><div class="section-head"><h2>Actividad reciente</h2><button class="text-button" data-page="social">Ver todo \u2197</button></div><div class="panel recent-list">${state.entries.slice(-3).reverse().map((e) => `<div class="recent-item"><button class="person-link" data-film="${e.id}">${esc(CATALOG.find((m) => m.id === e.id)?.title || "T\xEDtulo guardado")}<small>${LABELS[e.status]}</small></button></div>`).join("") || '<p class="muted">Tu actividad aparecer\xE1 aqu\xED.</p>'}</div></section></div><p class="footnote">Tu perfil, colecci\xF3n y rese\xF1as son p\xFAblicos al sincronizar. La compa\xF1\xEDa es privada.</p></div>`;
@@ -21580,7 +21580,7 @@ function openFilm(id) {
   if (d.contains($("#toast"))) document.body.append($("#toast"));
   d.dataset.id = id;
   d.dataset.tab = "info";
-  d.innerHTML = `<div class="film-screen"><header class="film-header"><div><span class="film-kicker">PLANO / TU DIARIO</span><h2 id="dialog-title">${esc(m.title)}</h2></div><button class="film-close" data-close aria-label="Cerrar ficha">${icon("close")}</button></header><div class="film-tabs" role="tablist" aria-label="Secciones de la pel\xEDcula">${[["info", "Ficha"], ["rating", "Valorar"], ["memory", "Recuerdos"]].map(([key, label]) => `<button id="film-tab-${key}" role="tab" aria-selected="${key === "info"}" aria-controls="film-panel-${key}" tabindex="${key === "info" ? 0 : -1}" data-detail-tab="${key}">${label}</button>`).join("")}</div><form id="film-form" data-id="${id}" novalidate><div class="film-scroll" id="detail-scroll"><section id="film-panel-info" role="tabpanel" aria-labelledby="film-tab-info" data-detail-panel="info"><div class="film-hero">${image(m, "film-poster")}<div class="film-hero-copy"><span class="film-type">${m.type === "movie" ? "PEL\xCDCULA" : "SERIE"} \xB7 ${esc(m.year)}</span><h3>${esc(m.title)}</h3>${detailActions(m)}<p id="detail-genres">${esc(m.genre || GENRES[CATALOG.indexOf(m)] || "Cargando g\xE9neros\u2026")}</p><div class="film-external-rating" id="detail-rating">${tmdbRatingMarkup(m.tmdbRating)}</div></div></div><div class="film-synopsis"><div class="film-section-heading"><h3>La historia</h3></div><p id="detail-plot" class="skeleton" aria-live="polite">Cargando sinopsis\u2026</p><div class="film-language"><small id="plot-language">Preparando la sinopsis en castellano\u2026</small><button id="detail-retry" type="button" class="text-button" data-action="retry-detail" hidden>Reintentar</button></div></div><div class="film-cast"><h3>Reparto</h3><p id="detail-cast">${esc(m.cast || "Cargando reparto\u2026")}</p></div><section class="film-cast" id="detail-providers"><h3>D\xF3nde verla</h3><p>Cargando disponibilidad\u2026</p></section><div id="detail-trailer" class="film-cast"></div><p class="film-credit">Datos y valoraci\xF3n de TMDB.</p></section><section id="film-panel-rating" role="tabpanel" aria-labelledby="film-tab-rating" data-detail-panel="rating" hidden>${memoryEditor(m, e)}</section><section id="film-panel-memory" role="tabpanel" aria-labelledby="film-tab-memory" data-detail-panel="memory" hidden>${memorySummary(m, e)}</section></div><footer class="film-bottom"><span class="film-save-hint">${entry(id) ? "En tu diario" : "Tu pr\xF3xima historia"}</span><button class="button" id="film-start" type="button" data-next-tab="rating">${entry(id) ? "Editar mi valoraci\xF3n" : "A\xF1adir a mi diario"} <span aria-hidden="true">\u2197</span></button><button class="button" id="film-save" type="submit" hidden>Guardar recuerdo <span aria-hidden="true">\u2713</span></button>${entry(id) ? `<button type="button" class="film-remove" data-delete="${id}" aria-label="Quitar de mi colecci\xF3n">${icon("trash")}</button>` : ""}</footer></form></div>`;
+  d.innerHTML = `<div class="film-screen"><header class="film-header"><div><span class="film-kicker">PLANO / TU DIARIO</span><h2 id="dialog-title">${esc(m.title)}</h2></div><button class="film-close" data-close aria-label="Cerrar ficha">${icon("close")}</button></header><div class="film-tabs" role="tablist" aria-label="Secciones de la pel\xEDcula">${[["info", "Ficha"], ["rating", "Valorar"], ["memory", "Recuerdos"]].map(([key, label]) => `<button id="film-tab-${key}" role="tab" aria-selected="${key === "info"}" aria-controls="film-panel-${key}" tabindex="${key === "info" ? 0 : -1}" data-detail-tab="${key}">${label}</button>`).join("")}</div><form id="film-form" data-id="${id}" novalidate><div class="film-scroll" id="detail-scroll"><section id="film-panel-info" role="tabpanel" aria-labelledby="film-tab-info" data-detail-panel="info"><div class="film-backdrop" aria-hidden="true">${m.poster ? `<img src="${esc(m.poster)}" alt="" referrerpolicy="no-referrer">` : ""}</div><div class="film-hero">${image(m, "film-poster")}<div class="film-hero-copy"><span class="film-type">${m.type === "movie" ? "PEL\xCDCULA" : "SERIE"} \xB7 ${esc(m.year)}</span><h3>${esc(m.title)}</h3>${detailActions(m)}<p id="detail-genres">${esc(m.genre || GENRES[CATALOG.indexOf(m)] || "Cargando g\xE9neros\u2026")}</p><div class="film-external-rating" id="detail-rating">${tmdbRatingMarkup(m.tmdbRating)}</div></div></div><div class="film-synopsis"><div class="film-section-heading"><h3>La historia</h3></div><p id="detail-plot" class="skeleton" aria-live="polite">Cargando sinopsis\u2026</p><div class="film-language"><small id="plot-language">Preparando la sinopsis en castellano\u2026</small><button id="detail-retry" type="button" class="text-button" data-action="retry-detail" hidden>Reintentar</button></div></div><div class="film-cast"><h3>Reparto</h3><p id="detail-cast">${esc(m.cast || "Cargando reparto\u2026")}</p></div><section class="film-cast" id="detail-providers"><h3>D\xF3nde verla</h3><p>Cargando disponibilidad\u2026</p></section><div id="detail-trailer" class="film-cast"></div><p class="film-credit">Datos y valoraci\xF3n de TMDB.</p></section><section id="film-panel-rating" role="tabpanel" aria-labelledby="film-tab-rating" data-detail-panel="rating" hidden>${memoryEditor(m, e)}</section><section id="film-panel-memory" role="tabpanel" aria-labelledby="film-tab-memory" data-detail-panel="memory" hidden>${memorySummary(m, e)}</section></div><footer class="film-bottom"><span class="film-save-hint">${entry(id) ? "En tu diario" : "Tu pr\xF3xima historia"}</span><button class="button" id="film-start" type="button" data-next-tab="rating">${entry(id) ? "Editar mi valoraci\xF3n" : "A\xF1adir a mi diario"} <span aria-hidden="true">\u2197</span></button><button class="button" id="film-save" type="submit" hidden>Guardar recuerdo <span aria-hidden="true">\u2713</span></button>${entry(id) ? `<button type="button" class="film-remove" data-delete="${id}" aria-label="Quitar de mi colecci\xF3n">${icon("trash")}</button>` : ""}</footer></form></div>`;
   d.showModal();
   document.body.classList.add("film-open");
   updateEpisodeFields();
@@ -21601,6 +21601,7 @@ function importTitle(r) {
   return cleanTitle(r.title && typeof r.title === "object" ? r.title : { id: r.id, title: typeof r.title === "string" ? r.title : "T\xEDtulo guardado", year: r.year, type: r.type || (String(r.id).includes(":tv:") ? "series" : "movie") });
 }
 function exportCollection() {
+  lsSet("plano-last-backup", String(Date.now()));
   const entries = state.entries.map((e) => {
     const m = CATALOG.find((m2) => m2.id === e.id);
     return { id: e.id, title: m?.title || "T\xEDtulo guardado", year: m?.year || "", type: m?.type || "movie", status: e.status, rating: e.rating, season: e.season || 1, episode: e.episode || 1, review: e.review || "", watchedAt: e.watchedAt || "", companion: e.companion || "", emotions: e.emotions || [] };
@@ -21877,6 +21878,7 @@ document.addEventListener("click", async (ev) => {
       break;
     case "dismiss-notice":
       $(".notice").hidden = true;
+      document.querySelector(".sync-invite")?.remove();
       try {
         localStorage.setItem("plano-notice-dismissed", "1");
       } catch {
@@ -21899,6 +21901,11 @@ document.addEventListener("click", async (ev) => {
       break;
     case "export":
       exportCollection();
+      document.querySelector(".backup-card")?.remove();
+      break;
+    case "backup-later":
+      lsSet("plano-last-backup", String(Date.now()));
+      document.querySelector(".backup-card")?.remove();
       break;
     case "import":
       $("#import-file").click();
@@ -22331,10 +22338,226 @@ function motionReaction(owner, title, wasOn, oldCount) {
     const mark = b.querySelector(".plano-reaction-icon"), count = b.querySelector(".plano-reaction-count");
     if (!mark || motionQuery.matches) continue;
     motionOnce(mark, wasOn ? "plano-unpop" : "plano-pop", 280);
+    if (count && oldCount !== count.textContent) motionRoll(count, oldCount, count.textContent, 220);
     if (wasOn) continue;
+    motionBurst(mark);
+  }
+  if (!wasOn && !motionQuery.matches) try {
+    navigator.vibrate?.(10);
+  } catch {
   }
 }
 
+var BURST_COLORS = ["#8fd3ff", "#ffc34d", "#f0a58f", "#e07be0", "#6f8cff", "#6fe0b5"];
+function motionBurst(node) {
+  if (!node || motionQuery.matches) return;
+  node.querySelector(".plano-particles")?.remove();
+  const box = document.createElement("span");
+  box.className = "plano-particles";
+  box.setAttribute("aria-hidden", "true");
+  BURST_COLORS.forEach((c, i) => {
+    const p = document.createElement("span"), a = (i / BURST_COLORS.length) * Math.PI * 2 - Math.PI / 2, r = 20 + Math.random() * 8;
+    p.className = "plano-particle";
+    p.style.background = c;
+    p.style.setProperty("--dx", Math.cos(a) * r + "px");
+    p.style.setProperty("--dy", Math.sin(a) * r + "px");
+    box.append(p);
+  });
+  node.append(box);
+  setTimeout(() => box.remove(), 520);
+}
+function homeGreeting() {
+  const h = (/* @__PURE__ */ new Date()).getHours(), name = state.profile?.name && state.profile.name !== "Tu perfil" ? state.profile.name.split(" ")[0] : "";
+  const hi = h < 6 ? "Buenas noches" : h < 13 ? "Buenos d\xEDas" : h < 21 ? "Buenas tardes" : "Buenas noches";
+  return esc(name ? `${hi}, ${name}` : hi);
+}
+function syncInvite() {
+  let dismissed = false;
+  try {
+    dismissed = !!localStorage.getItem("plano-notice-dismissed");
+  } catch {
+  }
+  if (cloud.user || dismissed) return "";
+  return `<section class="sync-invite"><span class="sync-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.1 9.2 4.5 4.5 0 0 0 7 18Z"/><path d="m9.5 13.5 2 2 3.5-4"/></svg></span><div><strong>Guarda tus recuerdos en la nube</strong><small>Crea una cuenta gratis para no perder tu diario y seguir a tus amigos.</small></div><div class="sync-actions">${googleButton(true)}<button class="button" data-cloud="login">Crear cuenta</button><button class="text-button" data-action="dismiss-notice">Ahora no</button></div></section>`;
+}
+function lsGet(k) {
+  try {
+    return localStorage.getItem(k);
+  } catch {
+    return null;
+  }
+}
+function lsSet(k, v) {
+  try {
+    localStorage.setItem(k, v);
+  } catch {
+  }
+}
+var GOOGLE_G = '<svg class="google-g" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>';
+var googleEnabled = null, googleCheck = null;
+function googleButton(compact = false) {
+  return `<button type="button" class="google-btn ${compact ? "compact" : ""}" data-cloud="google" ${googleEnabled ? "" : "hidden"}>${GOOGLE_G}<span>Continuar con Google</span></button>${compact ? "" : `<p class="auth-or" ${googleEnabled ? "" : "hidden"}><span>o con tu correo</span></p>`}`;
+}
+function checkGoogle() {
+  if (googleCheck) return googleCheck;
+  const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 6e3);
+  googleCheck = fetch(SUPABASE_URL + "/auth/v1/settings", { headers: { apikey: SUPABASE_KEY }, signal: ctl.signal }).then((r) => r.ok ? r.json() : null).then((j) => {
+    googleEnabled = !!j?.external?.google;
+    return googleEnabled;
+  }).catch(() => {
+    googleCheck = null;
+    return false;
+  }).finally(() => clearTimeout(t));
+  return googleCheck;
+}
+function refreshGoogleButtons() {
+  checkGoogle().then((on) => {
+    document.querySelectorAll(".google-btn, .auth-or").forEach((n) => n.hidden = !on);
+  });
+}
+async function googleLogin() {
+  const b = document.querySelectorAll(".google-btn");
+  b.forEach((x) => x.disabled = true);
+  try {
+    if (!await checkGoogle()) throw new Error("google_off");
+    const r = await db.auth.signInWithOAuth({ provider: "google", options: { redirectTo: location.origin + location.pathname } });
+    if (r.error) throw r.error;
+  } catch (e) {
+    b.forEach((x) => x.disabled = false);
+    toast(e?.message === "google_off" ? "El acceso con Google no est\xE1 disponible ahora. Usa tu correo." : cloudMessage(e));
+  }
+}
+function watchedCount() {
+  return state.entries.filter((e) => e.status === "watched").length;
+}
+function maybeAccountNudge() {
+  if (cloud.user || watchedCount() < 3 || lsGet("plano-nudge-3") || document.querySelector("dialog[open]")) return;
+  lsSet("plano-nudge-3", "1");
+  let d = $("#nudge-dialog");
+  if (!d) {
+    d = document.createElement("dialog");
+    d.id = "nudge-dialog";
+    d.setAttribute("aria-labelledby", "nudge-title");
+    document.body.append(d);
+    d.addEventListener("click", (ev) => {
+      if (ev.target.closest("[data-cloud], [data-nudge-close]")) d.close();
+    });
+    d.addEventListener("close", () => setTimeout(() => {
+      d.remove();
+      refreshHitTest();
+    }, 0));
+  }
+  const posters = state.entries.filter((e) => e.status === "watched").slice(-3).map((e) => CATALOG.find((m) => m.id === e.id)).filter((m) => m?.poster);
+  d.innerHTML = `<div class="nudge"><div class="nudge-stack" aria-hidden="true">${posters.map((m) => `<img src="${esc(m.poster)}" alt="" referrerpolicy="no-referrer">`).join("")}</div><h2 id="nudge-title">Ya tienes ${watchedCount()} recuerdos</h2><p>Ahora mismo solo viven en este m\xF3vil. Gu\xE1rdalos en tu cuenta para no perderlos si cambias de tel\xE9fono.</p>${googleButton(true)}<button class="button" type="button" data-cloud="login">Crear cuenta con correo</button><button class="text-button nudge-later" type="button" data-nudge-close>Ahora no</button></div>`;
+  d.showModal();
+  refreshGoogleButtons();
+}
+function backupCard() {
+  if (cloud.user || !watchedCount()) return "";
+  const now = Date.now();
+  let last = Number(lsGet("plano-last-backup"));
+  if (!last) {
+    lsSet("plano-last-backup", String(now));
+    return "";
+  }
+  const days = Math.floor((now - last) / 864e5);
+  if (days < 14) return "";
+  return `<section class="backup-card"><span class="sync-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m-4-4 4 4 4-4M5 19h14"/></svg></span><div><strong>Haz una copia de tu diario</strong><small>Hace ${days} d\xEDas de tu \xFAltima copia. Sin cuenta, tus recuerdos solo est\xE1n en este m\xF3vil.</small></div><div class="sync-actions"><button class="button" data-action="export">Descargar copia</button><button class="text-button" data-action="backup-later">M\xE1s tarde</button></div></section>`;
+}
+function socialGate() {
+  const people = CATALOG.filter((m) => m.poster).slice(0, 3);
+  return `<section class="social-gate"><div class="gate-avatars" aria-hidden="true">${["#8fd3ff", "#ffc34d", "#6fe0b5"].map((c, i) => `<span style="--c:${c}"><img src="${esc(people[i]?.poster || "")}" alt="" referrerpolicy="no-referrer"></span>`).join("")}</div><h1>El cine se comparte</h1><p>Sigue a tus amigos, mira qu\xE9 sintieron con cada pel\xEDcula y m\xE1ndales un \xABMe llega\xBB. Para eso necesitas una cuenta.</p><div class="gate-actions">${googleButton(true)}<button class="button" data-cloud="login">Crear cuenta con correo</button></div><small>Tu diario sigue funcionando sin cuenta.</small></section>`;
+}
+function refreshHitTest() {
+  const v = $("#view");
+  if (!v) return;
+  v.style.transform = "translateZ(0)";
+  void v.offsetHeight;
+  v.style.transform = "";
+}
+function welcomeDone() {
+  try {
+    localStorage.setItem("plano-onboarded", "1");
+  } catch {
+  }
+}
+function maybeWelcome() {
+  let seen = false;
+  try {
+    seen = !!localStorage.getItem("plano-onboarded");
+  } catch {
+  }
+  if (seen || cloud.user || state.entries.length || state.favorites.length) return;
+  let d = $("#welcome-dialog");
+  if (!d) {
+    d = document.createElement("dialog");
+    d.id = "welcome-dialog";
+    d.setAttribute("aria-labelledby", "welcome-title");
+    document.body.append(d);
+    d.addEventListener("close", () => {
+      welcomeDone();
+      setTimeout(() => {
+        d.remove();
+        refreshHitTest();
+      }, 0);
+    });
+  }
+  const picks = /* @__PURE__ */ new Set(), films = CATALOG.filter((m) => m.poster).slice(0, 12);
+  const step = (n) => {
+    d.dataset.step = n;
+    d.querySelectorAll("[data-welcome-step]").forEach((x) => x.hidden = x.dataset.welcomeStep !== String(n));
+    d.querySelectorAll(".welcome-dots i").forEach((x, i) => x.classList.toggle("on", i === n - 1));
+    d.querySelector(`[data-welcome-step="${n}"] input, [data-welcome-step="${n}"] .button`)?.focus();
+  };
+  d.innerHTML = `<div class="welcome"><button class="welcome-skip text-button" type="button" data-welcome="skip">Saltar</button>
+<section data-welcome-step="1"><svg class="welcome-logo" viewBox="0 0 100 100" aria-hidden="true"><use href="#plano-mark"/></svg><h2 id="welcome-title">Bienvenido a Plano</h2><p>Tu diario de cine y series. Aqu\xED no solo apuntas lo que ves: guardas lo que sentiste.</p><ul class="welcome-points"><li><i style="background:#8fd3ff"></i>Una emoci\xF3n para cada historia</li><li><i style="background:#ffc34d"></i>Con qui\xE9n la viste y unas palabras</li><li><i style="background:#6fe0b5"></i>Tu semana y tu a\xF1o en cine</li></ul><button class="button" type="button" data-welcome="next">Empezar</button></section>
+<section data-welcome-step="2" hidden><h2>\xBFC\xF3mo te llamas?</h2><p>As\xED te saludar\xE1 Plano cada d\xEDa.</p><label class="field"><span>Tu nombre</span><input id="welcome-name" maxlength="40" autocomplete="given-name" placeholder="Tu nombre" value="${state.profile.name !== "Tu perfil" ? esc(state.profile.name) : ""}"></label><button class="button" type="button" data-welcome="next">Seguir</button></section>
+<section data-welcome-step="3" hidden><h2>Elige 3 historias que te marcaron</h2><p>Ser\xE1n tu Top 3 en el perfil. Puedes cambiarlas cuando quieras.</p><div class="welcome-grid">${films.map((m) => `<button type="button" class="welcome-film" data-welcome-film="${m.id}" aria-pressed="false" aria-label="${esc(m.title)}"><img src="${esc(m.poster)}" alt="" loading="lazy" referrerpolicy="no-referrer"><span class="welcome-check" aria-hidden="true"></span></button>`).join("")}</div><button class="button" type="button" data-welcome="finish" disabled>Elige 3 \xB7 0/3</button></section>
+<div class="welcome-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div></div>`;
+  d.onclick = (ev) => {
+    const b = ev.target.closest("[data-welcome],[data-welcome-film]");
+    if (!b) return;
+    if (b.dataset.welcomeFilm) {
+      const id = b.dataset.welcomeFilm;
+      if (picks.has(id)) picks.delete(id);
+      else if (picks.size < 3) picks.add(id);
+      else return toast("Ya tienes tres. Quita una para cambiarla.");
+      b.setAttribute("aria-pressed", picks.has(id));
+      b.querySelector(".welcome-check").textContent = picks.has(id) ? [...picks].indexOf(id) + 1 : "";
+      d.querySelectorAll(".welcome-film[aria-pressed=true]").forEach((x) => x.querySelector(".welcome-check").textContent = [...picks].indexOf(x.dataset.welcomeFilm) + 1);
+      if (picks.has(id)) motionOnce(b, "plano-stamp", 260);
+      const fin = d.querySelector('[data-welcome="finish"]');
+      fin.disabled = picks.size !== 3;
+      fin.textContent = picks.size === 3 ? "Listo, vamos" : `Elige 3 \xB7 ${picks.size}/3`;
+      return;
+    }
+    const act = b.dataset.welcome;
+    if (act === "skip") return d.close();
+    if (act === "next") {
+      const n = Number(d.dataset.step) + 1;
+      if (n === 3) {
+        const name = $("#welcome-name").value.trim();
+        if (name) state.profile.name = name;
+      }
+      return step(n);
+    }
+    if (act === "finish" && picks.size === 3) {
+      state.favorites = [...picks];
+      const ok = persist();
+      d.close();
+      render();
+      if (ok) toast(`Top 3 guardado${state.profile.name !== "Tu perfil" ? ", " + state.profile.name.split(" ")[0] : ""}.`);
+    }
+  };
+  d.addEventListener("keydown", (ev) => {
+    if (ev.key === "Enter" && ev.target.id === "welcome-name") {
+      ev.preventDefault();
+      d.querySelector('[data-welcome-step="2"] .button').click();
+    }
+  });
+  d.showModal();
+  step(1);
+}
 function motionRefresh() {
   document.querySelectorAll('[data-action="refresh-page"]').forEach((b) => refreshBusy ? motionOnce(b, "plano-refresh-busy", 350) : motionCleanups.get(b)?.());
 }
@@ -22352,16 +22575,21 @@ function motionPosters(root = document) {
   });
 }
 function motionAfterRender() {
+  if (!cloud.user && document.querySelector(".google-btn")) refreshGoogleButtons();
+  const notice = $(".notice");
+  if (notice) notice.hidden = true;
   motionPrune();
   motionPosters();
   motionRefresh();
   const days = document.querySelectorAll(".week-fill");
   if (page === "home" && days.length && !weekMotionSeen) {
-    weekMotionSeen = true;
     days.forEach((day, i) => {
-      day.style.setProperty("--week-delay", i * 20 + "ms");
-      motionOnce(day, "plano-week-enter", 160 + i * 20);
+      day.style.setProperty("--week-delay", i * 40 + "ms");
+      motionOnce(day, "plano-week-enter", 200 + i * 40);
     });
+    days[days.length - 1].addEventListener("animationend", () => {
+      weekMotionSeen = true;
+    }, { once: true });
   }
 }
 function motionOpenDetail() {
@@ -22409,6 +22637,7 @@ document.addEventListener("change", (ev) => {
   if (ev.target.matches(".film-rating-options input") && ev.target.checked) motionOnce(ev.target.nextElementSibling, "plano-note", 300);
 });
 $("#detail").addEventListener("close", motionCloseDetail);
+document.querySelectorAll(".topbar .plano-logo, .sidebar .plano-logo").forEach((l) => motionOnce(l, "plano-logo-intro", 760));
 motionQuery.addEventListener("change", () => {
   if (motionQuery.matches) for (const finish of [...motionCleanups.values()]) finish();
 });
@@ -22456,6 +22685,7 @@ function persist() {
       syncStatus();
     } else localStorage.setItem(KEY, JSON.stringify(state));
     storageOK = true;
+    if (!cloud.user) setTimeout(maybeAccountNudge, 1200);
     return true;
   } catch {
     storageOK = false;
@@ -22580,8 +22810,9 @@ async function loadAccount(user) {
 }
 function authDialog(recovery = false) {
   const d = $("#auth-dialog");
-  d.innerHTML = `<div class="dialog-head"><h2>${recovery ? "Nueva contrase\xF1a" : "Tu diario, contigo"}</h2><button type="button" class="icon-button" data-close aria-label="Cerrar">\xD7</button></div><form id="auth-form" class="dialog-body" data-recovery="${recovery}">${recovery ? "" : `<label class="field"><span>Correo electr\xF3nico</span><input type="email" name="email" autocomplete="email" required></label>`}<label class="field"><span>Contrase\xF1a \xB7 m\xEDnimo 8 caracteres</span><input type="password" name="password" autocomplete="${recovery ? "new-password" : "current-password"}" minlength="8" required></label><p class="muted">Tu perfil, colecci\xF3n y rese\xF1as ser\xE1n p\xFAblicos. \xABCon qui\xE9n la viste\xBB solo lo ves t\xFA.</p><p id="auth-error" role="status"></p><div class="account-actions"><button class="button" type="submit" name="mode" value="${recovery ? "recovery" : "login"}">${recovery ? "Guardar contrase\xF1a" : "Entrar"}</button>${recovery ? "" : '<button class="button secondary" type="submit" name="mode" value="signup">Crear cuenta</button>'}</div>${recovery ? "" : '<button class="text-button" type="button" data-cloud="recover">He olvidado mi contrase\xF1a</button>'}</form>`;
+  d.innerHTML = `<div class="dialog-head"><h2>${recovery ? "Nueva contrase\xF1a" : "Tu diario, contigo"}</h2><button type="button" class="icon-button" data-close aria-label="Cerrar">\xD7</button></div><form id="auth-form" class="dialog-body" data-recovery="${recovery}">${recovery ? "" : `${googleButton()}<label class="field"><span>Correo electr\xF3nico</span><input type="email" name="email" autocomplete="email" required></label>`}<label class="field"><span>Contrase\xF1a \xB7 m\xEDnimo 8 caracteres</span><input type="password" name="password" autocomplete="${recovery ? "new-password" : "current-password"}" minlength="8" required></label><p class="muted">Tu perfil, colecci\xF3n y rese\xF1as ser\xE1n p\xFAblicos. \xABCon qui\xE9n la viste\xBB solo lo ves t\xFA.</p><p id="auth-error" role="status"></p><div class="account-actions"><button class="button" type="submit" name="mode" value="${recovery ? "recovery" : "login"}">${recovery ? "Guardar contrase\xF1a" : "Entrar"}</button>${recovery ? "" : '<button class="button secondary" type="submit" name="mode" value="signup">Crear cuenta</button>'}</div>${recovery ? "" : '<button class="text-button" type="button" data-cloud="recover">He olvidado mi contrase\xF1a</button>'}</form>`;
   d.showModal();
+  if (!recovery) refreshGoogleButtons();
 }
 async function loadCommunity(search = "") {
   cloud.busy = true;
@@ -22627,6 +22858,7 @@ function publicPost(p) {
   return `<article class="panel"><div class="post-head">${realAvatar(person)}<button class="person-link" data-cloud-profile="${p.user_id}"><strong>${esc(person.name || "Usuario")}</strong><small>@${esc(person.handle || "")}</small></button></div><div class="post-body"><button class="text-button" data-film="${p.title_id}">${image(CATALOG.find((m) => m.id === p.title_id), "post-poster")}</button><div><h3>${esc(p.title)}</h3><small>${LABELS[p.status]}</small>${p.status !== "planned" && p.rating ? `<p class="score">\u2605 ${p.rating}/10</p>` : ""}${p.status !== "planned" ? `<p>${esc(p.review || "")}</p>${emotionLabel(p)}` : ""}</div></div><button class="reaction ${mine ? "active" : ""}" data-cloud-like="${p.user_id}" data-title-id="${p.title_id}" aria-pressed="${mine}"><span class="plano-reaction-icon" aria-hidden="true">${mine ? "\u2665" : "\u2661"}</span> Me llega \xB7 <span class="plano-reaction-count">${likes.length}</span></button></article>`;
 }
 function social() {
+  if (!cloud.user) return socialGate();
   return `<div class="page-heading"><h1>El cine se comparte.</h1><p>Encuentra a tus amigos por su @usuario.</p></div><form id="people-search" class="account-actions"><input name="handle" aria-label="Buscar usuario" placeholder="@usuario" maxlength="30"><button class="button">Buscar</button></form><div class="toolbar"><div class="filters"><button class="filter ${feedMode === "all" ? "active" : ""}" data-cloud-feed="all">Descubrir</button><button class="filter ${feedMode === "following" ? "active" : ""}" data-cloud-feed="following">Siguiendo</button></div><button class="text-button" data-cloud="community">Actualizar</button></div>${cloud.communityError ? `<p role="status">${esc(cloud.communityError)}</p>` : ""}<div class="feed-layout"><section class="feed">${cloud.posts.length ? cloud.posts.map(publicPost).join("") : `<div class="empty"><h3>${cloud.busy ? "Cargando comunidad\u2026" : "Todav\xEDa no hay actividad"}</h3><p>Las historias compartidas aparecer\xE1n aqu\xED.</p></div>`}</section><aside class="panel"><h3>Personas</h3>${cloud.profiles.map((p) => `<div class="friend">${realAvatar(p)}<button class="person-link" data-cloud-profile="${p.id}">${esc(p.name)}<small>@${esc(p.handle)}</small></button>${followButton(p)}</div>`).join("") || '<p class="muted">No hay perfiles para esta b\xFAsqueda.</p>'}</aside></div>`;
 }
 async function openPublicProfile(id) {
@@ -22651,6 +22883,7 @@ function friendProfile() {
 }
 async function cloudClick(b) {
   if (b.dataset.cloud === "login") return authDialog();
+  if (b.dataset.cloud === "google") return googleLogin();
   if (b.dataset.cloud === "recover") {
     const email = $("#auth-form [name=email]").value;
     if (!email) return $("#auth-error").textContent = "Escribe tu correo.";
@@ -22753,5 +22986,11 @@ db.auth.onAuthStateChange((event, session) => {
   });
 });
 render();
+setTimeout(() => {
+  try {
+    maybeWelcome();
+  } catch {
+  }
+}, 450);
 loadHome();
 persistCatalog();
