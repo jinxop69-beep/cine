@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "app.plano.cine",
+    "sha256_cert_fingerprints": ["E2:50:5C:17:5B:F3:3C:A9:23:96:04:3D:86:65:CB:EA:72:EE:5E:B4:5E:94:92:25:EB:C4:1E:C0:BB:D6:8F:E0"]
+  }
+}]
