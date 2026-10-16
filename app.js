@@ -21569,12 +21569,85 @@ function profileAfterRender() {
     if (box.isConnected) applyTint(box, tint);
   });
 }
+var favPicks = [];
+var favSearchTimer = 0;
+var favSearchSeq = 0;
 function editFavorites() {
-  const selections = [...state.favorites];
-  while (selections.length < 3) selections.push("");
-  $("#favorites-dialog").innerHTML = `<div class="dialog-head"><h2 id="favorites-title">Tus tres favoritos</h2><button class="icon-button" data-close aria-label="Cerrar">${icon("close")}</button></div><form id="favorites-form" class="dialog-body"><p class="muted" style="margin-bottom:20px">Elige tres t\xEDtulos distintos. Este es el orden en que aparecer\xE1n en tu perfil y en la tarjeta.</p>${selections.map((id, i) => `<label class="favorite-form-row"><span>${i + 1}</span><select name="favorite${i}" required aria-label="Favorito ${i + 1}"><option value="">Elige una historia</option>${CATALOG.map((m) => `<option value="${m.id}" ${m.id === id ? "selected" : ""}>${esc(m.title)}</option>`).join("")}</select></label>`).join("")}<button class="button" type="submit">Guardar favoritos</button></form>`;
-  $("#favorites-dialog").showModal();
+  favPicks = normalizeFavorites(state.favorites);
+  const d = $("#favorites-dialog");
+  d.innerHTML = `<div class="dialog-head"><h2 id="favorites-title">Tu top 3</h2><button class="icon-button" data-close aria-label="Cerrar">${icon("close")}</button></div><div class="dialog-body fav-picker"><p class="muted fav-intro">Busca cualquier pel\xEDcula o serie. Toca un cartel para a\xF1adirlo y toca uno de arriba para quitarlo.</p><div class="fav-picks" id="fav-picks"></div><label class="fav-search"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="fav-query" type="search" placeholder="Busca una pel\xEDcula o serie…" autocomplete="off" aria-label="Buscar para tu top 3"></label><p class="fav-hint" id="fav-hint" aria-live="polite"></p><div class="fav-results" id="fav-results"></div><div class="fav-footer"><button class="button" type="button" data-fav-save>Guardar mi top 3</button></div></div>`;
+  renderFavPicks();
+  favSuggestions();
+  d.showModal();
 }
+function renderFavPicks() {
+  const box = $("#fav-picks");
+  if (!box) return;
+  box.innerHTML = [0, 1, 2].map((i) => {
+    const m = CATALOG.find((x) => x.id === favPicks[i]);
+    return m ? `<button type="button" class="fav-pick" data-fav-remove="${m.id}" aria-label="Quitar ${esc(m.title)} del puesto ${i + 1}">${m.poster ? image(m) : `<span class="fav-noposter">${esc(m.title)}</span>`}<span class="fav-rank">${i + 1}</span><span class="fav-x" aria-hidden="true">\xD7</span></button>` : `<div class="fav-pick fav-pick-empty" aria-label="Puesto ${i + 1} libre"><span class="fav-rank">${i + 1}</span><small>Libre</small></div>`;
+  }).join("");
+  document.querySelectorAll("[data-fav-add]").forEach((b) => {
+    const on = favPicks.includes(b.dataset.favAdd);
+    b.classList.toggle("is-on", on);
+    b.setAttribute("aria-pressed", String(on));
+  });
+}
+function favCard(m) {
+  const on = favPicks.includes(m.id);
+  return `<button type="button" class="fav-result ${on ? "is-on" : ""}" data-fav-add="${m.id}" aria-pressed="${on}">${m.poster ? image(m) : `<span class="fav-noposter">${esc(m.title)}</span>`}<small>${esc(m.title)}${m.year ? " \xB7 " + esc(m.year) : ""}</small></button>`;
+}
+function favSuggestions() {
+  const seen = stats().watched.slice().sort((x, y) => (y.rating || 0) - (x.rating || 0)).map((e) => CATALOG.find((m) => m.id === e.id)).filter((m) => m?.poster).slice(0, 12);
+  $("#fav-hint").textContent = seen.length ? "De tu diario \xB7 tus mejor valoradas" : "Ideas para empezar \xB7 o escribe para buscar en todo el cat\xE1logo";
+  $("#fav-results").innerHTML = (seen.length ? seen : CATALOG.filter((m) => m.poster).slice(0, 12)).map(favCard).join("");
+}
+document.addEventListener("input", (ev) => {
+  if (ev.target.id !== "fav-query") return;
+  clearTimeout(favSearchTimer);
+  const q = ev.target.value.trim(), seq = ++favSearchSeq;
+  if (!q) return favSuggestions();
+  $("#fav-hint").textContent = "Buscando…";
+  favSearchTimer = setTimeout(async () => {
+    try {
+      const data = await requestTMDB("/search/multi", { query: q, page: 1, include_adult: false });
+      if (seq !== favSearchSeq) return;
+      const items = (data.results || []).map((d2) => fromTMDB(d2)).filter((m) => m && m.poster).slice(0, 18);
+      cacheRemote(items);
+      const shown = items.map((m) => CATALOG.find((x) => x.id === canonicalId(m.id)) || m);
+      $("#fav-hint").textContent = shown.length ? `Resultados para \xAB${q}\xBB` : `No encontramos nada para \xAB${q}\xBB. Prueba con otro t\xEDtulo.`;
+      $("#fav-results").innerHTML = shown.map(favCard).join("");
+    } catch (e) {
+      if (seq === favSearchSeq) $("#fav-hint").textContent = e.message || "No se pudo buscar ahora.";
+    }
+  }, 320);
+});
+document.addEventListener("click", (ev) => {
+  const add = ev.target.closest?.("[data-fav-add]"), remove = ev.target.closest?.("[data-fav-remove]"), save = ev.target.closest?.("[data-fav-save]");
+  if (add) {
+    const id = add.dataset.favAdd;
+    if (favPicks.includes(id)) favPicks = favPicks.filter((x) => x !== id);
+    else if (favPicks.length < 3) {
+      favPicks.push(id);
+      buzz(8);
+    } else {
+      $("#fav-hint").textContent = "Ya tienes 3. Toca uno de arriba para quitarlo.";
+      return;
+    }
+    renderFavPicks();
+  }
+  if (remove) {
+    favPicks = favPicks.filter((x) => x !== remove.dataset.favRemove);
+    renderFavPicks();
+  }
+  if (save) {
+    state.favorites = favPicks.filter((id) => CATALOG.some((m) => m.id === id));
+    const ok = persist();
+    $("#favorites-dialog").close();
+    render();
+    if (ok) toast(state.favorites.length === 3 ? "Tu top 3 est\xE1 listo." : "Favoritos guardados.");
+  }
+});
 function render() {
   const y = window.scrollY;
   $(".main").classList.toggle("profile-page", page === "profile" || page === "friend");

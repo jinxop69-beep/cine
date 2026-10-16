@@ -600,6 +600,47 @@ body.film-open{overflow:hidden}#detail{width:min(780px,calc(100vw - 40px));heigh
 @media(prefers-reduced-motion:reduce){.mp-memory{transition:none}}
 .nudge .nudge-login{width:100%;min-height:48px;background:transparent;border:1px solid var(--line);color:var(--text)}
 .welcome-login{display:block;margin:10px auto 0;min-height:44px;font-size:14px}
+/* Plano · escritorio */
+@media(min-width:701px){
+.topbar{background:transparent}
+.memory-hero:not(.memory-empty){max-width:none}
+.search-chip-row,.emotion-filters{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 56px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 56px),transparent);padding-right:48px}
+.diary .emotion-filters{flex-wrap:wrap;-webkit-mask-image:none;mask-image:none;padding-right:2px}
+.heatmap{grid-template-rows:repeat(7,16px);grid-auto-columns:16px;justify-content:start;gap:4px;overflow-x:auto}
+.heatmap .day{aspect-ratio:auto;width:16px;height:16px}
+.mp .fp-cover{left:-60px!important;right:-60px!important;-webkit-mask-image:radial-gradient(ellipse 85% 100% at 50% 0,#000 25%,transparent 80%)!important;mask-image:radial-gradient(ellipse 85% 100% at 50% 0,#000 25%,transparent 80%)!important}
+.fp-favs{grid-template-columns:repeat(3,minmax(0,170px));gap:16px}
+.fp-section .fp-favs{justify-content:start}
+}
+@media(min-width:1500px){.memory-hero:not(.memory-empty){min-height:340px}}
+@media(min-width:701px){.memory-hero:not(.memory-empty) .button{justify-self:start;width:auto;min-width:280px;padding-inline:28px}.memory-hero:not(.memory-empty) blockquote{max-width:720px}}
+/* Plano · selector de top 3 */
+#favorites-dialog{width:min(640px,calc(100vw - 24px));max-height:calc(100dvh - 32px)}
+.fav-picker{display:grid;gap:12px}
+.fav-intro{margin:0;font-size:14px}
+.fav-picks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.fav-pick{position:relative;aspect-ratio:2/3;padding:0;border-radius:12px;overflow:hidden;background:var(--raised);border:1px solid var(--line);box-shadow:0 10px 24px #0007}
+.fav-pick img{width:100%;height:100%;object-fit:cover}
+.fav-pick-empty{display:grid;place-items:center;align-content:center;gap:4px;border:1.5px dashed #5a4a40;box-shadow:none;background:#ffffff05;color:var(--muted)}
+.fav-pick-empty small{font-size:12px}
+.fav-rank{position:absolute;left:8px;top:8px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#000b;color:#fff;font-size:13px;font-weight:800}
+.fav-pick-empty .fav-rank{position:static;background:#ffffff12}
+.fav-x{position:absolute;right:6px;top:6px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--primary);color:#14110f;font-size:18px;font-weight:800;line-height:1}
+.fav-search{display:flex;align-items:center;gap:10px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:#1e1613;color:var(--muted)}
+.fav-search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px #ff8a6e33}
+.fav-search input{flex:1;min-width:0;border:0!important;background:transparent!important;box-shadow:none!important;outline:0;padding:13px 0;font-size:16px;color:var(--text)}
+.fav-hint{margin:0;font-size:13px;color:var(--muted);min-height:1.3em}
+.fav-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;max-height:min(46vh,420px);overflow-y:auto;padding:2px 2px 6px}
+.fav-result{display:grid;gap:5px;padding:0;background:none;color:var(--text);text-align:left}
+.fav-result img,.fav-result .fav-noposter{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:10px;border:2px solid transparent;transition:transform .15s,border-color .15s}
+.fav-result small{font-size:12px;line-height:1.3;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fav-result:hover img{transform:translateY(-2px)}
+.fav-result.is-on img{border-color:var(--primary);box-shadow:0 0 0 3px #e5472f40}
+.fav-result.is-on small{color:var(--accent);font-weight:700}
+.fav-noposter{display:grid;place-items:center;padding:8px;background:var(--raised);font-size:12px;text-align:center}
+.fav-footer{position:sticky;bottom:-19px;padding:10px 0 2px;background:linear-gradient(transparent,var(--panel) 30%)}
+.fav-footer .button{width:100%;min-height:50px;font-size:15px}
+@media(prefers-reduced-motion:reduce){.fav-result img{transition:none}}
 </style>
 </head>
 <body>
