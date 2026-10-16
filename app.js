@@ -21536,7 +21536,7 @@ function yearView() {
 var GLYPHS = {
   ticket: '<path d="M4 7h16v3a2 2 0 0 0 0 4v3H4v-3a2 2 0 0 0 0-4z"/><path d="M15 7.5v9" stroke-dasharray="1.5 2.2"/>',
   clapper: '<path d="M4 10h16v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="m4 10-.6-3.2a1 1 0 0 1 .8-1.2l13.7-2.4a1 1 0 0 1 1.2.8L19.6 7 4 10"/><path d="m8.6 5.2 2 3.9M13.6 4.3l2 3.9"/>',
-  popcorn: '<path d="M6 10h12l-1.6 10.2a1 1 0 0 1-1 .8H8.6a1 1 0 0 1-1-.8z"/><path d="M10 10l.6 11M14 10l-.6 11"/><path d="M6.4 10A2.6 2.6 0 0 1 9 6.2a3 3 0 0 1 6 0 2.6 2.6 0 0 1 2.6 3.8"/>',
+  popcorn: '<path d="M6 10.5h12l-1.5 9.6a1.2 1.2 0 0 1-1.2 1H8.7a1.2 1.2 0 0 1-1.2-1z"/><path d="M10 10.5l.4 10.6M14 10.5l-.4 10.6"/><circle cx="8.2" cy="8.2" r="2.3"/><circle cx="12" cy="6.4" r="2.6"/><circle cx="15.8" cy="8.2" r="2.3"/>',
   flame: '<path d="M12 21c-3.9 0-6-2.6-6-5.8 0-3.6 3-5.6 3.4-9.2 2.1 1.2 3.3 3 3.6 5.1.8-.6 1.4-1.6 1.5-2.9 2 1.8 3.5 4.3 3.5 7 0 3.2-2.1 5.8-6 5.8z"/>',
   palette: '<path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.8 1.8-1.7 0-1.3-1-1.6-1-2.6 0-1 .8-1.7 1.7-1.7H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z"/><circle cx="7.5" cy="11.5" r="1.1"/><circle cx="10" cy="7.3" r="1.1"/><circle cx="15" cy="7.6" r="1.1"/>',
   pen: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
@@ -24382,7 +24382,7 @@ function duoStats() {
   const split = rated.filter((x) => Math.abs(x.r.rating - x.e.rating) >= 3).sort((a, b) => Math.abs(b.r.rating - b.e.rating) - Math.abs(a.r.rating - a.e.rating))[0];
   const em = {};
   both.forEach((x) => (x.r.emotions || []).forEach((a) => (x.e.emotions || []).includes(a) && (em[a] = (em[a] || 0) + 1)));
-  const feel = Object.entries(em).sort((a, b) => b[1] - a[1])[0]?.[0] || "";
+  const feel = Object.entries(em).sort((a, b) => b[1] - a[1] || EMOTIONS.indexOf(a[0]) - EMOTIONS.indexOf(b[0]))[0]?.[0] || "";
   return { first, score: match.score, common: both.length, unite, split, feel };
 }
 function duoDialog() {

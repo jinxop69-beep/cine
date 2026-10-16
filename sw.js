@@ -1,5 +1,5 @@
 // Plano · service worker. Red primero para la app (nunca se queda una versión vieja) y caché para abrir sin conexión.
-const VERSION = "plano-v14";
+const VERSION = "plano-v15";
 const SHELL = ["/", "/app.js", "/manifest.webmanifest", "/cover.jpg", "/icons/icon-192.png", "/icons/icon-512.png"];
 const POSTERS = "plano-posters";
 const POSTER_LIMIT = 250;
