@@ -22505,8 +22505,10 @@ function watchedCount() {
   return state.entries.filter((e) => e.status === "watched").length;
 }
 function maybeAccountNudge() {
-  if (cloud.user || watchedCount() < 3 || lsGet("plano-nudge-3") || document.querySelector("dialog[open]") || $(".plano-ticket-layer")) return;
-  lsSet("plano-nudge-3", "1");
+  if (lsGet("plano-nudge-3")) lsSet("plano-nudge-1", "1");
+  const count = watchedCount(), step = [1, 5].find((n) => count >= n && !lsGet("plano-nudge-" + n));
+  if (cloud.user || !step || document.querySelector("dialog[open]") || $(".plano-ticket-layer")) return;
+  [1, 5].filter((n) => n <= step).forEach((n) => lsSet("plano-nudge-" + n, "1"));
   let d = $("#nudge-dialog");
   if (!d) {
     d = document.createElement("dialog");
@@ -22522,7 +22524,7 @@ function maybeAccountNudge() {
     }, 0));
   }
   const posters = state.entries.filter((e) => e.status === "watched").slice(-3).map((e) => CATALOG.find((m) => m.id === e.id)).filter((m) => m?.poster);
-  d.innerHTML = `<div class="nudge"><div class="nudge-stack" aria-hidden="true">${posters.map((m) => `<img src="${esc(m.poster)}" alt="" referrerpolicy="no-referrer">`).join("")}</div><h2 id="nudge-title">Ya tienes ${watchedCount()} recuerdos</h2><p>Ahora mismo solo viven en este m\xF3vil. Gu\xE1rdalos en tu cuenta para no perderlos si cambias de tel\xE9fono.</p>${googleButton(true)}<button class="button" type="button" data-cloud="signup">Crear cuenta con correo</button><button class="text-button nudge-later" type="button" data-nudge-close>Ahora no</button></div>`;
+  d.innerHTML = `<div class="nudge"><div class="nudge-stack" aria-hidden="true">${posters.map((m) => `<img src="${esc(m.poster)}" alt="" referrerpolicy="no-referrer">`).join("")}</div><h2 id="nudge-title">${count === 1 ? "Guarda tu diario para siempre" : `Ya tienes ${count} recuerdos`}</h2><p>${count === 1 ? "Tu primer recuerdo solo vive en este m\xF3vil. Crea tu cuenta gratis para no perderlo nunca, tenerlo en todos tus dispositivos y compartirlo con tus amigos." : "Ahora mismo solo viven en este m\xF3vil. Gu\xE1rdalos en tu cuenta para no perderlos si cambias de tel\xE9fono."}</p>${googleButton(true)}<button class="button" type="button" data-cloud="signup">Crear cuenta gratis</button><button class="button secondary nudge-login" type="button" data-cloud="login">Ya tengo cuenta</button><button class="text-button nudge-later" type="button" data-nudge-close>Ahora no</button></div>`;
   d.showModal();
   refreshGoogleButtons();
 }
@@ -22584,11 +22586,12 @@ function maybeWelcome() {
     d.querySelector(`[data-welcome-step="${n}"] input, [data-welcome-step="${n}"] .button`)?.focus();
   };
   d.innerHTML = `<div class="welcome"><button class="welcome-skip text-button" type="button" data-welcome="skip">Saltar</button>
-<section data-welcome-step="1"><svg class="welcome-logo" viewBox="0 0 100 100" aria-hidden="true"><use href="#plano-mark"/></svg><h2 id="welcome-title">Bienvenido a Plano</h2><p>Tu diario de cine y series. Aqu\xED no solo apuntas lo que ves: guardas lo que sentiste.</p><ul class="welcome-points"><li><i style="background:#8fd3ff"></i>Una emoci\xF3n para cada historia</li><li><i style="background:#ffc34d"></i>Con qui\xE9n la viste y unas palabras</li><li><i style="background:#6fe0b5"></i>Tu semana y tu a\xF1o en cine</li></ul><button class="button" type="button" data-welcome="next">Empezar</button></section>
+<section data-welcome-step="1"><svg class="welcome-logo" viewBox="0 0 100 100" aria-hidden="true"><use href="#plano-mark"/></svg><h2 id="welcome-title">Bienvenido a Plano</h2><p>Tu diario de cine y series. Aqu\xED no solo apuntas lo que ves: guardas lo que sentiste.</p><ul class="welcome-points"><li><i style="background:#8fd3ff"></i>Una emoci\xF3n para cada historia</li><li><i style="background:#ffc34d"></i>Con qui\xE9n la viste y unas palabras</li><li><i style="background:#6fe0b5"></i>Tu semana y tu a\xF1o en cine</li></ul><button class="button" type="button" data-welcome="next">Empezar</button><button class="text-button welcome-login" type="button" data-cloud="login">Ya tengo cuenta \xB7 Entrar</button></section>
 <section data-welcome-step="2" hidden><h2>\xBFC\xF3mo te llamas?</h2><p>As\xED te saludar\xE1 Plano cada d\xEDa.</p><label class="field"><span>Tu nombre</span><input id="welcome-name" maxlength="40" autocomplete="given-name" placeholder="Tu nombre" value="${state.profile.name !== "Tu perfil" ? esc(state.profile.name) : ""}"></label><button class="button" type="button" data-welcome="next">Seguir</button></section>
 <section data-welcome-step="3" hidden><h2>Elige 3 historias que te marcaron</h2><p>Ser\xE1n tu Top 3 en el perfil. Puedes cambiarlas cuando quieras.</p><div class="welcome-grid">${films.map((m) => `<button type="button" class="welcome-film" data-welcome-film="${m.id}" aria-pressed="false" aria-label="${esc(m.title)}"><img src="${esc(m.poster)}" alt="" loading="lazy" referrerpolicy="no-referrer"><span class="welcome-check" aria-hidden="true"></span></button>`).join("")}</div><button class="button" type="button" data-welcome="finish" disabled>Elige 3 \xB7 0/3</button></section>
 <div class="welcome-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div></div>`;
   d.onclick = (ev) => {
+    if (ev.target.closest("[data-cloud]")) return d.close();
     const b = ev.target.closest("[data-welcome],[data-welcome-film]");
     if (!b) return;
     if (b.dataset.welcomeFilm) {
