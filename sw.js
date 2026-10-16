@@ -1,6 +1,6 @@
 // Plano · service worker. Red primero para la app (nunca se queda una versión vieja) y caché para abrir sin conexión.
-const VERSION = "plano-v4";
-const SHELL = ["/", "/app.js", "/manifest.webmanifest", "/icons/icon-192.png", "/icons/icon-512.png"];
+const VERSION = "plano-v5";
+const SHELL = ["/", "/app.js", "/manifest.webmanifest", "/cover.jpg", "/icons/icon-192.png", "/icons/icon-512.png"];
 const POSTERS = "plano-posters";
 const POSTER_LIMIT = 250;
 
@@ -53,6 +53,10 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin === location.origin) {
     if (url.pathname === "/sw.js" || url.pathname === "/service-worker.js") return;
+    if (url.pathname.startsWith("/posters/")) {
+      event.respondWith(posterFirst(request));
+      return;
+    }
     event.respondWith(networkFirst(request));
     return;
   }
