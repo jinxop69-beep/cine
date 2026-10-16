@@ -21055,6 +21055,7 @@ function paintDetail(m, message = "") {
   $("#detail-providers").innerHTML = providerMarkup(m.providers);
   $("#detail-trailer").innerHTML = m.trailer ? `<a class="button secondary" href="${esc(m.trailer)}" target="_blank" rel="noopener noreferrer">Ver tr\xE1iler \u2197</a>` : '<p class="muted">Tr\xE1iler no disponible.</p>';
   $("#detail-plot").classList.remove("skeleton");
+  ["#detail-genres", "#detail-cast"].forEach((sel) => $(sel)?.classList.remove("skeleton-text"));
   $("#detail-retry").hidden = !message;
 }
 async function loadDetail(m) {
@@ -21318,7 +21319,7 @@ function savePending(id) {
   commitQuick(id, next, "A\xF1adida a pendientes.");
 }
 function editStatus(id, status) {
-  if (!$("#detail").open || $("#detail").dataset.id !== id) openFilm(id);
+  if (!$("#detail").open || $("#detail").dataset.id !== id) openFilmNow(id);
   const input = $("#film-form").querySelector(`[name="status"][value="${status}"]`);
   if (input) input.checked = true;
   updateEpisodeFields();
@@ -21359,6 +21360,8 @@ function remoteRail(name, title, upcoming = false) {
 }
 var EMOTION_VARS = ["asombro", "alegria", "nostalgia", "tension", "tristeza", "inspiracion"];
 var diaryEmotion = "Todas";
+var diaryView = "list";
+var calMonth = "";
 var emotionOrder = [];
 function emotionStyle(e) {
   const i = EMOTIONS.indexOf(typeof e === "string" ? e : e?.emotions?.[0]);
@@ -21433,7 +21436,7 @@ function memorySummary(m, e) {
 }
 function home() {
   const list = (status) => state.entries.filter((e) => e.status === status).map((e) => CATALOG.find((m) => m.id === e.id)).filter(Boolean);
-  return `<div class="page-heading home-memory-heading"><h1>${homeGreeting()}</h1></div>${memoryHero()}${weekStrip()}${list("watching").length ? rail("Continuar viendo", list("watching")) : ""}${list("planned").length ? rail("Para ver", list("planned").slice(-12).reverse()) : ""}<div class="refresh-control"><button class="text-button" data-action="refresh-page">Actualizar Inicio \u21BB</button></div>${remoteRail("cinema", "En cines ahora")}${remoteRail("trending", "Tendencias de la semana")}${remoteRail("upcomingMovies", "Pr\xF3ximos estrenos \xB7 pel\xEDculas", true)}${remoteRail("upcomingTV", "Pr\xF3ximos estrenos \xB7 series", true)}<section class="panel home-challenge"><div class="panel-head"><h3>Reto semanal</h3><button class="text-button" data-page="stats">Mi a\xF1o \u2197</button></div>${challenge()}</section>${backupCard()}${syncInvite()}`;
+  return `<div class="page-heading home-memory-heading"><h1>${homeGreeting()}</h1></div>${memoryHero()}${weekStrip()}${tonightCard()}${list("watching").length ? rail("Continuar viendo", list("watching")) : ""}${list("planned").length ? rail("Para ver", list("planned").slice(-12).reverse()) : ""}<div class="refresh-control"><button class="text-button" data-action="refresh-page">Actualizar Inicio \u21BB</button></div>${remoteRail("cinema", "En cines ahora")}${remoteRail("trending", "Tendencias de la semana")}${remoteRail("upcomingMovies", "Pr\xF3ximos estrenos \xB7 pel\xEDculas", true)}${remoteRail("upcomingTV", "Pr\xF3ximos estrenos \xB7 series", true)}<section class="panel home-challenge"><div class="panel-head"><h3>Reto semanal</h3><button class="text-button" data-page="stats">Mi a\xF1o \u2197</button></div>${challenge()}</section>${backupCard()}${syncInvite()}`;
 }
 function recentChips() {
   return recentSearches.length ? `<div class="search-chip-row" aria-label="B\xFAsquedas recientes">${recentSearches.map((q) => `<button class="filter" data-recent="${esc(q)}">${esc(q)}</button>`).join("")}</div>` : "";
@@ -21494,10 +21497,10 @@ function challenge() {
 }
 function collection() {
   const ids = new Set(catalogList().map((m) => m.id)), rows = state.entries.filter((e) => ids.has(e.id) && (diaryEmotion === "Todas" || e.emotions?.includes(diaryEmotion))), dated = rows.filter((e) => validDate(e.watchedAt)).sort((a, b) => b.watchedAt.localeCompare(a.watchedAt)), months = [...new Set(dated.map((e) => e.watchedAt.slice(0, 7)))];
-  return `<div class="diary"><div class="page-heading diary-heading"><div class="diary-heading-title"><h1>Tu diario</h1><small>${(() => { const n = state.entries.filter((e) => e.status === "watched").length; return n + (n === 1 ? " recuerdo" : " recuerdos"); })()}</small></div><div class="diary-controls"><select class="diary-state" id="diary-state" aria-label="Filtrar diario por estado">${[["all", "Todas"], ["watched", "Vistas"], ["watching", "Viendo"], ["planned", "Pendientes"]].map(([key, label]) => `<option value="${key}" ${filter === key ? "selected" : ""}>${label}</option>`).join("")}</select><button class="diary-add" data-page="explore" aria-label="A\xF1adir t\xEDtulo">+</button></div></div><div class="emotion-filters" aria-label="Filtrar por emoci\xF3n">${["Todas", ...EMOTIONS].map((x) => `<button class="filter ${diaryEmotion === x ? "active" : ""}" data-diary-emotion="${x}" aria-pressed="${diaryEmotion === x}">${x === "Todas" ? x : emotionLabel(x)}</button>`).join("")}</div>${months.map((month) => `<section><h2 class="timeline-month">${new Intl.DateTimeFormat("es", { month: "long", year: "numeric" }).format(/* @__PURE__ */ new Date(month + "-01T12:00:00")).toUpperCase()}</h2><div class="timeline-list">${dated.filter((e) => e.watchedAt.startsWith(month)).map(diaryCard).join("")}</div></section>`).join("")}${[["watched", "Recuerdos sin fecha"], ["watching", "En curso"], ["planned", "Por ver"]].map(([status, title]) => {
+  return `<div class="diary"><div class="page-heading diary-heading"><div class="diary-heading-title"><h1>Tu diario</h1><small>${(() => { const n = state.entries.filter((e) => e.status === "watched").length; return n + (n === 1 ? " recuerdo" : " recuerdos"); })()}</small></div><div class="diary-controls"><select class="diary-state" id="diary-state" aria-label="Filtrar diario por estado">${[["all", "Todas"], ["watched", "Vistas"], ["watching", "Viendo"], ["planned", "Pendientes"]].map(([key, label]) => `<option value="${key}" ${filter === key ? "selected" : ""}>${label}</option>`).join("")}</select>${diaryToggle()}<button class="diary-add" data-page="explore" aria-label="A\xF1adir t\xEDtulo">+</button></div></div><div class="emotion-filters" aria-label="Filtrar por emoci\xF3n">${["Todas", ...EMOTIONS].map((x) => `<button class="filter ${diaryEmotion === x ? "active" : ""}" data-diary-emotion="${x}" aria-pressed="${diaryEmotion === x}">${x === "Todas" ? x : emotionLabel(x)}</button>`).join("")}</div>${diaryView === "calendar" ? memoryCalendar(rows) : months.map((month) => `<section><h2 class="timeline-month">${new Intl.DateTimeFormat("es", { month: "long", year: "numeric" }).format(/* @__PURE__ */ new Date(month + "-01T12:00:00")).toUpperCase()}</h2><div class="timeline-list">${dated.filter((e) => e.watchedAt.startsWith(month)).map(diaryCard).join("")}</div></section>`).join("")}${diaryView === "calendar" ? "" : [["watched", "Recuerdos sin fecha"], ["watching", "En curso"], ["planned", "Por ver"]].map(([status, title]) => {
     const es = rows.filter((e) => !validDate(e.watchedAt) && e.status === status);
     return es.length ? `<section><h2 class="timeline-month">${title}</h2><div class="undated-list">${es.map(diaryCard).join("")}</div></section>` : "";
-  }).join("")}${!rows.length ? '<div class="empty"><h3>Aqu\xED empieza tu diario</h3><p>No hay recuerdos con estos filtros.</p><button class="button" data-page="explore">Buscar una historia</button></div>' : ""}</div>`;
+  }).join("")}${diaryView !== "calendar" && !rows.length ? '<div class="empty"><h3>Aqu\xED empieza tu diario</h3><p>No hay recuerdos con estos filtros.</p><button class="button" data-page="explore">Buscar una historia</button></div>' : ""}</div>`;
 }
 function yearView() {
   const s = stats(), year = (/* @__PURE__ */ new Date()).getFullYear(), yearEntries = s.watched.filter((e) => e.watchedAt.startsWith(year + "") && e.watchedAt <= dateISO()), ratings = yearEntries.filter((e) => e.rating != null), avg = ratings.length ? (ratings.reduce((a, e) => a + e.rating, 0) / ratings.length).toFixed(1) : "\u2014";
@@ -21516,7 +21519,7 @@ function yearView() {
     const date = daysAgo(i), n = s.watched.filter((e) => e.watchedAt === date).length;
     heat += `<span class="day ${n > 1 ? "many" : n ? "on" : ""}" role="img" aria-label="${date}: ${n} t\xEDtulos vistos" title="${date}: ${n} t\xEDtulos"></span>`;
   }
-  return `<div class="page-heading"><div class="row"><h1>Mi ${year} en cine.</h1><span class="demo-badge">TU COLECCI\xD3N LOCAL</span></div><p>Los n\xFAmeros cuentan historias. Estos se actualizan con lo que guardas.</p></div><div class="stat-grid"><div class="panel stat"><small>Pel\xEDculas vistas este a\xF1o</small><strong>${yearEntries.filter((e) => CATALOG.find((m) => m.id === e.id).type === "movie").length}</strong></div><div class="panel stat"><small>Series terminadas este a\xF1o</small><strong>${yearEntries.filter((e) => CATALOG.find((m) => m.id === e.id).type === "series").length}</strong></div><div class="panel stat"><small>Nota media este a\xF1o</small><strong>${avg}<span style="font-size:15px;color:var(--muted)"> / 10</span></strong></div><div class="panel stat"><small>Racha actual</small><strong>${streak}<span style="font-size:15px;color:var(--muted)"> d\xEDas</span></strong></div></div><section class="panel"><div class="row"><h3>Un d\xEDa, una historia</h3><small>\xDAltimos 91 d\xEDas</small></div><div class="heatmap" aria-label="Calendario de actividad">${heat}</div><div class="row"><small>${daysAgo(90)}</small><small>M\xE1s claro = m\xE1s t\xEDtulos vistos \xB7 Hoy</small></div></section><div class="lower-grid"><section class="panel"><h3>Tus g\xE9neros del a\xF1o</h3>${genres2.length ? genres2.map(([g, n]) => `<div class="genre"><div class="row"><span>${g}</span><span class="muted">${n} ${n === 1 ? "t\xEDtulo" : "t\xEDtulos"}</span></div><div class="progress" style="margin-top:9px"><i style="width:${n / yearEntries.length * 100}%"></i></div></div>`).join("") : '<p class="footnote">Marca un t\xEDtulo como visto y a\xF1ade una fecha para empezar.</p>'}</section><section class="panel"><div class="panel-head"><h3>Un peque\xF1o reto, cada semana</h3></div>${challenge()}</section></div><p class="footnote">Se cuenta la fecha de visionado; las vistas sin fecha no entran en el resumen anual. Una entrada por t\xEDtulo, sin contar episodios ni revisiones. Reto y racha calculados con la hora de tu dispositivo.</p>`;
+  return `<div class="page-heading"><div class="row"><h1>Mi ${year} en cine.</h1><span class="demo-badge">TU COLECCI\xD3N LOCAL</span></div><p>Los n\xFAmeros cuentan historias. Estos se actualizan con lo que guardas.</p></div>${wrappedCta()}<div class="stat-grid"><div class="panel stat"><small>Pel\xEDculas vistas este a\xF1o</small><strong>${yearEntries.filter((e) => CATALOG.find((m) => m.id === e.id).type === "movie").length}</strong></div><div class="panel stat"><small>Series terminadas este a\xF1o</small><strong>${yearEntries.filter((e) => CATALOG.find((m) => m.id === e.id).type === "series").length}</strong></div><div class="panel stat"><small>Nota media este a\xF1o</small><strong>${avg}<span style="font-size:15px;color:var(--muted)"> / 10</span></strong></div><div class="panel stat"><small>Racha actual</small><strong>${streak}<span style="font-size:15px;color:var(--muted)"> d\xEDas</span></strong></div></div><section class="panel"><div class="row"><h3>Un d\xEDa, una historia</h3><small>\xDAltimos 91 d\xEDas</small></div><div class="heatmap" aria-label="Calendario de actividad">${heat}</div><div class="row"><small>${daysAgo(90)}</small><small>M\xE1s claro = m\xE1s t\xEDtulos vistos \xB7 Hoy</small></div></section><div class="lower-grid"><section class="panel"><h3>Tus g\xE9neros del a\xF1o</h3>${genres2.length ? genres2.map(([g, n]) => `<div class="genre"><div class="row"><span>${g}</span><span class="muted">${n} ${n === 1 ? "t\xEDtulo" : "t\xEDtulos"}</span></div><div class="progress" style="margin-top:9px"><i style="width:${n / yearEntries.length * 100}%"></i></div></div>`).join("") : '<p class="footnote">Marca un t\xEDtulo como visto y a\xF1ade una fecha para empezar.</p>'}</section><section class="panel"><div class="panel-head"><h3>Un peque\xF1o reto, cada semana</h3></div>${challenge()}</section></div><p class="footnote">Se cuenta la fecha de visionado; las vistas sin fecha no entran en el resumen anual. Una entrada por t\xEDtulo, sin contar episodios ni revisiones. Reto y racha calculados con la hora de tu dispositivo.</p>`;
 }
 function profile() {
   const s = stats(), movies = s.watched.filter((e) => CATALOG.find((m) => m.id === e.id)?.type === "movie").length, series = s.watched.length - movies, planned = state.entries.filter((e) => e.status === "planned").length;
@@ -21551,14 +21554,18 @@ function navigate(next) {
   activeSearch?.abort();
   ++searchGeneration;
   if (![...NAV.map(([id]) => id), "stats"].includes(next)) return;
+  const previous = page;
   page = next;
   apiMode = "idle";
   filter = "all";
   query = "";
   selectedGenre = "";
   $("#search").value = "";
-  render();
-  window.scrollTo({ top: 0, behavior: "instant" });
+  const swap = () => {
+    render();
+    window.scrollTo({ top: 0, behavior: "instant" });
+  };
+  previous !== next ? pageTransition(swap) : swap();
   $("#content").focus({ preventScroll: true });
   if (next === "explore") {
     if (matchMedia("(hover:hover) and (pointer:fine)").matches) $("#search").focus();
@@ -21568,7 +21575,7 @@ function navigate(next) {
   if (next === "home") loadHome();
   if (next === "social") loadCommunity();
 }
-function openFilm(id) {
+function openFilmNow(id) {
   dismissToast();
   const m = CATALOG.find((m2) => m2.id === id);
   if (!m) return;
@@ -21580,11 +21587,12 @@ function openFilm(id) {
   if (d.contains($("#toast"))) document.body.append($("#toast"));
   d.dataset.id = id;
   d.dataset.tab = "info";
-  d.innerHTML = `<div class="film-screen"><header class="film-header"><div><span class="film-kicker">PLANO / TU DIARIO</span><h2 id="dialog-title">${esc(m.title)}</h2></div><button class="film-close" data-close aria-label="Cerrar ficha">${icon("close")}</button></header><div class="film-tabs" role="tablist" aria-label="Secciones de la pel\xEDcula">${[["info", "Ficha"], ["rating", "Valorar"], ["memory", "Recuerdos"]].map(([key, label]) => `<button id="film-tab-${key}" role="tab" aria-selected="${key === "info"}" aria-controls="film-panel-${key}" tabindex="${key === "info" ? 0 : -1}" data-detail-tab="${key}">${label}</button>`).join("")}</div><form id="film-form" data-id="${id}" novalidate><div class="film-scroll" id="detail-scroll"><section id="film-panel-info" role="tabpanel" aria-labelledby="film-tab-info" data-detail-panel="info"><div class="film-backdrop" aria-hidden="true">${m.poster ? `<img src="${esc(m.poster)}" alt="" referrerpolicy="no-referrer">` : ""}</div><div class="film-hero">${image(m, "film-poster")}<div class="film-hero-copy"><span class="film-type">${m.type === "movie" ? "PEL\xCDCULA" : "SERIE"} \xB7 ${esc(m.year)}</span><h3>${esc(m.title)}</h3>${detailActions(m)}<p id="detail-genres">${esc(m.genre || GENRES[CATALOG.indexOf(m)] || "Cargando g\xE9neros\u2026")}</p><div class="film-external-rating" id="detail-rating">${tmdbRatingMarkup(m.tmdbRating)}</div></div></div><div class="film-synopsis"><div class="film-section-heading"><h3>La historia</h3></div><p id="detail-plot" class="skeleton" aria-live="polite">Cargando sinopsis\u2026</p><div class="film-language"><small id="plot-language">Preparando la sinopsis en castellano\u2026</small><button id="detail-retry" type="button" class="text-button" data-action="retry-detail" hidden>Reintentar</button></div></div><div class="film-cast"><h3>Reparto</h3><p id="detail-cast">${esc(m.cast || "Cargando reparto\u2026")}</p></div><section class="film-cast" id="detail-providers"><h3>D\xF3nde verla</h3><p>Cargando disponibilidad\u2026</p></section><div id="detail-trailer" class="film-cast"></div><p class="film-credit">Datos y valoraci\xF3n de TMDB.</p></section><section id="film-panel-rating" role="tabpanel" aria-labelledby="film-tab-rating" data-detail-panel="rating" hidden>${memoryEditor(m, e)}</section><section id="film-panel-memory" role="tabpanel" aria-labelledby="film-tab-memory" data-detail-panel="memory" hidden>${memorySummary(m, e)}</section></div><footer class="film-bottom"><span class="film-save-hint">${entry(id) ? "En tu diario" : "Tu pr\xF3xima historia"}</span><button class="button" id="film-start" type="button" data-next-tab="rating">${entry(id) ? "Editar mi valoraci\xF3n" : "A\xF1adir a mi diario"} <span aria-hidden="true">\u2197</span></button><button class="button" id="film-save" type="submit" hidden>Guardar recuerdo <span aria-hidden="true">\u2713</span></button>${entry(id) ? `<button type="button" class="film-remove" data-delete="${id}" aria-label="Quitar de mi colecci\xF3n">${icon("trash")}</button>` : ""}</footer></form></div>`;
+  d.innerHTML = `<div class="film-screen"><header class="film-header"><div><span class="film-kicker">PLANO / TU DIARIO</span><h2 id="dialog-title">${esc(m.title)}</h2></div><button class="film-close" data-close aria-label="Cerrar ficha">${icon("close")}</button></header><div class="film-tabs" role="tablist" aria-label="Secciones de la pel\xEDcula">${[["info", "Ficha"], ["rating", "Valorar"], ["memory", "Recuerdos"]].map(([key, label]) => `<button id="film-tab-${key}" role="tab" aria-selected="${key === "info"}" aria-controls="film-panel-${key}" tabindex="${key === "info" ? 0 : -1}" data-detail-tab="${key}">${label}</button>`).join("")}</div><form id="film-form" data-id="${id}" novalidate><div class="film-scroll" id="detail-scroll"><section id="film-panel-info" role="tabpanel" aria-labelledby="film-tab-info" data-detail-panel="info"><div class="film-backdrop" aria-hidden="true">${m.poster ? `<img src="${esc(m.poster)}" alt="" referrerpolicy="no-referrer">` : ""}</div><div class="film-hero">${image(m, "film-poster")}<div class="film-hero-copy"><span class="film-type">${m.type === "movie" ? "PEL\xCDCULA" : "SERIE"} \xB7 ${esc(m.year)}</span><h3>${esc(m.title)}</h3>${detailActions(m)}<p id="detail-genres" class="${m.genre || GENRES[CATALOG.indexOf(m)] ? "" : "skeleton-text"}">${esc(m.genre || GENRES[CATALOG.indexOf(m)] || "Cargando g\xE9neros\u2026")}</p><div class="film-external-rating" id="detail-rating">${tmdbRatingMarkup(m.tmdbRating)}</div></div></div><div class="film-synopsis"><div class="film-section-heading"><h3>La historia</h3></div><p id="detail-plot" class="skeleton" aria-live="polite">Cargando sinopsis\u2026</p><div class="film-language"><small id="plot-language">Preparando la sinopsis en castellano\u2026</small><button id="detail-retry" type="button" class="text-button" data-action="retry-detail" hidden>Reintentar</button></div></div><div class="film-cast"><h3>Reparto</h3><p id="detail-cast" class="${m.cast ? "" : "skeleton-text"}">${esc(m.cast || "Cargando reparto\u2026")}</p></div><section class="film-cast" id="detail-providers"><h3>D\xF3nde verla</h3><p class="skeleton-text">Cargando disponibilidad\u2026</p></section><div id="detail-trailer" class="film-cast"></div><p class="film-credit">Datos y valoraci\xF3n de TMDB.</p></section><section id="film-panel-rating" role="tabpanel" aria-labelledby="film-tab-rating" data-detail-panel="rating" hidden>${memoryEditor(m, e)}</section><section id="film-panel-memory" role="tabpanel" aria-labelledby="film-tab-memory" data-detail-panel="memory" hidden>${memorySummary(m, e)}</section></div><footer class="film-bottom"><span class="film-save-hint">${entry(id) ? "En tu diario" : "Tu pr\xF3xima historia"}</span><button class="button" id="film-start" type="button" data-next-tab="rating">${entry(id) ? "Editar mi valoraci\xF3n" : "A\xF1adir a mi diario"} <span aria-hidden="true">\u2197</span></button><button class="button" id="film-save" type="submit" hidden>Guardar recuerdo <span aria-hidden="true">\u2713</span></button>${entry(id) ? `<button type="button" class="film-remove" data-delete="${id}" aria-label="Quitar de mi colecci\xF3n">${icon("trash")}</button>` : ""}</footer></form></div>`;
   d.showModal();
   document.body.classList.add("film-open");
   updateEpisodeFields();
   loadDetail(m);
+  tintDetail(m);
   motionOpenDetail();
 }
 function download(blob, name) {
@@ -21748,7 +21756,7 @@ document.addEventListener("click", async (ev) => {
     return;
   }
   if (b.dataset.memoryFilm) {
-    openFilm(b.dataset.memoryFilm);
+    openFilmNow(b.dataset.memoryFilm);
     switchDetailTab("memory");
     return;
   }
@@ -21788,7 +21796,7 @@ document.addEventListener("click", async (ev) => {
   }
   if (b.dataset.quick) {
     ev.stopPropagation();
-    entry(b.dataset.quick) ? openFilm(b.dataset.quick) : savePending(b.dataset.quick);
+    entry(b.dataset.quick) ? openFilmNow(b.dataset.quick) : savePending(b.dataset.quick);
     return;
   }
   if (b.dataset.pending) {
@@ -21966,6 +21974,7 @@ document.addEventListener("submit", (ev) => {
       if (n.dataset.card === id) motionOnce(n.querySelector(".poster-plus svg"), "plano-stamp", 260);
     });
     if (ok) toast({ planned: "A\xF1adida a pendientes.", watching: "Progreso guardado.", watched: "Recuerdo guardado en tu colecci\xF3n." }[e.status]);
+    if (ok && e.status === "watched") showTicket(id);
   }
   if (ev.target.id === "profile-form") {
     ev.preventDefault();
@@ -22431,7 +22440,7 @@ function watchedCount() {
   return state.entries.filter((e) => e.status === "watched").length;
 }
 function maybeAccountNudge() {
-  if (cloud.user || watchedCount() < 3 || lsGet("plano-nudge-3") || document.querySelector("dialog[open]")) return;
+  if (cloud.user || watchedCount() < 3 || lsGet("plano-nudge-3") || document.querySelector("dialog[open]") || $(".plano-ticket-layer")) return;
   lsSet("plano-nudge-3", "1");
   let d = $("#nudge-dialog");
   if (!d) {
@@ -22598,10 +22607,10 @@ function motionOpenDetail() {
     n.remove();
   });
   motionPosters($("#detail"));
-  if (mobileLayout()) motionOnce($("#detail"), "plano-detail-enter", 240);
+  if (mobileLayout() && !document.documentElement.classList.contains("vt-film")) motionOnce($("#detail"), "plano-detail-enter", 240);
 }
 function motionCloseDetail() {
-  if (motionQuery.matches || !mobileLayout() || $("#detail").open) return;
+  if (vtClosing || motionQuery.matches || !mobileLayout() || $("#detail").open) return;
   const screen = $("#detail .film-screen");
   if (!screen) return;
   document.querySelectorAll(".plano-detail-ghost").forEach((n) => {
@@ -22985,6 +22994,765 @@ db.auth.onAuthStateChange((event, session) => {
   accountTask = accountTask.then(() => loadAccount(session?.user || null)).catch(() => {
   });
 });
+// Plano · v4: transiciones de cine, color del cartel, entrada al guardar, tu año en historias, calendario y "esta noche".
+var vtReady = typeof document.startViewTransition === "function";
+var filmSource = null;
+var filmReturn = null;
+var vtClosing = false;
+function canMorph() {
+  return vtReady && !motionQuery.matches;
+}
+function onScreen(node) {
+  if (!node?.isConnected) return false;
+  const r = node.getBoundingClientRect();
+  return r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
+}
+function buzz(pattern) {
+  if (motionQuery.matches) return;
+  try {
+    navigator.vibrate?.(pattern);
+  } catch {
+  }
+}
+function openFilm(id) {
+  const src = filmSource;
+  filmSource = null;
+  filmReturn = null;
+  if (!canMorph() || !onScreen(src) || $("#detail").open || !CATALOG.some((m) => m.id === id)) return openFilmNow(id);
+  const root = document.documentElement;
+  src.style.viewTransitionName = "plano-film";
+  root.classList.add("vt-film");
+  let t;
+  try {
+    t = document.startViewTransition(() => {
+      src.style.viewTransitionName = "";
+      openFilmNow(id);
+      const p = $("#detail .film-poster");
+      if (p) p.style.viewTransitionName = "plano-film";
+    });
+  } catch {
+    src.style.viewTransitionName = "";
+    root.classList.remove("vt-film");
+    return openFilmNow(id);
+  }
+  filmReturn = { src };
+  t.finished.finally(() => {
+    root.classList.remove("vt-film");
+    const p = $("#detail .film-poster");
+    if (p) p.style.viewTransitionName = "";
+  });
+}
+function closeFilm() {
+  const d = $("#detail"), p = d.querySelector(".film-poster"), src = filmReturn?.src;
+  if (!d.open) return;
+  if (!canMorph() || !onScreen(p) || !onScreen(src)) return d.close();
+  const root = document.documentElement;
+  vtClosing = true;
+  p.style.viewTransitionName = "plano-film";
+  root.classList.add("vt-film", "vt-film-back");
+  let t;
+  try {
+    t = document.startViewTransition(() => {
+      p.style.viewTransitionName = "";
+      d.close();
+      src.style.viewTransitionName = "plano-film";
+    });
+  } catch {
+    p.style.viewTransitionName = "";
+    vtClosing = false;
+    root.classList.remove("vt-film", "vt-film-back");
+    return d.close();
+  }
+  t.finished.finally(() => {
+    src.style.viewTransitionName = "";
+    vtClosing = false;
+    root.classList.remove("vt-film", "vt-film-back");
+  });
+}
+document.addEventListener("click", (ev) => {
+  const b = ev.target.closest?.("[data-film]");
+  filmSource = b && !b.closest("dialog") ? b.querySelector("img") || b.closest("article,.rail-item,.continue-wrap")?.querySelector("img") || null : null;
+}, true);
+document.addEventListener("click", (ev) => {
+  if (!filmReturn || !ev.target.closest?.("#detail [data-close]")) return;
+  ev.preventDefault();
+  ev.stopImmediatePropagation();
+  closeFilm();
+}, true);
+$("#detail").addEventListener("cancel", (ev) => {
+  if (!filmReturn || !canMorph()) return;
+  ev.preventDefault();
+  closeFilm();
+});
+$("#detail").addEventListener("close", () => {
+  filmReturn = null;
+});
+function pageTransition(swap) {
+  if (!canMorph()) return swap();
+  const root = document.documentElement;
+  root.classList.add("vt-page");
+  try {
+    document.startViewTransition(swap).finished.finally(() => root.classList.remove("vt-page"));
+  } catch {
+    root.classList.remove("vt-page");
+    swap();
+  }
+}
+var tintCache = /* @__PURE__ */ new Map();
+function rgbToHsl([r, g, b]) {
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b), l = (max + min) / 2;
+  if (max === min) return [0, 0, l];
+  const d = max - min, s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  const h = max === r ? (g - b) / d + (g < b ? 6 : 0) : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  return [h / 6, s, l];
+}
+function loadImg(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.decoding = "async";
+    img.referrerPolicy = "no-referrer";
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+function posterTint(src) {
+  if (!src) return Promise.resolve(null);
+  if (tintCache.has(src)) return tintCache.get(src);
+  const job = loadImg(src).then((img) => {
+    const c = document.createElement("canvas"), w = 24, h = 36;
+    c.width = w;
+    c.height = h;
+    const x = c.getContext("2d", { willReadFrequently: true });
+    x.drawImage(img, 0, 0, w, h);
+    const data = x.getImageData(0, 0, w, h).data;
+    let r = 0, g = 0, b = 0, total = 0;
+    for (let i = 0; i < data.length; i += 4) {
+      const R = data[i], G = data[i + 1], B = data[i + 2], max = Math.max(R, G, B), min = Math.min(R, G, B), sat = max ? (max - min) / max : 0, lum = (max + min) / 510;
+      const weight = sat * sat * (lum > 0.12 && lum < 0.9 ? 1 : 0.08);
+      r += R * weight;
+      g += G * weight;
+      b += B * weight;
+      total += weight;
+    }
+    if (total < 1.5) return null;
+    const [hue, s] = rgbToHsl([r / total, g / total, b / total]);
+    return s < 0.14 ? null : { h: Math.round(hue * 360), s: Math.round(Math.min(0.82, Math.max(0.42, s)) * 100) };
+  }).catch(() => null);
+  tintCache.set(src, job);
+  return job;
+}
+function applyTint(node, tint) {
+  if (!tint) return node.classList.remove("tinted");
+  node.style.setProperty("--tint-h", tint.h);
+  node.style.setProperty("--tint-s", tint.s + "%");
+  node.classList.add("tinted");
+}
+function tintDetail(m) {
+  const d = $("#detail"), generation = detailGeneration;
+  d.classList.remove("tinted");
+  posterTint(m.poster).then((tint) => {
+    if (d.open && generation === detailGeneration) applyTint(d, tint);
+  });
+}
+async function shareCanvas(canvas, name, text) {
+  const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+  if (!blob) throw Error("Imagen");
+  const file = new File([blob], name, { type: "image/png" });
+  if (navigator.canShare?.({ files: [file] })) {
+    try {
+      await navigator.share({ files: [file], title: "Plano", text });
+      return;
+    } catch (e) {
+      if (e.name === "AbortError") return;
+    }
+  }
+  download(blob, name);
+  toast("Imagen guardada en tu dispositivo.");
+}
+function roundRect(c, x, y, w, h, r) {
+  c.beginPath();
+  c.roundRect(x, y, w, h, r);
+}
+function drawCover(c, img, x, y, w, h, r = 18) {
+  c.save();
+  roundRect(c, x, y, w, h, r);
+  c.clip();
+  const scale = Math.max(w / img.width, h / img.height), iw = img.width * scale, ih = img.height * scale;
+  c.drawImage(img, x + (w - iw) / 2, y + (h - ih) / 2, iw, ih);
+  c.restore();
+}
+function wrapText(c, text, x, y, max, lineHeight, maxLines = 3) {
+  const words = String(text).split(/\s+/);
+  let line = "", rows = 0;
+  for (const word of words) {
+    const test = line ? line + " " + word : word;
+    if (c.measureText(test).width > max && line) {
+      if (rows === maxLines - 1) {
+        c.fillText(line + "…", x, y + rows * lineHeight);
+        return rows + 1;
+      }
+      c.fillText(line, x, y + rows * lineHeight);
+      rows++;
+      line = word;
+    } else line = test;
+  }
+  c.fillText(line, x, y + rows * lineHeight);
+  return rows + 1;
+}
+var EMOTION_HEX = { Asombro: "#8fd3ff", "Alegr\xEDa": "#ffc34d", Nostalgia: "#f0a58f", "Tensi\xF3n": "#e07be0", Tristeza: "#6f8cff", "Inspiraci\xF3n": "#6fe0b5" };
+function longDate(d) {
+  return validDate(d) ? new Intl.DateTimeFormat("es", { day: "numeric", month: "long", year: "numeric" }).format(/* @__PURE__ */ new Date(d + "T12:00:00")) : "Sin fecha";
+}
+var ticketTimer;
+function closeTicket() {
+  clearTimeout(ticketTimer);
+  const layer = $(".plano-ticket-layer");
+  if (!layer) return;
+  motionOnce(layer, "plano-ticket-out", 260, () => {
+    layer.remove();
+    if (!cloud.user) setTimeout(maybeAccountNudge, 400);
+  });
+}
+function showTicket(id) {
+  const m = CATALOG.find((x) => x.id === id), e = entry(id);
+  if (!m || !e || e.status !== "watched") return;
+  clearTimeout(ticketTimer);
+  $(".plano-ticket-layer")?.remove();
+  const n = stats().watched.length, emotion = e.emotions?.[0];
+  const rows = [["Fecha", e.watchedAt ? shortDate(e.watchedAt) : "Sin fecha"], ["Nota", e.rating ? "★ " + e.rating : "—"], ["Emoci\xF3n", emotion || "—"], ["Con", e.companion || ""]].filter(([, v]) => v);
+  const layer = document.createElement("div");
+  layer.className = "plano-ticket-layer";
+  layer.dataset.id = id;
+  layer.innerHTML = `<div class="plano-ticket" style="${emotionStyle(e)}"><div class="ticket-main"><span class="ticket-kicker">PLANO \xB7 ENTRADA N\xBA ${String(n).padStart(4, "0")}</span><strong class="ticket-title">${esc(m.title)}</strong><div class="ticket-rows">${rows.map(([k, v]) => `<span><small>${k}</small><b>${esc(v)}</b></span>`).join("")}</div></div><div class="ticket-stub">${m.poster ? `<img src="${esc(m.poster)}" alt="" referrerpolicy="no-referrer">` : ""}<span class="ticket-stamp">GUARDADO</span></div></div><p class="sr-only" role="status">Recuerdo guardado: ${esc(m.title)}. Entrada n\xFAmero ${n}.</p><div class="ticket-actions"><button type="button" class="button secondary" data-ticket="share">Compartir entrada</button><button type="button" class="button" data-ticket="close">Listo</button></div>`;
+  document.body.append(layer);
+  motionOnce(layer, "plano-ticket-in", 900);
+  buzz([12, 70, 20]);
+  ticketTimer = setTimeout(closeTicket, 4200);
+}
+document.addEventListener("pointerdown", (ev) => {
+  if (ev.target.closest?.(".plano-ticket-layer")) clearTimeout(ticketTimer);
+}, { passive: true });
+document.addEventListener("keydown", (ev) => {
+  if (ev.key === "Escape" && $(".plano-ticket-layer")) closeTicket();
+  else if ($(".plano-ticket-layer") && ev.key === "Tab") clearTimeout(ticketTimer);
+});
+document.addEventListener("click", async (ev) => {
+  const layer = ev.target.closest?.(".plano-ticket-layer");
+  if (!layer) return;
+  const b = ev.target.closest("[data-ticket]");
+  if (!b) {
+    if (ev.target === layer) closeTicket();
+    return;
+  }
+  if (b.dataset.ticket === "close") return closeTicket();
+  b.disabled = true;
+  try {
+    await shareTicket(layer.dataset.id);
+  } catch {
+    toast("No se pudo crear la imagen de la entrada.");
+  } finally {
+    b.disabled = false;
+  }
+});
+async function shareTicket(id) {
+  const m = CATALOG.find((x) => x.id === id), e = entry(id);
+  if (!m || !e) return;
+  await document.fonts.ready;
+  const W = 1080, H = 1350, c = document.createElement("canvas");
+  c.width = W;
+  c.height = H;
+  const x = c.getContext("2d"), color = EMOTION_HEX[e.emotions?.[0]] || "#ff8a6e";
+  const bg = x.createRadialGradient(W / 2, 0, 50, W / 2, 300, 1100);
+  bg.addColorStop(0, color + "55");
+  bg.addColorStop(1, "#14110f");
+  x.fillStyle = "#14110f";
+  x.fillRect(0, 0, W, H);
+  x.fillStyle = bg;
+  x.fillRect(0, 0, W, H);
+  let poster = null;
+  try {
+    if (m.poster) poster = await loadImg(m.poster);
+  } catch {
+  }
+  const tx = 90, ty = 250, tw = 900, th = 820, stub = 330;
+  const paper = document.createElement("canvas");
+  paper.width = W;
+  paper.height = H;
+  const px = paper.getContext("2d");
+  px.fillStyle = "#f1e9da";
+  roundRect(px, tx, ty, tw, th, 36);
+  px.fill();
+  px.globalCompositeOperation = "destination-out";
+  [[tx + tw - stub, ty], [tx + tw - stub, ty + th]].forEach(([cx, cy]) => {
+    px.beginPath();
+    px.arc(cx, cy, 34, 0, Math.PI * 2);
+    px.fill();
+  });
+  x.save();
+  x.shadowColor = "#000a";
+  x.shadowBlur = 60;
+  x.shadowOffsetY = 30;
+  x.drawImage(paper, 0, 0);
+  x.restore();
+  x.setLineDash([4, 16]);
+  x.lineWidth = 5;
+  x.strokeStyle = "#14110f55";
+  x.beginPath();
+  x.moveTo(tx + tw - stub, ty + 50);
+  x.lineTo(tx + tw - stub, ty + th - 50);
+  x.stroke();
+  x.setLineDash([]);
+  if (poster) drawCover(x, poster, tx + tw - stub + 40, ty + 70, stub - 80, th - 140, 20);
+  x.fillStyle = "#c4402a";
+  x.font = "800 30px Manrope";
+  x.fillText("PLANO \xB7 ENTRADA N\xBA " + String(stats().watched.length).padStart(4, "0"), tx + 60, ty + 100);
+  x.fillStyle = "#14110f";
+  x.font = "800 70px Manrope";
+  const lines = wrapText(x, m.title, tx + 60, ty + 200, tw - stub - 110, 78, 3);
+  const rows = [["FECHA", longDate(e.watchedAt)], ["NOTA", e.rating ? "★ " + e.rating + " / 10" : "Sin nota"], ["EMOCI\xD3N", e.emotions?.[0] || ""], ["CON", e.companion || ""]].filter(([, v]) => v);
+  rows.forEach(([k, v], i) => {
+    const y = ty + 230 + lines * 78 + i * 108;
+    x.fillStyle = "#8a7d6c";
+    x.font = "700 26px Manrope";
+    x.fillText(k, tx + 60, y);
+    x.fillStyle = "#14110f";
+    x.font = "700 40px Manrope";
+    wrapText(x, v, tx + 60, y + 48, tw - stub - 110, 44, 1);
+  });
+  x.save();
+  x.translate(tx + tw - stub / 2, ty + th - 150);
+  x.rotate(-0.2);
+  x.strokeStyle = color;
+  x.fillStyle = color;
+  x.lineWidth = 6;
+  roundRect(x, -130, -42, 260, 84, 14);
+  x.stroke();
+  x.font = "800 40px Manrope";
+  x.textAlign = "center";
+  x.fillText("GUARDADO", 0, 15);
+  x.restore();
+  if (e.review) {
+    x.fillStyle = "#f1e9da";
+    x.font = "italic 500 40px Manrope";
+    wrapText(x, "“" + e.review + "”", 90, ty + th + 110, 900, 52, 2);
+  }
+  x.fillStyle = "#b8ad9c";
+  x.font = "500 24px Manrope";
+  x.fillText("Mi diario de cine en Plano \xB7 Carteles de TMDB", 90, H - 60);
+  await shareCanvas(c, "plano-entrada.png", `Acabo de guardar ${m.title} en mi diario de cine.`);
+}
+var PERSONAS = {
+  Asombro: ["Alma exploradora", "Buscas historias que te dejen con la boca abierta."],
+  "Alegr\xEDa": ["Cazasonrisas", "Para ti, el cine es un lugar donde ser feliz."],
+  Nostalgia: ["Coleccionista de recuerdos", "Cada historia te devuelve a alg\xFAn sitio."],
+  "Tensi\xF3n": ["Coraz\xF3n al l\xEDmite", "Te gusta vivir las historias con el coraz\xF3n en un pu\xF1o."],
+  Tristeza: ["Coraz\xF3n valiente", "No huyes de las historias que duelen: las abrazas."],
+  "Inspiraci\xF3n": ["Mente so\xF1adora", "Sales de cada historia con ganas de hacer algo grande."]
+};
+var MONTHS = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+function yearData() {
+  const year = String((/* @__PURE__ */ new Date()).getFullYear()), today = dateISO();
+  const list = state.entries.filter((e) => e.status === "watched" && validDate(e.watchedAt) && e.watchedAt.startsWith(year) && e.watchedAt <= today).map((e) => ({ e, m: CATALOG.find((m) => m.id === e.id) })).filter((x) => x.m).sort((a, b) => a.e.watchedAt.localeCompare(b.e.watchedAt));
+  const emotions = {}, companions = {}, months = Array(12).fill(0);
+  let solo = 0;
+  list.forEach(({ e }) => {
+    (e.emotions || []).forEach((em, i) => emotions[em] = (emotions[em] || 0) + (i ? 1 : 2));
+    if (e.companion && e.companion !== "Solo/a") companions[e.companion] = (companions[e.companion] || 0) + 1;
+    else if (e.companion === "Solo/a") solo++;
+    months[Number(e.watchedAt.slice(5, 7)) - 1]++;
+  });
+  const topEmotion = Object.entries(emotions).sort((a, b) => b[1] - a[1])[0]?.[0] || "";
+  const topCompanion = Object.entries(companions).sort((a, b) => b[1] - a[1])[0] || null;
+  const rated = list.filter((x) => x.e.rating != null);
+  const best = [...rated].sort((a, b) => b.e.rating - a.e.rating || b.e.watchedAt.localeCompare(a.e.watchedAt))[0] || list[list.length - 1] || null;
+  const days = [...new Set(list.map((x) => x.e.watchedAt))].sort();
+  let streak = 0, run = 0, prev = null;
+  days.forEach((d) => {
+    run = prev && (Date.parse(d) - Date.parse(prev)) / 864e5 === 1 ? run + 1 : 1;
+    streak = Math.max(streak, run);
+    prev = d;
+  });
+  const topMonth = months.indexOf(Math.max(...months));
+  return {
+    year,
+    list,
+    movies: list.filter((x) => x.m.type === "movie").length,
+    series: list.filter((x) => x.m.type === "series").length,
+    days: days.length,
+    streak,
+    topEmotion,
+    emotionShare: topEmotion ? Math.round(list.filter((x) => x.e.emotions?.includes(topEmotion)).length / list.length * 100) : 0,
+    topCompanion,
+    solo,
+    best,
+    months,
+    topMonth,
+    avg: rated.length ? (rated.reduce((a, x) => a + x.e.rating, 0) / rated.length).toFixed(1) : "—"
+  };
+}
+function posterFan(items, cls = "") {
+  return `<div class="wr-fan ${cls}" aria-hidden="true">${items.filter((x) => x.m.poster).slice(0, 3).map((x) => `<img src="${esc(x.m.poster)}" alt="" referrerpolicy="no-referrer">`).join("")}</div>`;
+}
+function wrappedSlides(y) {
+  const slides = [];
+  const collage = y.list.filter((x) => x.m.poster).slice(-12);
+  slides.push({ bg: "intro", html: `<div class="wr-collage" aria-hidden="true">${collage.map((x) => `<img src="${esc(x.m.poster)}" alt="" referrerpolicy="no-referrer">`).join("")}</div><div class="wr-copy wr-center"><span class="wr-kicker">PLANO PRESENTA</span><h2 class="wr-huge">Tu ${y.year}<br>en cine</h2><p>Este a\xF1o viviste</p><strong class="wr-number" data-count="${y.list.length}">${y.list.length}</strong><p>${y.list.length === 1 ? "historia" : "historias"} que se quedaron contigo.</p></div>` });
+  slides.push({ bg: "split", html: `<div class="wr-copy"><span class="wr-kicker">TU A\xD1O EN N\xDAMEROS</span><div class="wr-split"><div><strong class="wr-number" data-count="${y.movies}">${y.movies}</strong><p>${y.movies === 1 ? "pel\xEDcula" : "pel\xEDculas"}</p></div><div><strong class="wr-number" data-count="${y.series}">${y.series}</strong><p>${y.series === 1 ? "serie" : "series"}</p></div></div><ul class="wr-facts"><li><b>${y.days}</b> ${y.days === 1 ? "d\xEDa" : "d\xEDas"} con historia</li><li><b>${y.streak}</b> ${y.streak === 1 ? "d\xEDa" : "d\xEDas"} de tu mejor racha</li><li><b>${y.avg}</b> de nota media</li></ul></div>` });
+  if (y.topEmotion) slides.push({ bg: "emotion", style: emotionStyle(y.topEmotion), html: `<div class="wr-copy wr-center"><span class="wr-kicker">LA EMOCI\xD3N DE TU A\xD1O</span><h2 class="wr-huge wr-emotion">${esc(y.topEmotion)}</h2><p>Estuvo en el <b>${y.emotionShare}%</b> de tus recuerdos.</p>${posterFan(y.list.filter((x) => x.e.emotions?.includes(y.topEmotion)).reverse())}</div>` });
+  if (y.topCompanion) slides.push({ bg: "company", html: `<div class="wr-copy wr-center"><span class="wr-kicker">TU COMPA\xD1\xCDA FAVORITA</span><h2 class="wr-huge">${esc(y.topCompanion[0])}</h2><p>Compartisteis <b>${y.topCompanion[1]}</b> ${y.topCompanion[1] === 1 ? "historia" : "historias"}.</p>${posterFan(y.list.filter((x) => x.e.companion === y.topCompanion[0]).reverse())}</div>` });
+  else if (y.solo) slides.push({ bg: "company", html: `<div class="wr-copy wr-center"><span class="wr-kicker">TU MEJOR COMPA\xD1\xCDA</span><h2 class="wr-huge">T\xFA</h2><p><b>${y.solo}</b> ${y.solo === 1 ? "historia vista" : "historias vistas"} a solas. Sin spoilers ni interrupciones.</p></div>` });
+  if (y.best) {
+    const e = y.best.e, m = y.best.m;
+    slides.push({ bg: "best", style: emotionStyle(e), poster: m.poster, html: `<div class="wr-copy wr-center"><span class="wr-kicker">TU HISTORIA DEL A\xD1O</span>${m.poster ? `<img class="wr-best-poster" src="${esc(m.poster)}" alt="Cartel de ${esc(m.title)}" referrerpolicy="no-referrer">` : ""}<h2 class="wr-title">${esc(m.title)}</h2><p>${e.rating ? `★ ${e.rating} / 10` : ""}${e.rating && e.emotions?.[0] ? " \xB7 " : ""}${esc(e.emotions?.[0] || "")}</p>${e.review ? `<blockquote>“${esc(e.review)}”</blockquote>` : ""}</div>` });
+  }
+  const max = Math.max(1, ...y.months);
+  slides.push({ bg: "month", html: `<div class="wr-copy"><span class="wr-kicker">TU MES M\xC1S CIN\xC9FILO</span><h2 class="wr-huge">${MONTHS[y.topMonth]}</h2><p><b>${y.months[y.topMonth]}</b> ${y.months[y.topMonth] === 1 ? "historia" : "historias"} en un solo mes.</p><div class="wr-bars" role="img" aria-label="Historias por mes">${y.months.map((n, i) => `<span class="${i === y.topMonth ? "top" : ""}" style="--h:${Math.max(4, n / max * 100)}%"><i></i><small>${MONTHS[i][0]}</small></span>`).join("")}</div></div>` });
+  const persona = PERSONAS[y.topEmotion] || ["Historia en construcci\xF3n", "Cada historia que guardas dibuja un poco m\xE1s qui\xE9n eres."];
+  slides.push({ bg: "persona", style: emotionStyle(y.topEmotion), html: `<div class="wr-copy wr-center"><span class="wr-kicker">TU PERFIL CIN\xC9FILO</span><svg class="wr-badge" viewBox="0 0 100 100" aria-hidden="true"><use href="#plano-mark"/></svg><h2 class="wr-huge wr-persona">${persona[0]}</h2><p>${persona[1]}</p></div>` });
+  slides.push({ bg: "share", html: `<div class="wr-copy wr-center"><span class="wr-kicker">ESO HA SIDO TU ${y.year}</span><h2 class="wr-title">Gracias por dejar que el cine te cuente.</h2>${posterFan([...y.list].sort((a, b) => (b.e.rating || 0) - (a.e.rating || 0)), "wr-fan-big")}<div class="wr-actions"><button type="button" class="button" data-wr="share">Compartir mi a\xF1o</button><button type="button" class="button secondary" data-wr="again">Ver de nuevo</button></div></div>` });
+  return slides;
+}
+var wr = null;
+function openWrapped() {
+  const y = yearData();
+  if (!y.list.length) {
+    toast("Guarda un recuerdo con fecha de este a\xF1o para ver tu resumen.");
+    return;
+  }
+  let d = $("#wrapped");
+  if (!d) {
+    d = document.createElement("dialog");
+    d.id = "wrapped";
+    d.setAttribute("aria-label", "Tu a\xF1o en cine");
+    document.body.append(d);
+    d.addEventListener("close", () => {
+      cancelAnimationFrame(wr?.raf);
+      wr = null;
+      document.body.classList.remove("film-open");
+    });
+    d.addEventListener("pointerdown", (ev) => {
+      if (wr && !ev.target.closest("button")) wr.paused = true;
+    });
+    ["pointerup", "pointercancel", "pointerleave"].forEach((type) => d.addEventListener(type, () => {
+      if (wr) wr.paused = false;
+    }));
+    d.addEventListener("keydown", (ev) => {
+      if (ev.key === "ArrowRight") wrappedGo(1);
+      if (ev.key === "ArrowLeft") wrappedGo(-1);
+    });
+    d.addEventListener("click", async (ev) => {
+      const b = ev.target.closest("button");
+      if (!b || !wr) return;
+      if (b.dataset.wrNav) return wrappedGo(Number(b.dataset.wrNav));
+      if (b.hasAttribute("data-wr-close")) return d.close();
+      if (b.dataset.wr === "again") return wrappedShow(0);
+      if (b.dataset.wr === "share") {
+        b.disabled = true;
+        try {
+          await shareYear(wr.data);
+        } catch {
+          toast("No se pudo crear la imagen de tu a\xF1o.");
+        } finally {
+          b.disabled = false;
+        }
+      }
+    });
+  }
+  const slides = wrappedSlides(y);
+  wr = { data: y, slides, i: 0, start: 0, elapsed: 0, paused: false, raf: 0 };
+  d.innerHTML = `<div class="wr-progress" aria-hidden="true">${slides.map(() => "<span><i></i></span>").join("")}</div><button type="button" class="wr-close" data-wr-close aria-label="Cerrar resumen">${icon("close")}</button><div class="wr-stage" aria-live="polite"></div><button type="button" class="wr-nav wr-prev" data-wr-nav="-1" aria-label="Historia anterior"></button><button type="button" class="wr-nav wr-next" data-wr-nav="1" aria-label="Historia siguiente"></button>`;
+  d.showModal();
+  document.body.classList.add("film-open");
+  wrappedShow(0);
+  wr.raf = requestAnimationFrame(wrappedTick);
+}
+var WR_TIME = 6500;
+function wrappedShow(i) {
+  if (!wr) return;
+  wr.i = Math.max(0, Math.min(wr.slides.length - 1, i));
+  wr.elapsed = 0;
+  wr.start = performance.now();
+  const s = wr.slides[wr.i], d = $("#wrapped"), stage = d.querySelector(".wr-stage");
+  d.dataset.bg = s.bg;
+  d.setAttribute("style", s.style || "");
+  stage.innerHTML = `<section class="wr-slide wr-${s.bg}" aria-roledescription="historia" aria-label="${wr.i + 1} de ${wr.slides.length}">${s.html}</section>`;
+  d.querySelectorAll(".wr-progress i").forEach((bar, n) => bar.style.width = n < wr.i ? "100%" : "0%");
+  if (s.poster) posterTint(s.poster).then((tint) => {
+    if (wr?.slides[wr.i] === s) applyTint(d, tint);
+  });
+  else d.classList.remove("tinted");
+  if (!motionQuery.matches) {
+    motionOnce(stage.firstElementChild, "wr-enter", 700);
+    stage.querySelectorAll("[data-count]").forEach((node) => countUp(node, Number(node.dataset.count)));
+  }
+  buzz(8);
+}
+function wrappedGo(step) {
+  if (!wr) return;
+  if (step > 0 && wr.i === wr.slides.length - 1) return;
+  wrappedShow(wr.i + step);
+}
+function wrappedTick(now) {
+  if (!wr) return;
+  const last = wr.i === wr.slides.length - 1;
+  if (wr.paused || motionQuery.matches || last) wr.start = now - wr.elapsed;
+  wr.elapsed = now - wr.start;
+  const bar = $("#wrapped")?.querySelectorAll(".wr-progress i")[wr.i];
+  if (bar) bar.style.width = last ? "100%" : motionQuery.matches ? "0%" : Math.min(100, wr.elapsed / WR_TIME * 100) + "%";
+  if (!last && !motionQuery.matches && wr.elapsed >= WR_TIME) wrappedShow(wr.i + 1);
+  wr.raf = requestAnimationFrame(wrappedTick);
+}
+function countUp(node, to, duration = 900) {
+  if (!(to > 0)) return;
+  const start = performance.now();
+  const step = (now) => {
+    if (!node.isConnected) return;
+    const p = Math.min(1, (now - start) / duration);
+    node.textContent = Math.round(to * (1 - Math.pow(1 - p, 3)));
+    if (p < 1) requestAnimationFrame(step);
+  };
+  node.textContent = "0";
+  requestAnimationFrame(step);
+}
+async function shareYear(y) {
+  await document.fonts.ready;
+  const W = 1080, H = 1920, c = document.createElement("canvas");
+  c.width = W;
+  c.height = H;
+  const x = c.getContext("2d"), color = EMOTION_HEX[y.topEmotion] || "#ff8a6e";
+  x.fillStyle = "#14110f";
+  x.fillRect(0, 0, W, H);
+  const glow = x.createRadialGradient(W / 2, 520, 40, W / 2, 520, 1100);
+  glow.addColorStop(0, color + "66");
+  glow.addColorStop(0.6, "#e5472f22");
+  glow.addColorStop(1, "#14110f00");
+  x.fillStyle = glow;
+  x.fillRect(0, 0, W, H);
+  x.fillStyle = "#ff8a6e";
+  x.font = "800 34px Manrope";
+  x.fillText("PLANO", 90, 130);
+  x.fillStyle = "#f1e9da";
+  x.font = "800 96px Manrope";
+  x.fillText("Mi " + y.year, 90, 290);
+  x.fillText("en cine", 90, 395);
+  const top = [...y.list].sort((a, b) => (b.e.rating || 0) - (a.e.rating || 0)).filter((p) => p.m.poster).slice(0, 3);
+  const imgs = (await Promise.all(top.map((p) => loadImg(p.m.poster).catch(() => null)))).filter(Boolean);
+  const pw = 280, ph = 420, gap = 30, startX = (W - (imgs.length * pw + (imgs.length - 1) * gap)) / 2;
+  imgs.forEach((img, i) => {
+    x.save();
+    x.shadowColor = "#000b";
+    x.shadowBlur = 40;
+    x.shadowOffsetY = 20;
+    x.fillStyle = "#000";
+    roundRect(x, startX + i * (pw + gap), 500, pw, ph, 22);
+    x.fill();
+    x.restore();
+    drawCover(x, img, startX + i * (pw + gap), 500, pw, ph, 22);
+  });
+  const rows = [["Historias", String(y.list.length)], ["Pel\xEDculas \xB7 series", y.movies + " \xB7 " + y.series], ["Emoci\xF3n del a\xF1o", y.topEmotion || "—"], ["Compa\xF1\xEDa favorita", y.topCompanion?.[0] || (y.solo ? "Yo" : "—")], ["Mes m\xE1s cin\xE9filo", MONTHS[y.topMonth]], ["Perfil", (PERSONAS[y.topEmotion] || ["Historia en construcci\xF3n"])[0]]];
+  rows.forEach(([k, v], i) => {
+    const yy = 1060 + i * 120;
+    x.fillStyle = "#b8ad9c";
+    x.font = "600 32px Manrope";
+    x.fillText(k, 90, yy);
+    x.fillStyle = i === 2 ? color : "#f1e9da";
+    x.font = "800 52px Manrope";
+    x.textAlign = "right";
+    wrapText(x, v, W - 90, yy + 4, 560, 56, 1);
+    x.textAlign = "left";
+    x.fillStyle = "#38312b";
+    x.fillRect(90, yy + 40, W - 180, 2);
+  });
+  x.fillStyle = "#b8ad9c";
+  x.font = "500 26px Manrope";
+  x.fillText("Mi diario de cine en Plano \xB7 Carteles de TMDB", 90, H - 80);
+  await shareCanvas(c, "plano-mi-" + y.year + ".png", `Mi ${y.year} en cine: ${y.list.length} historias.`);
+}
+function wrappedCta() {
+  const y = yearData();
+  if (!y.list.length) return "";
+  return `<button type="button" class="wrapped-cta" data-wrapped><span class="wrapped-posters" aria-hidden="true">${y.list.filter((x) => x.m.poster).slice(-4).map((x) => `<img src="${esc(x.m.poster)}" alt="" loading="lazy" referrerpolicy="no-referrer">`).join("")}</span><span class="wrapped-copy"><small>NUEVO \xB7 ${y.year}</small><strong>Tu a\xF1o en historias</strong><span>${y.list.length} ${y.list.length === 1 ? "recuerdo" : "recuerdos"}, tu emoci\xF3n del a\xF1o y tu perfil cin\xE9filo</span></span><span class="wrapped-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5Z" fill="currentColor"/></svg></span></button>`;
+}
+function memoryCalendar(rows) {
+  const watched = rows.filter((e) => e.status === "watched" && validDate(e.watchedAt));
+  const nowMonth = dateISO().slice(0, 7), latest = watched.map((e) => e.watchedAt).sort().pop();
+  if (!/^\d{4}-\d{2}$/.test(calMonth)) calMonth = (latest || dateISO()).slice(0, 7);
+  const [y, mo] = calMonth.split("-").map(Number), days = new Date(y, mo, 0).getDate(), lead = (new Date(y, mo - 1, 1).getDay() + 6) % 7;
+  const byDay = {};
+  watched.filter((e) => e.watchedAt.startsWith(calMonth)).forEach((e) => (byDay[Number(e.watchedAt.slice(8))] ||= []).push(e));
+  const label = new Intl.DateTimeFormat("es", { month: "long", year: "numeric" }).format(new Date(y, mo - 1, 15));
+  const count = Object.values(byDay).reduce((a, l) => a + l.length, 0), today = dateISO();
+  let cells = Array.from({ length: lead }, () => '<span class="cal-day cal-blank" aria-hidden="true"></span>').join("");
+  for (let d = 1; d <= days; d++) {
+    const list = byDay[d], iso = calMonth + "-" + String(d).padStart(2, "0");
+    if (list) {
+      const e = list[list.length - 1], m = CATALOG.find((x) => x.id === e.id), titles = list.map((x) => CATALOG.find((m2) => m2.id === x.id)?.title).filter(Boolean).join(", ");
+      cells += `<button type="button" class="cal-day cal-has" data-film="${e.id}" style="${emotionStyle(e)}" aria-label="${d} de ${esc(label)}: ${esc(titles)}">${m ? image(m) : ""}<span class="cal-num">${d}</span>${list.length > 1 ? `<span class="cal-more">+${list.length - 1}</span>` : ""}</button>`;
+    } else cells += `<span class="cal-day${iso === today ? " cal-today" : ""}${iso > today ? " cal-future" : ""}"><span class="cal-num">${d}</span></span>`;
+  }
+  return `<section class="memory-calendar" aria-label="Calendario de recuerdos"><div class="cal-head"><button type="button" class="icon-button cal-step" data-cal="-1" aria-label="Mes anterior">‹</button><div><h2>${esc(label.charAt(0).toUpperCase() + label.slice(1))}</h2><small>${count} ${count === 1 ? "recuerdo" : "recuerdos"}</small></div><button type="button" class="icon-button cal-step" data-cal="1" aria-label="Mes siguiente" ${calMonth >= nowMonth ? "disabled" : ""}>›</button></div><div class="cal-week" aria-hidden="true">${["L", "M", "X", "J", "V", "S", "D"].map((d) => `<span>${d}</span>`).join("")}</div><div class="cal-grid">${cells}</div>${count ? "" : '<p class="footnote cal-empty">Ning\xFAn recuerdo con fecha este mes. Cada pel\xEDcula que guardes llenar\xE1 un d\xEDa con su cartel.</p>'}</section>`;
+}
+function diaryToggle() {
+  const views = [["list", "Lista", '<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>'], ["calendar", "Calendario", '<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/>']];
+  return `<div class="view-toggle" role="group" aria-label="Vista del diario">${views.map(([key, label, path]) => `<button type="button" data-diary-view="${key}" aria-pressed="${diaryView === key}" aria-label="${label}" title="${label}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg></button>`).join("")}</div>`;
+}
+var MOOD_GENRES = {
+  Asombro: ["ciencia ficcion", "sci-fi", "fantasia", "aventura", "animacion", "misterio"],
+  "Alegr\xEDa": ["comedia", "animacion", "familia", "musica", "kids"],
+  Nostalgia: ["drama", "familia", "romance", "historia", "animacion"],
+  "Tensi\xF3n": ["suspense", "misterio", "accion", "crimen", "terror", "thriller", "belica", "war"],
+  Tristeza: ["drama", "romance", "belica"],
+  "Inspiraci\xF3n": ["drama", "musica", "historia", "documental", "biografia"]
+};
+function plain(s) {
+  return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+}
+function genreOf(m) {
+  return plain(m.genre || GENRES[CATALOG.indexOf(m)] || "");
+}
+var tonight = { mood: "", company: "", shown: [] };
+function tonightCandidates() {
+  const pending = state.entries.filter((e) => e.status === "planned" || e.status === "watching").map((e) => CATALOG.find((m) => m.id === e.id)).filter(Boolean);
+  if (pending.length >= 2) return pending;
+  const known = new Set(state.entries.map((e) => e.id));
+  return [...pending, ...CATALOG.filter((m) => !known.has(m.id) && m.poster).slice(0, 40)];
+}
+function tonightPick() {
+  const mood = tonight.mood === "sorpresa" ? EMOTIONS[Math.floor(Math.random() * EMOTIONS.length)] : tonight.mood, wanted = MOOD_GENRES[mood] || [];
+  const loved = stats().watched.filter((e) => (e.rating || 0) >= 8 && (!tonight.company || tonight.company === "Solo/a" || e.companion === tonight.company));
+  const lovedGenres = loved.map((e) => genreOf(CATALOG.find((m) => m.id === e.id) || {})).join(",");
+  const scored = tonightCandidates().map((m) => {
+    const g = genreOf(m), e = entry(m.id), hits = wanted.filter((w) => g.includes(w));
+    const twin = loved.find((l) => {
+      const lg = genreOf(CATALOG.find((x) => x.id === l.id) || {});
+      return lg && g && lg.split(",").some((part) => part.trim() && g.includes(part.trim()));
+    });
+    let score = hits.length * 3 + (e?.status === "watching" ? 2.5 : e ? 2 : 0) + (twin ? 1.5 : 0) + (lovedGenres && g && lovedGenres.includes(g.split(",")[0]) ? 0.5 : 0) + Math.random() * 1.6;
+    if (tonight.shown.includes(m.id)) score -= 100;
+    const reasons = [];
+    if (hits.length && mood) reasons.push(`Buscas ${mood.toLowerCase()} y es ${(m.genre || GENRES[CATALOG.indexOf(m)] || "tu estilo").split(",")[0].trim().toLowerCase()}`);
+    if (e?.status === "watching") reasons.push("La tienes a medias");
+    else if (e) reasons.push("Est\xE1 en tu lista de pendientes");
+    if (twin) reasons.push(`${tonight.company && tonight.company !== "Solo/a" ? "Con " + tonight.company + " os" : "Te"} encant\xF3 ${CATALOG.find((x) => x.id === twin.id)?.title}`);
+    return { m, score, reasons, mood };
+  }).sort((a, b) => b.score - a.score);
+  return scored[0] || null;
+}
+function tonightCard() {
+  const pending = state.entries.filter((e) => e.status === "planned").map((e) => CATALOG.find((m) => m.id === e.id)).filter((m) => m?.poster).slice(-3);
+  const fan = (pending.length ? pending : CATALOG.slice(0, 3)).map((m) => `<img src="${esc(m.poster)}" alt="" loading="lazy" referrerpolicy="no-referrer">`).join("");
+  return `<section class="tonight-card"><div class="tonight-copy"><span class="tonight-kicker">ESTA NOCHE</span><h2>\xBFQu\xE9 vemos hoy?</h2><p>Dime c\xF3mo te sientes y con qui\xE9n est\xE1s. Yo elijo de tu lista.</p><button type="button" class="button" data-tonight>Elegir por m\xED</button></div><div class="tonight-fan" aria-hidden="true">${fan}</div></section>`;
+}
+function tonightDialog() {
+  let d = $("#tonight");
+  if (!d) {
+    d = document.createElement("dialog");
+    d.id = "tonight";
+    d.setAttribute("aria-labelledby", "tonight-title");
+    document.body.append(d);
+    d.addEventListener("click", (ev) => {
+      if (ev.target === d) return d.close();
+      const b = ev.target.closest("button");
+      if (!b) return;
+      if (b.hasAttribute("data-close")) return d.close();
+      if (b.dataset.mood) {
+        tonight.mood = b.dataset.mood;
+        return tonightStep("company");
+      }
+      if (b.dataset.company !== void 0 && b.closest("#tonight")) {
+        tonight.company = b.dataset.company;
+        return tonightStep("result");
+      }
+      if (b.dataset.tn === "again") return tonightStep("result");
+      if (b.dataset.tn === "restart") {
+        tonight = { mood: "", company: "", shown: [] };
+        return tonightStep("mood");
+      }
+      if (b.dataset.tn === "open") {
+        d.close();
+        openFilmNow(b.dataset.id);
+      }
+    });
+  }
+  return d;
+}
+function openTonight() {
+  tonight = { mood: "", company: "", shown: [] };
+  const d = tonightDialog();
+  tonightStep("mood");
+  d.showModal();
+}
+function tonightStep(step) {
+  const d = $("#tonight");
+  const head = (title) => `<div class="tn-head"><span class="tonight-kicker">ESTA NOCHE</span><button type="button" class="icon-button" data-close aria-label="Cerrar">${icon("close")}</button></div><h2 id="tonight-title">${title}</h2>`;
+  if (step === "mood") {
+    d.innerHTML = `${head("\xBFQu\xE9 te apetece sentir?")}<div class="tn-moods">${EMOTIONS.map((x) => `<button type="button" class="tn-mood" data-mood="${x}" style="${emotionStyle(x)}"><i class="emotion-dot" aria-hidden="true"></i>${x}</button>`).join("")}<button type="button" class="tn-mood tn-surprise" data-mood="sorpresa">✨ Sorpr\xE9ndeme</button></div>`;
+  } else if (step === "company") {
+    const people = Object.entries(state.entries.reduce((a, e) => (e.companion && e.companion !== "Solo/a" && (a[e.companion] = (a[e.companion] || 0) + 1), a), {})).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([p]) => p);
+    d.innerHTML = `${head("\xBFCon qui\xE9n la vas a ver?")}<div class="tn-moods">${["Solo/a", ...people].map((p) => `<button type="button" class="tn-mood" data-company="${esc(p)}">${esc(p)}</button>`).join("")}<button type="button" class="tn-mood" data-company="">Con alguien m\xE1s</button></div>`;
+  } else {
+    const pick = tonightPick();
+    if (!pick) {
+      d.innerHTML = `${head("Hoy no tengo propuestas")}<p class="tn-reason">A\xF1ade t\xEDtulos a pendientes y vuelve a probar.</p>`;
+      return;
+    }
+    tonight.shown.push(pick.m.id);
+    const reel = tonightCandidates().filter((m) => m.poster && m.id !== pick.m.id).sort(() => Math.random() - 0.5).slice(0, 7);
+    d.innerHTML = `${head(pick.mood ? `Para sentir ${esc(pick.mood.toLowerCase())}…` : "Esta noche toca…")}<div class="tn-result"><div class="tn-reel" aria-hidden="true">${[...reel, pick.m].map((m) => `<img src="${esc(m.poster)}" alt="" referrerpolicy="no-referrer">`).join("")}</div><div class="tn-pick"><h3>${esc(pick.m.title)}</h3><p class="muted">${pick.m.type === "movie" ? "Pel\xEDcula" : "Serie"}${pick.m.year ? " \xB7 " + esc(pick.m.year) : ""}</p>${pick.reasons.length ? `<ul class="tn-reasons">${pick.reasons.slice(0, 3).map((r) => `<li>${esc(r)}</li>`).join("")}</ul>` : ""}</div></div><div class="tn-actions"><button type="button" class="button" data-tn="open" data-id="${pick.m.id}">Ver ficha</button><button type="button" class="button secondary" data-tn="again">Otra opci\xF3n</button><button type="button" class="text-button" data-tn="restart">Empezar de nuevo</button></div><p class="sr-only" role="status">Te propongo ${esc(pick.m.title)}.</p>`;
+    const reelNode = d.querySelector(".tn-reel"), frames = reelNode.children.length;
+    posterTint(pick.m.poster).then((tint) => {
+      if (d.open) applyTint(d, tint);
+    });
+    if (motionQuery.matches || frames < 2) {
+      reelNode.lastElementChild.classList.add("on");
+      d.querySelector(".tn-pick").classList.add("tn-shown");
+    } else {
+      let i = 0;
+      const spin = () => {
+        if (!d.open || !reelNode.isConnected) return;
+        [...reelNode.children].forEach((img, k) => img.classList.toggle("on", k === i));
+        buzz(4);
+        if (i < frames - 1) {
+          i++;
+          setTimeout(spin, 70 + i * i * 9);
+        } else {
+          motionOnce(reelNode, "tn-land", 500);
+          d.querySelector(".tn-pick").classList.add("tn-shown");
+          buzz([10, 40, 16]);
+        }
+      };
+      spin();
+    }
+  }
+}
+document.addEventListener("click", (ev) => {
+  const b = ev.target.closest?.("button");
+  if (!b) return;
+  if (b.hasAttribute("data-wrapped")) return openWrapped();
+  if (b.hasAttribute("data-tonight")) return openTonight();
+  if (b.dataset.diaryView) {
+    diaryView = b.dataset.diaryView;
+    lsSet("plano-diary-view", diaryView);
+    pageTransition(render);
+    return;
+  }
+  if (b.dataset.cal) {
+    const [y, m] = calMonth.split("-").map(Number), next = new Date(y, m - 1 + Number(b.dataset.cal), 15);
+    calMonth = next.getFullYear() + "-" + String(next.getMonth() + 1).padStart(2, "0");
+    render();
+    $(".memory-calendar [data-cal='" + b.dataset.cal + "']:not([disabled])")?.focus();
+  }
+});
+if (lsGet("plano-diary-view") === "calendar") diaryView = "calendar";
+if (new URLSearchParams(location.search).has("tonight")) setTimeout(() => {
+  history.replaceState(null, "", location.pathname);
+  openTonight();
+}, 700);
 render();
 setTimeout(() => {
   try {
