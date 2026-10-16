@@ -830,6 +830,15 @@ html{scrollbar-gutter:stable}
 @keyframes boot-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.92);opacity:.75}}
 @keyframes boot-shine{from{background-position:100% 0}to{background-position:-200% 0}}
 @media(prefers-reduced-motion:reduce){.boot-logo,.boot-rail i{animation:none}}
+/* Plano · acceso claro */
+.auth-lead{margin:2px 0 14px;color:var(--muted);font-size:14px;line-height:1.5}
+#auth-error .text-button{display:inline;min-height:0;padding:0;font-weight:800;text-decoration:underline;text-underline-offset:3px}
+#auth-error:not(:empty){margin:4px 0 10px;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--primary) 12%,transparent);color:var(--text);font-size:14px;line-height:1.5}
+.auth-sent{display:grid;justify-items:center;gap:8px;text-align:center;padding:10px 4px 4px}
+.auth-sent .gl{width:46px;height:46px;color:var(--accent);stroke-width:1.4}
+.auth-sent h3{font-family:var(--display);font-size:24px;margin:4px 0 0}
+.auth-sent p{margin:0;line-height:1.55}
+.auth-sent .button{width:100%;margin-top:10px}
 </style>
 <script>try{var t=localStorage.getItem("plano-theme");if(t==="paper"||(t==="auto"&&matchMedia("(prefers-color-scheme: light)").matches))document.documentElement.dataset.theme="paper"}catch(e){}</script></head>
 <body>
