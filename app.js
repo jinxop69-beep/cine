@@ -21446,6 +21446,14 @@ function home() {
   const fresh = !watchedCount();
   return `<div class="page-heading home-memory-heading"><h1>${homeGreeting()}</h1></div>${memoryHero()}${fresh ? letterboxdCard() : weekStrip()}${tonightCard()}${list("watching").length ? rail("Continuar viendo", list("watching")) : ""}${list("planned").length ? rail("Para ver", list("planned").slice(-12).reverse()) : ""}<div class="refresh-control"><button class="text-button" data-action="refresh-page">Actualizar Inicio \u21BB</button></div>${remoteRail("cinema", "En cines ahora")}${remoteRail("trending", "Tendencias de la semana")}${remoteRail("upcomingMovies", "Pr\xF3ximos estrenos \xB7 pel\xEDculas", true)}${remoteRail("upcomingTV", "Pr\xF3ximos estrenos \xB7 series", true)}${fresh ? "" : letterboxdCard()}<section class="panel home-challenge"><div class="panel-head"><h3>${challengeTitle()}</h3><button class="text-button" data-page="stats">Mi a\xF1o \u2197</button></div>${challenge()}</section>${backupCard()}${syncInvite()}`;
 }
+document.addEventListener("click", (ev) => {
+  if (!ev.target.closest?.("[data-search-global]")) return;
+  const q = query;
+  navigate("explore");
+  query = q;
+  $("#search").value = q;
+  searchRemote();
+});
 function recentChips() {
   return recentSearches.length ? `<div class="search-chip-row" aria-label="B\xFAsquedas recientes">${recentSearches.map((q) => `<button class="filter" data-recent="${esc(q)}">${esc(q)}</button>`).join("")}</div>` : "";
 }
@@ -21504,7 +21512,7 @@ function collection() {
   return `<div class="diary"><div class="page-heading diary-heading"><div class="diary-heading-title"><h1>Tu diario</h1><small>${(() => { const n = state.entries.filter((e) => e.status === "watched").length; return n + (n === 1 ? " recuerdo" : " recuerdos"); })()}</small></div><div class="diary-controls"><select class="diary-state" id="diary-state" aria-label="Filtrar diario por estado">${[["all", "Todas"], ["watched", "Vistas"], ["watching", "Viendo"], ["planned", "Pendientes"]].map(([key, label]) => `<option value="${key}" ${filter === key ? "selected" : ""}>${label}</option>`).join("")}</select>${diaryToggle()}<button class="diary-add" data-page="explore" aria-label="A\xF1adir t\xEDtulo">+</button></div></div><div class="emotion-filters" aria-label="Filtrar por emoci\xF3n">${["Todas", ...EMOTIONS].map((x) => `<button class="filter ${diaryEmotion === x ? "active" : ""}" data-diary-emotion="${x}" aria-pressed="${diaryEmotion === x}">${x === "Todas" ? x : emotionLabel(x)}</button>`).join("")}</div>${diaryView === "calendar" ? memoryCalendar(rows) : months.map((month) => `<section><h2 class="timeline-month">${new Intl.DateTimeFormat("es", { month: "long", year: "numeric" }).format(/* @__PURE__ */ new Date(month + "-01T12:00:00")).toUpperCase()}</h2><div class="timeline-list">${dated.filter((e) => e.watchedAt.startsWith(month)).map(diaryCard).join("")}</div></section>`).join("")}${diaryView === "calendar" ? "" : [["watched", "Recuerdos sin fecha"], ["watching", "En curso"], ["planned", "Por ver"]].map(([status, title]) => {
     const es = rows.filter((e) => !validDate(e.watchedAt) && e.status === status);
     return es.length ? `<section><h2 class="timeline-month">${title}</h2><div class="undated-list">${es.map(diaryCard).join("")}</div></section>` : "";
-  }).join("")}${diaryView !== "calendar" && !rows.length ? '<div class="empty"><h3>Aqu\xED empieza tu diario</h3><p>No hay recuerdos con estos filtros.</p><button class="button" data-page="explore">Buscar una historia</button></div>' : ""}</div>`;
+  }).join("")}${diaryView !== "calendar" && !rows.length ? (query.trim() ? `<div class="empty"><h3>No est\xE1 en tu diario</h3><p>No tienes nada guardado que coincida con \xAB${esc(query.trim())}\xBB.</p><button class="button" data-search-global>Buscar \xAB${esc(query.trim())}\xBB en Plano</button></div>` : '<div class="empty"><h3>Aqu\xED empieza tu diario</h3><p>No hay recuerdos con estos filtros.</p><button class="button" data-page="explore">Buscar una historia</button></div>') : ""}</div>`;
 }
 function yearView() {
   const s = stats(), year = (/* @__PURE__ */ new Date()).getFullYear(), yearEntries = s.watched.filter((e) => e.watchedAt.startsWith(year + "") && e.watchedAt <= dateISO()), ratings = yearEntries.filter((e) => e.rating != null), avg = ratings.length ? (ratings.reduce((a, e) => a + e.rating, 0) / ratings.length).toFixed(1) : "\u2014";
@@ -21653,6 +21661,7 @@ function render() {
   $("#side-name").textContent = state.profile.name;
   $("#side-avatar").textContent = state.profile.name[0]?.toUpperCase() || "T";
   sideStatus();
+  $("#search").placeholder = page === "collection" ? "Busca en tu diario\u2026" : "Busca tu pr\xF3xima historia\u2026";
   $("#view").innerHTML = cloud.user && !cloud.ready ? '<div class="empty"><h2>Cargando tu cuenta</h2>' + accountMarkup() + "</div>" : { home, explore, collection, social, stats: yearView, profile, friend: friendProfile }[page]();
   document.querySelectorAll("img").forEach((img) => img.addEventListener("error", () => {
     img.style.visibility = "hidden";
@@ -22094,7 +22103,7 @@ document.addEventListener("submit", (ev) => {
       toast("Revisa la fecha de visionado.");
       return;
     }
-    const motionWasNew = !entry(id), retoYm = (e.watchedAt || dateISO()).slice(0, 7), retoBefore = retoProgress(retoYm).list.filter((r) => r.done).map((r) => r.k);
+    const wasWatched = entry(id)?.status === "watched", motionWasNew = !entry(id), retoYm = (e.watchedAt || dateISO()).slice(0, 7), retoBefore = retoProgress(retoYm).list.filter((r) => r.done).map((r) => r.k);
     state.entries = [...state.entries.filter((x) => x.id !== id), e];
     const ok = persist();
     $("#detail").close();
@@ -22102,8 +22111,8 @@ document.addEventListener("submit", (ev) => {
     if (ok && motionWasNew) document.querySelectorAll("[data-card]").forEach((n) => {
       if (n.dataset.card === id) motionOnce(n.querySelector(".poster-plus svg"), "plano-stamp", 260);
     });
-    if (ok) toast({ planned: "A\xF1adida a pendientes.", watching: "Progreso guardado.", watched: "Recuerdo guardado en tu colecci\xF3n." }[e.status]);
-    if (ok && e.status === "watched") showTicket(id);
+    if (ok) toast(wasWatched && e.status === "watched" ? "Recuerdo actualizado." : { planned: "A\xF1adida a pendientes.", watching: "Progreso guardado.", watched: "Recuerdo guardado en tu colecci\xF3n." }[e.status]);
+    if (ok && e.status === "watched" && !wasWatched) showTicket(id);
     if (ok && e.status === "watched") retoCheck(retoBefore, retoYm);
   }
   if (ev.target.id === "profile-form") {
