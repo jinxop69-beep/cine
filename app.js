@@ -21443,7 +21443,7 @@ function memorySummary(m, e) {
 }
 function home() {
   const list = (status) => state.entries.filter((e) => e.status === status).map((e) => CATALOG.find((m) => m.id === e.id)).filter(Boolean);
-  return `<div class="page-heading home-memory-heading"><h1>${homeGreeting()}</h1></div>${memoryHero()}${weekStrip()}${tonightCard()}${list("watching").length ? rail("Continuar viendo", list("watching")) : ""}${list("planned").length ? rail("Para ver", list("planned").slice(-12).reverse()) : ""}<div class="refresh-control"><button class="text-button" data-action="refresh-page">Actualizar Inicio \u21BB</button></div>${remoteRail("cinema", "En cines ahora")}${remoteRail("trending", "Tendencias de la semana")}${remoteRail("upcomingMovies", "Pr\xF3ximos estrenos \xB7 pel\xEDculas", true)}${remoteRail("upcomingTV", "Pr\xF3ximos estrenos \xB7 series", true)}<section class="panel home-challenge"><div class="panel-head"><h3>Reto semanal</h3><button class="text-button" data-page="stats">Mi a\xF1o \u2197</button></div>${challenge()}</section>${backupCard()}${syncInvite()}`;
+  return `<div class="page-heading home-memory-heading"><h1>${homeGreeting()}</h1></div>${memoryHero()}${weekStrip()}${tonightCard()}${list("watching").length ? rail("Continuar viendo", list("watching")) : ""}${list("planned").length ? rail("Para ver", list("planned").slice(-12).reverse()) : ""}<div class="refresh-control"><button class="text-button" data-action="refresh-page">Actualizar Inicio \u21BB</button></div>${remoteRail("cinema", "En cines ahora")}${remoteRail("trending", "Tendencias de la semana")}${remoteRail("upcomingMovies", "Pr\xF3ximos estrenos \xB7 pel\xEDculas", true)}${remoteRail("upcomingTV", "Pr\xF3ximos estrenos \xB7 series", true)}${letterboxdCard()}<section class="panel home-challenge"><div class="panel-head"><h3>${challengeTitle()}</h3><button class="text-button" data-page="stats">Mi a\xF1o \u2197</button></div>${challenge()}</section>${backupCard()}${syncInvite()}`;
 }
 function recentChips() {
   return recentSearches.length ? `<div class="search-chip-row" aria-label="B\xFAsquedas recientes">${recentSearches.map((q) => `<button class="filter" data-recent="${esc(q)}">${esc(q)}</button>`).join("")}</div>` : "";
@@ -21498,10 +21498,6 @@ function updateEpisodeFields() {
   if (status === "watched" && !date.value) date.value = dateISO();
   else if (status !== "watched" && !entry(form.dataset.id)?.watchedAt) date.value = "";
 }
-function challenge() {
-  const n = weekly();
-  return `<div class="challenge"><span class="challenge-icon" aria-hidden="true">\u2733</span><div><h3>Una semana de cine</h3><p>Ve 3 t\xEDtulos y encuentra tu pr\xF3ximo favorito.</p></div></div><div class="progress" role="progressbar" aria-label="Reto semanal" aria-valuenow="${Math.min(3, n)}" aria-valuemin="0" aria-valuemax="3"><i style="width:${Math.min(100, n / 3 * 100)}%"></i></div><div class="row"><small>${Math.min(n, 3)} de 3 completados</small><small>${n >= 3 ? "\xA1Reto conseguido!" : "De lunes a domingo"}</small></div>`;
-}
 function collection() {
   const ids = new Set(catalogList().map((m) => m.id)), rows = state.entries.filter((e) => ids.has(e.id) && (diaryEmotion === "Todas" || e.emotions?.includes(diaryEmotion))), dated = rows.filter((e) => validDate(e.watchedAt)).sort((a, b) => b.watchedAt.localeCompare(a.watchedAt)), months = [...new Set(dated.map((e) => e.watchedAt.slice(0, 7)))];
   return `<div class="diary"><div class="page-heading diary-heading"><div class="diary-heading-title"><h1>Tu diario</h1><small>${(() => { const n = state.entries.filter((e) => e.status === "watched").length; return n + (n === 1 ? " recuerdo" : " recuerdos"); })()}</small></div><div class="diary-controls"><select class="diary-state" id="diary-state" aria-label="Filtrar diario por estado">${[["all", "Todas"], ["watched", "Vistas"], ["watching", "Viendo"], ["planned", "Pendientes"]].map(([key, label]) => `<option value="${key}" ${filter === key ? "selected" : ""}>${label}</option>`).join("")}</select>${diaryToggle()}<button class="diary-add" data-page="explore" aria-label="A\xF1adir t\xEDtulo">+</button></div></div><div class="emotion-filters" aria-label="Filtrar por emoci\xF3n">${["Todas", ...EMOTIONS].map((x) => `<button class="filter ${diaryEmotion === x ? "active" : ""}" data-diary-emotion="${x}" aria-pressed="${diaryEmotion === x}">${x === "Todas" ? x : emotionLabel(x)}</button>`).join("")}</div>${diaryView === "calendar" ? memoryCalendar(rows) : months.map((month) => `<section><h2 class="timeline-month">${new Intl.DateTimeFormat("es", { month: "long", year: "numeric" }).format(/* @__PURE__ */ new Date(month + "-01T12:00:00")).toUpperCase()}</h2><div class="timeline-list">${dated.filter((e) => e.watchedAt.startsWith(month)).map(diaryCard).join("")}</div></section>`).join("")}${diaryView === "calendar" ? "" : [["watched", "Recuerdos sin fecha"], ["watching", "En curso"], ["planned", "Por ver"]].map(([status, title]) => {
@@ -21526,7 +21522,7 @@ function yearView() {
     const date = daysAgo(i), n = s.watched.filter((e) => e.watchedAt === date).length;
     heat += `<span class="day ${n > 1 ? "many" : n ? "on" : ""}" role="img" aria-label="${date}: ${n} t\xEDtulos vistos" title="${date}: ${n} t\xEDtulos"></span>`;
   }
-  return `<div class="page-heading"><div class="row"><h1>Mi ${year} en cine.</h1><span class="demo-badge">${cloud.user ? "SINCRONIZADO" : "EN ESTE DISPOSITIVO"}</span></div><p>Los n\xFAmeros cuentan historias. Estos se actualizan con lo que guardas.</p></div>${wrappedCta()}<div class="stat-grid"><div class="panel stat"><small>Pel\xEDculas vistas este a\xF1o</small><strong>${yearEntries.filter((e) => CATALOG.find((m) => m.id === e.id)?.type === "movie").length}</strong></div><div class="panel stat"><small>Series terminadas este a\xF1o</small><strong>${yearEntries.filter((e) => CATALOG.find((m) => m.id === e.id)?.type === "series").length}</strong></div><div class="panel stat"><small>Nota media este a\xF1o</small><strong>${avg}<span style="font-size:15px;color:var(--muted)"> / 10</span></strong></div><div class="panel stat"><small>Racha actual</small><strong>${streak}<span style="font-size:15px;color:var(--muted)"> d\xEDas</span></strong></div></div><section class="panel"><div class="row"><h3>Un d\xEDa, una historia</h3><small>\xDAltimos 91 d\xEDas</small></div><div class="heatmap" aria-label="Calendario de actividad">${heat}</div><div class="row"><small>${daysAgo(90)}</small><small>M\xE1s claro = m\xE1s t\xEDtulos vistos \xB7 Hoy</small></div></section><div class="lower-grid"><section class="panel"><h3>Tus g\xE9neros del a\xF1o</h3>${genres2.length ? genres2.map(([g, n]) => `<div class="genre"><div class="row"><span>${g}</span><span class="muted">${n} ${n === 1 ? "t\xEDtulo" : "t\xEDtulos"}</span></div><div class="progress" style="margin-top:9px"><i style="width:${n / yearEntries.length * 100}%"></i></div></div>`).join("") : '<p class="footnote">Marca un t\xEDtulo como visto y a\xF1ade una fecha para empezar.</p>'}</section><section class="panel"><div class="panel-head"><h3>Un peque\xF1o reto, cada semana</h3></div>${challenge()}</section></div><p class="footnote">Se cuenta la fecha de visionado; las vistas sin fecha no entran en el resumen anual. Una entrada por t\xEDtulo, sin contar episodios ni revisiones. Reto y racha calculados con la hora de tu dispositivo.</p>`;
+  return `<div class="page-heading"><div class="row"><h1>Mi ${year} en cine.</h1><span class="demo-badge">${cloud.user ? "SINCRONIZADO" : "EN ESTE DISPOSITIVO"}</span></div><p>Los n\xFAmeros cuentan historias. Estos se actualizan con lo que guardas.</p></div>${wrappedCta()}<div class="stat-grid"><div class="panel stat"><small>Pel\xEDculas vistas este a\xF1o</small><strong>${yearEntries.filter((e) => CATALOG.find((m) => m.id === e.id)?.type === "movie").length}</strong></div><div class="panel stat"><small>Series terminadas este a\xF1o</small><strong>${yearEntries.filter((e) => CATALOG.find((m) => m.id === e.id)?.type === "series").length}</strong></div><div class="panel stat"><small>Nota media este a\xF1o</small><strong>${avg}<span style="font-size:15px;color:var(--muted)"> / 10</span></strong></div><div class="panel stat"><small>Racha actual</small><strong>${streak}<span style="font-size:15px;color:var(--muted)"> d\xEDas</span></strong></div></div><section class="panel"><div class="row"><h3>Un d\xEDa, una historia</h3><small>\xDAltimos 91 d\xEDas</small></div><div class="heatmap" aria-label="Calendario de actividad">${heat}</div><div class="row"><small>${daysAgo(90)}</small><small>M\xE1s claro = m\xE1s t\xEDtulos vistos \xB7 Hoy</small></div></section><div class="lower-grid"><section class="panel"><h3>Tus g\xE9neros del a\xF1o</h3>${genres2.length ? genres2.map(([g, n]) => `<div class="genre"><div class="row"><span>${g}</span><span class="muted">${n} ${n === 1 ? "t\xEDtulo" : "t\xEDtulos"}</span></div><div class="progress" style="margin-top:9px"><i style="width:${n / yearEntries.length * 100}%"></i></div></div>`).join("") : '<p class="footnote">Marca un t\xEDtulo como visto y a\xF1ade una fecha para empezar.</p>'}</section><section class="panel"><div class="panel-head"><h3>${challengeTitle()}</h3></div>${challenge()}</section></div><p class="footnote">Se cuenta la fecha de visionado; las vistas sin fecha no entran en el resumen anual. Una entrada por t\xEDtulo, sin contar episodios ni revisiones. Retos y racha calculados con la hora de tu dispositivo.</p>`;
 }
 function profileData() {
   const watched = state.entries.filter((e) => e.status === "watched"), rated = watched.filter((e) => e.rating);
@@ -21560,7 +21556,7 @@ function profile() {
   const recent = [...d.watched].sort((x, y) => (y.watchedAt || "").localeCompare(x.watchedAt || "")).slice(0, 12).map((e) => ({ e, m: CATALOG.find((m) => m.id === e.id) })).filter((x) => x.m);
   const cover = favs[0]?.poster || recent.find((x) => x.m.poster)?.m.poster || "", earned = d.badges.filter((b) => b[3] >= b[4]).length;
   const name = esc(state.profile.name), y = typeof yearData === "function" ? yearData() : { list: [] };
-  return `${cloud.user ? "" : accountMarkup()}<div class="fp mp"><div class="fp-cover" aria-hidden="true">${cover ? `<img src="${esc(cover)}" alt="" referrerpolicy="no-referrer" data-mp-cover>` : `<img src="${PROFILE_COVER}" alt="">`}</div><section class="fp-hero"><div class="fp-avatar mp-avatar" style="${d.top ? emotionStyle(d.top) : ""}">${state.profile.avatar ? `<img src="${esc(state.profile.avatar)}" alt="Tu foto">` : `<span>${esc(state.profile.name.slice(0, 2).toUpperCase())}</span>`}<button class="avatar-edit mp-edit" data-action="edit-profile" aria-label="Editar perfil"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button></div><h1>${name}</h1>${state.profile.handle ? `<p class="fp-handle">@${esc(state.profile.handle)}</p>` : ""}${d.persona ? `<span class="mp-persona" style="${emotionStyle(d.top)}">✦ ${esc(d.persona[0])}</span>` : ""}${state.profile.bio ? `<p class="fp-bio">${esc(state.profile.bio)}</p>` : '<button class="text-button mp-bio-add" data-action="edit-profile">+ A\xF1ade una frase sobre ti</button>'}</section><div class="fp-stats"><div><strong>${d.watched.length}</strong><small>${d.watched.length === 1 ? "historia" : "historias"}</small></div><div><strong>${d.avg}</strong><small>nota media</small></div><div><strong>${d.best}</strong><small>mejor racha</small></div><div><button type="button" class="mp-stat-link" data-page="social"><strong>${state.following.length}</strong><small>siguiendo</small></button></div></div><div class="mp-actions">${y.list.length ? '<button type="button" class="mp-action mp-action-hero" data-wrapped><span aria-hidden="true">▶</span>Tu a\xF1o en historias</button>' : ""}<button type="button" class="mp-action" data-page="collection"><span aria-hidden="true">\u{1F4D6}</span>Mi diario</button><button type="button" class="mp-action" data-page="stats"><span aria-hidden="true">\u{1F4CA}</span>Estad\xEDsticas</button><button type="button" class="mp-action" data-action="share-card"><span aria-hidden="true">↗</span>Compartir</button></div><section class="fp-section"><div class="section-head mp-head"><h2>Tu top 3</h2><button class="text-button" data-action="favorites">Editar</button></div><div class="fp-favs">${favs.map((m, i) => `<button type="button" class="fp-fav" data-film="${m.id}" aria-label="Favorito ${i + 1}: ${esc(m.title)}">${image(m)}<span>${i + 1}</span></button>`).join("")}${Array.from({ length: Math.max(0, 3 - favs.length) }, (_, i) => `<button type="button" class="fav-slot" data-action="favorites" aria-label="Elegir favorito"><span aria-hidden="true">+</span><small>${i === 0 && !favs.length ? "Elige tus 3 historias" : ""}</small></button>`).join("")}</div></section>${d.palette.length ? `<section class="fp-section"><h2>Tu paleta emocional</h2><div class="fp-palette" role="img" aria-label="${d.palette.map(([em, n]) => `${em} ${Math.round(n / d.total * 100)}%`).join(", ")}">${d.palette.map(([em, n]) => `<i style="${emotionStyle(em)};flex:${n}"></i>`).join("")}</div><div class="fp-legend">${d.palette.slice(0, 3).map(([em, n]) => `<span style="${emotionStyle(em)}"><i class="emotion-dot" aria-hidden="true"></i>${em} \xB7 ${Math.round(n / d.total * 100)}%</span>`).join("")}</div>${d.persona ? `<p class="mp-persona-text">${esc(d.persona[1])}</p>` : ""}</section>` : ""}<section class="fp-section"><div class="section-head mp-head"><h2>Logros</h2><small class="muted">${earned} de ${d.badges.length}</small></div><div class="mp-badges">${d.badges.map(([key, title, desc, have, need, emoji]) => `<div class="mp-badge ${have >= need ? "is-earned" : ""}" title="${esc(desc)}"><span class="mp-badge-icon" aria-hidden="true">${emoji}</span><strong>${title}</strong><small>${have >= need ? "\xA1Conseguido!" : `${have} / ${need}`}</small>${have >= need ? "" : `<i class="mp-badge-bar" style="--p:${Math.round(have / need * 100)}%" aria-hidden="true"></i>`}<span class="sr-only">${esc(desc)}</span></div>`).join("")}</div></section><section class="fp-section"><div class="section-head mp-head"><h2>\xDAltimos recuerdos</h2>${recent.length ? '<button class="text-button" data-page="collection">Ver diario</button>' : ""}</div>${recent.length ? `<div class="mp-recent">${recent.map(({ e, m }) => `<button type="button" class="mp-memory" data-film="${m.id}" style="${emotionStyle(e)}" aria-label="${esc(m.title)}${e.rating ? ", nota " + e.rating : ""}">${image(m)}<span class="mp-memory-meta">${e.rating ? `★ ${e.rating}` : ""}${e.watchedAt ? `<small>${shortDate(e.watchedAt)}</small>` : ""}</span></button>`).join("")}</div>` : '<div class="mp-empty"><p>Cuando guardes una historia, aparecer\xE1 aqu\xED con su cartel.</p><button class="button" data-page="explore">Buscar una pel\xEDcula</button></div>'}</section><p class="footnote mp-foot">${cloud.user ? "Tu perfil, notas y rese\xF1as son p\xFAblicos. \xABCon qui\xE9n la viste\xBB es privado." : "Tu diario se guarda en este dispositivo. Crea una cuenta para compartirlo con tus amigos."}</p></div>`;
+  return `${cloud.user ? "" : accountMarkup()}<div class="fp mp"><div class="fp-cover" aria-hidden="true">${cover ? `<img src="${esc(cover)}" alt="" referrerpolicy="no-referrer" data-mp-cover>` : `<img src="${PROFILE_COVER}" alt="">`}</div><section class="fp-hero"><div class="fp-avatar mp-avatar" style="${d.top ? emotionStyle(d.top) : ""}">${state.profile.avatar ? `<img src="${esc(state.profile.avatar)}" alt="Tu foto">` : `<span>${esc(state.profile.name.slice(0, 2).toUpperCase())}</span>`}<button class="avatar-edit mp-edit" data-action="edit-profile" aria-label="Editar perfil"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button></div><h1>${name}</h1>${state.profile.handle ? `<p class="fp-handle">@${esc(state.profile.handle)}</p>` : ""}${d.persona ? `<span class="mp-persona" style="${emotionStyle(d.top)}">✦ ${esc(d.persona[0])}</span>` : ""}${state.profile.bio ? `<p class="fp-bio">${esc(state.profile.bio)}</p>` : '<button class="text-button mp-bio-add" data-action="edit-profile">+ A\xF1ade una frase sobre ti</button>'}</section><div class="fp-stats"><div><strong>${d.watched.length}</strong><small>${d.watched.length === 1 ? "historia" : "historias"}</small></div><div><strong>${d.avg}</strong><small>nota media</small></div><div><strong>${d.best}</strong><small>mejor racha</small></div><div><button type="button" class="mp-stat-link" data-page="social"><strong>${state.following.length}</strong><small>siguiendo</small></button></div></div><div class="mp-actions">${y.list.length ? '<button type="button" class="mp-action mp-action-hero" data-wrapped><span aria-hidden="true">▶</span>Tu a\xF1o en historias</button>' : ""}<button type="button" class="mp-action" data-page="collection"><span aria-hidden="true">\u{1F4D6}</span>Mi diario</button><button type="button" class="mp-action" data-page="stats"><span aria-hidden="true">\u{1F4CA}</span>Estad\xEDsticas</button><button type="button" class="mp-action" data-action="share-card"><span aria-hidden="true">↗</span>Compartir</button></div><section class="fp-section"><div class="section-head mp-head"><h2>Tu top 3</h2><button class="text-button" data-action="favorites">Editar</button></div><div class="fp-favs">${favs.map((m, i) => `<button type="button" class="fp-fav" data-film="${m.id}" aria-label="Favorito ${i + 1}: ${esc(m.title)}">${image(m)}<span>${i + 1}</span></button>`).join("")}${Array.from({ length: Math.max(0, 3 - favs.length) }, (_, i) => `<button type="button" class="fav-slot" data-action="favorites" aria-label="Elegir favorito"><span aria-hidden="true">+</span><small>${i === 0 && !favs.length ? "Elige tus 3 historias" : ""}</small></button>`).join("")}</div></section>${d.palette.length ? `<section class="fp-section"><h2>Tu paleta emocional</h2><div class="fp-palette" role="img" aria-label="${d.palette.map(([em, n]) => `${em} ${Math.round(n / d.total * 100)}%`).join(", ")}">${d.palette.map(([em, n]) => `<i style="${emotionStyle(em)};flex:${n}"></i>`).join("")}</div><div class="fp-legend">${d.palette.slice(0, 3).map(([em, n]) => `<span style="${emotionStyle(em)}"><i class="emotion-dot" aria-hidden="true"></i>${em} \xB7 ${Math.round(n / d.total * 100)}%</span>`).join("")}</div>${d.persona ? `<p class="mp-persona-text">${esc(d.persona[1])}</p>` : ""}</section>` : ""}<section class="fp-section"><div class="section-head mp-head"><h2>Logros</h2><small class="muted">${earned} de ${d.badges.length}</small></div><div class="mp-badges">${d.badges.map(([key, title, desc, have, need, emoji]) => `<div class="mp-badge ${have >= need ? "is-earned" : ""}" title="${esc(desc)}"><span class="mp-badge-icon" aria-hidden="true">${emoji}</span><strong>${title}</strong><small>${have >= need ? "\xA1Conseguido!" : `${have} / ${need}`}</small>${have >= need ? "" : `<i class="mp-badge-bar" style="--p:${Math.round(have / need * 100)}%" aria-hidden="true"></i>`}<span class="sr-only">${esc(desc)}</span></div>`).join("")}</div></section>${medalsSection()}<section class="fp-section"><div class="section-head mp-head"><h2>\xDAltimos recuerdos</h2>${recent.length ? '<button class="text-button" data-page="collection">Ver diario</button>' : ""}</div>${recent.length ? `<div class="mp-recent">${recent.map(({ e, m }) => `<button type="button" class="mp-memory" data-film="${m.id}" style="${emotionStyle(e)}" aria-label="${esc(m.title)}${e.rating ? ", nota " + e.rating : ""}">${image(m)}<span class="mp-memory-meta">${e.rating ? `★ ${e.rating}` : ""}${e.watchedAt ? `<small>${shortDate(e.watchedAt)}</small>` : ""}</span></button>`).join("")}</div>` : '<div class="mp-empty"><p>Cuando guardes una historia, aparecer\xE1 aqu\xED con su cartel.</p><button class="button" data-page="explore">Buscar una pel\xEDcula</button></div>'}</section><p class="footnote mp-foot">${cloud.user ? "Tu perfil, notas y rese\xF1as son p\xFAblicos. \xABCon qui\xE9n la viste\xBB es privado." : "Tu diario se guarda en este dispositivo. Crea una cuenta para compartirlo con tus amigos."}</p></div>`;
 }
 function profileAfterRender() {
   const img = $(".mp [data-mp-cover]"), box = $(".mp");
@@ -22097,7 +22093,7 @@ document.addEventListener("submit", (ev) => {
       toast("Revisa la fecha de visionado.");
       return;
     }
-    const motionWasNew = !entry(id);
+    const motionWasNew = !entry(id), retoYm = (e.watchedAt || dateISO()).slice(0, 7), retoBefore = retoProgress(retoYm).list.filter((r) => r.done).map((r) => r.k);
     state.entries = [...state.entries.filter((x) => x.id !== id), e];
     const ok = persist();
     $("#detail").close();
@@ -22107,6 +22103,7 @@ document.addEventListener("submit", (ev) => {
     });
     if (ok) toast({ planned: "A\xF1adida a pendientes.", watching: "Progreso guardado.", watched: "Recuerdo guardado en tu colecci\xF3n." }[e.status]);
     if (ok && e.status === "watched") showTicket(id);
+    if (ok && e.status === "watched") retoCheck(retoBefore, retoYm);
   }
   if (ev.target.id === "profile-form") {
     ev.preventDefault();
@@ -23169,7 +23166,7 @@ function publicPost(p) {
 }
 function social() {
   if (!cloud.user) return socialGate();
-  return `<div class="page-heading"><h1>El cine se comparte.</h1><p>Encuentra a tus amigos por su @usuario.</p></div><form id="people-search" class="account-actions"><input name="handle" aria-label="Buscar usuario" placeholder="@usuario" maxlength="30"><button class="button">Buscar</button></form><div class="toolbar"><div class="filters"><button class="filter ${feedMode === "all" ? "active" : ""}" data-cloud-feed="all">Descubrir</button><button class="filter ${feedMode === "following" ? "active" : ""}" data-cloud-feed="following">Siguiendo</button></div><button class="text-button" data-cloud="community">Actualizar</button></div>${cloud.communityError ? `<p role="status">${esc(cloud.communityError)}</p>` : ""}<div class="feed-layout"><section class="feed">${cloud.posts.length ? cloud.posts.map(publicPost).join("") : `<div class="empty"><h3>${cloud.busy ? "Cargando comunidad\u2026" : "Todav\xEDa no hay actividad"}</h3><p>Las historias compartidas aparecer\xE1n aqu\xED.</p></div>`}</section><aside class="panel"><h3>Personas</h3>${cloud.profiles.map((p) => `<div class="friend">${realAvatar(p)}<button class="person-link" data-cloud-profile="${p.id}">${esc(p.name)}<small>@${esc(p.handle)}</small></button>${followButton(p)}</div>`).join("") || '<p class="muted">No hay perfiles para esta b\xFAsqueda.</p>'}</aside></div>`;
+  return `<div class="page-heading"><h1>El cine se comparte.</h1><p>Encuentra a tus amigos por su @usuario.</p></div><form id="people-search" class="account-actions"><input name="handle" aria-label="Buscar usuario" placeholder="@usuario" maxlength="30"><button class="button">Buscar</button></form><div class="toolbar"><div class="filters"><button class="filter ${feedMode === "all" ? "active" : ""}" data-cloud-feed="all">Descubrir</button><button class="filter ${feedMode === "following" ? "active" : ""}" data-cloud-feed="following">Siguiendo</button></div><button class="text-button" data-cloud="community">Actualizar</button></div>${cloud.communityError ? `<p role="status">${esc(cloud.communityError)}</p>` : ""}<div class="feed-layout"><section class="feed">${cloud.posts.length ? ((n) => cloud.posts.filter((p) => (n[p.user_id] = (n[p.user_id] || 0) + 1) <= 3))({}).map(publicPost).join("") : `<div class="empty"><h3>${cloud.busy ? "Cargando comunidad\u2026" : "Todav\xEDa no hay actividad"}</h3><p>Las historias compartidas aparecer\xE1n aqu\xED.</p></div>`}</section><aside class="panel"><h3>Personas</h3>${cloud.profiles.map((p) => `<div class="friend">${realAvatar(p)}<button class="person-link" data-cloud-profile="${p.id}">${esc(p.name)}<small>@${esc(p.handle)}</small></button>${followButton(p)}</div>`).join("") || '<p class="muted">No hay perfiles para esta b\xFAsqueda.</p>'}</aside></div>`;
 }
 async function openPublicProfile(id, fromHistory = false) {
   if (id === cloud.user?.id) return navigate("profile");
@@ -24326,6 +24323,390 @@ async function duoShare() {
 }
 document.addEventListener("click", (ev) => {
   if (ev.target.closest?.("[data-duo-open]")) openDuo();
+});
+var RETOS = {
+  vol: ["\u{1F3AC}", "Mes de cine", "Ve 6 historias este mes", 6, (w) => w.length],
+  classic: ["\u{1F4FC}", "Viaje al pasado", "Ve 2 cl\xE1sicos anteriores a 1990", 2, (w) => w.filter((x) => Number(x.m?.year) && Number(x.m.year) < 1990).length],
+  series: ["\u{1F4FA}", "Final de temporada", "Termina 1 serie", 1, (w) => w.filter((x) => x.m?.type === "series").length],
+  critic: ["✍️", "Pluma afilada", "Escribe 3 rese\xF1as", 3, (w) => w.filter((x) => x.e.review).length],
+  company: ["\u{1F91D}", "En buena compa\xF1\xEDa", "Ve 2 historias con alguien", 2, (w) => w.filter((x) => x.e.companion && x.e.companion !== "Solo/a").length],
+  feelings: ["\u{1F308}", "Monta\xF1a rusa", "Siente 4 emociones distintas", 4, (w) => new Set(w.flatMap((x) => x.e.emotions || [])).size],
+  master: ["\u{1F48E}", "Obra maestra", "Dale un 9 o m\xE1s a una historia", 1, (w) => w.filter((x) => (x.e.rating || 0) >= 9).length],
+  fresh: ["✨", "Reci\xE9n salida", "Ve un estreno de este a\xF1o", 1, (w, y) => w.filter((x) => x.m?.year === String(y)).length]
+};
+function monthRetos(ym) {
+  const [y, mo] = ym.split("-").map(Number), keys = Object.keys(RETOS).slice(1), n = y * 12 + mo, a = keys[n % keys.length];
+  let b = keys[(n * 3 + 1) % keys.length];
+  if (b === a) b = keys[(n + 3) % keys.length];
+  return ["vol", a, b];
+}
+function retoProgress(ym) {
+  const y = Number(ym.slice(0, 4)), w = state.entries.filter((e) => e.status === "watched" && validDate(e.watchedAt) && e.watchedAt.startsWith(ym)).map((e) => ({ e, m: CATALOG.find((m) => m.id === e.id) }));
+  const list = monthRetos(ym).map((k) => {
+    const [emoji, title, desc, need, fn] = RETOS[k], have = Math.min(need, fn(w, y));
+    return { k, emoji, title, desc, need, have, done: have >= need };
+  });
+  return { list, done: list.every((r) => r.done), count: list.filter((r) => r.done).length };
+}
+function monthName(ym) {
+  return new Intl.DateTimeFormat("es", { month: "long" }).format(/* @__PURE__ */ new Date(ym + "-15T12:00:00"));
+}
+function wonMonths() {
+  return [...new Set(state.entries.filter((e) => e.status === "watched" && validDate(e.watchedAt)).map((e) => e.watchedAt.slice(0, 7)))].sort().reverse().filter((ym) => retoProgress(ym).done);
+}
+function challengeTitle() {
+  const m = monthName(dateISO().slice(0, 7));
+  return "Retos de " + m;
+}
+function challenge() {
+  const ym = dateISO().slice(0, 7), p = retoProgress(ym), now = /* @__PURE__ */ new Date(), left = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate() - now.getDate();
+  return `<div class="retos">${p.list.map((r) => `<div class="reto ${r.done ? "is-done" : ""}"><span class="reto-icon" aria-hidden="true">${r.done ? "✓" : r.emoji}</span><div class="reto-copy"><strong>${r.title}</strong><small>${r.desc}</small><div class="progress" role="progressbar" aria-label="${esc(r.title)}" aria-valuenow="${r.have}" aria-valuemin="0" aria-valuemax="${r.need}"><i style="width:${r.have / r.need * 100}%"></i></div></div><span class="reto-count">${r.have}/${r.need}</span></div>`).join("")}</div><div class="row reto-foot"><small>${p.done ? `\u{1F3C6} \xA1Medalla de ${monthName(ym)} conseguida!` : `${p.count} de 3 \xB7 consigue los 3 y gana la medalla`}</small><small>${left <= 0 ? "\xDAltimo d\xEDa" : `Quedan ${left} ${left === 1 ? "d\xEDa" : "d\xEDas"}`}</small></div>`;
+}
+function medalsSection() {
+  const won = wonMonths(), ym = dateISO().slice(0, 7), p = retoProgress(ym);
+  return `<section class="fp-section"><div class="section-head mp-head"><h2>Medallas del mes</h2><small class="muted">${won.length} ${won.length === 1 ? "ganada" : "ganadas"}</small></div><div class="mp-medals">${won.map((m) => `<div class="mp-medal" title="Retos de ${monthName(m)} ${m.slice(0, 4)} completados"><span aria-hidden="true">\u{1F3C6}</span><strong>${monthName(m)}</strong><small>${m.slice(0, 4)}</small></div>`).join("")}${p.done ? "" : `<button type="button" class="mp-medal is-next" data-page="home"><span aria-hidden="true">${p.count}/3</span><strong>${monthName(ym)}</strong><small>en juego</small></button>`}</div></section>`;
+}
+function retoCheck(before, ym) {
+  const p = retoProgress(ym), fresh = p.list.filter((r) => r.done && !before.includes(r.k));
+  if (!fresh.length) return;
+  setTimeout(() => {
+    toast(p.done ? `\u{1F3C6} \xA1Medalla de ${monthName(ym)}! Has completado los 3 retos.` : `${fresh[0].emoji} Reto conseguido: ${fresh[0].title}`);
+    buzz([12, 50, 12, 50, 24]);
+  }, 2600);
+}
+var activity = { items: [], seen: 0, loading: false, uid: "", at: 0 };
+function activityKey() {
+  return "plano-activity-seen-" + (cloud.user?.id || "");
+}
+function timeAgo(t) {
+  const s = (Date.now() - t) / 1e3;
+  if (s < 60) return "ahora";
+  if (s < 3600) return `hace ${Math.floor(s / 60)} min`;
+  if (s < 86400) return `hace ${Math.floor(s / 3600)} h`;
+  const d = Math.floor(s / 86400);
+  return d === 1 ? "ayer" : d < 7 ? `hace ${d} d\xEDas` : shortDate(new Date(t).toISOString().slice(0, 10));
+}
+async function loadActivity(force = false) {
+  if (!cloud.user || !cloud.ready || activity.loading || document.hidden) return;
+  if (!force && activity.uid === cloud.user.id && Date.now() - activity.at < 9e4) return;
+  activity.loading = true;
+  const uid = cloud.user.id;
+  try {
+    const since = new Date(Date.now() - 21 * 864e5).toISOString();
+    const [posts, likes, fans] = await Promise.all([
+      state.following.length ? db.from("journal").select("*,profiles!journal_user_id_fkey(id,name,handle,avatar_url)").in("user_id", state.following).gte("updated_at", since).order("updated_at", { ascending: false }).limit(60) : { data: [] },
+      db.from("reactions").select("*").eq("owner_id", uid).neq("user_id", uid).gte("created_at", since).order("created_at", { ascending: false }).limit(30),
+      db.from("follows").select("*").eq("following_id", uid).gte("created_at", since).order("created_at", { ascending: false }).limit(30)
+    ]);
+    for (const r of [posts, likes, fans]) if (r.error) throw r.error;
+    const ids = [...new Set([...likes.data.map((r) => r.user_id), ...fans.data.map((r) => r.follower_id)])];
+    const people = ids.length ? await db.from("profiles").select("id,name,handle,avatar_url").in("id", ids) : { data: [] };
+    if (people.error) throw people.error;
+    if (cloud.user?.id !== uid) return;
+    const who = new Map(people.data.map((p) => [p.id, p]));
+    addCloudTitles(posts.data);
+    const groups = /* @__PURE__ */ new Map();
+    for (const p of posts.data) {
+      const k = p.user_id + "|" + Math.floor(Date.parse(p.updated_at) / 36e5);
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(p);
+    }
+    const postItems = [...groups.values()].flatMap((g) => g.length > 3 ? [{ t: Date.parse(g[0].updated_at), person: g[0].profiles || { id: g[0].user_id }, film: "", text: `ha a\xF1adido <b>${g.length} historias</b> a su diario` }] : g.map((p) => ({ t: Date.parse(p.updated_at), person: p.profiles || { id: p.user_id }, film: p.title_id, text: p.status === "watched" ? `ha visto <b>${esc(p.title)}</b>${p.rating ? ` \xB7 ★ ${p.rating}` : ""}` : p.status === "watching" ? `est\xE1 viendo <b>${esc(p.title)}</b>` : `quiere ver <b>${esc(p.title)}</b>`, quote: p.status === "watched" ? p.review : "" })));
+    activity.items = [
+      ...postItems,
+      ...likes.data.map((r) => ({ t: Date.parse(r.created_at), person: who.get(r.user_id) || { id: r.user_id }, film: r.title_id, text: `ha dicho \xABMe llega\xBB a tu recuerdo de <b>${esc(CATALOG.find((m) => m.id === r.title_id)?.title || "una historia")}</b> ♥` })),
+      ...fans.data.map((f) => ({ t: Date.parse(f.created_at), person: who.get(f.follower_id) || { id: f.follower_id }, film: "", text: state.following.includes(f.follower_id) ? "te sigue. Ya os segu\xEDs mutuamente" : "ha empezado a seguirte", follow: !state.following.includes(f.follower_id) }))
+    ].filter((x) => x.t).sort((a, b) => b.t - a.t).slice(0, 40);
+    activity.uid = uid;
+    activity.at = Date.now();
+    activity.seen = Number(lsGet(activityKey()) || 0);
+    renderBell();
+    if ($("#activity")?.open) renderActivity();
+  } catch {
+  } finally {
+    activity.loading = false;
+  }
+}
+function renderBell() {
+  let b = $("#bell");
+  if (!b) {
+    b = document.createElement("button");
+    b.id = "bell";
+    b.type = "button";
+    b.className = "icon-button bell";
+    b.setAttribute("data-activity", "");
+    $(".topbar").insertBefore(b, $(".profile-tools"));
+  }
+  const on = !!cloud.user && activity.uid === cloud.user.id, n = on ? activity.items.filter((x) => x.t > activity.seen).length : 0;
+  b.hidden = !cloud.user;
+  b.setAttribute("aria-label", n ? `Avisos: ${n} nuevos` : "Avisos");
+  b.innerHTML = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6.5 2 6.5H4S6 14 6 9"/><path d="M10 19.5a2.2 2.2 0 0 0 4 0"/></svg>${n ? `<span class="bell-dot">${n > 9 ? "9+" : n}</span>` : ""}`;
+}
+function renderActivity() {
+  const d = $("#activity");
+  if (!d) return;
+  const list = activity.items;
+  d.innerHTML = `<div class="dialog-head"><h2 id="activity-title">Avisos</h2><button class="icon-button" data-close aria-label="Cerrar">${icon("close")}</button></div><div class="act-list">${list.length ? list.map((x) => `<div class="act-item ${x.t > activity.seen ? "is-new" : ""}"><button type="button" class="act-avatar" data-act-person="${esc(x.person.id || "")}" aria-label="Ver perfil de ${esc(x.person.name || "usuario")}">${friendAvatar(x.person)}</button><button type="button" class="act-copy" ${x.film ? `data-act-film="${esc(x.film)}"` : `data-act-person="${esc(x.person.id || "")}"`}><span><b>${esc(x.person.name || "@" + (x.person.handle || "usuario"))}</b> ${x.text}</span>${x.quote ? `<q>${esc(x.quote.slice(0, 140))}</q>` : ""}<small>${timeAgo(x.t)}</small></button>${x.follow ? `<button type="button" class="button secondary act-follow" data-cloud-follow="${esc(x.person.id)}">Seguir</button>` : ""}</div>`).join("") : `<div class="act-empty"><span aria-hidden="true">\u{1F514}</span><p>${state.following.length ? "Nada nuevo por ahora. Aqu\xED ver\xE1s lo que ven tus amigos, qui\xE9n te sigue y a qui\xE9n le llegan tus rese\xF1as." : "Sigue a tus amigos y aqu\xED ver\xE1s lo que ven, qui\xE9n te sigue y a qui\xE9n le llegan tus rese\xF1as."}</p><button class="button" type="button" data-act-social>Buscar amigos</button></div>`}</div>`;
+}
+function openActivity() {
+  let d = $("#activity");
+  if (!d) {
+    d = document.createElement("dialog");
+    d.id = "activity";
+    d.setAttribute("aria-labelledby", "activity-title");
+    document.body.append(d);
+    d.addEventListener("click", (ev) => {
+      if (ev.target === d) return d.close();
+      const b = ev.target.closest("button");
+      if (!b) return;
+      if (b.hasAttribute("data-close")) return d.close();
+      if (b.dataset.actPerson) {
+        d.close();
+        return openPublicProfile(b.dataset.actPerson);
+      }
+      if (b.dataset.actFilm) {
+        d.close();
+        return openFilm(b.dataset.actFilm);
+      }
+      if (b.hasAttribute("data-act-social")) {
+        d.close();
+        navigate("social");
+      }
+    });
+    d.addEventListener("close", () => {
+      activity.seen = Date.now();
+      lsSet(activityKey(), String(activity.seen));
+      renderBell();
+    });
+  }
+  renderActivity();
+  d.showModal();
+  loadActivity(true);
+}
+document.addEventListener("click", (ev) => {
+  if (ev.target.closest?.("[data-activity]")) openActivity();
+});
+document.addEventListener("visibilitychange", () => loadActivity());
+setInterval(() => {
+  if (cloud.user && cloud.ready && activity.uid !== cloud.user.id) loadActivity(true);
+  else loadActivity();
+  if (!cloud.user && activity.uid) {
+    activity = { items: [], seen: 0, loading: false, uid: "", at: 0 };
+  }
+  if (($("#bell") && $("#bell").hidden) !== !cloud.user || !$("#bell")) renderBell();
+}, 4e3);
+var lb = { ctrl: null };
+function lbDialog() {
+  let d = $("#lb");
+  if (d) return d;
+  d = document.createElement("dialog");
+  d.id = "lb";
+  d.setAttribute("aria-labelledby", "lb-title");
+  document.body.append(d);
+  d.addEventListener("click", (ev) => {
+    if (ev.target === d && !lb.ctrl) return d.close();
+    const b = ev.target.closest("button");
+    if (!b) return;
+    if (b.hasAttribute("data-close") || b.dataset.lb === "cancel") {
+      lb.ctrl?.abort();
+      return d.close();
+    }
+    if (b.dataset.lb === "diary") {
+      d.close();
+      navigate("collection");
+    }
+  });
+  d.addEventListener("cancel", () => lb.ctrl?.abort());
+  d.addEventListener("change", (ev) => {
+    if (ev.target.id === "lb-file") lbImport([...ev.target.files]);
+  });
+  return d;
+}
+function openLetterboxd() {
+  const d = lbDialog();
+  d.innerHTML = `<div class="tn-head"><span class="tonight-kicker">IMPORTAR</span><button class="icon-button" data-close aria-label="Cerrar">${icon("close")}</button></div><h2 id="lb-title">Trae tu diario de Letterboxd</h2><ol class="lb-steps"><li>Entra en <a href="https://letterboxd.com/settings/data/" target="_blank" rel="noopener">letterboxd.com → Settings → Data</a>.</li><li>Pulsa <b>Export your data</b> y descarga el ZIP.</li><li>S\xFAbelo aqu\xED tal cual. No hace falta descomprimirlo.</li></ol><label class="button lb-pick">Elegir el ZIP de Letterboxd<input id="lb-file" type="file" accept=".zip,.csv,application/zip,text/csv" multiple hidden></label><p class="lb-note">Traemos lo que has visto, tus notas (pasadas a escala de 10), fechas, rese\xF1as y tu watchlist como pendientes. Lo que ya tienes en Plano no se toca.</p><p class="lb-error" id="lb-error" role="alert"></p>`;
+  if (!d.open) d.showModal();
+}
+async function unzipCsvs(buf) {
+  const v = new DataView(buf), u8 = new Uint8Array(buf), out = {}, dec = new TextDecoder();
+  let eocd = -1;
+  for (let i = buf.byteLength - 22; i >= Math.max(0, buf.byteLength - 65557); i--) if (v.getUint32(i, true) === 101010256) {
+    eocd = i;
+    break;
+  }
+  if (eocd < 0) throw Error("zip");
+  const count = v.getUint16(eocd + 10, true);
+  let p = v.getUint32(eocd + 16, true);
+  for (let n = 0; n < count; n++) {
+    if (v.getUint32(p, true) !== 33639248) break;
+    const method = v.getUint16(p + 10, true), size = v.getUint32(p + 20, true), nlen = v.getUint16(p + 28, true), xlen = v.getUint16(p + 30, true), clen = v.getUint16(p + 32, true), off = v.getUint32(p + 42, true), name = dec.decode(u8.subarray(p + 46, p + 46 + nlen));
+    p += 46 + nlen + xlen + clen;
+    const base = name.split("/").pop().toLowerCase();
+    if (!/^(diary|ratings|reviews|watched|watchlist)\.csv$/.test(base) || /(^|\/)(deleted|orphaned|likes|lists)\//i.test(name) || out[base]) continue;
+    const start = off + 30 + v.getUint16(off + 26, true) + v.getUint16(off + 28, true), data = u8.subarray(start, start + size);
+    if (method === 0) out[base] = dec.decode(data);
+    else if (method === 8) out[base] = await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text();
+  }
+  return out;
+}
+function parseCSV(text) {
+  const rows = [];
+  let row = [], cell = "", q = false;
+  text = text.replace(/^﻿/, "");
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"') {
+        if (text[i + 1] === '"') {
+          cell += '"';
+          i++;
+        } else q = false;
+      } else cell += c;
+    } else if (c === '"') q = true;
+    else if (c === ",") {
+      row.push(cell);
+      cell = "";
+    } else if (c === "\n" || c === "\r") {
+      if (c === "\r" && text[i + 1] === "\n") i++;
+      row.push(cell);
+      rows.push(row);
+      row = [];
+      cell = "";
+    } else cell += c;
+  }
+  if (cell || row.length) {
+    row.push(cell);
+    rows.push(row);
+  }
+  const head = (rows.shift() || []).map((h) => h.trim());
+  return rows.filter((r) => r.length > 1).map((r) => Object.fromEntries(head.map((h, i) => [h, (r[i] || "").trim()])));
+}
+function lbText(s) {
+  return s.replace(/<br\s*\/?>/gi, "\n").replace(/<\/p>\s*<p>/gi, "\n\n").replace(/<[^>]+>/g, "").replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").trim().slice(0, 3e3);
+}
+function lbMerge(files) {
+  const map = /* @__PURE__ */ new Map(), rate = (s) => {
+    const n = parseFloat(s);
+    return n > 0 ? Math.max(1, Math.min(10, Math.round(n * 2))) : null;
+  }, get = (r) => {
+    const k = (r.Name + "|" + (r.Year || "")).toLowerCase();
+    if (!map.has(k)) map.set(k, { name: r.Name, year: r.Year || "", status: "", rating: null, review: "", watchedAt: "" });
+    return map.get(k);
+  };
+  for (const r of files["watchlist.csv"] || []) if (r.Name) get(r).status ||= "planned";
+  for (const r of files["watched.csv"] || []) if (r.Name) get(r).status = "watched";
+  for (const r of [...files["diary.csv"] || [], ...files["reviews.csv"] || []]) {
+    if (!r.Name) continue;
+    const x = get(r), d = r["Watched Date"] || "";
+    x.status = "watched";
+    if (validDate(d) && d <= dateISO() && d >= x.watchedAt) {
+      x.watchedAt = d;
+      if (rate(r.Rating)) x.rating = rate(r.Rating);
+    } else if (!x.rating && rate(r.Rating)) x.rating = rate(r.Rating);
+    if (r.Review) x.review = lbText(r.Review);
+  }
+  for (const r of files["ratings.csv"] || []) if (r.Name) {
+    const x = get(r);
+    x.status = "watched";
+    x.rating = rate(r.Rating) ?? x.rating;
+  }
+  return [...map.values()].filter((x) => x.status);
+}
+async function lbMatch(x, signal) {
+  const ask = async (extra) => {
+    for (let tries = 0; ; tries++) {
+      try {
+        return (await requestTMDB("/search/movie", { query: x.name, include_adult: false, page: 1, ...extra }, signal)).results || [];
+      } catch (e) {
+        if (e.name === "AbortError" || tries > 1 || !/L\xEDmite|conectar/.test(e.message)) throw e;
+        await new Promise((r) => setTimeout(r, 1500 * (tries + 1)));
+      }
+    }
+  };
+  let res = x.year ? await ask({ primary_release_year: x.year }) : [];
+  if (!res.length) res = await ask({});
+  const best = (x.year && res.find((r) => (r.release_date || "").startsWith(x.year))) || res[0];
+  return best ? fromTMDB(best, "movie") : null;
+}
+async function lbImport(fileList) {
+  const err = $("#lb-error"), d = $("#lb");
+  try {
+    const files = {};
+    for (const f of fileList) {
+      if (f.size > 60 * 1024 * 1024) throw Error("El archivo es demasiado grande.");
+      if (/\.zip$/i.test(f.name) || f.type.includes("zip")) Object.assign(files, await unzipCsvs(await f.arrayBuffer()));
+      else if (/\.csv$/i.test(f.name)) files[f.name.split("/").pop().toLowerCase()] = await f.text();
+    }
+    const parsed = Object.fromEntries(Object.entries(files).map(([k, t]) => [k, parseCSV(t)]));
+    const rows = lbMerge(parsed);
+    if (!rows.length) throw Error("No encontramos pel\xEDculas en ese archivo. Sube el ZIP que descargas en Letterboxd → Settings → Data.");
+    if (cloud.user && !cloud.ready) throw Error("Espera a que termine de cargar tu cuenta.");
+    lb.ctrl = new AbortController();
+    const signal = lb.ctrl.signal, total = rows.length, found = [], missing = [];
+    let done = 0, next = 0;
+    d.innerHTML = `<div class="tn-head"><span class="tonight-kicker">IMPORTANDO DE LETTERBOXD</span></div><div class="lb-run"><div class="lb-poster" id="lb-poster" aria-hidden="true"></div><h2 id="lb-title"><span id="lb-count">0</span> de ${total}</h2><p class="muted" id="lb-now">Buscando tus pel\xEDculas…</p><div class="progress" role="progressbar" aria-label="Progreso de la importaci\xF3n" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="0"><i id="lb-bar" style="width:0%"></i></div><button type="button" class="text-button" data-lb="cancel">Cancelar</button></div>`;
+    const worker = async () => {
+      while (next < total && !signal.aborted) {
+        const x = rows[next++];
+        let m = null;
+        try {
+          m = await lbMatch(x, signal);
+        } catch (e) {
+          if (e.name === "AbortError") return;
+        }
+        done++;
+        if (m) {
+          found.push({ x, m });
+          if (m.poster && $("#lb-poster")) $("#lb-poster").innerHTML = `<img src="${esc(m.poster)}" alt="" referrerpolicy="no-referrer">`;
+        } else missing.push(x);
+        if ($("#lb-count")) {
+          $("#lb-count").textContent = done;
+          $("#lb-now").textContent = x.name + (x.year ? ` (${x.year})` : "");
+          $("#lb-bar").style.width = done / total * 100 + "%";
+          $("#lb-bar").parentElement.setAttribute("aria-valuenow", done);
+        }
+      }
+    };
+    await Promise.all(Array.from({ length: 4 }, worker));
+    if (signal.aborted) {
+      lb.ctrl = null;
+      return;
+    }
+    lb.ctrl = null;
+    cacheRemote(found.map((f) => f.m));
+    const have = new Set(state.entries.map((e) => e.id)), add = /* @__PURE__ */ new Map();
+    let kept = 0;
+    for (const { x, m } of found) {
+      const id = canonicalId(m.id);
+      if (have.has(id)) {
+        kept++;
+        continue;
+      }
+      const prev = add.get(id);
+      if (prev && prev.status === "watched" && x.status !== "watched") continue;
+      add.set(id, { id, status: x.status, rating: x.status === "watched" ? x.rating : null, review: x.status === "watched" ? x.review : "", watchedAt: x.status === "watched" ? x.watchedAt : "", companion: "", emotions: [] });
+    }
+    state.entries = [...state.entries, ...add.values()];
+    const ok = add.size ? persist() : true;
+    render();
+    const seen = [...add.values()].filter((e) => e.status === "watched").length, planned = add.size - seen;
+    d.innerHTML = `<div class="tn-head"><span class="tonight-kicker">LISTO</span><button class="icon-button" data-close aria-label="Cerrar">${icon("close")}</button></div><div class="lb-done"><span class="lb-big">${add.size}</span><h2 id="lb-title">${add.size === 1 ? "historia importada" : "historias importadas"}</h2><p class="muted">${seen} ${seen === 1 ? "vista" : "vistas"} \xB7 ${planned} ${planned === 1 ? "pendiente" : "pendientes"}${kept ? ` \xB7 ${kept} ya estaban en tu diario` : ""}</p>${missing.length ? `<details class="lb-missing"><summary>${missing.length} sin encontrar</summary><ul>${missing.slice(0, 50).map((x) => `<li>${esc(x.name)}${x.year ? ` (${esc(x.year)})` : ""}</li>`).join("")}</ul><p class="muted">B\xFAscalas a mano en Plano si quieres a\xF1adirlas.</p></details>` : ""}${ok ? "" : '<p class="lb-error">No se pudo guardar. Int\xE9ntalo de nuevo.</p>'}<p class="lb-tip">✨ Truco: abre tus favoritas y a\xF1ade qu\xE9 sentiste. Eso no existe en Letterboxd.</p><button type="button" class="button" data-lb="diary">Ver mi diario</button></div>`;
+    buzz([10, 40, 16]);
+  } catch (e) {
+    lb.ctrl = null;
+    if (!d.querySelector("#lb-error")) openLetterboxd();
+    $("#lb-error").textContent = e.message === "zip" ? "Ese archivo no parece un ZIP v\xE1lido. Sube el ZIP de Letterboxd sin modificar." : e.message || "No se pudo leer el archivo.";
+  }
+}
+function letterboxdCard() {
+  if (state.entries.filter((e) => e.status === "watched").length >= 15) return "";
+  return `<section class="lb-card"><div><span class="tonight-kicker">\xBFVIENES DE LETTERBOXD?</span><h3>Trae todo tu diario en un minuto</h3><p>Vistas, notas, fechas, rese\xF1as y watchlist. Sin empezar de cero.</p></div><button type="button" class="button secondary" data-lb-open>Importar</button></section>`;
+}
+document.addEventListener("click", (ev) => {
+  if (ev.target.closest?.("[data-lb-open]")) {
+    $("#profile-dialog")?.open && $("#profile-dialog").close();
+    openLetterboxd();
+  }
 });
 if (lsGet("plano-diary-view") === "calendar") diaryView = "calendar";
 if (new URLSearchParams(location.search).has("tonight")) setTimeout(() => {
