@@ -641,6 +641,28 @@ body.film-open{overflow:hidden}#detail{width:min(780px,calc(100vw - 40px));heigh
 .fav-footer{position:sticky;bottom:-19px;padding:10px 0 2px;background:linear-gradient(transparent,var(--panel) 30%)}
 .fav-footer .button{width:100%;min-height:50px;font-size:15px}
 @media(prefers-reduced-motion:reduce){.fav-result img{transition:none}}
+/* Plano · plan a dúo */
+.fp-duo{margin-left:8px}
+#duo{width:min(460px,calc(100vw - 24px));max-height:calc(100dvh - 32px);padding:20px;border:1px solid #ffffff1a;border-radius:24px;color:var(--text);background:radial-gradient(130% 60% at 50% -10%,hsl(var(--tint-h,14) var(--tint-s,70%) 40%/.45),transparent 70%),var(--panel);overflow:auto}
+#duo::backdrop{background:#000b;backdrop-filter:blur(4px)}
+#duo h2{font-size:26px;letter-spacing:-.6px;margin:10px 0 4px;text-align:center}
+.duo-faces{display:flex;justify-content:center;margin-top:6px}
+.duo-faces .fp-avatar{width:68px;height:68px;margin:0;font-size:20px;box-shadow:0 0 0 3px var(--panel),0 10px 30px #0008}
+.duo-faces .fp-avatar+.fp-avatar{margin-left:-10px}
+.duo-faces .fp-avatar span{font-size:22px}
+.duo-sub{text-align:center;color:var(--muted);font-size:14px;line-height:1.5;margin:0 0 16px}
+.duo-sub b{color:var(--text)}
+.duo-facts{display:grid;gap:8px;margin-bottom:18px}
+.duo-fact{display:flex;align-items:center;gap:12px;width:100%;padding:8px 12px 8px 8px;border-radius:14px;border:1px solid #ffffff14;background:#ffffff08;color:var(--text);text-align:left}
+.duo-fact:hover{border-color:#ffffff30}
+.duo-fact img{width:40px;height:60px;border-radius:8px;object-fit:cover;flex-shrink:0}
+.duo-fact span{display:grid;gap:1px;min-width:0}
+.duo-fact small{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);font-weight:800}
+.duo-fact b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.duo-fact em{font-style:normal;font-size:12px;color:var(--muted)}
+.duo-label{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-align:center;margin:0 0 12px}
+.duo-empty{text-align:center;padding:10px 6px}
+@media(max-width:420px){.fp-duo{margin:10px 0 0}}
 </style>
 </head>
 <body>
