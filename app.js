@@ -21137,6 +21137,9 @@ function seed() {
 function validDate(v) {
   return typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(v)) && (/* @__PURE__ */ new Date(v + "T12:00:00")).toISOString().slice(0, 10) === v;
 }
+function normalizeFavorites(list) {
+  return [...new Set((Array.isArray(list) ? list : []).filter((id) => typeof id === "string").map(canonicalId))].filter((id) => CATALOG.some((m) => m.id === id)).slice(0, 3);
+}
 function normalizeEntries(rows) {
   if (!Array.isArray(rows) || rows.length > 1e4) throw Error("El archivo no contiene una colecci\xF3n v\xE1lida.");
   const found = /* @__PURE__ */ new Map();
@@ -21177,6 +21180,8 @@ var filter = "all";
 var query = "";
 var feedMode = "all";
 var friendId = "";
+var friendTab = "diary";
+var friendGeneration = 0;
 var toastTimer;
 function positionToast() {
   const t = $("#toast");
@@ -21519,11 +21524,11 @@ function yearView() {
     const date = daysAgo(i), n = s.watched.filter((e) => e.watchedAt === date).length;
     heat += `<span class="day ${n > 1 ? "many" : n ? "on" : ""}" role="img" aria-label="${date}: ${n} t\xEDtulos vistos" title="${date}: ${n} t\xEDtulos"></span>`;
   }
-  return `<div class="page-heading"><div class="row"><h1>Mi ${year} en cine.</h1><span class="demo-badge">TU COLECCI\xD3N LOCAL</span></div><p>Los n\xFAmeros cuentan historias. Estos se actualizan con lo que guardas.</p></div>${wrappedCta()}<div class="stat-grid"><div class="panel stat"><small>Pel\xEDculas vistas este a\xF1o</small><strong>${yearEntries.filter((e) => CATALOG.find((m) => m.id === e.id).type === "movie").length}</strong></div><div class="panel stat"><small>Series terminadas este a\xF1o</small><strong>${yearEntries.filter((e) => CATALOG.find((m) => m.id === e.id).type === "series").length}</strong></div><div class="panel stat"><small>Nota media este a\xF1o</small><strong>${avg}<span style="font-size:15px;color:var(--muted)"> / 10</span></strong></div><div class="panel stat"><small>Racha actual</small><strong>${streak}<span style="font-size:15px;color:var(--muted)"> d\xEDas</span></strong></div></div><section class="panel"><div class="row"><h3>Un d\xEDa, una historia</h3><small>\xDAltimos 91 d\xEDas</small></div><div class="heatmap" aria-label="Calendario de actividad">${heat}</div><div class="row"><small>${daysAgo(90)}</small><small>M\xE1s claro = m\xE1s t\xEDtulos vistos \xB7 Hoy</small></div></section><div class="lower-grid"><section class="panel"><h3>Tus g\xE9neros del a\xF1o</h3>${genres2.length ? genres2.map(([g, n]) => `<div class="genre"><div class="row"><span>${g}</span><span class="muted">${n} ${n === 1 ? "t\xEDtulo" : "t\xEDtulos"}</span></div><div class="progress" style="margin-top:9px"><i style="width:${n / yearEntries.length * 100}%"></i></div></div>`).join("") : '<p class="footnote">Marca un t\xEDtulo como visto y a\xF1ade una fecha para empezar.</p>'}</section><section class="panel"><div class="panel-head"><h3>Un peque\xF1o reto, cada semana</h3></div>${challenge()}</section></div><p class="footnote">Se cuenta la fecha de visionado; las vistas sin fecha no entran en el resumen anual. Una entrada por t\xEDtulo, sin contar episodios ni revisiones. Reto y racha calculados con la hora de tu dispositivo.</p>`;
+  return `<div class="page-heading"><div class="row"><h1>Mi ${year} en cine.</h1><span class="demo-badge">TU COLECCI\xD3N LOCAL</span></div><p>Los n\xFAmeros cuentan historias. Estos se actualizan con lo que guardas.</p></div>${wrappedCta()}<div class="stat-grid"><div class="panel stat"><small>Pel\xEDculas vistas este a\xF1o</small><strong>${yearEntries.filter((e) => CATALOG.find((m) => m.id === e.id)?.type === "movie").length}</strong></div><div class="panel stat"><small>Series terminadas este a\xF1o</small><strong>${yearEntries.filter((e) => CATALOG.find((m) => m.id === e.id)?.type === "series").length}</strong></div><div class="panel stat"><small>Nota media este a\xF1o</small><strong>${avg}<span style="font-size:15px;color:var(--muted)"> / 10</span></strong></div><div class="panel stat"><small>Racha actual</small><strong>${streak}<span style="font-size:15px;color:var(--muted)"> d\xEDas</span></strong></div></div><section class="panel"><div class="row"><h3>Un d\xEDa, una historia</h3><small>\xDAltimos 91 d\xEDas</small></div><div class="heatmap" aria-label="Calendario de actividad">${heat}</div><div class="row"><small>${daysAgo(90)}</small><small>M\xE1s claro = m\xE1s t\xEDtulos vistos \xB7 Hoy</small></div></section><div class="lower-grid"><section class="panel"><h3>Tus g\xE9neros del a\xF1o</h3>${genres2.length ? genres2.map(([g, n]) => `<div class="genre"><div class="row"><span>${g}</span><span class="muted">${n} ${n === 1 ? "t\xEDtulo" : "t\xEDtulos"}</span></div><div class="progress" style="margin-top:9px"><i style="width:${n / yearEntries.length * 100}%"></i></div></div>`).join("") : '<p class="footnote">Marca un t\xEDtulo como visto y a\xF1ade una fecha para empezar.</p>'}</section><section class="panel"><div class="panel-head"><h3>Un peque\xF1o reto, cada semana</h3></div>${challenge()}</section></div><p class="footnote">Se cuenta la fecha de visionado; las vistas sin fecha no entran en el resumen anual. Una entrada por t\xEDtulo, sin contar episodios ni revisiones. Reto y racha calculados con la hora de tu dispositivo.</p>`;
 }
 function profile() {
   const s = stats(), movies = s.watched.filter((e) => CATALOG.find((m) => m.id === e.id)?.type === "movie").length, series = s.watched.length - movies, planned = state.entries.filter((e) => e.status === "planned").length;
-  return `${accountMarkup()}<div class="profile-shell"><div class="profile-cover"><img class="cover-image" src="${PROFILE_COVER}" alt="Paisaje de monta\xF1as violetas bajo las estrellas"><span class="cover-label">Tu universo de historias</span></div><section class="profile-identity"><div class="profile-avatar">${state.profile.avatar ? `<img src="${esc(state.profile.avatar)}" alt="Tu avatar">` : esc(state.profile.name.slice(0, 2).toUpperCase())}<button class="avatar-edit" data-action="edit-profile" aria-label="Editar perfil"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button></div><h1>${esc(state.profile.name)}</h1><p class="handle">@${esc(state.profile.handle)}</p></section><section class="profile-summary" aria-label="Resumen de tu colecci\xF3n"><div class="profile-metrics"><div><strong>${movies}</strong><small>Pel\xEDculas</small></div><div><strong>${series}</strong><small>Series</small></div><div><strong>${planned}</strong><small>Pendientes</small></div><div><strong>${state.following.length}</strong><small>Siguiendo</small></div></div><p class="profile-bio">${esc(state.profile.bio || "Siempre buscando la pr\xF3xima historia.")}</p></section><div class="profile-jump"><button class="text-button" data-page="stats"><svg class="jump-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg>Mi a\xF1o en cine</button><button class="text-button" data-page="collection"><svg class="jump-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Mi diario</button></div><div class="profile-content"><section class="profile-section"><div class="section-head"><h2>Top favoritos</h2><button class="text-button" data-action="favorites" aria-label="Editar favoritos">Editar \u2197</button></div><div class="favorite-grid">${state.favorites.map((id) => {
+  return `${accountMarkup()}<div class="profile-shell"><div class="profile-cover"><img class="cover-image" src="${PROFILE_COVER}" alt="Paisaje de monta\xF1as violetas bajo las estrellas"><span class="cover-label">Tu universo de historias</span></div><section class="profile-identity"><div class="profile-avatar">${state.profile.avatar ? `<img src="${esc(state.profile.avatar)}" alt="Tu avatar">` : esc(state.profile.name.slice(0, 2).toUpperCase())}<button class="avatar-edit" data-action="edit-profile" aria-label="Editar perfil"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button></div><h1>${esc(state.profile.name)}</h1>${state.profile.handle ? `<p class="handle">@${esc(state.profile.handle)}</p>` : ""}</section><section class="profile-summary" aria-label="Resumen de tu colecci\xF3n"><div class="profile-metrics"><div><strong>${movies}</strong><small>Pel\xEDculas</small></div><div><strong>${series}</strong><small>Series</small></div><div><strong>${planned}</strong><small>Pendientes</small></div><div><strong>${state.following.length}</strong><small>Siguiendo</small></div></div><p class="profile-bio">${esc(state.profile.bio || "Siempre buscando la pr\xF3xima historia.")}</p></section><div class="profile-jump"><button class="text-button" data-page="stats"><svg class="jump-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg>Mi a\xF1o en cine</button><button class="text-button" data-page="collection"><svg class="jump-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Mi diario</button></div><div class="profile-content"><section class="profile-section"><div class="section-head"><h2>Top favoritos</h2><button class="text-button" data-action="favorites" aria-label="Editar favoritos">Editar \u2197</button></div><div class="favorite-grid">${state.favorites.filter((id) => CATALOG.some((m) => m.id === id)).map((id) => {
     const m = CATALOG.find((m2) => m2.id === id), e = entry(id);
     return `<article class="movie"><button class="poster" data-film="${id}" data-title="${esc(m.title)}" aria-label="Abrir ${esc(m.title)}">${image(m)}</button><button class="movie-title" data-film="${id}">${esc(m.title)}</button><span class="score">${e?.rating ? "\u2605 " + e.rating + " / 10" : "Sin puntuar"}</span></article>`;
   }).join("")}${state.favorites.length < 3 ? '<button class="button secondary" data-action="favorites">+ Elegir favoritos</button>' : ""}</div><div class="profile-actions"><button class="button" data-action="share-card">\u2193 Guardar tarjeta PNG</button><button class="button secondary" data-page="collection">Mi colecci\xF3n \u2197</button></div><p class="footnote" style="margin-top:12px">Tres historias para llevar contigo. La tarjeta incluye sus carteles.</p></section><section class="profile-section"><div class="section-head"><h2>Actividad reciente</h2><button class="text-button" data-page="social">Ver todo \u2197</button></div><div class="panel recent-list">${state.entries.slice(-3).reverse().map((e) => `<div class="recent-item"><button class="person-link" data-film="${e.id}">${esc(CATALOG.find((m) => m.id === e.id)?.title || "T\xEDtulo guardado")}<small>${LABELS[e.status]}</small></button></div>`).join("") || '<p class="muted">Tu actividad aparecer\xE1 aqu\xED.</p>'}</div></section></div><p class="footnote">Tu perfil, colecci\xF3n y rese\xF1as son p\xFAblicos al sincronizar. La compa\xF1\xEDa es privada.</p></div>`;
@@ -21537,8 +21542,8 @@ function editFavorites() {
 function render() {
   const y = window.scrollY;
   $(".main").classList.toggle("profile-page", page === "profile" || page === "friend");
-  $(".topbar").classList.toggle("profile-mode", page === "profile" || page === "friend");
-  $("#nav").innerHTML = NAV.map(([id, label]) => `<button data-page="${id}" class="${page === id ? "active" : ""}" ${page === id ? 'aria-current="page"' : ""}>${icon(id)}<span>${label}</span></button>`).join("");
+  $(".topbar").classList.toggle("profile-mode", page === "profile");
+  $("#nav").innerHTML = NAV.map(([id, label]) => `<button data-page="${id}" class="${page === id || page === "friend" && id === "social" ? "active" : ""}" ${page === id ? 'aria-current="page"' : ""}>${icon(id)}<span>${label}</span></button>`).join("");
   $("#side-name").textContent = state.profile.name;
   $("#side-avatar").textContent = state.profile.name[0]?.toUpperCase() || "T";
   $("#view").innerHTML = cloud.user && !cloud.ready ? '<div class="empty"><h2>Cargando tu cuenta</h2>' + accountMarkup() + "</div>" : { home, explore, collection, social, stats: yearView, profile, friend: friendProfile }[page]();
@@ -21618,6 +21623,7 @@ function exportCollection() {
   toast("Colecci\xF3n exportada en JSON.");
 }
 async function shareCard() {
+  state.favorites = normalizeFavorites(state.favorites);
   if (state.favorites.length !== 3) {
     toast("Elige tres favoritos para crear tu tarjeta.");
     editFavorites();
@@ -21827,10 +21833,7 @@ document.addEventListener("click", async (ev) => {
     return;
   }
   if (b.dataset.friend) {
-    friendId = b.dataset.friend;
-    page = "friend";
-    render();
-    window.scrollTo(0, 0);
+    openPublicProfile(b.dataset.friend);
     return;
   }
   if (b.hasAttribute("data-close")) {
@@ -21869,12 +21872,19 @@ document.addEventListener("click", async (ev) => {
     return;
   }
   if (b.dataset.delete) {
-    if (!await askConfirmation("\xBFQuitar este t\xEDtulo de la colecci\xF3n de prueba?")) return;
-    state.entries = state.entries.filter((e) => e.id !== b.dataset.delete);
+    const id = b.dataset.delete, removed = entry(id), index = state.entries.findIndex((e) => e.id === id), title = CATALOG.find((m) => m.id === id)?.title || "este t\xEDtulo";
+    if (!removed || !await askConfirmation(`\xBFQuitar \xAB${title}\xBB de tu diario? Se borrar\xE1n su nota y tus recuerdos.`)) return;
+    state.entries = state.entries.filter((e) => e.id !== id);
     const ok = persist();
     $("#detail").close();
     render();
-    if (ok) toast("T\xEDtulo eliminado de esta demo.");
+    if (ok) toast("Quitada de tu diario.", () => {
+      if (entry(id)) return;
+      state.entries.splice(Math.min(index, state.entries.length), 0, removed);
+      persist();
+      render();
+      toast("Recuperada.");
+    });
     return;
   }
   switch (b.dataset.action) {
@@ -21925,14 +21935,20 @@ document.addEventListener("click", async (ev) => {
       $("#profile-form").elements.name.value = state.profile.name;
       $("#profile-form").elements.handle.value = state.profile.handle;
       $("#profile-form").elements.bio.value = state.profile.bio || "";
+      $("#profile-note").textContent = cloud.user ? "Tu nombre, @usuario, bio y foto son p\xFAblicos para que tus amigos te encuentren." : "Este perfil solo existe en tu navegador. No crea una cuenta p\xFAblica.";
       $("#profile-dialog").showModal();
       break;
     case "reset":
-      if (await askConfirmation("Se sustituir\xE1n tus cambios de esta demo por los ejemplos iniciales. \xBFContinuar?")) {
-        state = seed();
+      if (!state.entries.length && !state.favorites.length) {
+        toast("Tu diario ya est\xE1 vac\xEDo.");
+        break;
+      }
+      if (await askConfirmation(cloud.user ? `Se borrar\xE1n los ${state.entries.length} t\xEDtulos de tu diario y tus favoritos, tambi\xE9n de tu cuenta en la nube. No se puede deshacer. Exporta antes una copia si quieres conservarlos. \xBFBorrar?` : `Se borrar\xE1n los ${state.entries.length} t\xEDtulos guardados en este navegador. No se puede deshacer. \xBFBorrar?`)) {
+        state = { ...seed(), profile: state.profile, following: state.following };
         const ok = persist();
         render();
-        if (ok) toast("La demo vuelve a empezar.");
+        $("#profile-dialog").close();
+        if (ok) toast("Diario borrado.");
       }
       break;
   }
@@ -21989,11 +22005,16 @@ document.addEventListener("submit", (ev) => {
       toast("El @usuario debe tener entre 3 y 30 letras, n\xFAmeros o guiones bajos.");
       return;
     }
-    state.profile = { ...state.profile, name, handle, bio: String(f.get("bio")).trim() };
-    const ok = persist();
-    $("#profile-dialog").close();
-    render();
-    if (ok) toast("Perfil actualizado.");
+    const bio = String(f.get("bio")).trim(), apply = () => {
+      state.profile = { ...state.profile, name, handle, bio };
+      const ok = persist();
+      $("#profile-dialog").close();
+      render();
+      if (ok) toast("Perfil actualizado.");
+    };
+    if (!cloud.user || handle === state.profile.handle) return apply();
+    if (handleProblem(handle)) return toast(handleProblem(handle));
+    handleTaken(handle).then((taken) => taken ? toast(`@${handle} ya est\xE1 cogido. Prueba otro.`) : apply(), () => toast("No se pudo comprobar el @usuario. Int\xE9ntalo de nuevo."));
   }
 });
 $("#avatar-input").addEventListener("change", async (ev) => {
@@ -22181,7 +22202,7 @@ function afterRender() {
   setupFolds();
   if (renderedPage !== page) {
     const v = $("#view");
-    if (!reducedMotion()) v.animate([{ opacity: 0.25, transform: "translateY(5px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 150, easing: "ease-out" });
+    if (!reducedMotion() && !document.documentElement.classList.contains("vt-page")) v.animate([{ opacity: 0.25, transform: "translateY(5px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 150, easing: "ease-out" });
     renderedPage = page;
     $(".topbar").classList.remove("header-hidden");
     scrollAnchor = window.scrollY;
@@ -22387,7 +22408,7 @@ function syncInvite() {
   } catch {
   }
   if (cloud.user || dismissed) return "";
-  return `<section class="sync-invite"><span class="sync-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.1 9.2 4.5 4.5 0 0 0 7 18Z"/><path d="m9.5 13.5 2 2 3.5-4"/></svg></span><div><strong>Guarda tus recuerdos en la nube</strong><small>Crea una cuenta gratis para no perder tu diario y seguir a tus amigos.</small></div><div class="sync-actions">${googleButton(true)}<button class="button" data-cloud="login">Crear cuenta</button><button class="text-button" data-action="dismiss-notice">Ahora no</button></div></section>`;
+  return `<section class="sync-invite"><span class="sync-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.1 9.2 4.5 4.5 0 0 0 7 18Z"/><path d="m9.5 13.5 2 2 3.5-4"/></svg></span><div><strong>Guarda tus recuerdos en la nube</strong><small>Crea una cuenta gratis para no perder tu diario y seguir a tus amigos.</small></div><div class="sync-actions">${googleButton(true)}<button class="button" data-cloud="signup">Crear cuenta</button><button class="text-button" data-action="dismiss-notice">Ahora no</button></div></section>`;
 }
 function lsGet(k) {
   try {
@@ -22457,7 +22478,7 @@ function maybeAccountNudge() {
     }, 0));
   }
   const posters = state.entries.filter((e) => e.status === "watched").slice(-3).map((e) => CATALOG.find((m) => m.id === e.id)).filter((m) => m?.poster);
-  d.innerHTML = `<div class="nudge"><div class="nudge-stack" aria-hidden="true">${posters.map((m) => `<img src="${esc(m.poster)}" alt="" referrerpolicy="no-referrer">`).join("")}</div><h2 id="nudge-title">Ya tienes ${watchedCount()} recuerdos</h2><p>Ahora mismo solo viven en este m\xF3vil. Gu\xE1rdalos en tu cuenta para no perderlos si cambias de tel\xE9fono.</p>${googleButton(true)}<button class="button" type="button" data-cloud="login">Crear cuenta con correo</button><button class="text-button nudge-later" type="button" data-nudge-close>Ahora no</button></div>`;
+  d.innerHTML = `<div class="nudge"><div class="nudge-stack" aria-hidden="true">${posters.map((m) => `<img src="${esc(m.poster)}" alt="" referrerpolicy="no-referrer">`).join("")}</div><h2 id="nudge-title">Ya tienes ${watchedCount()} recuerdos</h2><p>Ahora mismo solo viven en este m\xF3vil. Gu\xE1rdalos en tu cuenta para no perderlos si cambias de tel\xE9fono.</p>${googleButton(true)}<button class="button" type="button" data-cloud="signup">Crear cuenta con correo</button><button class="text-button nudge-later" type="button" data-nudge-close>Ahora no</button></div>`;
   d.showModal();
   refreshGoogleButtons();
 }
@@ -22475,7 +22496,7 @@ function backupCard() {
 }
 function socialGate() {
   const people = CATALOG.filter((m) => m.poster).slice(0, 3);
-  return `<section class="social-gate"><div class="gate-avatars" aria-hidden="true">${["#8fd3ff", "#ffc34d", "#6fe0b5"].map((c, i) => `<span style="--c:${c}"><img src="${esc(people[i]?.poster || "")}" alt="" referrerpolicy="no-referrer"></span>`).join("")}</div><h1>El cine se comparte</h1><p>Sigue a tus amigos, mira qu\xE9 sintieron con cada pel\xEDcula y m\xE1ndales un \xABMe llega\xBB. Para eso necesitas una cuenta.</p><div class="gate-actions">${googleButton(true)}<button class="button" data-cloud="login">Crear cuenta con correo</button></div><small>Tu diario sigue funcionando sin cuenta.</small></section>`;
+  return `<section class="social-gate"><div class="gate-avatars" aria-hidden="true">${["#8fd3ff", "#ffc34d", "#6fe0b5"].map((c, i) => `<span style="--c:${c}"><img src="${esc(people[i]?.poster || "")}" alt="" referrerpolicy="no-referrer"></span>`).join("")}</div><h1>El cine se comparte</h1><p>Sigue a tus amigos, mira qu\xE9 sintieron con cada pel\xEDcula y m\xE1ndales un \xABMe llega\xBB. Para eso necesitas una cuenta.</p><div class="gate-actions">${googleButton(true)}<button class="button" data-cloud="signup">Crear cuenta con correo</button></div><small>Tu diario sigue funcionando sin cuenta.</small></section>`;
 }
 function refreshHitTest() {
   const v = $("#view");
@@ -22496,7 +22517,7 @@ function maybeWelcome() {
     seen = !!localStorage.getItem("plano-onboarded");
   } catch {
   }
-  if (seen || cloud.user || state.entries.length || state.favorites.length) return;
+  if (seen || cloud.user || state.entries.length || state.favorites.length || lsGet("sb-zvipbuytpdoyglbkzsyb-auth-token") || document.querySelector("dialog[open]")) return;
   let d = $("#welcome-dialog");
   if (!d) {
     d = document.createElement("dialog");
@@ -22546,7 +22567,10 @@ function maybeWelcome() {
       const n = Number(d.dataset.step) + 1;
       if (n === 3) {
         const name = $("#welcome-name").value.trim();
-        if (name) state.profile.name = name;
+        if (name) {
+          state.profile.name = name;
+          persist();
+        }
       }
       return step(n);
     }
@@ -22666,7 +22690,7 @@ function writeCache() {
 function cloudMessage(error) {
   const msg = error?.message || "";
   if (msg.includes("sync_conflict")) return "Hay cambios de otro dispositivo. Exporta tu copia y carga la versi\xF3n de tu cuenta antes de continuar.";
-  if (error?.code === "23505") return "Ese @usuario ya est\xE1 ocupado. Elige otro en tu perfil.";
+  if (error?.code === "23505") return "Ese @usuario ya est\xE1 cogido. Prueba otro.";
   if (msg.includes("Invalid login")) return "Correo o contrase\xF1a incorrectos.";
   if (msg.includes("Email not confirmed")) return "Confirma tu correo antes de entrar.";
   if (msg.includes("rate limit")) return "Demasiados intentos. Espera un momento y vuelve a probar.";
@@ -22763,7 +22787,7 @@ async function loadAccount(user) {
   if (!user) {
     try {
       const guest = JSON.parse(localStorage.getItem(KEY) || "null");
-      if (guest?.version === 1) state = { ...emptyState(), ...guest, entries: normalizeEntries(guest.entries).entries };
+      if (guest?.version === 1) state = { ...emptyState(), ...guest, entries: normalizeEntries(guest.entries).entries, favorites: normalizeFavorites(guest.favorites) };
     } catch {
     }
     cloud.ready = true;
@@ -22773,11 +22797,9 @@ async function loadAccount(user) {
   try {
     let { data: profile2, error } = await db.from("profiles").select("*").eq("id", user.id).maybeSingle();
     if (error) throw error;
-    if (!profile2) {
-      profile2 = { id: user.id, handle: "plano_" + user.id.replaceAll("-", "").slice(0, 16), name: String(user.user_metadata?.name || "Tu perfil").slice(0, 80), bio: "", avatar_url: "", favorites: [] };
-      const created = await db.from("profiles").insert(profile2).select().single();
-      if (created.error) throw created.error;
-      profile2 = created.data;
+    if (!profile2 || PLACEHOLDER_HANDLE.test(profile2.handle)) {
+      profile2 = await ensureHandle(user, profile2, generation);
+      if (!profile2) return;
     }
     const results = await Promise.all([allRows(() => db.from("journal").select("*").eq("user_id", user.id).order("title_id")), allRows(() => db.from("journal_private").select("*").eq("user_id", user.id).order("title_id")), db.from("sync_versions").select("revision").eq("user_id", user.id).maybeSingle(), allRows(() => db.from("follows").select("following_id").eq("follower_id", user.id).order("following_id"))]);
     for (const r of results) if (r.error) throw r.error;
@@ -22785,10 +22807,10 @@ async function loadAccount(user) {
     addCloudTitles([...profile2.favorite_titles || [], ...results[0].data]);
     const priv = new Map(results[1].data.map((x) => [x.title_id, x.companion]));
     cloud.revision = Number(results[2].data?.revision || 0);
-    state = { ...emptyState(), profile: { name: profile2.name, handle: profile2.handle, bio: profile2.bio, avatar: profile2.avatar_url }, favorites: profile2.favorites.filter((id) => CATALOG.some((m) => m.id === id)), entries: results[0].data.map((r) => asEntry(r, priv.get(r.title_id) || "")), following: results[3].data.map((x) => x.following_id) };
+    state = { ...emptyState(), profile: { name: profile2.name, handle: profile2.handle, bio: profile2.bio, avatar: profile2.avatar_url }, favorites: normalizeFavorites(profile2.favorites), entries: results[0].data.map((r) => asEntry(r, priv.get(r.title_id) || "")), following: results[3].data.map((x) => x.following_id) };
     const cached = JSON.parse(localStorage.getItem(cacheKey()) || "null");
     if (cached?.pending) {
-      state = cached.state;
+      state = { ...emptyState(), ...cached.state, entries: normalizeEntries(cached.state?.entries || []).entries, favorites: normalizeFavorites(cached.state?.favorites) };
       cloud.pending = true;
       if (Number(cached.revision) !== cloud.revision) cloud.error = "Hay cambios de otro dispositivo. Exporta esta copia local antes de cargar tu cuenta.";
       cloud.revision = Number(cached.revision);
@@ -22817,12 +22839,139 @@ async function loadAccount(user) {
     render();
   }
 }
-function authDialog(recovery = false) {
-  const d = $("#auth-dialog");
-  d.innerHTML = `<div class="dialog-head"><h2>${recovery ? "Nueva contrase\xF1a" : "Tu diario, contigo"}</h2><button type="button" class="icon-button" data-close aria-label="Cerrar">\xD7</button></div><form id="auth-form" class="dialog-body" data-recovery="${recovery}">${recovery ? "" : `${googleButton()}<label class="field"><span>Correo electr\xF3nico</span><input type="email" name="email" autocomplete="email" required></label>`}<label class="field"><span>Contrase\xF1a \xB7 m\xEDnimo 8 caracteres</span><input type="password" name="password" autocomplete="${recovery ? "new-password" : "current-password"}" minlength="8" required></label><p class="muted">Tu perfil, colecci\xF3n y rese\xF1as ser\xE1n p\xFAblicos. \xABCon qui\xE9n la viste\xBB solo lo ves t\xFA.</p><p id="auth-error" role="status"></p><div class="account-actions"><button class="button" type="submit" name="mode" value="${recovery ? "recovery" : "login"}">${recovery ? "Guardar contrase\xF1a" : "Entrar"}</button>${recovery ? "" : '<button class="button secondary" type="submit" name="mode" value="signup">Crear cuenta</button>'}</div>${recovery ? "" : '<button class="text-button" type="button" data-cloud="recover">He olvidado mi contrase\xF1a</button>'}</form>`;
-  d.showModal();
+function authDialog(recovery = false, mode = "login") {
+  const d = $("#auth-dialog"), signup = !recovery && mode === "signup";
+  d.innerHTML = `<div class="dialog-head"><h2>${recovery ? "Nueva contrase\xF1a" : signup ? "Crea tu cuenta" : "Tu diario, contigo"}</h2><button type="button" class="icon-button" data-close aria-label="Cerrar">\xD7</button></div><form id="auth-form" class="dialog-body" data-recovery="${recovery}" data-mode="${signup ? "signup" : "login"}">${recovery ? "" : `<div class="auth-tabs" role="tablist" aria-label="Acceso"><button type="button" role="tab" aria-selected="${!signup}" data-auth-mode="login">Entrar</button><button type="button" role="tab" aria-selected="${signup}" data-auth-mode="signup">Crear cuenta</button></div>${googleButton()}`}${signup ? `<label class="field"><span>Tu nombre</span><input name="name" autocomplete="name" maxlength="80" required></label>${handleField("")}` : ""}${recovery ? "" : `<label class="field"><span>Correo electr\xF3nico</span><input type="email" name="email" autocomplete="email" required></label>`}<label class="field"><span>Contrase\xF1a \xB7 m\xEDnimo 8 caracteres</span><input type="password" name="password" autocomplete="${recovery || signup ? "new-password" : "current-password"}" minlength="8" required></label>${signup ? '<p class="muted">Tu perfil, colecci\xF3n y rese\xF1as ser\xE1n p\xFAblicos. \xABCon qui\xE9n la viste\xBB solo lo ves t\xFA.</p>' : ""}<p id="auth-error" role="status"></p><div class="account-actions"><button class="button" type="submit" name="mode" value="${recovery ? "recovery" : signup ? "signup" : "login"}">${recovery ? "Guardar contrase\xF1a" : signup ? "Crear cuenta" : "Entrar"}</button></div>${recovery || signup ? "" : '<button class="text-button" type="button" data-cloud="recover">He olvidado mi contrase\xF1a</button>'}</form>`;
+  if (!d.open) d.showModal();
   if (!recovery) refreshGoogleButtons();
+  d.querySelector(signup ? "[name=name]" : "[name=email]")?.focus();
 }
+var PLACEHOLDER_HANDLE = /^plano_[0-9a-f]{16}$/;
+function cleanHandle(v) {
+  return plain(v).replace(/^@+/, "").replace(/[\s.-]+/g, "_").replace(/[^a-z0-9_]/g, "").slice(0, 30);
+}
+function handleProblem(h) {
+  if (!h) return "Elige un @usuario.";
+  if (h.length < 3) return "M\xEDnimo 3 caracteres.";
+  if (!/^[a-z0-9_]{3,30}$/.test(h)) return "Solo letras, n\xFAmeros y _.";
+  if (PLACEHOLDER_HANDLE.test(h) || /^plano_?$/.test(h)) return "Ese nombre est\xE1 reservado.";
+  return "";
+}
+async function handleTaken(h, ownId = cloud.user?.id) {
+  const r = await db.from("profiles").select("id").eq("handle", h).maybeSingle();
+  if (r.error) throw r.error;
+  return !!r.data && r.data.id !== ownId;
+}
+function handleField(value) {
+  return `<label class="field handle-field"><span>Nombre de usuario</span><span class="handle-input"><b aria-hidden="true">@</b><input name="handle" value="${esc(value)}" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="30" required aria-describedby="handle-status" placeholder="tu_usuario"></span><small id="handle-status" class="handle-status" aria-live="polite">Es c\xF3mo te encontrar\xE1n tus amigos. Letras, n\xFAmeros y _.</small></label>`;
+}
+var handleTimer = 0, handleSeq = 0;
+function checkHandleInput(input) {
+  const h = cleanHandle(input.value), status = input.closest("form").querySelector(".handle-status"), seq = ++handleSeq;
+  if (input.value !== h) input.value = h;
+  clearTimeout(handleTimer);
+  const problem = handleProblem(h);
+  status.dataset.state = problem ? "bad" : "checking";
+  status.textContent = problem || "Comprobando…";
+  if (problem) return;
+  handleTimer = setTimeout(async () => {
+    try {
+      const taken = await handleTaken(h);
+      if (seq !== handleSeq) return;
+      status.dataset.state = taken ? "bad" : "ok";
+      status.textContent = taken ? `@${h} ya est\xE1 cogido. Prueba otro.` : `✓ @${h} est\xE1 libre`;
+    } catch {
+      if (seq !== handleSeq) return;
+      status.dataset.state = "";
+      status.textContent = "No se pudo comprobar ahora. Lo comprobaremos al guardar.";
+    }
+  }, 350);
+}
+document.addEventListener("input", (ev) => {
+  if (ev.target.matches(".handle-field input[name=handle]")) checkHandleInput(ev.target);
+});
+function handleSuggestions(name, email) {
+  const base = cleanHandle(name).replace(/^_+|_+$/g, ""), parts = base.split("_").filter(Boolean), mail = cleanHandle(String(email || "").split("@")[0]);
+  const year = String((/* @__PURE__ */ new Date()).getFullYear()).slice(2);
+  return [...new Set([parts.join("_"), parts.join(""), parts[0] && parts[1] ? parts[0] + parts[1][0] : "", mail, parts[0] ? parts[0] + "_cine" : "", parts[0] ? parts[0] + year : ""].map((x) => x.slice(0, 30)).filter((x) => !handleProblem(x)))].slice(0, 4);
+}
+function ensureHandle(user, existing, generation) {
+  return new Promise((resolve) => {
+    const meta = user.user_metadata || {}, wanted = cleanHandle(meta.handle || ""), name = String(existing?.name && existing.name !== "Tu perfil" ? existing.name : meta.name || meta.full_name || "").slice(0, 80);
+    const save = async (handle, displayName) => {
+      if (existing) {
+        const r = await db.from("profiles").update({ handle, name: displayName }).eq("id", user.id).select().single();
+        if (r.error) throw r.error;
+        return r.data;
+      }
+      const r = await db.from("profiles").insert({ id: user.id, handle, name: displayName, bio: "", avatar_url: "", favorites: [] }).select().single();
+      if (r.error) throw r.error;
+      return r.data;
+    };
+    (async () => {
+      if (!existing && wanted && !handleProblem(wanted) && name) {
+        try {
+          return resolve(await save(wanted, name));
+        } catch {
+        }
+      }
+      if (generation !== cloud.generation) return resolve(null);
+      let d = $("#handle-dialog");
+      if (!d) {
+        d = document.createElement("dialog");
+        d.id = "handle-dialog";
+        d.setAttribute("aria-labelledby", "handle-title");
+        document.body.append(d);
+        d.addEventListener("cancel", (ev) => ev.preventDefault());
+      }
+      const tips = handleSuggestions(name, user.email);
+      d.innerHTML = `<form class="dialog-body handle-form" id="handle-form"><span class="handle-badge" aria-hidden="true">@</span><h2 id="handle-title">${existing ? "Elige tu nombre de usuario" : "Un \xFAltimo paso"}</h2><p class="muted">${existing ? "Tu cuenta tiene un @usuario provisional. Elige el tuyo para que tus amigos te encuentren." : "Elige c\xF3mo te ver\xE1n y te encontrar\xE1n tus amigos en Plano."}</p><label class="field"><span>Tu nombre</span><input name="name" value="${esc(name)}" autocomplete="name" maxlength="80" required></label>${handleField(wanted)}${tips.length ? `<div class="handle-tips" aria-label="Sugerencias">${tips.map((t) => `<button type="button" class="filter" data-handle-tip="${esc(t)}">@${esc(t)}</button>`).join("")}</div>` : ""}<p id="handle-error" role="alert"></p><button class="button" type="submit">Guardar y entrar</button><button class="text-button" type="button" data-handle-logout>Usar otra cuenta</button></form>`;
+      if (!d.open) d.showModal();
+      const input = d.querySelector("[name=handle]");
+      if (wanted) checkHandleInput(input);
+      (name ? input : d.querySelector("[name=name]")).focus();
+      d.onclick = (ev) => {
+        const tip = ev.target.closest("[data-handle-tip]");
+        if (tip) {
+          input.value = tip.dataset.handleTip;
+          checkHandleInput(input);
+          input.focus();
+        }
+        if (ev.target.closest("[data-handle-logout]")) {
+          d.close();
+          resolve(null);
+          db.auth.signOut();
+        }
+      };
+      d.querySelector("form").onsubmit = async (ev) => {
+        ev.preventDefault();
+        const form = ev.target, error = form.querySelector("#handle-error"), button = form.querySelector("[type=submit]");
+        const handle = cleanHandle(form.elements.handle.value), displayName = String(form.elements.name.value).trim().slice(0, 80);
+        const problem = !displayName ? "Escribe tu nombre." : handleProblem(handle);
+        if (problem) return error.textContent = problem;
+        button.disabled = true;
+        error.textContent = "";
+        try {
+          if (await handleTaken(handle, user.id)) {
+            error.textContent = `@${handle} ya est\xE1 cogido. Prueba otro.`;
+            return;
+          }
+          const row = await save(handle, displayName);
+          d.close();
+          resolve(row);
+        } catch (e) {
+          error.textContent = e?.code === "23505" ? `@${handle} ya est\xE1 cogido. Prueba otro.` : cloudMessage(e);
+        } finally {
+          button.disabled = false;
+        }
+      };
+    })();
+  });
+}
+document.addEventListener("click", (ev) => {
+  const b = ev.target.closest?.("[data-auth-mode]");
+  if (b) authDialog(false, b.dataset.authMode);
+});
 async function loadCommunity(search = "") {
   cloud.busy = true;
   cloud.communityError = "";
@@ -22871,27 +23020,69 @@ function social() {
   return `<div class="page-heading"><h1>El cine se comparte.</h1><p>Encuentra a tus amigos por su @usuario.</p></div><form id="people-search" class="account-actions"><input name="handle" aria-label="Buscar usuario" placeholder="@usuario" maxlength="30"><button class="button">Buscar</button></form><div class="toolbar"><div class="filters"><button class="filter ${feedMode === "all" ? "active" : ""}" data-cloud-feed="all">Descubrir</button><button class="filter ${feedMode === "following" ? "active" : ""}" data-cloud-feed="following">Siguiendo</button></div><button class="text-button" data-cloud="community">Actualizar</button></div>${cloud.communityError ? `<p role="status">${esc(cloud.communityError)}</p>` : ""}<div class="feed-layout"><section class="feed">${cloud.posts.length ? cloud.posts.map(publicPost).join("") : `<div class="empty"><h3>${cloud.busy ? "Cargando comunidad\u2026" : "Todav\xEDa no hay actividad"}</h3><p>Las historias compartidas aparecer\xE1n aqu\xED.</p></div>`}</section><aside class="panel"><h3>Personas</h3>${cloud.profiles.map((p) => `<div class="friend">${realAvatar(p)}<button class="person-link" data-cloud-profile="${p.id}">${esc(p.name)}<small>@${esc(p.handle)}</small></button>${followButton(p)}</div>`).join("") || '<p class="muted">No hay perfiles para esta b\xFAsqueda.</p>'}</aside></div>`;
 }
 async function openPublicProfile(id) {
-  try {
-    const [p, e] = await Promise.all([db.from("profiles").select("*").eq("id", id).single(), db.from("journal").select("*").eq("user_id", id).order("updated_at", { ascending: false }).limit(100)]);
-    if (p.error || e.error) throw p.error || e.error;
-    cloud.friend = p.data;
-    cloud.friendEntries = e.data;
-    addCloudTitles([...p.data.favorite_titles || [], ...e.data]);
-    friendId = id;
-    page = "friend";
+  if (id === cloud.user?.id) return navigate("profile");
+  const generation = ++friendGeneration;
+  cloud.friend = cloud.friend?.id === id ? cloud.friend : null;
+  friendId = id;
+  friendTab = "diary";
+  page = "friend";
+  pageTransition(() => {
     render();
     window.scrollTo(0, 0);
-  } catch (e) {
-    toast(cloudMessage(e));
+  });
+  try {
+    const count = (column) => db.from("follows").select("follower_id", { count: "exact", head: true }).eq(column, id);
+    const [p, e, followers, following] = await Promise.all([db.from("profiles").select("*").eq("id", id).single(), db.from("journal").select("*").eq("user_id", id).order("updated_at", { ascending: false }).limit(300), count("following_id"), count("follower_id")]);
+    for (const r of [p, e, followers, following]) if (r.error) throw r.error;
+    if (generation !== friendGeneration) return;
+    cloud.friend = { ...p.data, followers: followers.count || 0, followingCount: following.count || 0 };
+    cloud.friendEntries = e.data;
+    addCloudTitles([...p.data.favorite_titles || [], ...e.data]);
+    if (page === "friend" && friendId === id) render();
+  } catch (err) {
+    if (generation !== friendGeneration) return;
+    toast(cloudMessage(err));
+    if (page === "friend" && !cloud.friend) navigate("social");
   }
+}
+function friendAvatar(p) {
+  const url = p.avatar_url && p.avatar_url.startsWith(SUPABASE_URL + "/storage/v1/object/public/avatars/") ? p.avatar_url : "";
+  return url ? `<img src="${esc(url)}" alt="">` : `<span>${esc((p.name || p.handle || "P").slice(0, 2).toUpperCase())}</span>`;
+}
+function tasteMatch(rows) {
+  const mine = new Map(state.entries.filter((e) => e.status === "watched").map((e) => [e.id, e]));
+  const common = rows.filter((r) => r.status === "watched" && mine.has(r.title_id));
+  const rated = common.filter((r) => r.rating && mine.get(r.title_id).rating);
+  if (!common.length) return { common, score: null };
+  let score;
+  if (rated.length) score = Math.round(rated.reduce((a, r) => a + (1 - Math.abs(r.rating - mine.get(r.title_id).rating) / 9), 0) / rated.length * 100);
+  else score = Math.round(common.filter((r) => (r.emotions || []).some((em) => mine.get(r.title_id).emotions?.includes(em))).length / common.length * 60 + 40);
+  return { common, score };
+}
+function friendDiaryItem(r) {
+  const m = CATALOG.find((x) => x.id === r.title_id), likes = cloud.reactions.filter((x) => x.owner_id === r.user_id && x.title_id === r.title_id), liked = likes.some((x) => x.user_id === cloud.user?.id), mine = entry(r.title_id);
+  return `<article class="fp-item" style="${emotionStyle(r.status === "planned" ? null : r.emotions?.[0])}"><button type="button" class="fp-poster" data-film="${esc(r.title_id)}" aria-label="Abrir ${esc(r.title)}">${m ? image(m) : ""}</button><div class="fp-item-copy"><button type="button" class="fp-item-title" data-film="${esc(r.title_id)}">${esc(r.title)}</button><small>${r.status === "watched" && r.watched_at ? relativeDate(r.watched_at) + " \xB7 " : ""}${LABELS[r.status]}${mine ? ` \xB7 <span class="fp-mine">En tu diario${mine.rating ? " ★ " + mine.rating : ""}</span>` : ""}</small>${r.status !== "planned" ? `<div class="diary-meta">${r.rating ? `<span class="score">★ ${r.rating}</span>` : ""}${emotionLabel(r.emotions?.[0])}</div>${r.review ? `<p class="fp-quote">“${esc(r.review)}”</p>` : ""}<button class="reaction ${liked ? "active" : ""}" data-cloud-like="${r.user_id}" data-title-id="${esc(r.title_id)}" aria-pressed="${liked}"><span class="plano-reaction-icon" aria-hidden="true">${liked ? "♥" : "♡"}</span> Me llega \xB7 <span class="plano-reaction-count">${likes.length}</span></button>` : ""}</div></article>`;
 }
 function friendProfile() {
   const p = cloud.friend;
-  if (!p) return social();
-  return `<div class="friend-profile"><button class="text-button friend-back" data-page="social">\u2190 Volver a Amigos</button><div class="profile-cover"><img class="cover-image" src="${PROFILE_COVER}" alt="Monta\xF1as"></div><section class="profile-identity"><div class="profile-avatar">${realAvatar(p)}</div><h1>${esc(p.name)}</h1><p>@${esc(p.handle)}</p></section><p class="profile-bio">${esc(p.bio)}</p><div class="friend-follow">${followButton(p)}</div><section class="profile-section"><h2>Favoritos</h2><div class="favorite-grid">${p.favorites.map((id) => CATALOG.find((m) => m.id === id)).filter(Boolean).map(card).join("")}</div></section><section class="feed profile-section"><h2>Su diario</h2>${cloud.friendEntries.map(publicPost).join("") || '<p class="muted">Todav\xEDa no ha guardado t\xEDtulos.</p>'}</section></div>`;
+  if (!p || p.id !== friendId) return `<div class="fp" aria-busy="true"><button class="text-button friend-back" data-page="social">← Amigos</button><div class="fp-hero"><div class="fp-avatar skeleton"></div><div class="skeleton fp-sk-line"></div><div class="skeleton fp-sk-line short"></div></div><div class="fp-stats">${'<div class="skeleton fp-sk-stat"></div>'.repeat(4)}</div><p class="sr-only" role="status">Cargando perfil…</p></div>`;
+  const rows = cloud.friendEntries, watched = rows.filter((r) => r.status === "watched"), planned = rows.filter((r) => r.status !== "watched");
+  const rated = watched.filter((r) => r.rating), avg = rated.length ? (rated.reduce((a, r) => a + r.rating, 0) / rated.length).toFixed(1) : "—";
+  const emotions = {};
+  watched.forEach((r) => (r.emotions || []).forEach((em, i) => emotions[em] = (emotions[em] || 0) + (i ? 1 : 2)));
+  const total = Object.values(emotions).reduce((a, n) => a + n, 0), palette = Object.entries(emotions).sort((a, b) => b[1] - a[1]);
+  const favs = (p.favorites || []).map((id) => CATALOG.find((m) => m.id === canonicalId(id))).filter(Boolean);
+  const cover = favs[0]?.poster || watched.map((r) => CATALOG.find((m) => m.id === r.title_id)?.poster).find(Boolean) || "";
+  const match = cloud.user ? tasteMatch(rows) : { common: [], score: null };
+  const discover = watched.filter((r) => (r.rating || 0) >= 8 && !entry(r.title_id)).slice(0, 10).map((r) => CATALOG.find((m) => m.id === r.title_id)).filter(Boolean);
+  const following = state.following.includes(p.id), first = esc((p.name || "").split(" ")[0] || "@" + p.handle);
+  const list = friendTab === "planned" ? planned : friendTab === "common" ? match.common : watched;
+  const empty = { diary: `${first} todav\xEDa no ha guardado recuerdos.`, planned: "No tiene pendientes.", common: "Todav\xEDa no hab\xE9is visto nada en com\xFAn." }[friendTab];
+  return `<div class="fp"><div class="fp-cover" aria-hidden="true">${cover ? `<img src="${esc(cover)}" alt="" referrerpolicy="no-referrer">` : ""}</div><button class="text-button friend-back" data-page="social">← Amigos</button><section class="fp-hero"><div class="fp-avatar">${friendAvatar(p)}</div><h1>${esc(p.name)}</h1><p class="fp-handle">@${esc(p.handle)}</p>${p.bio ? `<p class="fp-bio">${esc(p.bio)}</p>` : ""}${cloud.user ? `<button class="button ${following ? "secondary" : ""} fp-follow" data-cloud-follow="${p.id}" aria-pressed="${following}">${following ? "✓ Siguiendo" : "Seguir"}</button>` : ""}</section><div class="fp-stats"><div><strong>${watched.length}</strong><small>${watched.length === 1 ? "recuerdo" : "recuerdos"}</small></div><div><strong>${avg}</strong><small>nota media</small></div><div><strong>${p.followers}</strong><small>${p.followers === 1 ? "seguidor" : "seguidores"}</small></div><div><strong>${p.followingCount}</strong><small>siguiendo</small></div></div>${match.score !== null ? `<section class="fp-match" style="--match:${match.score}"><div class="fp-ring" role="img" aria-label="Compatibilidad ${match.score}%"><span>${match.score}%</span></div><div><strong>Compatibilidad de gustos</strong><p>${match.common.length} ${match.common.length === 1 ? "historia" : "historias"} en com\xFAn. ${match.score >= 80 ? "Os entend\xE9is sin spoilers." : match.score >= 60 ? "Buen equipo para una noche de cine." : "Gustos distintos: perfectos para descubrir cosas nuevas."}</p></div></section>` : ""}${palette.length ? `<section class="fp-section"><h2>Su paleta emocional</h2><div class="fp-palette" role="img" aria-label="${palette.map(([em, n]) => `${em} ${Math.round(n / total * 100)}%`).join(", ")}">${palette.map(([em, n]) => `<i style="${emotionStyle(em)};flex:${n}"></i>`).join("")}</div><div class="fp-legend">${palette.slice(0, 3).map(([em, n]) => `<span style="${emotionStyle(em)}"><i class="emotion-dot" aria-hidden="true"></i>${em} \xB7 ${Math.round(n / total * 100)}%</span>`).join("")}</div></section>` : ""}${favs.length ? `<section class="fp-section"><h2>Top ${favs.length === 1 ? "favorito" : "favoritos"}</h2><div class="fp-favs">${favs.map((m, i) => `<button type="button" class="fp-fav" data-film="${m.id}" aria-label="Favorito ${i + 1}: ${esc(m.title)}">${image(m)}<span>${i + 1}</span></button>`).join("")}</div></section>` : ""}${discover.length ? `<section class="fp-section"><h2>Le encant\xF3 y t\xFA no la has visto</h2><div class="fp-discover">${discover.map((m) => `<button type="button" class="fp-disc" data-film="${m.id}">${image(m)}<small>${esc(m.title)}</small></button>`).join("")}</div></section>` : ""}<section class="fp-section"><div class="fp-tabs" role="tablist" aria-label="Contenido del perfil">${[["diary", "Diario", watched.length], ["planned", "Pendientes", planned.length], ...cloud.user ? [["common", "En com\xFAn", match.common.length]] : []].map(([key, label, n]) => `<button type="button" role="tab" aria-selected="${friendTab === key}" data-friend-tab="${key}">${label} <small>${n}</small></button>`).join("")}</div><div class="fp-list" role="tabpanel">${list.map(friendDiaryItem).join("") || `<p class="muted fp-empty">${empty}</p>`}</div></section></div>`;
 }
 async function cloudClick(b) {
   if (b.dataset.cloud === "login") return authDialog();
+  if (b.dataset.cloud === "signup") return authDialog(false, "signup");
   if (b.dataset.cloud === "google") return googleLogin();
   if (b.dataset.cloud === "recover") {
     const email = $("#auth-form [name=email]").value;
@@ -22930,6 +23121,7 @@ async function cloudClick(b) {
     const id = b.dataset.cloudFollow, on = state.following.includes(id), r = on ? await db.from("follows").delete().eq("follower_id", cloud.user.id).eq("following_id", id) : await db.from("follows").insert({ follower_id: cloud.user.id, following_id: id });
     if (r.error) throw r.error;
     state.following = on ? state.following.filter((x) => x !== id) : [...state.following, id];
+    if (cloud.friend?.id === id && Number.isFinite(cloud.friend.followers)) cloud.friend.followers = Math.max(0, cloud.friend.followers + (on ? -1 : 1));
     writeCache();
     render();
     return;
@@ -22958,13 +23150,25 @@ document.addEventListener("submit", async (ev) => {
   }
   if (ev.target.id !== "auth-form") return;
   ev.preventDefault();
-  const f = new FormData(ev.target), mode = ev.submitter.value;
+  const f = new FormData(ev.target), mode = ev.submitter?.value || (ev.target.dataset.recovery === "true" ? "recovery" : ev.target.dataset.mode);
   const buttons = ev.target.querySelectorAll("button");
+  if (mode === "signup") {
+    const handle = cleanHandle(f.get("handle")), name = String(f.get("name") || "").trim();
+    const problem = !name ? "Escribe tu nombre." : handleProblem(handle);
+    if (problem) {
+      $("#auth-error").textContent = problem;
+      return;
+    }
+  }
   buttons.forEach((b) => b.disabled = true);
   try {
     let result;
     if (mode === "recovery") result = await db.auth.updateUser({ password: f.get("password") });
-    else if (mode === "signup") result = await db.auth.signUp({ email: f.get("email"), password: f.get("password"), options: { emailRedirectTo: location.origin } });
+    else if (mode === "signup") {
+      const handle = cleanHandle(f.get("handle"));
+      if (await handleTaken(handle, null)) throw { code: "23505" };
+      result = await db.auth.signUp({ email: f.get("email"), password: f.get("password"), options: { emailRedirectTo: location.origin, data: { handle, name: String(f.get("name")).trim().slice(0, 80) } } });
+    }
     else result = await db.auth.signInWithPassword({ email: f.get("email"), password: f.get("password") });
     if (result.error) throw result.error;
     if (mode === "signup" && !result.data.session) {
@@ -23733,6 +23937,12 @@ function tonightStep(step) {
 document.addEventListener("click", (ev) => {
   const b = ev.target.closest?.("button");
   if (!b) return;
+  if (b.dataset.friendTab) {
+    friendTab = b.dataset.friendTab;
+    render();
+    $(`[data-friend-tab="${friendTab}"]`)?.focus();
+    return;
+  }
   if (b.hasAttribute("data-wrapped")) return openWrapped();
   if (b.hasAttribute("data-tonight")) return openTonight();
   if (b.dataset.diaryView) {
