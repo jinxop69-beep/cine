@@ -722,6 +722,24 @@ body.film-open{overflow:hidden}#detail{width:min(780px,calc(100vw - 40px));heigh
 .lb-card p{font-size:13px;color:var(--muted);margin:0}
 .lb-card .button{flex-shrink:0}
 @media(max-width:520px){.lb-card{flex-direction:column;align-items:flex-start}.lb-card .button{width:100%}}
+/* Plano · pulido de primera vez */
+@keyframes plano-shake{0%,100%{transform:none}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.plano-shake{animation:plano-shake 380ms ease}
+#welcome-name[aria-invalid=true]{border-color:var(--primary)}
+.welcome-search{margin:0 0 6px}
+#welcome-hint{min-height:0;margin:0 0 8px}
+#welcome-hint:empty{display:none}
+.welcome-grid{max-height:min(46dvh,420px);overflow-y:auto;overscroll-behavior:contain}
+.welcome-film img{aspect-ratio:2/3;object-fit:cover;width:100%}
+.welcome-later{display:block;margin:8px auto 0;min-height:40px;font-size:14px}
+.mp-name-add{margin:14px 0 2px;min-height:44px;padding:0 20px;border-radius:999px;border:1px dashed #ffffff40;background:#ffffff08;color:var(--text);font-size:20px;font-weight:800;letter-spacing:-.3px}
+.social-gate-compact{max-width:none;margin:8px 0 24px;padding:22px 20px;border-radius:22px;border:1px solid #ffffff14;background:radial-gradient(120% 90% at 0 0,#e5472f2e,transparent 60%),var(--panel);text-align:left}
+.social-gate-compact h1{margin:0 0 6px;font-size:24px}
+.social-gate-compact p{margin:0 0 16px;font-size:14px}
+.social-gate-compact .gate-actions{display:grid;gap:10px}
+@media(min-width:701px){.social-gate-compact .gate-actions{grid-template-columns:auto auto auto;justify-content:start;align-items:center}}
+.guest-feed-head h2{font-size:20px}
+.guest-feed{display:grid;gap:14px}
 </style>
 </head>
 <body>
