@@ -30,3 +30,12 @@ Todas las animaciones respetan la preferencia de movimiento reducido.
 - `privacidad.html`: política de privacidad y condiciones. **Pendiente**: rellenar responsable y correo de contacto.
 - Perfil → ajustes: cerrar sesión y eliminar cuenta. La eliminación necesita la función de `supabase/migrations/20261016_delete_my_account.sql`.
 - Botón atrás del móvil: cierra ventanas y vuelve a la pestaña anterior.
+
+## App de Android
+
+`android/` contiene la app de Android (Trusted Web Activity): abre https://plano-amber.vercel.app a pantalla completa, sin barra del navegador, y se actualiza sola con la web.
+
+- Paquete: `app.plano.cine` · versión 1.0 (versionCode 1)
+- La web publica la huella de la firma en `/.well-known/assetlinks.json`.
+- Para compilar: crea `android/keystore.properties` con `storeFile`, `storePassword`, `keyAlias` y `keyPassword` (no se sube al repositorio) y ejecuta `gradle assembleRelease bundleRelease` dentro de `android/`.
+- Para publicar una nueva versión en Google Play, sube `versionCode` y `versionName` en `android/app/build.gradle`.
