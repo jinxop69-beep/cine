@@ -22972,7 +22972,7 @@ function cloudMessage(error) {
   return navigator.onLine ? "No se pudo completar la operaci\xF3n. Revisa los datos y vuelve a intentarlo." : "Sin conexi\xF3n. Tus cambios quedan en este dispositivo hasta que puedas sincronizar.";
 }
 function accountMarkup() {
-  return `<section class="account-panel"><div><strong>${cloud.user ? "Tu cuenta de Plano" : "Lleva tu diario contigo"}</strong><small id="sync-status" role="status">${cloud.user ? cloud.error || (!cloud.ready ? "Cargando cuenta\u2026" : cloud.pending ? "Cambios pendientes de sincronizar" : "Colecci\xF3n sincronizada") : "Entra para guardar tu colecci\xF3n y seguir a tus amigos."}</small></div><div class="account-actions">${cloud.user ? `<button class="text-button" data-cloud="sync">Sincronizar</button><button class="text-button" data-cloud="reload">Cargar cuenta</button><button class="text-button" data-cloud="logout">Salir</button>` : '<button class="button" data-cloud="login">Entrar / Crear cuenta</button>'}</div></section>`;
+  return `<section class="account-panel"><div><strong>${cloud.user ? "Tu cuenta de Plano" : "Lleva tu diario contigo"}</strong><small id="sync-status" role="status">${cloud.user ? cloud.error || (!cloud.ready ? "Cargando cuenta\u2026" : cloud.pending ? "Cambios pendientes de sincronizar" : "Colecci\xF3n sincronizada") : "Entra para guardar tu colecci\xF3n y seguir a tus amigos."}</small></div><div class="account-actions">${cloud.user ? `<button class="text-button" data-cloud="sync">Sincronizar</button><button class="text-button" data-cloud="reload">Cargar cuenta</button><button class="text-button" data-cloud="logout">Salir</button>` : '<button class="button" data-cloud="account">Crear cuenta / Entrar</button>'}</div></section>`;
 }
 function sideStatus() {
   const sideText = $("#side-status-text"), sideHelp = $("#side-status-help");
@@ -23067,6 +23067,7 @@ async function loadAccount(user) {
   const generation = ++cloud.generation;
   cloud.booting = false;
   cloud.user = user;
+  if (user) lsSet("plano-has-account", "1");
   cloud.ready = false;
   cloud.pending = false;
   cloud.error = "";
@@ -23139,9 +23140,14 @@ async function loadAccount(user) {
     render();
   }
 }
-function authDialog(recovery = false, mode = "login") {
+function authDialog(recovery = false, mode = "auto", carry = null) {
+  if (mode === "auto") mode = lsGet("plano-has-account") ? "login" : "signup";
   const d = $("#auth-dialog"), signup = !recovery && mode === "signup";
-  d.innerHTML = `<div class="dialog-head"><h2>${recovery ? "Nueva contrase\xF1a" : signup ? "Crea tu cuenta" : "Tu diario, contigo"}</h2><button type="button" class="icon-button" data-close aria-label="Cerrar">${icon("close")}</button></div><form id="auth-form" class="dialog-body" data-recovery="${recovery}" data-mode="${signup ? "signup" : "login"}">${recovery ? "" : `<div class="auth-tabs" role="tablist" aria-label="Acceso"><button type="button" role="tab" aria-selected="${!signup}" data-auth-mode="login">Entrar</button><button type="button" role="tab" aria-selected="${signup}" data-auth-mode="signup">Crear cuenta</button></div>${googleButton()}`}${signup ? `<label class="field"><span>Tu nombre</span><input name="name" autocomplete="name" maxlength="80" required></label>${handleField("")}` : ""}${recovery ? "" : `<label class="field"><span>Correo electr\xF3nico</span><input type="email" name="email" autocomplete="email" required></label>`}<label class="field"><span>Contrase\xF1a \xB7 m\xEDnimo 8 caracteres</span><input type="password" name="password" autocomplete="${recovery || signup ? "new-password" : "current-password"}" minlength="8" required></label>${signup ? '<p class="muted auth-legal">Tu perfil, notas y rese\xF1as ser\xE1n p\xFAblicos. \xABCon qui\xE9n la viste\xBB solo lo ves t\xFA. Al crear la cuenta aceptas las <a href="/privacidad.html#condiciones" target="_blank" rel="noopener">condiciones</a> y la <a href="/privacidad.html" target="_blank" rel="noopener">pol\xEDtica de privacidad</a>.</p>' : ""}<p id="auth-error" role="status"></p><div class="account-actions"><button class="button" type="submit" name="mode" value="${recovery ? "recovery" : signup ? "signup" : "login"}">${recovery ? "Guardar contrase\xF1a" : signup ? "Crear cuenta" : "Entrar"}</button></div>${recovery || signup ? "" : '<button class="text-button" type="button" data-cloud="recover">He olvidado mi contrase\xF1a</button>'}</form>`;
+  d.innerHTML = `<div class="dialog-head"><h2>${recovery ? "Nueva contrase\xF1a" : signup ? "Crea tu cuenta" : "Bienvenido de nuevo"}</h2><button type="button" class="icon-button" data-close aria-label="Cerrar">${icon("close")}</button></div><form id="auth-form" class="dialog-body" data-recovery="${recovery}" data-mode="${signup ? "signup" : "login"}">${recovery ? "" : `<div class="auth-tabs" role="tablist" aria-label="Acceso"><button type="button" role="tab" aria-selected="${signup}" data-auth-mode="signup">Soy nuevo</button><button type="button" role="tab" aria-selected="${!signup}" data-auth-mode="login">Ya tengo cuenta</button></div><p class="auth-lead">${signup ? "Crea tu cuenta gratis en un minuto." : "Entra con el correo y la contrase\xF1a con los que te registraste."}</p>${googleButton()}`}${signup ? `<label class="field"><span>Tu nombre</span><input name="name" autocomplete="name" maxlength="80" required></label>${handleField("")}` : ""}${recovery ? "" : `<label class="field"><span>Correo electr\xF3nico</span><input type="email" name="email" autocomplete="email" required></label>`}<label class="field"><span>Contrase\xF1a \xB7 m\xEDnimo 8 caracteres</span><input type="password" name="password" autocomplete="${recovery || signup ? "new-password" : "current-password"}" minlength="8" required></label>${signup ? '<p class="muted auth-legal">Tu perfil, notas y rese\xF1as ser\xE1n p\xFAblicos. \xABCon qui\xE9n la viste\xBB solo lo ves t\xFA. Al crear la cuenta aceptas las <a href="/privacidad.html#condiciones" target="_blank" rel="noopener">condiciones</a> y la <a href="/privacidad.html" target="_blank" rel="noopener">pol\xEDtica de privacidad</a>.</p>' : ""}<p id="auth-error" role="status"></p><div class="account-actions"><button class="button" type="submit" name="mode" value="${recovery ? "recovery" : signup ? "signup" : "login"}">${recovery ? "Guardar contrase\xF1a" : signup ? "Crear cuenta" : "Entrar"}</button></div>${recovery || signup ? "" : '<button class="text-button" type="button" data-cloud="recover">He olvidado mi contrase\xF1a</button>'}</form>`;
+  if (carry) {
+    if (carry.email) d.querySelector("[name=email]").value = carry.email;
+    if (carry.password) d.querySelector("[name=password]").value = carry.password;
+  }
   if (!d.open) d.showModal();
   if (!recovery) refreshGoogleButtons();
   d.querySelector(signup ? "[name=name]" : "[name=email]")?.focus();
@@ -23268,9 +23274,14 @@ function ensureHandle(user, existing, generation) {
     })();
   });
 }
+document.addEventListener("input", (ev) => {
+  if (ev.target.matches?.("#auth-form [name=email]")) ev.target.setCustomValidity(ev.target.value && !ev.target.value.includes("@") ? "Escribe tu correo electr\xF3nico (no tu @usuario)." : "");
+});
 document.addEventListener("click", (ev) => {
   const b = ev.target.closest?.("[data-auth-mode]");
-  if (b) authDialog(false, b.dataset.authMode);
+  if (b) authDialog(false, b.dataset.authMode, { email: $("#auth-form [name=email]")?.value, password: $("#auth-form [name=password]")?.value });
+  const c = ev.target.closest?.("[data-auth-switch]");
+  if (c) authDialog(false, "signup", { email: $("#auth-form [name=email]")?.value, password: $("#auth-form [name=password]")?.value });
 });
 async function loadCommunity(search = "") {
   cloud.busy = true;
@@ -23382,7 +23393,8 @@ function friendProfile() {
   return `<div class="fp"><div class="fp-cover" aria-hidden="true">${cover ? `<img src="${esc(cover)}" alt="" referrerpolicy="no-referrer">` : ""}</div><button class="text-button friend-back" data-page="social">← Amigos</button><section class="fp-hero"><div class="fp-avatar">${friendAvatar(p)}</div><h1>${esc(p.name)}</h1><p class="fp-handle">@${esc(p.handle)}</p>${p.bio ? `<p class="fp-bio">${esc(p.bio)}</p>` : ""}${cloud.user ? `<button class="button ${following ? "secondary" : ""} fp-follow" data-cloud-follow="${p.id}" aria-pressed="${following}">${following ? "✓ Siguiendo" : "Seguir"}</button><button type="button" class="button secondary fp-follow fp-duo" data-duo-open>${gl("popcorn")}Plan a d\xFAo</button>` : ""}</section><div class="fp-stats"><div><strong>${watched.length}</strong><small>${watched.length === 1 ? "recuerdo" : "recuerdos"}</small></div><div><strong>${avg}</strong><small>nota media</small></div><div><strong>${p.followers}</strong><small>${p.followers === 1 ? "seguidor" : "seguidores"}</small></div><div><strong>${p.followingCount}</strong><small>siguiendo</small></div></div>${match.score !== null ? `<section class="fp-match" style="--match:${match.score}"><div class="fp-ring" role="img" aria-label="Compatibilidad ${match.score}%"><span>${match.score}%</span></div><div><strong>Compatibilidad de gustos</strong><p>${match.common.length} ${match.common.length === 1 ? "historia" : "historias"} en com\xFAn. ${match.score >= 80 ? "Os entend\xE9is sin spoilers." : match.score >= 60 ? "Buen equipo para una noche de cine." : "Gustos distintos: perfectos para descubrir cosas nuevas."}</p></div></section>` : ""}${palette.length ? `<section class="fp-section"><h2>Su paleta emocional</h2><div class="fp-palette" role="img" aria-label="${palette.map(([em, n]) => `${em} ${Math.round(n / total * 100)}%`).join(", ")}">${palette.map(([em, n]) => `<i style="${emotionStyle(em)};flex:${n}"></i>`).join("")}</div><div class="fp-legend">${palette.slice(0, 3).map(([em, n]) => `<span style="${emotionStyle(em)}"><i class="emotion-dot" aria-hidden="true"></i>${em} \xB7 ${Math.round(n / total * 100)}%</span>`).join("")}</div></section>` : ""}${favs.length ? `<section class="fp-section"><h2>Top ${favs.length === 1 ? "favorito" : "favoritos"}</h2><div class="fp-favs">${favs.map((m, i) => `<button type="button" class="fp-fav" data-film="${m.id}" aria-label="Favorito ${i + 1}: ${esc(m.title)}">${image(m)}<span>${i + 1}</span></button>`).join("")}</div></section>` : ""}${discover.length ? `<section class="fp-section"><h2>Le encant\xF3 y t\xFA no la has visto</h2><div class="fp-discover">${discover.map((m) => `<button type="button" class="fp-disc" data-film="${m.id}">${image(m)}<small>${esc(m.title)}</small></button>`).join("")}</div></section>` : ""}<section class="fp-section"><div class="fp-tabs" role="tablist" aria-label="Contenido del perfil">${[["diary", "Diario", watched.length], ["planned", "Pendientes", planned.length], ...cloud.user ? [["common", "En com\xFAn", match.common.length]] : []].map(([key, label, n]) => `<button type="button" role="tab" aria-selected="${friendTab === key}" data-friend-tab="${key}">${label} <small>${n}</small></button>`).join("")}</div><div class="fp-list" role="tabpanel">${list.map(friendDiaryItem).join("") || `<p class="muted fp-empty">${empty}</p>`}</div></section></div>`;
 }
 async function cloudClick(b) {
-  if (b.dataset.cloud === "login") return authDialog();
+  if (b.dataset.cloud === "login") return authDialog(false, "login");
+  if (b.dataset.cloud === "account") return authDialog();
   if (b.dataset.cloud === "signup") return authDialog(false, "signup");
   if (b.dataset.cloud === "google") return googleLogin();
   if (b.dataset.cloud === "recover") {
@@ -23474,11 +23486,17 @@ document.addEventListener("submit", async (ev) => {
     }
     else result = await db.auth.signInWithPassword({ email: f.get("email"), password: f.get("password") });
     if (result.error) throw result.error;
+    lsSet("plano-has-account", "1");
     if (mode === "signup" && !result.data.session) {
-      $("#auth-error").textContent = "Revisa tu correo para confirmar la cuenta.";
+      ev.target.innerHTML = `<div class="auth-sent">${gl("ticket")}<h3>Revisa tu correo</h3><p>Te hemos enviado un enlace a <b>${esc(String(f.get("email")))}</b>. \xC1brelo y pulsa \xABConfirmar\xBB para activar tu cuenta.</p><p class="muted">Si no lo ves en unos minutos, mira en spam o promociones.</p><button type="button" class="button" data-auth-mode="login">Ya lo he confirmado, entrar</button></div>`;
     } else $("#auth-dialog").close();
   } catch (e) {
-    $("#auth-error").textContent = cloudMessage(e);
+    const msg = String(e?.message || "");
+    if (mode === "login" && msg.includes("Invalid login")) {
+      $("#auth-error").innerHTML = `No hay ninguna cuenta con ese correo y contrase\xF1a. \xBFEs tu primera vez? <button type="button" class="text-button" data-auth-switch>Crear mi cuenta con estos datos</button>`;
+    } else if (mode === "signup" && /already registered|already exists/i.test(msg)) {
+      $("#auth-error").innerHTML = `Ese correo ya tiene cuenta. <button type="button" class="text-button" data-auth-mode="login">Entrar</button>`;
+    } else $("#auth-error").textContent = cloudMessage(e);
   } finally {
     buttons.forEach((b) => b.disabled = false);
   }
