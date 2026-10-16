@@ -21747,7 +21747,7 @@ function render() {
   $("#side-avatar").textContent = state.profile.name[0]?.toUpperCase() || "T";
   sideStatus();
   $("#search").placeholder = page === "collection" ? "Busca en tu diario\u2026" : "Busca tu pr\xF3xima historia\u2026";
-  $("#view").innerHTML = cloud.user && !cloud.ready ? '<div class="empty"><h2>Cargando tu cuenta</h2>' + accountMarkup() + "</div>" : { home, explore, collection, social, stats: yearView, profile, friend: friendProfile }[page]();
+  $("#view").innerHTML = cloud.booting && !cloud.user || cloud.user && !cloud.ready && !cloud.warm ? cloud.error ? '<div class="empty"><h2>No se pudo abrir tu cuenta</h2>' + accountMarkup() + "</div>" : `<div class="boot" role="status"><svg class="boot-logo" viewBox="0 0 100 100" aria-hidden="true"><use href="#plano-mark"/></svg><p>Abriendo tu diario\u2026</p><div class="boot-rail" aria-hidden="true">${'<i></i>'.repeat(5)}</div></div>` : { home, explore, collection, social, stats: yearView, profile, friend: friendProfile }[page]();
   document.querySelectorAll("img").forEach((img) => img.addEventListener("error", () => {
     img.style.visibility = "hidden";
   }, { once: true }));
@@ -22924,7 +22924,13 @@ motionQuery.addEventListener("change", () => {
   if (motionQuery.matches) for (const finish of [...motionCleanups.values()]) finish();
 });
 var db = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { flowType: "pkce", persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
-var cloud = { user: null, ready: false, revision: 0, pending: false, saving: false, error: "", generation: 0, profiles: [], posts: [], reactions: [], friend: null, friendEntries: [], busy: false, communityError: "" };
+var cloud = { booting: (() => {
+  try {
+    return !!localStorage.getItem("sb-zvipbuytpdoyglbkzsyb-auth-token");
+  } catch {
+    return false;
+  }
+})(), warm: false, user: null, ready: false, revision: 0, pending: false, saving: false, error: "", generation: 0, profiles: [], posts: [], reactions: [], friend: null, friendEntries: [], busy: false, communityError: "" };
 var syncTimer;
 var accountTask = Promise.resolve();
 function emptyState() {
@@ -22971,7 +22977,7 @@ function accountMarkup() {
 function sideStatus() {
   const sideText = $("#side-status-text"), sideHelp = $("#side-status-help");
   if (sideText) {
-    sideText.textContent = cloud.user ? cloud.error ? "Revisa la sincronizaci\xF3n" : cloud.pending ? "Sincronizando\u2026" : "Sincronizado" : "En este dispositivo";
+    sideText.textContent = cloud.booting && !cloud.user ? "Conectando\u2026" : cloud.user ? cloud.error ? "Revisa la sincronizaci\xF3n" : cloud.pending ? "Sincronizando\u2026" : "Sincronizado" : "En este dispositivo";
     sideHelp.textContent = cloud.user ? "@" + (state.profile.handle || "") + " \xB7 tu diario est\xE1 en la nube." : "Crea una cuenta para no perder tu diario.";
     $("#side-status").classList.toggle("is-cloud", !!cloud.user);
   }
@@ -23059,11 +23065,23 @@ async function allRows(query2) {
 }
 async function loadAccount(user) {
   const generation = ++cloud.generation;
+  cloud.booting = false;
   cloud.user = user;
   cloud.ready = false;
   cloud.pending = false;
   cloud.error = "";
+  cloud.warm = false;
   state = emptyState();
+  if (user) {
+    try {
+      const cached = JSON.parse(localStorage.getItem(cacheKey()) || "null");
+      if (cached?.state?.profile?.handle) {
+        state = { ...emptyState(), ...cached.state, entries: normalizeEntries(cached.state.entries || []).entries, favorites: normalizeFavorites(cached.state.favorites) };
+        cloud.warm = true;
+      }
+    } catch {
+    }
+  }
   render();
   if (!user) {
     try {
@@ -23097,6 +23115,7 @@ async function loadAccount(user) {
       cloud.revision = Number(cached.revision);
     }
     cloud.ready = true;
+    cloud.warm = false;
     writeCache();
     render();
     if (cloud.pending && !cloud.error) flushCloud();
@@ -23473,6 +23492,11 @@ window.addEventListener("beforeunload", (ev) => {
     ev.returnValue = "";
   }
 });
+setTimeout(() => {
+  if (!cloud.booting) return;
+  cloud.booting = false;
+  render();
+}, 8e3);
 db.auth.onAuthStateChange((event, session) => {
   if (event === "PASSWORD_RECOVERY") {
     setTimeout(() => authDialog(true), 0);
