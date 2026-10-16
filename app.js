@@ -21231,7 +21231,7 @@ function entry(id) {
   return state.entries.find((e) => e.id === id);
 }
 function image(m, cls = "") {
-  if (!m.poster) return "";
+  if (!m?.poster) return "";
   return `<img ${cls ? `class="${cls}"` : ""} src="${esc(m.poster)}" alt="Cartel de ${esc(m.title)}" loading="lazy" referrerpolicy="no-referrer">`;
 }
 function stats() {
@@ -23231,7 +23231,7 @@ function friendProfile() {
   const following = state.following.includes(p.id), first = esc((p.name || "").split(" ")[0] || "@" + p.handle);
   const list = friendTab === "planned" ? planned : friendTab === "common" ? match.common : watched;
   const empty = { diary: `${first} todav\xEDa no ha guardado recuerdos.`, planned: "No tiene pendientes.", common: "Todav\xEDa no hab\xE9is visto nada en com\xFAn." }[friendTab];
-  return `<div class="fp"><div class="fp-cover" aria-hidden="true">${cover ? `<img src="${esc(cover)}" alt="" referrerpolicy="no-referrer">` : ""}</div><button class="text-button friend-back" data-page="social">← Amigos</button><section class="fp-hero"><div class="fp-avatar">${friendAvatar(p)}</div><h1>${esc(p.name)}</h1><p class="fp-handle">@${esc(p.handle)}</p>${p.bio ? `<p class="fp-bio">${esc(p.bio)}</p>` : ""}${cloud.user ? `<button class="button ${following ? "secondary" : ""} fp-follow" data-cloud-follow="${p.id}" aria-pressed="${following}">${following ? "✓ Siguiendo" : "Seguir"}</button>` : ""}</section><div class="fp-stats"><div><strong>${watched.length}</strong><small>${watched.length === 1 ? "recuerdo" : "recuerdos"}</small></div><div><strong>${avg}</strong><small>nota media</small></div><div><strong>${p.followers}</strong><small>${p.followers === 1 ? "seguidor" : "seguidores"}</small></div><div><strong>${p.followingCount}</strong><small>siguiendo</small></div></div>${match.score !== null ? `<section class="fp-match" style="--match:${match.score}"><div class="fp-ring" role="img" aria-label="Compatibilidad ${match.score}%"><span>${match.score}%</span></div><div><strong>Compatibilidad de gustos</strong><p>${match.common.length} ${match.common.length === 1 ? "historia" : "historias"} en com\xFAn. ${match.score >= 80 ? "Os entend\xE9is sin spoilers." : match.score >= 60 ? "Buen equipo para una noche de cine." : "Gustos distintos: perfectos para descubrir cosas nuevas."}</p></div></section>` : ""}${palette.length ? `<section class="fp-section"><h2>Su paleta emocional</h2><div class="fp-palette" role="img" aria-label="${palette.map(([em, n]) => `${em} ${Math.round(n / total * 100)}%`).join(", ")}">${palette.map(([em, n]) => `<i style="${emotionStyle(em)};flex:${n}"></i>`).join("")}</div><div class="fp-legend">${palette.slice(0, 3).map(([em, n]) => `<span style="${emotionStyle(em)}"><i class="emotion-dot" aria-hidden="true"></i>${em} \xB7 ${Math.round(n / total * 100)}%</span>`).join("")}</div></section>` : ""}${favs.length ? `<section class="fp-section"><h2>Top ${favs.length === 1 ? "favorito" : "favoritos"}</h2><div class="fp-favs">${favs.map((m, i) => `<button type="button" class="fp-fav" data-film="${m.id}" aria-label="Favorito ${i + 1}: ${esc(m.title)}">${image(m)}<span>${i + 1}</span></button>`).join("")}</div></section>` : ""}${discover.length ? `<section class="fp-section"><h2>Le encant\xF3 y t\xFA no la has visto</h2><div class="fp-discover">${discover.map((m) => `<button type="button" class="fp-disc" data-film="${m.id}">${image(m)}<small>${esc(m.title)}</small></button>`).join("")}</div></section>` : ""}<section class="fp-section"><div class="fp-tabs" role="tablist" aria-label="Contenido del perfil">${[["diary", "Diario", watched.length], ["planned", "Pendientes", planned.length], ...cloud.user ? [["common", "En com\xFAn", match.common.length]] : []].map(([key, label, n]) => `<button type="button" role="tab" aria-selected="${friendTab === key}" data-friend-tab="${key}">${label} <small>${n}</small></button>`).join("")}</div><div class="fp-list" role="tabpanel">${list.map(friendDiaryItem).join("") || `<p class="muted fp-empty">${empty}</p>`}</div></section></div>`;
+  return `<div class="fp"><div class="fp-cover" aria-hidden="true">${cover ? `<img src="${esc(cover)}" alt="" referrerpolicy="no-referrer">` : ""}</div><button class="text-button friend-back" data-page="social">← Amigos</button><section class="fp-hero"><div class="fp-avatar">${friendAvatar(p)}</div><h1>${esc(p.name)}</h1><p class="fp-handle">@${esc(p.handle)}</p>${p.bio ? `<p class="fp-bio">${esc(p.bio)}</p>` : ""}${cloud.user ? `<button class="button ${following ? "secondary" : ""} fp-follow" data-cloud-follow="${p.id}" aria-pressed="${following}">${following ? "✓ Siguiendo" : "Seguir"}</button><button type="button" class="button secondary fp-follow fp-duo" data-duo-open>🍿 Plan a dúo</button>` : ""}</section><div class="fp-stats"><div><strong>${watched.length}</strong><small>${watched.length === 1 ? "recuerdo" : "recuerdos"}</small></div><div><strong>${avg}</strong><small>nota media</small></div><div><strong>${p.followers}</strong><small>${p.followers === 1 ? "seguidor" : "seguidores"}</small></div><div><strong>${p.followingCount}</strong><small>siguiendo</small></div></div>${match.score !== null ? `<section class="fp-match" style="--match:${match.score}"><div class="fp-ring" role="img" aria-label="Compatibilidad ${match.score}%"><span>${match.score}%</span></div><div><strong>Compatibilidad de gustos</strong><p>${match.common.length} ${match.common.length === 1 ? "historia" : "historias"} en com\xFAn. ${match.score >= 80 ? "Os entend\xE9is sin spoilers." : match.score >= 60 ? "Buen equipo para una noche de cine." : "Gustos distintos: perfectos para descubrir cosas nuevas."}</p></div></section>` : ""}${palette.length ? `<section class="fp-section"><h2>Su paleta emocional</h2><div class="fp-palette" role="img" aria-label="${palette.map(([em, n]) => `${em} ${Math.round(n / total * 100)}%`).join(", ")}">${palette.map(([em, n]) => `<i style="${emotionStyle(em)};flex:${n}"></i>`).join("")}</div><div class="fp-legend">${palette.slice(0, 3).map(([em, n]) => `<span style="${emotionStyle(em)}"><i class="emotion-dot" aria-hidden="true"></i>${em} \xB7 ${Math.round(n / total * 100)}%</span>`).join("")}</div></section>` : ""}${favs.length ? `<section class="fp-section"><h2>Top ${favs.length === 1 ? "favorito" : "favoritos"}</h2><div class="fp-favs">${favs.map((m, i) => `<button type="button" class="fp-fav" data-film="${m.id}" aria-label="Favorito ${i + 1}: ${esc(m.title)}">${image(m)}<span>${i + 1}</span></button>`).join("")}</div></section>` : ""}${discover.length ? `<section class="fp-section"><h2>Le encant\xF3 y t\xFA no la has visto</h2><div class="fp-discover">${discover.map((m) => `<button type="button" class="fp-disc" data-film="${m.id}">${image(m)}<small>${esc(m.title)}</small></button>`).join("")}</div></section>` : ""}<section class="fp-section"><div class="fp-tabs" role="tablist" aria-label="Contenido del perfil">${[["diary", "Diario", watched.length], ["planned", "Pendientes", planned.length], ...cloud.user ? [["common", "En com\xFAn", match.common.length]] : []].map(([key, label, n]) => `<button type="button" role="tab" aria-selected="${friendTab === key}" data-friend-tab="${key}">${label} <small>${n}</small></button>`).join("")}</div><div class="fp-list" role="tabpanel">${list.map(friendDiaryItem).join("") || `<p class="muted fp-empty">${empty}</p>`}</div></section></div>`;
 }
 async function cloudClick(b) {
   if (b.dataset.cloud === "login") return authDialog();
@@ -24173,6 +24173,159 @@ document.addEventListener("click", (ev) => {
     render();
     $(".memory-calendar [data-cal='" + b.dataset.cal + "']:not([disabled])")?.focus();
   }
+});
+var duo = { list: [], shown: [], stats: null, seq: 0 };
+function duoFirst(p) {
+  return (p.name || "").split(" ")[0] || "@" + p.handle;
+}
+function duoCandidates() {
+  const p = cloud.friend, first = duoFirst(p), theirs = new Map(cloud.friendEntries.map((r) => [r.title_id, r])), mine = new Map(state.entries.map((e) => [e.id, e])), out = new Map();
+  const add = (id, score, reason) => {
+    const m = CATALOG.find((x) => x.id === id);
+    if (!m?.poster) return;
+    const t = theirs.get(id), e = mine.get(id);
+    if (t?.status === "watched" && e?.status === "watched") return;
+    const cur = out.get(id);
+    if (cur) {
+      cur.score += score / 4;
+      if (!cur.reasons.includes(reason)) cur.reasons.push(reason);
+    } else out.set(id, { m, score, reasons: [reason] });
+  };
+  for (const [id, t] of theirs) {
+    const e = mine.get(id);
+    if (t.status === "planned" && e?.status === "planned") add(id, 100, "Los dos la ten\xE9is pendiente");
+    else if (t.status === "watched" && (t.rating || 0) >= 8 && e?.status === "planned") add(id, 85, `A ${first} le encant\xF3 (★ ${t.rating}) y est\xE1 en tu lista`);
+    else if (t.status === "planned" && e?.status === "watched" && (e.rating || 0) >= 8) add(id, 70, `T\xFA le diste ★ ${e.rating} y ${first} la tiene pendiente`);
+    else if (t.status === "watched" && (t.rating || 0) >= 8 && !e) add(id, 60, `A ${first} le encant\xF3 y t\xFA a\xFAn no la has visto`);
+    else if (t.status === "planned" && !e) add(id, 35, `${first} la tiene pendiente`);
+  }
+  for (const [id, e] of mine) if (e.status === "planned" && !theirs.has(id)) add(id, 30, "Est\xE1 en tu lista");
+  for (const r of duo.extra) add(r.id, 55, r.reason);
+  return [...out.values()].sort((a, b) => b.score - a.score);
+}
+function duoStats() {
+  const p = cloud.friend, first = duoFirst(p), match = tasteMatch(cloud.friendEntries), mine = new Map(state.entries.map((e) => [e.id, e]));
+  const both = match.common.map((r) => ({ r, e: mine.get(r.title_id), m: CATALOG.find((x) => x.id === r.title_id) })).filter((x) => x.m);
+  const rated = both.filter((x) => x.r.rating && x.e.rating);
+  const unite = rated.filter((x) => x.r.rating >= 7 && x.e.rating >= 7).sort((a, b) => Math.min(b.r.rating, b.e.rating) - Math.min(a.r.rating, a.e.rating))[0];
+  const split = rated.filter((x) => Math.abs(x.r.rating - x.e.rating) >= 3).sort((a, b) => Math.abs(b.r.rating - b.e.rating) - Math.abs(a.r.rating - a.e.rating))[0];
+  const em = {};
+  both.forEach((x) => (x.r.emotions || []).forEach((a) => (x.e.emotions || []).includes(a) && (em[a] = (em[a] || 0) + 1)));
+  const feel = Object.entries(em).sort((a, b) => b[1] - a[1])[0]?.[0] || "";
+  return { first, score: match.score, common: both.length, unite, split, feel };
+}
+function duoDialog() {
+  let d = $("#duo");
+  if (d) return d;
+  d = document.createElement("dialog");
+  d.id = "duo";
+  d.setAttribute("aria-labelledby", "duo-title");
+  document.body.append(d);
+  d.addEventListener("click", (ev) => {
+    if (ev.target === d) return d.close();
+    const b = ev.target.closest("button");
+    if (!b) return;
+    if (b.hasAttribute("data-close")) return d.close();
+    if (b.dataset.film) return d.close();
+    if (b.dataset.duo === "again") return duoPick();
+    if (b.dataset.duo === "share") return duoShare();
+    if (b.dataset.duo === "open") {
+      d.close();
+      openFilmNow(b.dataset.id);
+    }
+  });
+  return d;
+}
+function duoAvatars(p) {
+  const meAvatar = state.profile.avatar ? `<img src="${esc(state.profile.avatar)}" alt="">` : `<span>${esc((state.profile.name || "T\xFA").slice(0, 2).toUpperCase())}</span>`;
+  return `<div class="duo-faces" aria-hidden="true"><div class="fp-avatar">${meAvatar}</div><div class="fp-avatar">${friendAvatar(p)}</div></div>`;
+}
+function openDuo() {
+  const p = cloud.friend;
+  if (!p || !cloud.user) return;
+  duo = { list: [], shown: [], stats: duoStats(), seq: duo.seq + 1, extra: [], current: null };
+  duo.list = duoCandidates();
+  const d = duoDialog(), s = duo.stats;
+  const row = (label, x, text) => x ? `<button type="button" class="duo-fact" data-film="${esc(x.m.id)}">${image(x.m)}<span><small>${label}</small><b>${esc(x.m.title)}</b><em>${text}</em></span></button>` : "";
+  d.innerHTML = `<div class="tn-head"><span class="tonight-kicker">PLAN A D\xDAO</span><button type="button" class="icon-button" data-close aria-label="Cerrar">${icon("close")}</button></div>${duoAvatars(p)}<h2 id="duo-title">T\xFA y ${esc(s.first)}</h2><p class="duo-sub">${s.score !== null ? `<b>${s.score}%</b> compatibles \xB7 ${s.common} ${s.common === 1 ? "historia" : "historias"} en com\xFAn${s.feel ? ` \xB7 a los dos os hace sentir <b>${esc(s.feel.toLowerCase())}</b>` : ""}` : "Todav\xEDa no hab\xE9is visto nada en com\xFAn. Esta puede ser la primera."}</p>${s.unite || s.split ? `<div class="duo-facts">${row("Lo que os une", s.unite, `T\xFA ★ ${s.unite?.e.rating} \xB7 ${esc(s.first)} ★ ${s.unite?.r.rating}`)}${row("Lo que os separa", s.split, `T\xFA ★ ${s.split?.e.rating} \xB7 ${esc(s.first)} ★ ${s.split?.r.rating} \xB7 \xBFdebate?`)}</div>` : ""}<div class="duo-stage" id="duo-stage"></div>`;
+  d.showModal();
+  duoPick();
+  duoMore(duo.seq);
+}
+async function duoMore(seq) {
+  const mine = new Map(state.entries.map((e) => [e.id, e])), loved = cloud.friendEntries.filter((r) => r.status === "watched" && (r.rating || 0) >= 7 && (mine.get(r.title_id)?.rating || 0) >= 7 && /^tmdb:(movie|tv):\d+$/.test(r.title_id)).slice(0, 2);
+  if (!loved.length) return;
+  const seen = new Set([...state.entries.filter((e) => e.status === "watched").map((e) => e.id), ...cloud.friendEntries.filter((r) => r.status === "watched").map((r) => r.title_id)]);
+  try {
+    const results = await Promise.all(loved.map(async (r) => {
+      const [, type, id] = r.title_id.split(":");
+      const data = await requestTMDB(`/${type}/${id}/recommendations`, { page: 1 });
+      return (data.results || []).map((x) => fromTMDB(x, type)).filter((m) => m?.poster && !seen.has(m.id)).slice(0, 6).map((m) => ({ m, reason: `Porque a los dos os gust\xF3 ${r.title}` }));
+    }));
+    if (seq !== duo.seq) return;
+    const flat = results.flat();
+    cacheRemote(flat.map((x) => x.m));
+    duo.extra = flat.map((x) => ({ id: x.m.id, reason: x.reason }));
+    duo.list = duoCandidates();
+    if (!duo.current) duoPick();
+  } catch {
+  }
+}
+function duoPick() {
+  const d = $("#duo"), stage = $("#duo-stage");
+  if (!d || !stage) return;
+  let pool = duo.list.filter((c) => !duo.shown.includes(c.m.id));
+  if (!pool.length && duo.list.length) {
+    duo.shown = [];
+    pool = duo.list;
+  }
+  const top = pool.slice(0, 4), pick = duo.shown.length ? top[Math.floor(Math.random() * top.length)] : top[0];
+  duo.current = pick || null;
+  if (!pick) {
+    stage.innerHTML = `<p class="tn-reason duo-empty">A\xFAn no tengo propuesta para los dos. A\xF1adid t\xEDtulos a pendientes o valorad las que hab\xE9is visto y lo vuelvo a intentar.</p>`;
+    return;
+  }
+  duo.shown.push(pick.m.id);
+  const reel = duo.list.filter((c) => c.m.id !== pick.m.id).map((c) => c.m).sort(() => Math.random() - 0.5).slice(0, 7);
+  stage.innerHTML = `<h3 class="duo-label">Para ver juntos</h3><div class="tn-result"><div class="tn-reel" aria-hidden="true">${[...reel, pick.m].map((m) => `<img src="${esc(m.poster)}" alt="" referrerpolicy="no-referrer">`).join("")}</div><div class="tn-pick"><h3>${esc(pick.m.title)}</h3><p class="muted">${pick.m.type === "movie" ? "Pel\xEDcula" : "Serie"}${pick.m.year ? " \xB7 " + esc(pick.m.year) : ""}</p><ul class="tn-reasons">${pick.reasons.slice(0, 2).map((r) => `<li>${esc(r)}</li>`).join("")}</ul></div></div><div class="tn-actions"><button type="button" class="button" data-duo="share">Proponer plan</button><button type="button" class="button secondary" data-duo="again">Otra</button><button type="button" class="text-button" data-duo="open" data-id="${pick.m.id}">Ver ficha</button></div><p class="sr-only" role="status">Os propongo ${esc(pick.m.title)}.</p>`;
+  posterTint(pick.m.poster).then((tint) => {
+    if (d.open) applyTint(d, tint);
+  });
+  const reelNode = stage.querySelector(".tn-reel"), frames = reelNode.children.length, show = () => stage.querySelector(".tn-pick")?.classList.add("tn-shown");
+  if (motionQuery.matches || frames < 2) {
+    reelNode.lastElementChild.classList.add("on");
+    return show();
+  }
+  let i = 0;
+  const spin = () => {
+    if (!d.open || !reelNode.isConnected) return;
+    [...reelNode.children].forEach((img, k) => img.classList.toggle("on", k === i));
+    buzz(4);
+    if (i < frames - 1) {
+      i++;
+      setTimeout(spin, 70 + i * i * 9);
+    } else {
+      motionOnce(reelNode, "tn-land", 500);
+      show();
+      buzz([10, 40, 16]);
+    }
+  };
+  spin();
+}
+async function duoShare() {
+  const pick = duo.current, s = duo.stats;
+  if (!pick) return;
+  const text = `\xBFVemos ${pick.m.title}${pick.m.year ? ` (${pick.m.year})` : ""} juntos? \u{1F37F}${s.score !== null ? ` Seg\xFAn Plano somos ${s.score}% compatibles.` : ""}`, url = location.origin + "/";
+  try {
+    if (navigator.share) return await navigator.share({ title: "Plan a d\xFAo en Plano", text, url });
+    await navigator.clipboard.writeText(text + " " + url);
+    toast("Plan copiado. P\xE9galo en vuestro chat.");
+  } catch (e) {
+    if (e?.name !== "AbortError") toast("No se pudo compartir el plan.");
+  }
+}
+document.addEventListener("click", (ev) => {
+  if (ev.target.closest?.("[data-duo-open]")) openDuo();
 });
 if (lsGet("plano-diary-view") === "calendar") diaryView = "calendar";
 if (new URLSearchParams(location.search).has("tonight")) setTimeout(() => {

@@ -1,5 +1,5 @@
 // Copia de sw.js: sustituye al antiguo service-worker.js para que los móviles con la versión vieja se actualicen.
-const VERSION = "plano-v5";
+const VERSION = "plano-v6";
 const SHELL = ["/", "/app.js", "/manifest.webmanifest", "/cover.jpg", "/icons/icon-192.png", "/icons/icon-512.png"];
 const POSTERS = "plano-posters";
 const POSTER_LIMIT = 250;
