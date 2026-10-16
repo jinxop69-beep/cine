@@ -557,6 +557,47 @@ body.film-open{overflow:hidden}#detail{width:min(780px,calc(100vw - 40px));heigh
 .gate-actions .button.secondary{background:transparent;border:1px solid var(--line);color:var(--text)}
 @media(min-width:701px){.memory-hero.memory-empty{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:12px;max-width:none;min-height:360px;max-height:400px;padding:44px}.memory-hero.memory-empty .hero-collage{position:absolute;inset:-90px -40px auto 38%;grid-template-columns:repeat(4,1fr);opacity:.8}.memory-hero.memory-empty::after{background:linear-gradient(0deg,#110d0b99,transparent 45%)}.memory-hero.memory-empty::before{content:'';position:absolute;inset:0;z-index:-1;opacity:1;background:linear-gradient(90deg,var(--panel) 32%,color-mix(in srgb,var(--panel) 70%,transparent) 55%,transparent 85%)}.memory-empty h2{font-size:42px;letter-spacing:-1.2px;line-height:1.05;margin:0;max-width:460px}.memory-empty p{max-width:420px;font-size:16px;color:#e6d5c4}.memory-hero.memory-empty .button{margin-top:8px;min-height:48px;padding-inline:26px;width:auto;align-self:flex-start}}
 .side-status{white-space:nowrap;letter-spacing:.3px;font-size:12px}
+/* Plano · tu perfil */
+.mp .fp-cover img{opacity:.6}
+.mp .fp-cover{top:0!important;-webkit-mask-image:linear-gradient(transparent,#000 18%,#000 45%,transparent)!important;mask-image:linear-gradient(transparent,#000 18%,#000 45%,transparent)!important}
+.account-panel+.mp{margin-top:6px}
+.mp.tinted .fp-cover{background:radial-gradient(70% 90% at 50% 0,hsl(var(--tint-h) var(--tint-s) 40%/.55),transparent 70%)}
+.mp-avatar{position:relative;background:conic-gradient(from 200deg,var(--emotion,var(--primary)),var(--emotion-alegria),var(--emotion-tension),var(--emotion,var(--primary)))}
+.mp-edit{position:absolute;right:-2px;bottom:2px;width:36px;height:36px;min-height:36px;border-radius:50%;display:grid;place-items:center;background:var(--primary);color:#14110f;border:3px solid var(--bg)}
+.mp-edit::before,.mp-edit::after{display:none!important}
+.mp-persona{--emotion:var(--accent);display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:6px 14px;border-radius:999px;font-size:13px;font-weight:800;letter-spacing:.2px;color:var(--emotion);background:color-mix(in srgb,var(--emotion) 16%,transparent);border:1px solid color-mix(in srgb,var(--emotion) 45%,transparent)}
+.mp-bio-add{margin-top:8px;min-height:40px;font-size:14px}
+.mp-stat-link{background:none;padding:0;color:inherit;width:100%}
+.mp-actions{display:flex;gap:8px;overflow-x:auto;margin:14px -4px 0;padding:2px 4px 6px;scrollbar-width:none}
+.mp-action{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:14px;font-weight:700;white-space:nowrap}
+.mp-action span{font-size:15px}
+.mp-action-hero{background:linear-gradient(120deg,#e5472f,#c13b8a);border-color:transparent;color:#fff}
+.mp-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px}
+.mp-head h2{margin:0}
+.mp-head .text-button{min-height:40px}
+.mp-persona-text{margin-top:10px;font-size:14px;color:var(--muted);line-height:1.5}
+.mp-badges{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.mp-badge{position:relative;display:grid;justify-items:center;gap:3px;padding:12px 6px 10px;border-radius:16px;border:1px solid var(--line);background:var(--panel);text-align:center;overflow:hidden}
+.mp-badge-icon{font-size:26px;line-height:1.1;filter:grayscale(1);opacity:.35}
+.mp-badge strong{font-size:12px;line-height:1.2;color:var(--muted)}
+.mp-badge small{font-size:11px;color:var(--muted)}
+.mp-badge-bar{position:absolute;left:0;bottom:0;height:3px;width:var(--p);background:var(--accent);opacity:.7}
+.mp-badge.is-earned{border-color:#6b4a2f;background:radial-gradient(120% 90% at 50% 0,#ffc34d26,transparent 70%),var(--panel)}
+.mp-badge.is-earned .mp-badge-icon{filter:none;opacity:1}
+.mp-badge.is-earned strong{color:var(--text)}
+.mp-badge.is-earned small{color:#ffc34d;font-weight:700}
+.mp-recent{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.mp-memory{--emotion:var(--line);position:relative;flex:0 0 96px;aspect-ratio:2/3;padding:0;border-radius:12px;overflow:hidden;border:2px solid var(--emotion);background:var(--raised);scroll-snap-align:start;transition:transform .2s var(--motion-bounce)}
+.mp-memory:hover{transform:translateY(-3px)}
+.mp-memory img{width:100%;height:100%;object-fit:cover}
+.mp-memory-meta{position:absolute;inset:auto 0 0;display:flex;justify-content:space-between;align-items:center;gap:4px;padding:16px 6px 5px;background:linear-gradient(transparent,#000c);color:#ffc34d;font-size:12px;font-weight:800}
+.mp-memory-meta small{color:#fff;font-weight:600;font-size:10.5px}
+.mp-empty{padding:18px;border:1px dashed var(--line);border-radius:16px;text-align:center;color:var(--muted)}
+.mp-empty .button{margin-top:10px}
+.mp-foot{margin-top:26px;text-align:center}
+@media(max-width:700px){body[data-page=profile] .mp{padding-inline:19px}.mp-badges{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.mp-badge{padding:10px 4px 9px}.mp-badge-icon{font-size:22px}.mp-badge strong{font-size:11px}}
+@media(max-width:360px){.mp-badges{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.mp-memory{transition:none}}
 </style>
 </head>
 <body>
