@@ -23013,25 +23013,51 @@ function payloadForCloud(snapshot) {
 async function flushCloud() {
   if (!cloud.user || !cloud.ready || cloud.saving || !cloud.pending) return;
   cloud.saving = true;
-  const generation = cloud.generation, snapshot = JSON.stringify(state);
+  const uid = cloud.user.id, snapshot = JSON.stringify(state);
   try {
     const { data, error } = await db.rpc("save_plano", { payload: payloadForCloud(JSON.parse(snapshot)), expected_revision: cloud.revision });
     if (error) throw error;
-    if (generation !== cloud.generation) return;
+    if (cloud.user?.id !== uid) return;
     cloud.revision = Number(data);
+    cloud.conflicts = 0;
     cloud.pending = JSON.stringify(state) !== snapshot;
     cloud.error = "";
     writeCache();
     syncStatus();
   } catch (e) {
-    if (generation === cloud.generation) {
-      cloud.error = cloudMessage(e);
+    if (cloud.user?.id === uid) {
+      if (String(e?.message || "").includes("sync_conflict") && (cloud.conflicts || 0) < 3) {
+        cloud.conflicts = (cloud.conflicts || 0) + 1;
+        try {
+          await recoverConflict(uid);
+          cloud.error = "";
+        } catch (e2) {
+          cloud.error = cloudMessage(e2);
+        }
+      } else cloud.error = cloudMessage(e);
       syncStatus();
     }
   } finally {
     cloud.saving = false;
-    if (generation === cloud.generation && cloud.pending && !cloud.error) syncTimer = setTimeout(flushCloud, 200);
+    if (cloud.user?.id === uid && cloud.pending && !cloud.error) syncTimer = setTimeout(flushCloud, 200);
   }
+}
+function mergeEntries(server, local) {
+  const map = new Map(server.map((e) => [e.id, e]));
+  for (const e of local) map.set(e.id, e);
+  return [...map.values()];
+}
+async function recoverConflict(uid) {
+  const [rev, rows, priv] = await Promise.all([db.from("sync_versions").select("revision").eq("user_id", uid).maybeSingle(), allRows(() => db.from("journal").select("*").eq("user_id", uid).order("title_id")), allRows(() => db.from("journal_private").select("*").eq("user_id", uid).order("title_id"))]);
+  for (const r of [rev, rows, priv]) if (r.error) throw r.error;
+  if (cloud.user?.id !== uid) return;
+  addCloudTitles(rows.data);
+  const p = new Map(priv.data.map((x) => [x.title_id, x.companion]));
+  state.entries = mergeEntries(rows.data.map((r) => asEntry(r, p.get(r.title_id) || "")), state.entries);
+  cloud.revision = Number(rev.data?.revision || 0);
+  cloud.pending = true;
+  writeCache();
+  render();
 }
 function addCloudTitles(rows) {
   for (const row of rows) {
@@ -23056,6 +23082,7 @@ async function allRows(query2) {
 }
 async function loadAccount(user) {
   const generation = ++cloud.generation;
+  cloud.loadingId = user?.id || null;
   cloud.booting = false;
   cloud.user = user;
   if (user) lsSet("plano-has-account", "1");
@@ -23101,10 +23128,10 @@ async function loadAccount(user) {
     state = { ...emptyState(), profile: { name: profile2.name, handle: profile2.handle, bio: profile2.bio, avatar: profile2.avatar_url }, favorites: normalizeFavorites(profile2.favorites), entries: results[0].data.map((r) => asEntry(r, priv.get(r.title_id) || "")), following: results[3].data.map((x) => x.following_id) };
     const cached = JSON.parse(localStorage.getItem(cacheKey()) || "null");
     if (cached?.pending) {
-      state = { ...emptyState(), ...cached.state, entries: normalizeEntries(cached.state?.entries || []).entries, favorites: normalizeFavorites(cached.state?.favorites) };
+      const local = { ...emptyState(), ...cached.state, entries: normalizeEntries(cached.state?.entries || []).entries, favorites: normalizeFavorites(cached.state?.favorites) };
+      if (Number(cached.revision) === cloud.revision) state = local;
+      else state = { ...state, entries: mergeEntries(state.entries, local.entries), favorites: local.favorites.length ? local.favorites : state.favorites };
       cloud.pending = true;
-      if (Number(cached.revision) !== cloud.revision) cloud.error = "Hay cambios de otro dispositivo. Exporta esta copia local antes de cargar tu cuenta.";
-      cloud.revision = Number(cached.revision);
     }
     cloud.ready = true;
     cloud.warm = false;
@@ -23126,6 +23153,7 @@ async function loadAccount(user) {
     await loadCommunity();
   } catch (e) {
     if (generation !== cloud.generation) return;
+    cloud.loadingId = null;
     cloud.error = cloudMessage(e);
     cloud.ready = false;
     render();
@@ -23511,7 +23539,7 @@ db.auth.onAuthStateChange((event, session) => {
     setTimeout(() => authDialog(true), 0);
   }
   if (event === "TOKEN_REFRESHED") return;
-  if ((session?.user?.id || null) === cloud.user?.id && cloud.ready) return;
+  if ((session?.user?.id || null) === cloud.user?.id && (cloud.ready || cloud.loadingId === session?.user?.id)) return;
   accountTask = accountTask.then(() => loadAccount(session?.user || null)).catch(() => {
   });
 });
