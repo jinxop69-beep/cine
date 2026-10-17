@@ -22030,7 +22030,7 @@ document.addEventListener("click", async (ev) => {
     return;
   }
   if (b.hasAttribute("data-close")) {
-    b.closest("dialog").close();
+    b.closest("dialog")?.close();
     return;
   }
   if (b.dataset.film) {
@@ -22931,7 +22931,47 @@ function cacheKey() {
   return cloud.user ? "plano-account-" + cloud.user.id : KEY;
 }
 function writeCache() {
-  localStorage.setItem(cacheKey(), JSON.stringify({ state, revision: cloud.revision, pending: cloud.pending }));
+  localStorage.setItem(cacheKey(), JSON.stringify({ state, base: cloud.base || null, pending: cloud.pending }));
+}
+// Guardado por cambios: se compara el diario con la última copia confirmada por el servidor (base)
+// y solo se envían las pelis añadidas o editadas y las borradas. Sin número de versión global.
+function entryKey(e) {
+  return JSON.stringify([e.status, e.rating ?? null, e.review || "", e.watchedAt || "", e.companion || "", e.emotions || [], e.season ?? null, e.episode ?? null]);
+}
+function profileKey(st) {
+  return JSON.stringify([st.profile?.name || "", st.profile?.handle || "", st.profile?.bio || "", st.profile?.avatar || "", st.favorites || []]);
+}
+function baseOf(st) {
+  return { entries: Object.fromEntries((st.entries || []).map((e) => [e.id, entryKey(e)])), profile: profileKey(st) };
+}
+function diffForCloud(st, base) {
+  const ids = new Set(st.entries.map((e) => e.id)), b = base || { entries: {}, profile: "" };
+  return {
+    upserts: st.entries.filter((e) => b.entries[e.id] !== entryKey(e)),
+    deletes: Object.keys(b.entries).filter((id) => !ids.has(id)),
+    profile: b.profile !== profileKey(st)
+  };
+}
+function journalRow(uid, e, now) {
+  const m = CATALOG.find((x) => x.id === e.id), type = m?.type || (String(e.id).includes(":tv:") ? "series" : "movie");
+  return { user_id: uid, title_id: e.id, title: m?.title || "T\xEDtulo guardado", year: m?.year || "", type, poster: publicPoster(m), status: e.status, rating: e.rating ?? null, review: e.review || "", watched_at: e.watchedAt || null, emotions: e.emotions || [], season: type === "series" ? e.season || 1 : null, episode: type === "series" ? e.episode || 1 : null, updated_at: now };
+}
+async function pushChanges(uid, st, d) {
+  const now = (/* @__PURE__ */ new Date()).toISOString(), chunk = (a) => Array.from({ length: Math.ceil(a.length / 400) }, (_, i) => a.slice(i * 400, i * 400 + 400));
+  const ok = (r) => {
+    if (r.error) throw r.error;
+  };
+  if (d.profile) ok(await db.from("profiles").update({ name: st.profile.name, handle: String(st.profile.handle || "").toLowerCase(), bio: st.profile.bio || "", avatar_url: st.profile.avatar || "", favorites: st.favorites, favorite_titles: st.favorites.map((id) => CATALOG.find((m) => m.id === id)).filter(Boolean).map((m) => ({ title_id: m.id, title: m.title, year: m.year, type: m.type, poster: publicPoster(m) })) }).eq("id", uid));
+  for (const ids of chunk(d.deletes)) {
+    ok(await db.from("journal").delete().eq("user_id", uid).in("title_id", ids));
+    ok(await db.from("journal_private").delete().eq("user_id", uid).in("title_id", ids));
+  }
+  for (const part of chunk(d.upserts)) {
+    ok(await db.from("journal").upsert(part.map((e) => journalRow(uid, e, now)), { onConflict: "user_id,title_id" }));
+    ok(await db.from("journal_private").upsert(part.map((e) => ({ user_id: uid, title_id: e.id, companion: e.companion || "" })), { onConflict: "user_id,title_id" }));
+  }
+  // Versiones antiguas de la app guardaban el diario entero; cambiar la versión hace que esas copias viejas no pisen nada.
+  if (d.upserts.length || d.deletes.length || d.profile) await db.from("sync_versions").upsert({ user_id: uid, revision: Date.now() }, { onConflict: "user_id" });
 }
 async function deleteAccount() {
   if (!cloud.user) return;
@@ -23004,38 +23044,28 @@ function persist() {
 function publicPoster(m) {
   return [m?.poster, m?.tmdbPoster].find((u) => typeof u === "string" && u.startsWith("https://image.tmdb.org/")) || "";
 }
-function payloadForCloud(snapshot) {
-  return { profile: snapshot.profile, favorites: snapshot.favorites, favorite_titles: snapshot.favorites.map((id) => CATALOG.find((m) => m.id === id)).filter(Boolean).map((m) => ({ title_id: m.id, title: m.title, year: m.year, type: m.type, poster: publicPoster(m) })), entries: snapshot.entries.map((e) => {
-    const m = CATALOG.find((m2) => m2.id === e.id);
-    return { ...e, title: m?.title || "T\xEDtulo guardado", year: m?.year || "", type: m?.type || "movie", poster: publicPoster(m) };
-  }) };
-}
 async function flushCloud() {
   if (!cloud.user || !cloud.ready || cloud.saving || !cloud.pending) return;
   cloud.saving = true;
-  const uid = cloud.user.id, snapshot = JSON.stringify(state);
+  clearTimeout(cloud.retryTimer);
+  const uid = cloud.user.id, snapshot = JSON.stringify(state), snap = JSON.parse(snapshot), d = diffForCloud(snap, cloud.base);
   try {
-    const { data, error } = await db.rpc("save_plano", { payload: payloadForCloud(JSON.parse(snapshot)), expected_revision: cloud.revision });
-    if (error) throw error;
+    await pushChanges(uid, snap, d);
     if (cloud.user?.id !== uid) return;
-    cloud.revision = Number(data);
-    cloud.conflicts = 0;
+    cloud.base = baseOf(snap);
     cloud.pending = JSON.stringify(state) !== snapshot;
     cloud.error = "";
     writeCache();
     syncStatus();
   } catch (e) {
     if (cloud.user?.id === uid) {
-      if (String(e?.message || "").includes("sync_conflict") && (cloud.conflicts || 0) < 3) {
-        cloud.conflicts = (cloud.conflicts || 0) + 1;
-        try {
-          await recoverConflict(uid);
-          cloud.error = "";
-        } catch (e2) {
-          cloud.error = cloudMessage(e2);
-        }
-      } else cloud.error = cloudMessage(e);
+      cloud.error = cloudMessage(e);
       syncStatus();
+      cloud.retryTimer = setTimeout(() => {
+        if (cloud.user?.id !== uid || !cloud.pending) return;
+        cloud.error = "";
+        flushCloud();
+      }, 15e3);
     }
   } finally {
     cloud.saving = false;
@@ -23046,18 +23076,6 @@ function mergeEntries(server, local) {
   const map = new Map(server.map((e) => [e.id, e]));
   for (const e of local) map.set(e.id, e);
   return [...map.values()];
-}
-async function recoverConflict(uid) {
-  const [rev, rows, priv] = await Promise.all([db.from("sync_versions").select("revision").eq("user_id", uid).maybeSingle(), allRows(() => db.from("journal").select("*").eq("user_id", uid).order("title_id")), allRows(() => db.from("journal_private").select("*").eq("user_id", uid).order("title_id"))]);
-  for (const r of [rev, rows, priv]) if (r.error) throw r.error;
-  if (cloud.user?.id !== uid) return;
-  addCloudTitles(rows.data);
-  const p = new Map(priv.data.map((x) => [x.title_id, x.companion]));
-  state.entries = mergeEntries(rows.data.map((r) => asEntry(r, p.get(r.title_id) || "")), state.entries);
-  cloud.revision = Number(rev.data?.revision || 0);
-  cloud.pending = true;
-  writeCache();
-  render();
 }
 function addCloudTitles(rows) {
   for (const row of rows) {
@@ -23090,6 +23108,7 @@ async function loadAccount(user) {
   cloud.pending = false;
   cloud.error = "";
   cloud.warm = false;
+  cloud.base = null;
   state = emptyState();
   if (user) {
     try {
@@ -23124,13 +23143,19 @@ async function loadAccount(user) {
     if (generation !== cloud.generation) return;
     addCloudTitles([...profile2.favorite_titles || [], ...results[0].data]);
     const priv = new Map(results[1].data.map((x) => [x.title_id, x.companion]));
-    cloud.revision = Number(results[2].data?.revision || 0);
     state = { ...emptyState(), profile: { name: profile2.name, handle: profile2.handle, bio: profile2.bio, avatar: profile2.avatar_url }, favorites: normalizeFavorites(profile2.favorites), entries: results[0].data.map((r) => asEntry(r, priv.get(r.title_id) || "")), following: results[3].data.map((x) => x.following_id) };
+    cloud.base = baseOf(state);
     const cached = JSON.parse(localStorage.getItem(cacheKey()) || "null");
     if (cached?.pending) {
+      // Cambios hechos en este dispositivo que aún no llegaron al servidor: se aplican encima de lo que hay en la nube.
       const local = { ...emptyState(), ...cached.state, entries: normalizeEntries(cached.state?.entries || []).entries, favorites: normalizeFavorites(cached.state?.favorites) };
-      if (Number(cached.revision) === cloud.revision) state = local;
-      else state = { ...state, entries: mergeEntries(state.entries, local.entries), favorites: local.favorites.length ? local.favorites : state.favorites };
+      if (cached.base?.entries) {
+        const merged = new Map(state.entries.map((e) => [e.id, e])), localIds = new Set(local.entries.map((e) => e.id));
+        for (const e of local.entries) if (cached.base.entries[e.id] !== entryKey(e)) merged.set(e.id, e);
+        for (const id of Object.keys(cached.base.entries)) if (!localIds.has(id)) merged.delete(id);
+        state = { ...state, entries: [...merged.values()] };
+        if (cached.base.profile !== profileKey(local)) state = { ...state, profile: local.profile, favorites: local.favorites };
+      } else state = { ...state, entries: mergeEntries(state.entries, local.entries), favorites: local.favorites.length ? local.favorites : state.favorites };
       cloud.pending = true;
     }
     cloud.ready = true;
